@@ -4,7 +4,7 @@
 'use strict';
 
 // @ts-ignore
-const utils = require('./lib/utils'); // Get common adapter utils
+const utils       = require('@iobroker/adapter-core'); // Get common adapter utils
 // @ts-ignore
 const adapterName = require('./package.json').name.split('.').pop();
 
