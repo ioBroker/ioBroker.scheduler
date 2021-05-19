@@ -19,7 +19,7 @@
     "url": "https://github.com/ioBroker/ioBroker.scheduler"
   },
   "optionalDependencies": {
-    "sharp": "0.28.1",
+    "sharp": "0.28.2",
     "canvas": "^2.7.0"
   },
   "dependencies": {
