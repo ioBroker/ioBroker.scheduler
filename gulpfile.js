@@ -11,7 +11,6 @@ const iopackage = require('./io-package.json');
 const version   = (pkg && pkg.version) ? pkg.version : iopackage.common.version;
 const fileName  = 'words.js';
 const EMPTY     = '';
-const translate = require('./lib/tools.js').translateText;
 const del       = require('del');
 const cp        = require('child_process');
 
@@ -337,25 +336,7 @@ function languages2words(src) {
     writeWordJs(bigOne, src);
 }
 
-async function translateNotExisting(obj, baseText, yandex) {
-    let t = obj['en'];
-    if (!t) {
-        t = baseText;
-    }
-
-    if (t) {
-        for (let l in languages) {
-            if (!obj[l]) {
-                const time = new Date().getTime();
-                obj[l] = await translate(t, l, yandex);
-                console.log('en -> ' + l + ' ' + (new Date().getTime() - time) + ' ms');
-            }
-        }
-    }
-}
-
 //TASKS
-
 gulp.task('adminWords2languages', done => {
     words2languages('./admin/');
     done();
@@ -424,57 +405,6 @@ gulp.task('updateReadme', done => {
     }
     done();
 });
-
-gulp.task('translate', async function () {
-    let yandex;
-    const i = process.argv.indexOf('--yandex');
-    if (i > -1) {
-        yandex = process.argv[i + 1];
-    }
-
-    if (iopackage && iopackage.common) {
-        if (iopackage.common.news) {
-            console.log('Translate News');
-            for (let k in iopackage.common.news) {
-                console.log('News: ' + k);
-                let nw = iopackage.common.news[k];
-                await translateNotExisting(nw, null, yandex);
-            }
-        }
-        if (iopackage.common.titleLang) {
-            console.log('Translate Title');
-            await translateNotExisting(iopackage.common.titleLang, iopackage.common.title, yandex);
-        }
-        if (iopackage.common.desc) {
-            console.log('Translate Description');
-            await translateNotExisting(iopackage.common.desc, null, yandex);
-        }
-
-        if (fs.existsSync('./admin/i18n/en/translations.json')) {
-            let enTranslations = require('./admin/i18n/en/translations.json');
-            for (let l in languages) {
-                console.log('Translate Text: ' + l);
-                let existing = {};
-                if (fs.existsSync('./admin/i18n/' + l + '/translations.json')) {
-                    existing = require('./admin/i18n/' + l + '/translations.json');
-                }
-                for (let t in enTranslations) {
-                    if (!existing[t]) {
-                        existing[t] = await translate(enTranslations[t], l, yandex);
-                    }
-                }
-                if (!fs.existsSync('./admin/i18n/' + l + '/')) {
-                    fs.mkdirSync('./admin/i18n/' + l + '/');
-                }
-                fs.writeFileSync('./admin/i18n/' + l + '/translations.json', JSON.stringify(existing, null, 4));
-            }
-        }
-
-    }
-    fs.writeFileSync('io-package.json', JSON.stringify(iopackage, null, 4));
-});
-
-gulp.task('translateAndUpdateWordsJS', gulp.series('translate', 'adminLanguages2words', 'adminWords2languages'));
 
 gulp.task('clean', () =>
     del(['admin/*/**', 'admin/*', '!admin/scheduler.png']));
