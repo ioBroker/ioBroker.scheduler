@@ -1,0 +1,97 @@
+{
+    "common": {
+        "name": "scheduler",
+        "version": "0.0.1",
+        "news": {
+            "0.0.1": {
+                "en": "initial commit"
+            }
+        },
+        "title": "Schedule profiler",
+        "titleLang": {
+            "en": "Scheduler",
+            "de": "Planer",
+            "ru": "Планировщик",
+            "pt": "Agendador",
+            "nl": "Planner",
+            "fr": "Planificateur",
+            "it": "Scheduler",
+            "es": "Programador",
+            "pl": "Planista",
+            "zh-cn": "排程器"
+        },
+        "desc": {
+            "en": "Creates schedule profiles and controls devices with it",
+            "de": "Erstellt Zeitplanprofile und steuert damit Geräte",
+            "ru": "Создает профили расписания и управляет устройствами с их помощью",
+            "pt": "Cria perfis de programação e controla dispositivos com ele",
+            "nl": "Maakt planningsprofielen aan en bestuurt er apparaten mee",
+            "fr": "Crée des profils de planification et contrôle les appareils avec",
+            "it": "Crea profili di pianificazione e controlla i dispositivi con esso",
+            "es": "Crea perfiles de programación y controla dispositivos con él",
+            "pl": "Tworzy profile harmonogramów i steruje nimi urządzeniami",
+            "zh-cn": "创建时间表配置文件并使用它控制设备"
+        },
+        "authors": [
+            "bluefox <dogafox@gmail.com>"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "mode": "daemon",
+        "loglevel": "info",
+        "readme": "https://github.com/ioBroker/ioBroker.scheduler/blob/master/README.md",
+        "icon": "scheduler.png",
+        "connectionType": "local",
+        "dataSource": "push",
+        "keywords": [
+            "schedule",
+            "planner",
+            "calendar"
+        ],
+        "enabled": true,
+        "compact": true,
+        "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.scheduler/master/admin/scheduler.png",
+        "type": "logic",
+        "messagebox": true,
+        "dependencies": [
+            {
+                "admin": ">=4.0.1"
+            },
+            {
+                "js-controller": ">=2.0.0"
+            }
+        ],
+        "plugins1": {
+            "sentry": {
+                "dsn": "https://20987eaf91ef49de821771499fdb4e1a@sentry.iobroker.net/40"
+            }
+        }
+    },
+    "native": {
+        "profiles": [
+            {
+                "enabled": true,
+                "name": "basic",
+                "enableRules": {
+                    "type": "and",
+                    "rules": []
+                },
+                "disableRules": {
+                    "type": "and",
+                    "rules": []
+                },
+                "intervals": 360,
+                "settings": [20, 20, 20, 20],
+                "type": "temperature",
+                "min": 12,
+                "max": 30,
+                "members": [],
+                "dow": [1, 1, 1, 1, 1, 0, 0],
+                "priority": 2
+            }
+        ]
+    },
+    "objects": [],
+    "instanceObjects": [
+    ]
+}
