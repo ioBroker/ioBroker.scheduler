@@ -48,6 +48,7 @@
             "planner",
             "calendar"
         ],
+        "tier": 1,
         "enabled": true,
         "compact": true,
         "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.scheduler/master/admin/scheduler.png",
