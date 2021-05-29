@@ -8,6 +8,8 @@
         "@material-ui/icons": "^4.11.2",
         "@sentry/browser": "^6.3.6",
         "@sentry/integrations": "^6.3.6",
+        "chroma-js": "^2.1.2",
+        "node-sass": "^6.0.0",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
         "react-icons": "^4.2.0",

@@ -1,0 +1,69 @@
+{
+    "options":
+    {
+        "width": "100%",
+        "backgrounds":
+        [
+            "#e5eefc",
+            "#d3e1f7",
+            "#85a4ff",
+            "#7294f9",
+            "#6c7a93",
+            [ "#d3e1f7", "#c8d5ec" ]
+        ],
+        "min":0,
+        "max":25,
+        "staff":
+        {
+            "width": 60,
+            "backgroundColor": "#d3e1f7",
+            "borderRadius": 70,
+            "offsetY": 16,
+            "offsetX": 70
+        }
+    },
+    "options1":
+    {
+        "width": "100%",
+        "backgrounds":
+        [
+            "#f8f9ff",
+            "#f8f9ff",
+            "#7294f9",
+            "#6c7a93",
+            "#85a4ff"
+        ],
+        "min":0,
+        "max":25,
+        "staff":
+        {
+            "width": 40,
+            "backgroundColor": "#f8f9ff",
+            "borderRadius": 70,
+            "offsetY": 16,
+            "offsetX": 50
+        }
+    },
+    "options2":
+    {
+        "width": "100%",
+        "backgrounds":
+        [
+            "#31363c",
+            "#1d1e22",
+            "#85a4ff",
+            "#7294f9",
+            "#6c7a93"
+        ],
+        "min":0,
+        "max":25,
+        "staff":
+        {
+            "width": 50,
+            "backgroundColor": "#d3e1f7",
+            "borderRadius": "100%",
+            "offsetY": 16,
+            "offsetX": 50
+        }
+    }
+}

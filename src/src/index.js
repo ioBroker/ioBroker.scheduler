@@ -7,13 +7,13 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {version} from '../package.json';
-import theme from '@iobroker/adapter-react/Theme';
+import theme from './theme';
 import Utils from '@iobroker/adapter-react/Components/Utils';
 
 window.adapterName = 'scheduler';
 let themeName = Utils.getThemeName();
 
-console.log(`iobroker.${window.adapterName}@${version} using theme "${themeName}"`);
+// console.log(`iobroker.${window.adapterName}@${version} using theme "${themeName}"`);
 
 function build() {
     return ReactDOM.render(

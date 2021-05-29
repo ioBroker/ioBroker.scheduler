@@ -83,6 +83,7 @@ class Options extends Component {
 
     render() {
         return <form className={ this.props.classes.tab }>
+            {/* 
             <Logo
                 classes={{}}
                 instance={ this.props.instance }
@@ -91,6 +92,7 @@ class Options extends Component {
                 onError={ text => this.setState({errorText: text}) }
                 onLoad={ this.props.onLoad }
             />
+            */}
             <div className={clsx(this.props.classes.column, this.props.classes.columnSettings) }>
                 Place your code here
             </div>
