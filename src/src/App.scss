@@ -6,8 +6,8 @@ $tapper-height : 180px;
 $tapper-border-color : #00000020;
 $tapper-color2 : #EEE;
 $tapper-color : #6c7a93;
-$small: 570px;
-
+$small: 768px;
+$radius: 19px;
 
 body {
   margin: 0;
@@ -69,6 +69,10 @@ body {
 {
   padding: 20px;
 }
+.mt-2
+{
+  margin-top:20px;
+}
 .tapper-shadow
 {
   box-shadow: -2px -2px 3px 0 #0c0c0c2b, 2px 2px 3px 0 #faf9f9;
@@ -80,6 +84,10 @@ body {
               inset -2px -2px 2px 0 #46556d17, 
               -2px -2px 3px 0 #0c0c0c1a, 
               2px 2px 3px 0 #faf9f91a;
+}
+.tapper-grid 
+{
+  border-radius:$radius;
 }
 .tapper-element-container
 {
@@ -201,7 +209,9 @@ body {
 .flow,
 .flow-micro,
 .flow-square,
-.flow-little
+.flow-little,
+.flow-menu-item,
+.flow-dark
 {
   background-color: #e5eefc;
   background: radial-gradient(circle at 95% 95%, #bdcade 0%,#eff5ff 100%);
@@ -263,7 +273,8 @@ body {
 .flow:active,
 .flow-micro:active,
 .flow-square:active,
-.flow-little:active
+.flow-little:active,
+.flow-menu-item.active
 {
   box-shadow: 2px 2px 4px 0 #f5fbffed , 
               -2px -2px 4px 0 #8693ac7a, 
@@ -303,6 +314,81 @@ body {
               3px 3px 3px 0 #ffffff8c !important;
   background: transparent!important;
 } 
+.flow-menu
+{
+  display:flex;
+  flex-direction:column;
+  margin:15px;
+  box-shadow: 3px 3px 3px 0px #ffffff80, 
+              -2px -2px 2px 0px #ffffff00, 
+              -2px -2px 2px 0px #000000 !important;
+  border-radius: $radius;
+  & [role="menu"]
+  {
+      margin:0;
+      padding:0;
+  };
+} 
+.flow-menu-item,
+.flow-dark
+{
+  margin:0!important; 
+  display:flex!important;
+  justify-content:center!important;
+  align-items: center!important; 
+  color:#CCC!important;
+  text-shadow: 0 2px 3px #000000;
+  background: #555;
+  background: -moz-linear-gradient(top,  #555 10%, #444 45%);
+  background: -webkit-linear-gradient(top,  #555 10%, #444 45%);
+  background: linear-gradient(to bottom,  #555 10%, #444 45%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#555', endColorstr='#444',GradientType=0 );
+  box-shadow: inset -1px -1px 2px 3px #0000007a, inset 1px 1px 2px 0px #ffffff !important;
+  &:first-of-type
+  {
+    border-top-left-radius: $radius - 6;
+    border-top-right-radius: $radius - 6;
+  }
+  &:last-of-type
+  {
+    border-bottom-left-radius: $radius - 6;
+    border-bottom-right-radius: $radius - 6;
+  }
+  &.sub
+  {
+    background: #333;
+    box-shadow: none !important;
+    &:hover
+    {
+      background: #292929;
+    }
+    &.active
+    {
+      background: #333;
+    }
+  }
+  &.active
+  {
+    color:#FFF!important;
+    background: #444;
+    background: -moz-linear-gradient(top,  #111 0%, #444 92% );
+    background: -webkit-linear-gradient(top,  #111 0%, #444 92% );
+    background: linear-gradient(to bottom,  #111 0%, #444 92% );
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#111', endColorstr='#444',GradientType=0 );
+  };
+}
+.flow-dark
+{
+  border-radius: 100%!important;
+  margin:10px!important;
+  &:hover
+  {
+    box-shadow: 2px 2px 4px 0 #f5fbffed , 
+                -2px -2px 4px 0 #8693ac7a, 
+                inset -2px -2px 2px 0 #ffffff5c, 
+                inset 2px 2px 2px 0 #00000021!important; 
+  }
+}
 .mobile-scrolled
 {
   overflow-y:auto;
@@ -315,11 +401,25 @@ body {
   display: flex;
   flex-direction: column;
 }
+.close-label-left-sm,
+.close-label-left-sm,
+.label-left-sm-1,
+.label-left-sm-2,
+.label-right-sm-3,
+.label-menu
+{
+  display:none!important;
+}
 @media (max-width: $small)
 {
+  .App
+  {
+    overflow: hidden;
+  }
   .order-sm-1
   {
     order:1;
+    overflow-x:hidden;
   }
   .order-sm-2
   {
@@ -341,9 +441,106 @@ body {
   {
     order:6;
   }
+  .clip-left-sm-1, 
+  .clip_left_sm_2,
+  .clip_right_sm_3
+  {
+    position:absolute;
+    top:0;
+    width:100%;
+    left:-100%;
+    z-index:2;
+    -webkit-transition: all 300ms ease-out;
+    -moz-transition: all 300ms ease-out;
+    -ms-transition: all 300ms ease-out;
+    -o-transition: all 300ms ease-out;
+    transition: all 300ms ease-out;
+    &.active
+    {
+      left:0;
+    }
+  } 
+  .label-menu
+  {
+    display: -webkit-flex !important;
+    display: flex !important;
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    width: 75px;
+    height: 200px;
+    border-radius: 20px;
+    box-shadow: inset -1px -1px 2px 3px #0000007a, inset 1px 1px 2px 0px #ffffff !important;
+    background: linear-gradient(to bottom, #555 10%, #444 45%);
+    transform: skewY(-29deg);
+    z-index:3;
+  }
+  .label-left-sm-1,
+  .label-left-sm-2,
+  .label-right-sm-3
+  {
+    position:absolute;
+    z-index:4;
+    width:40px;
+    height:40px; 
+    color:#DDD;
+    display:flex!important;
+    justify-content:center;
+    align-items: center;
+    top:10px;
+    left: 7px;
+    border-radius: 43px; 
+    -webkit-transition: all 300ms ease-out;
+    -moz-transition: all 300ms ease-out;
+    -ms-transition: all 300ms ease-out;
+    -o-transition: all 300ms ease-out;
+    transition: all 300ms ease-out; 
+    box-shadow: inset -1px -1px 2px 3px #0000007a, inset 1px 1px 2px 0px #ffffff !important;
+    background: linear-gradient(to bottom, #555 10%, #444 45%);
+    &.active
+    {      
+      color:#FFF!important;
+      background: #444;
+      background: -moz-linear-gradient(top,  #111 0%, #444 92% );
+      background: -webkit-linear-gradient(top,  #111 0%, #444 92% );
+      background: linear-gradient(to bottom,  #111 0%, #444 92% );
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#111', endColorstr='#444',GradientType=0 );
+      box-shadow: 2px 2px 4px 0 #f5fbffed , 
+              -2px -2px 4px 0 #8693ac7a, 
+              inset -2px -2px 2px 0 #ffffff5c, 
+              inset 2px 2px 2px 0 #00000021!important;
+    }
+  }
+  .label-right-sm-3
+  {  
+    top:110px;
+  }
+  .close-label-left-sm,
+  .close-label-left-sm-2
+  {
+    height:60px;
+    display:flex!important;
+    justify-content:center;
+    align-items: center;
+  }
+  .label-left-sm-2
+  {
+    top:61px;
+  }
   .mobile-scrolled
   {
     overflow-y:auto;
   }
-
+  .tapper-grid
+  {
+    margin: 0;
+    box-shadow: none;
+    border-radius: 0;
+    align-items: center;    
+    padding: 0px 10px 0 60px !important; 
+  }
+  .flow-menu
+  {
+    width: calc(100% - 30px);
+  }
 }

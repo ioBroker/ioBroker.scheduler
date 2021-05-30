@@ -19,6 +19,11 @@ import DivicesPanel from './components/DevicesPanel';
 import defaultOptopns from "./data/defaultOptopns.json"
 import { Grid, Typography } from '@material-ui/core';
 
+import ClearIcon from '@material-ui/icons/Clear';
+import DehazeIcon from '@material-ui/icons/Dehaze';
+import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+
 const styles = theme => ({
     root: {},
     tabContent: {
@@ -31,7 +36,14 @@ const styles = theme => ({
         height: 'calc(100% - 64px - 48px - 20px - 38px)',
         overflow: 'auto'
     },
-      
+    clip_left_sm_2 :
+    {
+        background:"transparent",
+        ['@media (max-width:570px)']: 
+        {
+            background: defaultOptopns.options.backgrounds[ 1 ]
+        }
+    }
 });
 
 class App extends GenericApp {
@@ -77,6 +89,18 @@ class App extends GenericApp {
             onChange={(attr, value, cb) => this.updateNativeValue(attr, value, cb)}
         />   
     }
+    onLeftOpen1 = () =>
+    {
+        this.setState({ leftOpen : !this.state.leftOpen,  leftOpen2 : false,  leftOpen3 : false })
+    }
+    onLeftOpen2 = () =>
+    {
+        this.setState({ leftOpen : false, leftOpen2 : !this.state.leftOpen2, leftOpen3 : false  })
+    }
+    onLeftOpen3 = () =>
+    {
+        this.setState({ leftOpen3 : !this.state.leftOpen3,  leftOpen2 : false,  leftOpen : false  })
+    }
     render()
     {
         if (!this.state.loaded) {
@@ -84,7 +108,7 @@ class App extends GenericApp {
                 <Loader theme={this.state.themeType} />
             </MuiThemeProvider>;
         }   
-        console.log(this.state.theme);
+        const { classes } = this.props;
         return <MuiThemeProvider theme={this.state.theme}>
             <div className="App">
                 <Grid container 
@@ -99,17 +123,37 @@ class App extends GenericApp {
                     <Grid item xs={12} lg={12} style={{ display: "none" }} > 
                         <div className="">
                             <Typography variant="h4" className="tapper-title">
-                                Profile
+                                {I18n.t( "Profile" )}
                             </Typography>
                         </div>
                     </Grid>
-                    <Grid item xs={12} lg={2} className="order-sm-1 h-100"> 
-                        <div className="tapper-shadow m-1 p-2 h-100"> 
+                    <Grid 
+                        item 
+                        xs={12} 
+                        lg={2} 
+                        className={ "clip-left-sm-1 h-100 " + (this.state.leftOpen ? " active" : "") }
+                    > 
+                        <div className="tapper-grid tapper-shadow m-1 h-100"  style={{background:"#444"}}> 
+                            <div className="close-label-left-sm flow-dark " onClick={this.onLeftOpen1}>
+                                <ClearIcon />
+                            </div>
                             <TapperPanel/>
                         </div>
                     </Grid> 
-                    <Grid item xs={12} lg={2}  className="order-sm-3 h-100">
-                        <div className="tapper-shadow m-1 p-2 h-100"> 
+                    <Grid 
+                        item 
+                        xs={12} 
+                        lg={2}  
+                        className={
+                            "clip_left_sm_2 h-100 " + 
+                            classes.clip_left_sm_2 + 
+                            (this.state.leftOpen2 ? " active " :"")
+                        }
+                >
+                        <div className="tapper-grid tapper-shadow m-1 p-2 h-100"> 
+                            <div className="close-label-left-sm flow-dark" onClick={this.onLeftOpen2}>
+                                <ClearIcon />
+                            </div>
                             <TapperLeftPanel/>
                         </div>
                     </Grid> 
@@ -117,11 +161,33 @@ class App extends GenericApp {
                         <Sliders />
                         <DivicesPanel/> 
                     </Grid> 
-                    <Grid item xs={12} lg={3} className="order-sm-4 h-100">
-                        <div className="tapper-shadow m-1 p-2 h-100">
+                    <Grid 
+                        item 
+                        xs={12} 
+                        lg={3} 
+                        className={
+                            "clip_right_sm_3 h-100 " + 
+                            classes.clip_left_sm_2 + 
+                            (this.state.leftOpen3 ? " active " :"")
+                        }
+                    >
+                        <div className="tapper-grid tapper-shadow m-1 p-2 h-100">
+                            <div className="close-label-left-sm flow-dark" onClick={this.onLeftOpen3}>
+                                <ClearIcon />
+                            </div>
                             <TapperRightPanel/>
                         </div>
                     </Grid> 
+                    <div className="label-menu" />
+                    <div className={"label-left-sm-1 " + (this.state.leftOpen ? "active" : "")} onClick={this.onLeftOpen1}>
+                        <DehazeIcon />
+                    </div>
+                    <div className={"label-left-sm-2 " + (this.state.leftOpen2 ? "active" : "")} onClick={this.onLeftOpen2}>
+                        <AssignmentTurnedInIcon />
+                    </div>
+                    <div className={"label-right-sm-3 " + (this.state.leftOpen3 ? "active" : "")} onClick={this.onLeftOpen3}>
+                        <CalendarTodayIcon/>
+                    </div>
                 </Grid> 
                 { this.renderError() }
                 { this.renderSaveCloseButtons() }
