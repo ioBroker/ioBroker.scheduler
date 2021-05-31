@@ -43,28 +43,31 @@ class Sliders extends Component
                 props.options
                 :
                 defaultOptopns.options,
+                type : props.type ? props.type : "persent",
             range : [0, 24],
             selected: []
         }
     }
-    
+    componentWillUpdate(nextProps, nextState )
+    {
+        if(nextProps.type != this.state.type )
+        {
+            this.setState({ type: nextProps.type })
+        }
+    }
     handleRangeChange = (event, newValue) => 
     {
         this.setState({range:newValue});
-        console.log( newValue );
     }
     onChange =( field, value, i ) =>
     {        
         let state = {...this.state };
-        //console.log( field, value, i );
-        //console.log( state );
         state[ field ][i] = value; 
-        //console.log(state);
         this.setState( state )
     }
     render()
     {
-        const { data, options } = this.state;
+        const { data, options, type } = this.state;
         const { staff } = options; 
         const sliders = Array.isArray(data)
             ?
@@ -77,17 +80,13 @@ class Sliders extends Component
                     label={""}
                     i={i}
                     on={this.onChange }
-
+                    type={type}
                 /> 
             })
             :
             null;
         
-        return <div 
-            style={{ 
-                width: options.width
-            }}
-        > 
+        return <div>
             <div 
                 className={"tapper-grid tapper-shadow m-1 p-1 "}
                 style={{
@@ -106,7 +105,7 @@ class Sliders extends Component
                 </div>      
                 <div
                     style={{
-                        padding: 30
+                        padding: 15
                     }}
                 >                
                     <Slider  

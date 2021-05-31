@@ -65,5 +65,44 @@
             "offsetY": 16,
             "offsetX": 50
         }
-    }
+    },
+    "max_menu_id":6,
+    "menu": [
+        {
+            "n": 1,
+            "id": "main",
+            "parent": "",
+            "title": "Main"
+        },
+        {
+            "n":2,
+            "id": "windows",
+            "parent": 1,
+            "title": "Windows"
+        },
+        {
+            "n":3,
+            "id": "basic",
+            "parent": 1,
+            "title": "Basic"
+        },
+        {
+            "n":4,
+            "id": "heading",
+            "parent": "",
+            "title": "Heading"
+        },
+        {
+            "n":5,
+            "id": "weekend",
+            "parent": 4,
+            "title": "Weekend"
+        },
+        {
+            "n":6,
+            "id": "weekday",
+            "parent": 4,
+            "title": "Weekday"
+        }
+    ]
 }

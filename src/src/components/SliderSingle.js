@@ -23,10 +23,17 @@ class SliderSingle extends Component
             value : props.value,
             label : props.label,
             selected : props.selected,
-            i : props.i
+            i : props.i,
+            postfix : props.postfix,
+            type : props.type
         }
     }
     componentWillMount()
+    {
+        this.redraw();
+    }
+
+    redraw()
     {   
         const { options } = this.state;
         const { staff } = options;
@@ -44,8 +51,7 @@ class SliderSingle extends Component
             },
             thumb: {
               height: staff.width-10,
-              width: staff.width-10, 
-              //backgroundColor: options.backgrounds[ 0 ], 
+              width: staff.width-10,
               background: "radial-gradient(circle at 2% 2%, "+ bg2 +" 0%, "+ bg1 +" 40%, " + bg3 + "  80% )",
               border: "3px solid " + bg1,
               marginLeft: "5px!important",
@@ -99,11 +105,11 @@ class SliderSingle extends Component
               },
             },
             track: {
-              width: staff.width + "px!important",
+              width: staff.width + "px!important", 
               borderRadius:"0px!important", 
               '&:before': {
                   content: "''",
-                  backgroundColor: bg4,
+                  backgroundColor: bg4, 
                   width: staff.width,
                   height:staff.width,
                   borderRadius:"100%",
@@ -113,7 +119,7 @@ class SliderSingle extends Component
               }, 
               '&:after': {
                   content: "''",
-                  backgroundColor: bg4,
+                  backgroundColor: bg4, 
                   width: staff.width,
                   height:staff.width,
                   borderRadius:"100%",
@@ -136,17 +142,31 @@ class SliderSingle extends Component
     }
     componentWillUpdate(nextProps, nextState )
     {
-        if(nextProps.selected != this.state.selected )
-        {
-            this.setState({ selected: nextProps.selected })
+        if( nextProps.selected != this.state.selected )
+        { 
+            this.setState({ selected: nextProps.selected });
         }
-        if(nextProps.value != this.state.value )
+        if( nextProps.value != this.state.value )
         {
-            this.setState({ value: nextProps.value })
+            //this.setState({ value: nextProps.value })
+        }       
+        if( nextProps.type != this.state.type)
+        {
+            const { max }= this.getMinMax(nextProps.type);
+            let state = { type : nextProps.type };
+            if(max < this.state.value)
+            {
+                console.log(max, this.state.value)
+                state.value = max;
+                console.log( state )
+            }
+            this.setState( state )
+            this.redraw();
         }
     }
     handleSliderChange = ( event, data) =>
     {
+        this.setState({value: data});
         this.on( "data", data );
     }
     handleSelected = evt =>
@@ -160,16 +180,44 @@ class SliderSingle extends Component
             this.props.on( field, value, this.props.i );
         }
     }
+    getPostfix(value)
+    {
+        switch(this.state.type)
+        {
+            case "temperature":
+                return value.toString() + "º";
+            case "onnoff":
+                return value 
+                    ? 
+                    <span className="text-success">on</span> 
+                    : 
+                    <span className="text-danger">off</span>
+            case "persent":
+                return value.toString() + "%";
+        }
+    }
+    getMinMax( type = undefined)
+    {
+        const t = type ? type : this.state.type;
+        switch( t )
+        {
+            case "temperature":
+                return defaultOptopns.options;
+            case "onnoff":
+                return { min:0, max: 1 };
+            case "persent":
+                return { min:0, max:100 };
+        }
+    }
+
     render()
     {
-        const {i, value, label, selected, options } = this.state;
-        const{min, max} = options;
+        const {i, value, selected, options } = this.state;
+        const{min, max} = this.getMinMax();
         const __Slider = this.PrettoSlider;
-        return <span
-            className="pretto"
-        >
+        return <span className="pretto">
             <span className="pretto-label">
-                { value }
+                { this.getPostfix( value ) } 
             </span>
             <__Slider
                 key={i}

@@ -4,7 +4,7 @@ import {withStyles} from '@material-ui/core/styles';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 
 import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
+import Tabs from '@material-ui/core/Tabs';  
 import Tab from '@material-ui/core/Tab';
 import GenericApp from '@iobroker/adapter-react/GenericApp';
 import Loader from '@iobroker/adapter-react/Components/Loader'
@@ -16,6 +16,7 @@ import TapperLeftPanel from './components/TapperLeftPanel';
 import Sliders from './components/Sliders';
 import TapperRightPanel from './components/TapperRightPanel';
 import DivicesPanel from './components/DevicesPanel';
+import EditPanel from './components/EditPanel';
 import defaultOptopns from "./data/defaultOptopns.json"
 import { Grid, Typography } from '@material-ui/core';
 
@@ -64,6 +65,13 @@ class App extends GenericApp {
         };
 
         super(props, extendedProps);
+        this.state ={
+            type : "temperature",
+            menu : defaultOptopns.menu,
+            max_menu_id : defaultOptopns.max_menu_id,
+            activeMenu : "main",
+            isMenuEdit : false
+        }   
     }
 
     getSelectedTab() {
@@ -101,6 +109,23 @@ class App extends GenericApp {
     {
         this.setState({ leftOpen3 : !this.state.leftOpen3,  leftOpen2 : false,  leftOpen : false  })
     }
+    onType = type =>
+    {
+        this.setState({ type });
+    }
+    onMenu = active =>
+    {
+        this.setState({ activeMenu : active })
+    }
+    onEditMenu = isMenuEdit =>
+    {
+        this.setState({ isMenuEdit: !isMenuEdit })
+    }
+    onChangeMenu = (newMenu, max_menu_id) =>
+    {
+        console.log(newMenu, max_menu_id)
+        this.setState({ menu: newMenu, max_menu_id })
+    }
     render()
     {
         if (!this.state.loaded) {
@@ -108,7 +133,9 @@ class App extends GenericApp {
                 <Loader theme={this.state.themeType} />
             </MuiThemeProvider>;
         }   
+        // console.log(this.props);
         const { classes } = this.props;
+        const { menu, activeMenu, isMenuEdit, max_menu_id } = this.state;
         return <MuiThemeProvider theme={this.state.theme}>
             <div className="App">
                 <Grid container 
@@ -137,34 +164,54 @@ class App extends GenericApp {
                             <div className="close-label-left-sm flow-dark " onClick={this.onLeftOpen1}>
                                 <ClearIcon />
                             </div>
-                            <TapperPanel/>
+                            <TapperPanel
+                                active={activeMenu}
+                                isEdit={isMenuEdit}
+                                menu={menu}
+                                on={this.onMenu}
+                                max_menu_id={max_menu_id}
+                                onChangeMenu={this.onChangeMenu}
+                            />
+                            <EditPanel
+                                isEdit={isMenuEdit}
+                                menu={menu}
+                                on={this.onEditMenu}
+                            />
                         </div>
                     </Grid> 
                     <Grid 
                         item 
                         xs={12} 
-                        lg={2}  
+                        lg={3}  
                         className={
-                            "clip_left_sm_2 h-100 " + 
+                            "clip_left_sm_2 h-100 expert " + 
                             classes.clip_left_sm_2 + 
                             (this.state.leftOpen2 ? " active " :"")
                         }
                 >
-                        <div className="tapper-grid tapper-shadow m-1 p-2 h-100"> 
+                        <div className="tapper-grid tapper-shadow m-1 p-2 "> 
                             <div className="close-label-left-sm flow-dark" onClick={this.onLeftOpen2}>
                                 <ClearIcon />
                             </div>
-                            <TapperLeftPanel/>
+                            <TapperLeftPanel
+                                on={this.onType}
+                                type={ this.state.type }
+                            />
                         </div>
+                        <DivicesPanel
+                            title="Devices (expert)"
+                        /> 
                     </Grid> 
-                    <Grid item xs={12} lg={5}  className="order-sm-1"> 
-                        <Sliders />
+                    <Grid item xs={12} lg={5} className="sliders-container"> 
+                        <Sliders 
+                            type={ this.state.type }
+                        />
                         <DivicesPanel/> 
                     </Grid> 
                     <Grid 
                         item 
                         xs={12} 
-                        lg={3} 
+                        lg={2} 
                         className={
                             "clip_right_sm_3 h-100 " + 
                             classes.clip_left_sm_2 + 
@@ -182,7 +229,7 @@ class App extends GenericApp {
                     <div className={"label-left-sm-1 " + (this.state.leftOpen ? "active" : "")} onClick={this.onLeftOpen1}>
                         <DehazeIcon />
                     </div>
-                    <div className={"label-left-sm-2 " + (this.state.leftOpen2 ? "active" : "")} onClick={this.onLeftOpen2}>
+                    <div className={"label-left-sm-2  expert " + (this.state.leftOpen2 ? "active" : "")} onClick={this.onLeftOpen2}>
                         <AssignmentTurnedInIcon />
                     </div>
                     <div className={"label-right-sm-3 " + (this.state.leftOpen3 ? "active" : "")} onClick={this.onLeftOpen3}>

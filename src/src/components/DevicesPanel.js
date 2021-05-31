@@ -10,15 +10,16 @@ class DivicesPanel extends Component
     {
         super(props);
         this.state ={
-            ...props
+            ...props,
+            title: props.title ? props.title : "Devices"
         }
     }
     render()
     {
-        return <div className="tapper-grid tapper-shadow m-1 p-2 mt-2">
+        return <div className="tapper-grid tapper-shadow m-1 p-2 mt-1" style={{flexGrow:100}}>
             <div>
                 <FormLabel component="legend" className="tapper-title">
-                    {I18n.t( "Devices")}
+                    {I18n.t( this.state.title )}
                 </FormLabel>
                 <TextField
                     id="standard-full-width"

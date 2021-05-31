@@ -6,8 +6,14 @@ $tapper-height : 180px;
 $tapper-border-color : #00000020;
 $tapper-color2 : #EEE;
 $tapper-color : #6c7a93;
+$danger : #dd5325;
+$success : #73b6a8;
 $small: 768px;
 $radius: 19px;
+$pressShadow : 2px 2px 4px 0 #f5fbffed , 
+  -2px -2px 4px 0 #8693ac7a, 
+  inset -2px -2px 2px 0 #ffffff5c, 
+  inset 2px 2px 2px 0 #00000021!important; 
 
 body {
   margin: 0;
@@ -18,7 +24,11 @@ body {
   display:flex; 
   position: relative;
 }
-
+.scrolled-auto
+{
+  overflow-x: hidden;
+  overflow-y:auto;
+}
 .App-header {
   background-color: #282c34;
   display: flex;
@@ -28,6 +38,12 @@ body {
   font-size: calc(10px + 2vmin);
   color: #444;
 } 
+.sliders-container
+{
+  width:100%;
+  display:flex;
+  flex-direction:column;
+}
 .tapper-title
 {
   font-size: 1.3rem!important;
@@ -57,21 +73,13 @@ body {
   -webkit-justify-content: center;
   justify-content: center;
 }
-.m-1
+.text-danger
 {
-  margin:10px;
+  color: $danger;
 }
-.p-1
+.text-success
 {
-  padding:10px;
-}
-.p-2
-{
-  padding: 20px;
-}
-.mt-2
-{
-  margin-top:20px;
+  color: $success;
 }
 .tapper-shadow
 {
@@ -211,7 +219,8 @@ body {
 .flow-square,
 .flow-little,
 .flow-menu-item,
-.flow-dark
+.flow-dark,
+.tapper-edit
 {
   background-color: #e5eefc;
   background: radial-gradient(circle at 95% 95%, #bdcade 0%,#eff5ff 100%);
@@ -256,10 +265,7 @@ body {
   &.checkbox.Mui-checked,
   &.active
   { 
-    box-shadow: 2px 2px 4px 0 #f5fbffed , 
-              -2px -2px 4px 0 #8693ac7a, 
-              inset -2px -2px 2px 0 #ffffff5c, 
-              inset 2px 2px 2px 0 #00000021!important; 
+    box-shadow: $pressShadow; 
     background: radial-gradient(circle at 5% 5%, #bdcade 0%,#eff5ff 100%);
     &::before
     {
@@ -269,17 +275,31 @@ body {
       height: 20px;
     }
   }
+  &.disable
+  {
+    color:#DDD!important;
+    background: #444!important;
+    box-shadow: none!important;
+    &.active,
+    &:active,
+    &:hover
+    {
+      box-shadow: none!important;
+    }
+    &.sub
+    {
+      background: #333!important;
+    }
+  }
 }
 .flow:active,
 .flow-micro:active,
 .flow-square:active,
 .flow-little:active,
-.flow-menu-item.active
+.flow-menu-item.active,
+.tapper-edit.active
 {
-  box-shadow: 2px 2px 4px 0 #f5fbffed , 
-              -2px -2px 4px 0 #8693ac7a, 
-              inset -2px -2px 2px 0 #ffffff5c, 
-              inset 2px 2px 2px 0 #00000021!important; 
+  box-shadow: $pressShadow; 
 }
 
 .flow svg,
@@ -330,7 +350,8 @@ body {
   };
 } 
 .flow-menu-item,
-.flow-dark
+.flow-dark,
+.tapper-edit
 {
   margin:0!important; 
   display:flex!important;
@@ -376,6 +397,10 @@ body {
     background: linear-gradient(to bottom,  #111 0%, #444 92% );
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#111', endColorstr='#444',GradientType=0 );
   };
+  &:active
+  {
+    box-shadow: $pressShadow
+  }
 }
 .flow-dark
 {
@@ -383,10 +408,7 @@ body {
   margin:10px!important;
   &:hover
   {
-    box-shadow: 2px 2px 4px 0 #f5fbffed , 
-                -2px -2px 4px 0 #8693ac7a, 
-                inset -2px -2px 2px 0 #ffffff5c, 
-                inset 2px 2px 2px 0 #00000021!important; 
+    box-shadow: $pressShadow; 
   }
 }
 .mobile-scrolled
@@ -400,6 +422,11 @@ body {
   height:100%;
   display: flex;
   flex-direction: column;
+} 
+.w-100
+{
+  width:100%;
+  display: flex;
 }
 .close-label-left-sm,
 .close-label-left-sm,
@@ -409,6 +436,69 @@ body {
 .label-menu
 {
   display:none!important;
+} 
+.edit_button
+{
+  width:30px;
+  height:30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius:30px;
+  margin-right:2px;
+  color:#AAA;
+  background:#333;
+  border: 1px solid #00000099;
+  &:active
+  {
+    color:#EEE;
+    box-shadow: $pressShadow;
+  }
+  & > svg
+  {
+    font-size: 1.2rem;
+  }
+
+}
+
+.m-1
+{
+  margin:10px;
+}
+.p-1
+{
+  padding:10px;
+}
+.px-1
+{
+  padding-left:10px;
+  padding-right:10px;
+}
+.p-2
+{
+  padding: 20px;
+}
+.mt-1
+{
+  margin-top:10px;
+}
+.mt-1_5
+{
+  margin-top:15px;
+}
+.mt-2
+{
+  margin-top:20px;
+}
+.mt-auto
+{
+  margin-top:auto;
+}
+.absolute-right
+{
+  position:absolute;
+  right:0;
+  display:flex;
 }
 @media (max-width: $small)
 {
@@ -505,10 +595,7 @@ body {
       background: -webkit-linear-gradient(top,  #111 0%, #444 92% );
       background: linear-gradient(to bottom,  #111 0%, #444 92% );
       filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#111', endColorstr='#444',GradientType=0 );
-      box-shadow: 2px 2px 4px 0 #f5fbffed , 
-              -2px -2px 4px 0 #8693ac7a, 
-              inset -2px -2px 2px 0 #ffffff5c, 
-              inset 2px 2px 2px 0 #00000021!important;
+      box-shadow: $pressShadow;
     }
   }
   .label-right-sm-3

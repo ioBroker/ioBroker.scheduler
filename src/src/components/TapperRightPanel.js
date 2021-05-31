@@ -23,50 +23,43 @@ class TapperRightPanel extends Component
                             value="sn" 
                             control={<Checkbox color="primary" className={ "flow checkbox" } disableRipple={true}/>} 
                             label={I18n.t( "Sn" )}
-                           
-                            
+                            className="px-1"
                         />
                         <FormControlLabel 
                             value="mn" 
                             control={<Checkbox color="primary" className={ "flow checkbox" } disableRipple={true}/>} 
                             label={I18n.t( "Mn" )}
-                            
-                            
+                            className="px-1"
                         />
                         <FormControlLabel 
                             value="tu" 
                             control={<Checkbox color="primary" className={ "flow checkbox" } disableRipple={true}/>} 
                             label={I18n.t( "Tu" )} 
-                            
-                            
+                            className="px-1"
                         />
                         <FormControlLabel 
                             value="we" 
                             control={<Checkbox color="primary" className={ "flow checkbox" } disableRipple={true}/>} 
                             label={I18n.t( "We" )}
-                            
-                           
+                            className="px-1"
                         />
                         <FormControlLabel 
                             value="th" 
                             control={<Checkbox color="primary" className={ "flow checkbox" } disableRipple={true}/>} 
-                            label={I18n.t( "Th" )}                            
-                           
-                            
+                            label={I18n.t( "Th" )} 
+                            className="px-1"
                         />
                         <FormControlLabel 
                             value="fr" 
                             control={<Checkbox color="primary" className={ "flow checkbox" } disableRipple={true}/>} 
                             label={I18n.t( "Fr" )}
-                           
-                             
+                            className="px-1"
                             />
                         <FormControlLabel 
                             value="sa" 
                             control={<Checkbox color="primary"  className={ "flow checkbox" } disableRipple={true}/>} 
                             label={I18n.t( "Sa" )} 
-                          
-                            
+                            className="px-1"
                         /> 
                     </RadioGroup>
                 </FormControl> 
