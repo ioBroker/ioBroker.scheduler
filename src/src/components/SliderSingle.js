@@ -47,7 +47,8 @@ class SliderSingle extends Component
             root: {
               color: options.backgrounds[ 2 ],
               width: staff.width + "px!important",
-              borderRadius:0
+              borderRadius:0,
+              height:"calc(100% - 240px)!important"
             },
             thumb: {
               height: staff.width-10,
@@ -130,11 +131,11 @@ class SliderSingle extends Component
             },
             rail: {
                 backgroundColor: options.backgrounds[ 0 ],
-                width: staff.width + "px!important",
-                borderRadius: staff.width + "px!important", 
+                width: staff.width,
+                borderRadius: staff.width, 
                 borderBottomLeftRadius: "0px!important",  
                 borderBottomRightRadius: "0px!important",  
-                height:"calc(100% + " + staff.width/2 + "px)!important",
+                height:"calc(100% + " + staff.width/2 + "px)",
                 transform: "translateY(-" + staff.width / 2 + "px)",
                 boxShadow: "2px 2px 4px 0 #f5fbffed, -2px -2px 4px 0 #8693acad, inset -2px -2px 2px 0 #ffffff5c, inset 2px 2px 2px 0 #00000033 !important"
             },
@@ -148,7 +149,7 @@ class SliderSingle extends Component
         }
         if( nextProps.value != this.state.value )
         {
-            //this.setState({ value: nextProps.value })
+            this.setState({ value: nextProps.value })
         }       
         if( nextProps.type != this.state.type)
         {
@@ -166,7 +167,7 @@ class SliderSingle extends Component
     }
     handleSliderChange = ( event, data) =>
     {
-        this.setState({value: data});
+        //this.setState({value: data});
         this.on( "data", data );
     }
     handleSelected = evt =>
@@ -193,6 +194,7 @@ class SliderSingle extends Component
                     : 
                     <span className="text-danger">off</span>
             case "persent":
+            default:
                 return value.toString() + "%";
         }
     }
@@ -205,6 +207,7 @@ class SliderSingle extends Component
                 return defaultOptopns.options;
             case "onnoff":
                 return { min:0, max: 1 };
+            default:
             case "persent":
                 return { min:0, max:100 };
         }
@@ -215,9 +218,9 @@ class SliderSingle extends Component
         const {i, value, selected, options } = this.state;
         const{min, max} = this.getMinMax();
         const __Slider = this.PrettoSlider;
-        return <span className="pretto">
-            <span className="pretto-label">
-                { this.getPostfix( value ) } 
+        return <span className="pretto" >
+            <span className="pretto-label" style={{ marginBottom: options.staff.width / 2 + 20 }}>
+                { this.getPostfix( value || 0 ) } 
             </span>
             <__Slider
                 key={i}

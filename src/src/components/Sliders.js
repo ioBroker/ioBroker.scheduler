@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import { withStyles, makeStyles, useStyles } from '@material-ui/core/styles';
-import Slider from '@material-ui/core/Slider';
+import { withStyles, makeStyles, useStyles } from '@material-ui/core/styles'; 
 import defaultOptopns from "../data/defaultOptopns.json"
-import defaultData from "../data/defaultData.json" 
-import chroma from "chroma-js"; 
+import defaultData from "../data/defaultData.json"  
 import { Button, Checkbox, Fab, FormControlLabel, Typography } from "@material-ui/core"; 
-import SliderSingle from "./SliderSingle";
+import SliderSingle from "./SliderSingle";  
+import Swiper from "./Swiper";
 
 const styles = theme => ({
     tab: {
@@ -27,6 +26,7 @@ class Sliders extends Component
     constructor(props)
     {
         super(props);
+        window.Sliders = this;
         this.state ={
             data : props.data
                 ?
@@ -45,8 +45,26 @@ class Sliders extends Component
                 defaultOptopns.options,
                 type : props.type ? props.type : "persent",
             range : [0, 24],
-            selected: []
+            selected: [],
+            slide_id : 0
         }
+		this.car = React.createRef();
+    }
+    componentWillMount()
+    {
+        window.addEventListener('resize', this.updateWindowDimensions);
+        this.updateWindowDimensions();
+    }
+    omponentWillUnmount() 
+	{ 
+        window.removeEventListener('scroll', this.updateWindowDimensions);
+    }
+    updateWindowDimensions( evt )
+	{
+        window.Sliders.setState({
+            _width : window.innerWidth,
+            _height: window.innerHeight
+        })
     }
     componentWillUpdate(nextProps, nextState )
     {
@@ -54,72 +72,38 @@ class Sliders extends Component
         {
             this.setState({ type: nextProps.type })
         }
-    }
-    handleRangeChange = (event, newValue) => 
-    {
-        this.setState({range:newValue});
-    }
-    onChange =( field, value, i ) =>
-    {        
-        let state = {...this.state };
-        state[ field ][i] = value; 
-        this.setState( state )
-    }
+    } 
+    
     render()
-    {
-        const { data, options, type } = this.state;
+    { 
+        const { data, options, type, isLoad } = this.state; 
         const { staff } = options; 
-        const sliders = Array.isArray(data)
-            ?
-            data.map( (staff, i) =>
-            {
-                return <SliderSingle
-                    key={i}
-                    value={staff}
-                    selected= { this.state.selected[i] }
-                    label={""}
-                    i={i}
-                    on={this.onChange }
-                    type={type}
-                /> 
-            })
-            :
-            null;
-        
-        return <div>
+        const refPassthrough = (el) => { 
+            this.handlers.ref(el); 
+            this.car.current = el;
+        }
+        return  <div 
+            className={"tapper-grid tapper-shadow m-1 p-1 h-100 "}
+            style={{
+                padding : 0,
+                paddingBottom:0,
+                backgroundColor : options.backgrounds[0],
+
+            }}    
+        >
             <div 
-                className={"tapper-grid tapper-shadow m-1 p-1 "}
-                style={{
-                    padding : 20,
-                    paddingBottom:0,
-                    backgroundColor : options.backgrounds[0]
-                }}    
-            >
-                <div 
-                    className="tapper-inside"
-                    style={{
-                        padding: (staff.width + 30) + "px 40px " + (staff.width + 10)  + "px 40px",
-                    }}
-                >
-                    { sliders }
-                </div>      
-                <div
-                    style={{
-                        padding: 15
-                    }}
-                >                
-                    <Slider  
-                        value={this.state.range}  
-                        onChange={this.handleRangeChange} 
-                        min={0}
-                        max={24}               
-                        valueLabelDisplay="off"
-                        aria-labelledby="range-slider"
-                    />
-                </div>             
+                className="tapper-inside"
+                style={{ 
+                    padding: 0,
+                    width:"100%" 
+                }}
+            > 
+                <Swiper 
+                    data={data}
+                    type={type}
+                />
             </div>
-            
-        </div>
+        </div> 
     }
 
 }

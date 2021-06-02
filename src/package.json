@@ -9,11 +9,14 @@
         "@sentry/browser": "^6.3.6",
         "@sentry/integrations": "^6.3.6",
         "chroma-js": "^2.1.2",
+        "jquery": "^3.6.0",
         "node-sass": "^6.0.0",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
         "react-icons": "^4.2.0",
-        "react-scripts": "^4.0.3"
+        "react-owl-carousel2": "^0.3.0",
+        "react-scripts": "^4.0.3",
+        "react-swipeable": "^6.1.2"
     },
     "scripts": {
         "start": "react-scripts start",

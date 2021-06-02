@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@material-ui/core";
 import I18n from '@iobroker/adapter-react/i18n';
 
-class TapperLeftPanel extends Component
+class TypePanel extends Component
 {
     constructor(props)
     {
@@ -74,56 +74,9 @@ class TapperLeftPanel extends Component
                     />
                 </RadioGroup>
             </FormControl> 
-        </div>  
-        <div>
-            <FormControl component="fieldset">
-                <FormLabel component="legend" className="tapper-title">Priority</FormLabel>
-                <RadioGroup 
-                    defaultValue="female" 
-                    aria-label="gender"
-                    name="customized-radios"
-                >
-                    <FormControlLabel 
-                        value="normal" 
-                        control={
-                            <Radio 
-                                color="primary"
-                                className={ "flow-little checkbox" } 
-                                disableRipple
-                            />
-                        } 
-                        className="px-1"
-                        label={I18n.t( "Normal")}
-                    />
-                    <FormControlLabel 
-                        value="high" 
-                        control={
-                            <Radio 
-                                color="primary"
-                                className={ "flow-little checkbox" } 
-                                disableRipple
-                            />
-                        } 
-                        className="px-1"
-                        label={I18n.t( "High")} 
-                    />
-                    <FormControlLabel 
-                        value="highest" 
-                        control={
-                            <Radio 
-                                color="primary"  
-                                className={ "flow-little checkbox" } 
-                                disableRipple
-                            />
-                        } 
-                        className="px-1"
-                        label={I18n.t( "Highest eg. Holiday")} 
-                    />
-                </RadioGroup>
-            </FormControl> 
-        </div>  
+        </div> 
     </div>
     }
 
 }
-export default TapperLeftPanel;
+export default TypePanel;

@@ -93,6 +93,25 @@ class TapperPanel extends Component
             this.props.onChangeMenu(newMenu, this.state.max_menu_id)
         }
     }
+    onDeleteItem = () =>
+    {
+        let menu = [ ...this.state.menu ];
+        let newMenu = [];
+        menu.forEach((e, i) =>
+        {
+            if(e.n == this.state.element_n)
+            {
+                
+            }
+            else
+                newMenu.push(e);
+        }); 
+        this.setState({ menu:newMenu,  isDialogOpen : false,  isnew : false });
+        if(this.props.onChangeMenu)
+        {
+            this.props.onChangeMenu(newMenu, this.state.max_menu_id)
+        }
+    }
     onAddChild = element =>
     {        
         this.setState(
@@ -243,8 +262,18 @@ class TapperPanel extends Component
                     </div> 
                     <div>
                         <Button onClick={ this.onUpdateItem }>
-                            {I18n.t( "update" )}
+                            {I18n.t( this.state.isnew ? "create" : "update" )}
                         </Button>
+                        {
+                            this.state.isnew
+                                ?
+                                null
+                                :
+                                <Button onClick={ this.onDeleteItem }>
+                                    {I18n.t( "delete button" )}
+                                </Button>
+
+                        }
                     </div>
                 </div>
             </Dialog>
