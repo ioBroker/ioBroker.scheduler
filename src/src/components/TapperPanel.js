@@ -3,8 +3,7 @@ import React, { Component, Fragment } from "react";
 import I18n from '@iobroker/adapter-react/i18n';
 
 import EditIcon from '@material-ui/icons/Edit';
-import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
-import { AccountCircle } from "@material-ui/icons";
+import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd'; 
 
 class TapperPanel extends Component
 {
@@ -13,7 +12,8 @@ class TapperPanel extends Component
         super(props);
         this.state ={
             ...props,
-            active: typeof props.active !== "undefined" ? props.active : 0
+            active: typeof props.active !== "undefined" ? props.active : 0,
+            isDialogOpen : false
         }
     }
     componentWillUpdate(nextProps)
@@ -136,12 +136,11 @@ class TapperPanel extends Component
                 const submenus = menu
                     .filter(sub => sub.parent == e.n )
                         .map((sub, index) =>
-                        {
+                        { 
                             return <MenuItem   
-                                key={index}                  
+                                key={sub.n}                  
                                 className={ "flow-menu-item sub " + ( isEdit ? " disable " : active == sub.n ? " active " : "") } 
-                                onClick={() => this.onClick( sub.n )}
-                                disableFocusRipple
+                                onClick={() => this.onClick( sub.n )} 
                                 disableRipple
                             >
                                 <Typography variant="inherit">
@@ -163,12 +162,12 @@ class TapperPanel extends Component
                                         null
                                 }
                             </MenuItem>
-                        })
-                return <Fragment key={i}>
+                        }) 
+                return <div key={ e.n }>
                     <MenuItem                     
                         className={ "flow-menu-item" + ( isEdit ? " disable " : active == e.n ? " active " : "") } 
-                        onClick={() => this.onClick( e.n )}
-                        disableFocusRipple
+                        onClick={() => this.onClick( e.n )} 
+                        
                         disableRipple
                     >
                         <Typography variant="inherit">
@@ -198,7 +197,7 @@ class TapperPanel extends Component
                         }
                     </MenuItem>
                     { submenus }
-                </Fragment> 
+                </div>
             }               
             else
                return null

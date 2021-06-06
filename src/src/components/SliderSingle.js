@@ -5,6 +5,7 @@ import defaultOptopns from "../data/defaultOptopns.json"
 import defaultData from "../data/defaultData.json" 
 import chroma from "chroma-js"; 
 import { Button, Checkbox, Fab, FormControlLabel, Typography } from "@material-ui/core"; 
+import { PhonelinkRingSharp } from "@material-ui/icons";
 
 const styles = theme => ({
     
@@ -22,6 +23,7 @@ class SliderSingle extends Component
                 defaultOptopns.options,
             value : props.value,
             label : props.label,
+            step : props.step,
             selected : props.selected,
             i : props.i,
             postfix : props.postfix,
@@ -48,7 +50,7 @@ class SliderSingle extends Component
               color: options.backgrounds[ 2 ],
               width: staff.width + "px!important",
               borderRadius:0,
-              height:"calc(100% - 240px)!important"
+              height:"calc(100% - 165px)!important"
             },
             thumb: {
               height: staff.width-10,
@@ -147,6 +149,10 @@ class SliderSingle extends Component
         { 
             this.setState({ selected: nextProps.selected });
         }
+        if( nextProps.step != this.state.step )
+        { 
+            this.setState({ step: nextProps.step });
+        }
         if( nextProps.value != this.state.value )
         {
             this.setState({ value: nextProps.value })
@@ -212,12 +218,24 @@ class SliderSingle extends Component
                 return { min:0, max:100 };
         }
     }
-
+    getLabel = () =>
+    {
+        const {i, step} = this.state;
+        let label = i * step;
+        const hrs = parseInt(label)
+        const secs = ( "0" + ( label % 1 * 60) ).slice( -2 ) ;
+        return [hrs, secs];
+    }
     render()
     {
-        const {i, value, selected, options } = this.state;
+        const {i, value, step, selected, options } = this.state;
+        if(i < 0 )
+        {
+            return "";
+        }
         const{min, max} = this.getMinMax();
         const __Slider = this.PrettoSlider;
+        const label = this.getLabel();
         return <span className="pretto" >
             <span className="pretto-label" style={{ marginBottom: options.staff.width / 2 + 20 }}>
                 { this.getPostfix( value || 0 ) } 
@@ -242,7 +260,7 @@ class SliderSingle extends Component
                 i={i}
                 onClick={this.handleSelected}
             >
-                <span>{ i } : </span><span className="pretto-secs">00</span>
+                <span>{ label[0] }</span><span className="pretto-secs">{label[1]}</span>
                     
             </div>
         </span>  

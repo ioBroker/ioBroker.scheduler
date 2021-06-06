@@ -7,19 +7,47 @@ class DayNightSwitcher extends Component
     {
         super(props);
         this.state = {
-            quorte_id : 0,
-            range : 4
+            quorte_id : props.quorte_id || 0,
+            sections  : props.sections
         }
+    }
+    componentWillUpdate(nextProps, nextStyle)
+    {
+        if(nextProps.sections != this.state.sections)
+        {
+            this.setState({ 
+                sections : nextProps.sections, 
+                quorte_id : this.state.quorte_id < nextProps.sections
+                    ? 
+                    this.state.quorte_id
+                    :
+                    nextProps.sections - 1
+            })
+        } 
+        
+        if(nextProps.quorte_id != this.state.quorte_id)
+        {
+            this.setState({ 
+                quorte_id : nextProps.quorte_id 
+            })
+        } 
+        /**/
     }
     onSlide = quorte_id =>
     {
-        this.setState({ quorte_id })
+        
+        if(this.props.on)
+        {
+            this.props.on( quorte_id )     
+        }
+        
+       /*this.setState({ quorte_id })*/
     }
     render()
     {
-        const {range} = this.state;
-        const region = 100 / range;
-        const quortes = Array( range ).fill().map((_, i) => 
+        const {sections} = this.state;
+        const region = 100 / sections;
+        const quortes = Array( sections ).fill().map((_, i) => 
         {
             return <div 
                 key={i}
@@ -44,8 +72,7 @@ class DayNightSwitcher extends Component
                     >
                     </div>
                 </div>
-            </div>
-            
+            </div>  
         </div>
     }
 }

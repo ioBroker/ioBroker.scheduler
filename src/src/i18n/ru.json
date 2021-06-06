@@ -1,3 +1,27 @@
 {
-
+    "Persent" :"Проценты",
+    "Temperature": "Температура",
+    "On/Off" :"Вкл/Выкл",
+    "Normal": "Нормальный",
+    "High": "Высокий",
+    "Highest eg. Holiday": "Highest eg. Holiday",
+    "Profile": "Профиль",
+    "Edit Menu": "Редактировать меню",
+    "Finish edit": "Закончить редактуру",
+    "Add new child": "Добавить доченюю",
+    "Add Button": "Добавить кнопку",
+    "Edit button": "Редактировать кнопку",
+    "Sn": "Вс",
+    "Mn": "Пн",
+    "Tu": "Вт",
+    "We": "Ср",
+    "Th": "Чт",
+    "Fr": "Пт",
+    "Sa": "Сб",
+    "Devices" :"Устройства",
+    "Devices (expert)" :"Устройства (эксперт)",
+    "Type" :"Тип",
+    "Priority" :"Приоритет",
+    "Week" :"Неделя",
+    "Put device names per comma" :"Названия устройств через запятую"
 }

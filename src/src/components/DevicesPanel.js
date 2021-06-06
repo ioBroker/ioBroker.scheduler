@@ -1,7 +1,7 @@
 
 
 import React, { Component, Fragment } from "react";
-import { FormLabel, TextField } from "@material-ui/core";
+import { FormLabel, TextField, withStyles } from "@material-ui/core";
 import I18n from '@iobroker/adapter-react/i18n';
 
 class DivicesPanel extends Component
@@ -16,23 +16,35 @@ class DivicesPanel extends Component
     }
     render()
     {
-        return <Fragment>
+        const CssTextField = withStyles({
+            root: {
+                backgroundColor:"#FFFFFF12", 
+                padding: 20,
+                borderRadius:15,                
+                display: "flex",
+                width: "auto"
+            },
+          })(TextField);
+        return <>
             <FormLabel component="legend" className="tapper-title">
                 {I18n.t( this.state.title )}
             </FormLabel>
-            <TextField
+            <CssTextField
                 id="standard-full-width"
                 label=""
-                style={{ margin: 8 }}
-                placeholder="Put device names per comma"
+                style={{ }}
+                className="tapper-shadow"
+                placeholder={I18n.t( "Put device names per comma" )}
                 helperText=""
                 fullWidth
                 margin="normal"
+                multiline
+                rows={ this.props.rows || 3 }
                 InputLabelProps={{
                     shrink: true,
                 }}
             />
-        </Fragment> 
+        </> 
     }
 
 }

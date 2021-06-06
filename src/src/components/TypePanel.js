@@ -8,7 +8,9 @@ class TypePanel extends Component
     {
         super(props);
         this.state ={
-            type: props.type
+            type: props.type,
+            _width: props._width
+        
         }
     }
     on = (evt, type) =>
@@ -24,9 +26,7 @@ class TypePanel extends Component
     }
     render()
     {
-        return <div className=""> 
-        <div>
-            <FormControl component="fieldset">
+        return <FormControl component="fieldset">
                 <FormLabel component="legend" className="tapper-title">
                     {I18n.t( "Type")}
                 </FormLabel>
@@ -73,9 +73,7 @@ class TypePanel extends Component
                         label={I18n.t( "On/Off")} 
                     />
                 </RadioGroup>
-            </FormControl> 
-        </div> 
-    </div>
+            </FormControl>
     }
 
 }

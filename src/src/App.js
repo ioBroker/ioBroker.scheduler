@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'; 
+import React from 'react'; 
 import './App.scss';
 import {withStyles} from '@material-ui/core/styles';
 import { MuiThemeProvider } from '@material-ui/core/styles';
@@ -89,9 +89,9 @@ class App extends GenericApp {
             max_menu_id : defaultOptopns.max_menu_id,
             activeMenu : "main",
             isMenuEdit : false,
-            range: 0
+            range: 0 // масштаб 
         } 
-        this.isExpert = false;  
+        this.isExpert = true;  
         window.SchedullerApp = this;
     }
     componentWillMount()
@@ -227,7 +227,11 @@ class App extends GenericApp {
     }
     onRange = (event, range)  =>
     {
-        this.setState({ range })
+        this.setState({ range });
+        setTimeout(() =>
+        {
+            this.setState({ leftOpen7: false });
+        }, 350 )
     }
     render()
     { 
@@ -353,10 +357,14 @@ class App extends GenericApp {
                                     <div className="close-label-left-sm flow-dark" onClick={this.onLeftOpen2}>
                                         <ClearIcon />
                                     </div>
-                                    <TypePanel
-                                        on={this.onType}
-                                        type={ this.state.type }
-                                    />
+                                    <div className="mt-sm-auto mb-sm-auto">
+                                        <TypePanel
+                                            on={this.onType}
+                                            type={ this.state.type }
+                                            _width={this.state._width}
+                                        
+                                        />
+                                    </div>
                                 </div>
                                 <div 
                                     className={
@@ -369,10 +377,14 @@ class App extends GenericApp {
                                     <div className="close-label-left-sm flow-dark" onClick={this.onLeftOpen4}>
                                         <ClearIcon />
                                     </div>
-                                    <PriorityPanel
-                                        on={this.onPriority}
-                                        priority={ this.state.priority }
-                                    />
+                                    <div className="mt-sm-auto mb-sm-auto">
+                                        <PriorityPanel
+                                            on={this.onPriority}
+                                            priority={ this.state.priority }
+                                            _width={this.state._width}
+                                        
+                                        />
+                                    </div>
                                 </div>
                             </Grid>    
                             :
@@ -382,6 +394,7 @@ class App extends GenericApp {
                     <Grid item xs={12} lg={this.isExpert ? 5 : 7} className="sliders-container"> 
                         <Sliders 
                             type={ this.state.type }
+                            range={range}
                         />
                         {
                             this.isExpert
@@ -397,20 +410,21 @@ class App extends GenericApp {
                                     <div className="close-label-left-sm flow-dark " onClick={this.onLeftOpen7}>
                                         <ClearIcon />
                                     </div>
-                                    <AntTabs
-                                        value={ range }
-                                        onChange={ this.onRange }
-                                        variant="fullWidth" 
-                                        orientation={ this.state._width < 768 ? "vertical" : null }
-                                        aria-label=" label tabs "
-                                    >
-                                        <AntTab label="0.5 hr" />
-                                        <AntTab label="1 hr"  />
-                                        <AntTab label="2 hrs" />
-                                        <AntTab label="3 hrs" />
-                                        <AntTab label="4 hrs" />
-                                        <AntTab label="6 hrs" />
-                                    </AntTabs>
+                                    <div className="mt-sm-auto mb-sm-auto w-100">
+                                        <AntTabs
+                                            value={ range }
+                                            onChange={ this.onRange }
+                                            variant="fullWidth" 
+                                            orientation={ this.state._width < 768 ? "vertical" : "horizontal" }
+                                            aria-label=" label tabs "
+                                        >
+                                            <AntTab label="0.5 hr" />
+                                            <AntTab label="1 hr"  />
+                                            <AntTab label="2 hrs" />
+                                            <AntTab label="3 hrs" />
+                                            <AntTab label="4 hrs" />
+                                        </AntTabs>
+                                    </div>
                                 </div>
                                     :
                                     null
@@ -425,7 +439,11 @@ class App extends GenericApp {
                             <div className="close-label-left-sm flow-dark " onClick={this.onLeftOpen5}>
                                 <ClearIcon />
                             </div>
-                            <DivicesPanel/> 
+                            <div className="mt-sm-auto mb-sm-auto wc-100">
+                                <DivicesPanel
+                                    _width={this.state._width}
+                                /> 
+                            </div>
                         </div>
                     </Grid> 
                     <Grid 
@@ -446,14 +464,18 @@ class App extends GenericApp {
                             <div className="close-label-left-sm flow-dark" onClick={this.onLeftOpen3}>
                                 <ClearIcon />
                             </div>
-                            <TapperRightPanel/>
+                            <div className="mt-sm-auto mb-sm-auto">
+                                <TapperRightPanel
+                                    _width={this.state._width}
+                                />
+                            </div>
                         </div>
                         {
                             this.isExpert
                                 ? 
                                 <div 
                                     className={
-                                        "tapper-grid tapper-shadow m-1 p-2 mt-1 clip_left_sm_6 "+ 
+                                        "tapper-grid tapper-shadow h-100 m-1 p-2 mt-1 clip_left_sm_6 "+ 
                                         classes.clip_left_sm_6 + 
                                         (this.state.leftOpen6 ? " active " :"") 
                                     }
@@ -462,9 +484,12 @@ class App extends GenericApp {
                                     <div className="close-label-left-sm flow-dark " onClick={this.onLeftOpen6}>
                                         <ClearIcon />
                                     </div>
-                                    <DivicesPanel
-                                        title="Devices (expert)"
-                                /> 
+                                    <div className="mt-sm-auto mb-sm-auto wc-100">
+                                        <DivicesPanel
+                                            title="Devices (expert)"
+                                            rows={ 7 }                                   
+                                    /> 
+                                    </div>   
                                 </div>   
                                 :
                                 null
@@ -484,7 +509,7 @@ class App extends GenericApp {
                     {
                         this.isExpert
                             ? 
-                            <Fragment>
+                            <>
                                 <div className="label-menu-bottom" />
                                 <div className={"label-left-sm-2  expert " + (this.state.leftOpen2 ? "active" : "")} onClick={this.onLeftOpen2}>
                                     <AssignmentTurnedInIcon />
@@ -499,7 +524,7 @@ class App extends GenericApp {
                                     <ScheduleIcon/>
                                 </div>
 
-                            </Fragment>
+                            </>
                             :
                             null
                     } 

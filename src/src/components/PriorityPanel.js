@@ -24,55 +24,53 @@ class PriorityPanel extends Component
     }
     render()
     {
-        return <div className="">  
-        <div>
-            <FormControl component="fieldset">
-                <FormLabel component="legend" className="tapper-title">Priority</FormLabel>
-                <RadioGroup 
-                    defaultValue="female" 
-                    aria-label="gender"
-                    name="customized-radios"
-                >
-                    <FormControlLabel 
-                        value="normal" 
-                        control={
-                            <Radio 
-                                color="primary"
-                                className={ "flow-little checkbox" } 
-                                disableRipple
-                            />
-                        } 
-                        className="px-1"
-                        label={I18n.t( "Normal")}
-                    />
-                    <FormControlLabel 
-                        value="high" 
-                        control={
-                            <Radio 
-                                color="primary"
-                                className={ "flow-little checkbox" } 
-                                disableRipple
-                            />
-                        } 
-                        className="px-1"
-                        label={I18n.t( "High")} 
-                    />
-                    <FormControlLabel 
-                        value="highest" 
-                        control={
-                            <Radio 
-                                color="primary"  
-                                className={ "flow-little checkbox" } 
-                                disableRipple
-                            />
-                        } 
-                        className="px-1"
-                        label={I18n.t( "Highest eg. Holiday")} 
-                    />
-                </RadioGroup>
-            </FormControl> 
-        </div>  
-    </div>
+        return <FormControl component="fieldset">
+            <FormLabel component="legend" className="tapper-title">
+                { I18n.t( "Priority" ) }
+            </FormLabel>
+            <RadioGroup 
+                defaultValue="female" 
+                aria-label="gender"
+                name="customized-radios"
+            >
+                <FormControlLabel 
+                    value="normal" 
+                    control={
+                        <Radio 
+                            color="primary"
+                            className={ "flow-little checkbox" } 
+                            disableRipple
+                        />
+                    } 
+                    className="px-1"
+                    label={I18n.t( "Normal")}
+                />
+                <FormControlLabel 
+                    value="high" 
+                    control={
+                        <Radio 
+                            color="primary"
+                            className={ "flow-little checkbox" } 
+                            disableRipple
+                        />
+                    } 
+                    className="px-1"
+                    label={I18n.t( "High")} 
+                />
+                <FormControlLabel 
+                    value="highest" 
+                    control={
+                        <Radio 
+                            color="primary"  
+                            className={ "flow-little checkbox" } 
+                            disableRipple
+                        />
+                    } 
+                    className="px-1"
+                    label={I18n.t( "Highest eg. Holiday")} 
+                />
+            </RadioGroup>
+        </FormControl> 
     }
 
 }

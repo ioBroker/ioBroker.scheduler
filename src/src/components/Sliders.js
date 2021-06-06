@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { withStyles, makeStyles, useStyles } from '@material-ui/core/styles'; 
-import defaultOptopns from "../data/defaultOptopns.json"
-import defaultData from "../data/defaultData.json"  
+import defaultOptopns from "../../src/data/defaultOptopns.json"
+import defaultData from "../../src/data/defaultData.json"  
 import { Button, Checkbox, Fab, FormControlLabel, Typography } from "@material-ui/core"; 
-import SliderSingle from "./SliderSingle";  
-import Swiper from "./Swiper";
+import SliderSingle from "../../src/components/SliderSingle";  
+import Swiper from "../../src/components/Swiper_2";
 
 const styles = theme => ({
     tab: {
@@ -44,7 +44,7 @@ class Sliders extends Component
                 :
                 defaultOptopns.options,
                 type : props.type ? props.type : "persent",
-            range : [0, 24],
+            range : props.range,
             selected: [],
             slide_id : 0
         }
@@ -72,16 +72,16 @@ class Sliders extends Component
         {
             this.setState({ type: nextProps.type })
         }
+        if(nextProps.range != this.state.range )
+        {
+            this.setState({ range: nextProps.range })
+        }
     } 
     
     render()
     { 
-        const { data, options, type, isLoad } = this.state; 
-        const { staff } = options; 
-        const refPassthrough = (el) => { 
-            this.handlers.ref(el); 
-            this.car.current = el;
-        }
+        const { data, options, type, range, slide_id } = this.state; 
+        const { staff } = options;  
         return  <div 
             className={"tapper-grid tapper-shadow m-1 p-1 h-100 "}
             style={{
@@ -99,8 +99,10 @@ class Sliders extends Component
                 }}
             > 
                 <Swiper 
-                    data={data}
-                    type={type}
+                    data={ data }
+                    type={ type }
+                    range={ range }
+                    slide_id={slide_id}
                 />
             </div>
         </div> 

@@ -135,8 +135,8 @@ body {
   &-label
   {  
     color: #6c7a93;
-    font-weight:900;
-    font-size:1.2rem; 
+    font-weight:700;
+    font-size:.9rem; 
   };
   &:hover[aria-label="pretto slider"]
   {
@@ -444,6 +444,12 @@ body {
 {
   width:100%;
   display: flex;
+} 
+.wc-100
+{
+  width:100%;
+  display: flex;
+  flex-direction: column;
 }
 .close-label-left-sm,
 .close-label-left-sm,
@@ -558,7 +564,51 @@ body {
     }
   }
 }
-
+.swiper-content
+{
+  width:100%;
+  height:100%;
+  display:flex;
+  justify-content: space-between;
+  & > .btn-cont
+  {
+    position:relative;
+  }
+  & > .btn-cont > .left-button,
+  & > .btn-cont > .left-button-add,
+  & > .btn-cont > .right-button
+  {
+      position:relative; 
+      margin:0px; 
+      width:40px!important;
+      min-width: 40px!important;
+      height:40px!important;
+      left:15px;     
+      top: 50%;
+      & > svg
+      {
+        opacity:1!important;
+      }
+  }
+  & > .btn-cont > .left-button-add
+  {
+    top:calc(50% + 50px);
+  }
+  & > .btn-cont > .right-button
+  {
+    left:auto;
+    right:0px;
+  }
+  & .swiper
+  {
+    width:100%;
+    height:100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+  }
+}
 .m-1
 {
   margin:10px;
@@ -660,7 +710,15 @@ body {
       left:0;
     }
   } 
-
+  .swiper-content
+  { 
+    justify-content: center;
+    & > .left-button,
+    & > .right-button
+    {
+      display:none;
+    }
+  }
   .label-menu,
   .label-menu-bottom
   {
@@ -778,5 +836,17 @@ body {
   .tapper-inside
   {
     clip-path: inset(0 round 0);
+  }
+  .mt-sm-auto
+  {
+    margin-top:auto;
+  }
+  .mb-sm-auto
+  {
+    margin-bottom:auto;
+  }
+  .mb-sm-4
+  {
+    margin-bottom: 40px;
   }
 }
