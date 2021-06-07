@@ -37,11 +37,11 @@ class Options extends Component {
         };
     }
 
-
     renderToast() {
         if (!this.state.toast) {
             return null;
         }
+
         return <Snackbar
             anchorOrigin={{
                 vertical: 'bottom',
@@ -83,7 +83,7 @@ class Options extends Component {
 
     render() {
         return <form className={ this.props.classes.tab }>
-            {/* 
+            {/*
             <Logo
                 classes={{}}
                 instance={ this.props.instance }
