@@ -43,6 +43,9 @@
         "icon": "scheduler.png",
         "connectionType": "local",
         "dataSource": "push",
+        "adminUI": {
+            "config": "materialize"
+        },
         "keywords": [
             "schedule",
             "planner",
