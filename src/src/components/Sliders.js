@@ -46,14 +46,15 @@ class Sliders extends Component
                 type : props.type ? props.type : "persent",
             range : props.range,
             selected: [],
-            slide_id : 0
+            slide_id : 0,
+            _width:props._width
         }
 		this.car = React.createRef();
     }
-    componentWillMount()
+    componentDidMount()
     {
         window.addEventListener('resize', this.updateWindowDimensions);
-        this.updateWindowDimensions();
+        setTimeout(() => this.updateWindowDimensions(), 300);
     }
     omponentWillUnmount() 
 	{ 
@@ -61,9 +62,12 @@ class Sliders extends Component
     }
     updateWindowDimensions( evt )
 	{
+        const w = document.getElementById('tapper-inside').getBoundingClientRect().width; 
+        // console.log ( w )
         window.Sliders.setState({
             _width : window.innerWidth,
-            _height: window.innerHeight
+            _height: window.innerHeight,
+            _w : w
         })
     }
     componentWillUpdate(nextProps, nextState )
@@ -75,7 +79,7 @@ class Sliders extends Component
         if(nextProps.range != this.state.range )
         {
             this.setState({ range: nextProps.range })
-        }
+        } 
     } 
     
     render()
@@ -93,6 +97,7 @@ class Sliders extends Component
         >
             <div 
                 className="tapper-inside"
+                id="tapper-inside"
                 style={{ 
                     padding: 0,
                     width:"100%" 
@@ -102,6 +107,7 @@ class Sliders extends Component
                     data={ data }
                     type={ type }
                     range={ range }
+                    _width={this.state._w}
                     slide_id={slide_id}
                 />
             </div>

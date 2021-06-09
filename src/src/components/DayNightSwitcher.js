@@ -8,7 +8,8 @@ class DayNightSwitcher extends Component
         super(props);
         this.state = {
             quorte_id : props.quorte_id || 0,
-            sections  : props.sections
+            sections  : props.sections,
+            height:     0
         }
     }
     componentWillUpdate(nextProps, nextStyle)
@@ -21,7 +22,12 @@ class DayNightSwitcher extends Component
                     ? 
                     this.state.quorte_id
                     :
-                    nextProps.sections - 1
+                    nextProps.sections - 1,
+                height : nextProps.sections == 1
+                    ?
+                    0
+                    :
+                    document.getElementById("day-night").height
             })
         } 
         
@@ -45,7 +51,7 @@ class DayNightSwitcher extends Component
     }
     render()
     {
-        const {sections} = this.state;
+        const {sections, height} = this.state;
         const region = 100 / sections;
         const quortes = Array( sections ).fill().map((_, i) => 
         {
@@ -57,9 +63,9 @@ class DayNightSwitcher extends Component
 
             </div>
         })
-        return <div className="day_night_cont">
+        return <div className="day_night_cont" style={{ height }}>
             <div>
-                <img src={ day_night } alt="day-night" />
+                <img src={ day_night } alt="day-night" id="day-night"/>
                 <div className="day_night">
                     
                     { quortes }

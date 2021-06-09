@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@material-ui/core";
+import { FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select } from "@material-ui/core";
 import I18n from '@iobroker/adapter-react/i18n';
 
 class TypePanel extends Component
@@ -13,9 +13,10 @@ class TypePanel extends Component
         
         }
     }
-    on = (evt, type) =>
+    on = evt =>
     {
-        if( evt.target.value )
+        const type = evt.target.value;
+        if( type )
         {
             this.setState({type});
             if( this.props.on )
@@ -26,10 +27,27 @@ class TypePanel extends Component
     }
     render()
     {
-        return <FormControl component="fieldset">
-                <FormLabel component="legend" className="tapper-title">
-                    {I18n.t( "Type")}
-                </FormLabel>
+        const{type} = this.state;
+        return <FormControl component="fieldset" className="w-100"> 
+                <InputLabel shrink id="type-select-label">{ I18n.t( "Type" ) }</InputLabel>
+                <Select
+                    labelId="type-select-label"
+                    id="type-select" 
+                    className="w-100"
+                    value={type}
+                    onChange={ this.on }
+                >
+                    <MenuItem value={"persent"}>
+                        {I18n.t( "Persent")}
+                    </MenuItem>
+                    <MenuItem value={"temperature"}>
+                        {I18n.t( "Temperature")}
+                    </MenuItem>
+                    <MenuItem value={"onnoff"}>
+                        {I18n.t( "On/Off")}
+                    </MenuItem>
+                </Select>
+                {/*
                 <RadioGroup defaultValue="female" aria-label="gender" name="customized-radios">
                     <FormControlLabel 
                         value="persent" 
@@ -73,6 +91,7 @@ class TypePanel extends Component
                         label={I18n.t( "On/Off")} 
                     />
                 </RadioGroup>
+                */}
             </FormControl>
     }
 

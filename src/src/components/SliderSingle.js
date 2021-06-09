@@ -27,7 +27,8 @@ class SliderSingle extends Component
             selected : props.selected,
             i : props.i,
             postfix : props.postfix,
-            type : props.type
+            type : props.type,
+            _width : props._width
         }
     }
     componentWillMount()
@@ -37,7 +38,7 @@ class SliderSingle extends Component
 
     redraw()
     {   
-        const { options } = this.state;
+        const { options, _width } = this.state;
         const { staff } = options;
         const bg1 = options.backgrounds[ 0 ];
         const bg2 = chroma( bg1 ).darken(.33);
@@ -45,14 +46,17 @@ class SliderSingle extends Component
         const bg3 = chroma( bg1 ).brighten(4);
         const bg4 = options.backgrounds[ 2 ];
         const bg5 = chroma( bg4 ).darken(.33);
+       
         this.PrettoSlider = withStyles({
             root: {
               color: options.backgrounds[ 2 ],
               width: staff.width + "px!important",
+              //width: _width + "px!important",
               borderRadius:0,
               height:"calc(100% - 165px)!important"
             },
             thumb: {
+              /*
               height: staff.width-10,
               width: staff.width-10,
               background: "radial-gradient(circle at 2% 2%, "+ bg2 +" 0%, "+ bg1 +" 40%, " + bg3 + "  80% )",
@@ -94,6 +98,8 @@ class SliderSingle extends Component
                 background: options.backgrounds[ 3 ], 
                 boxShadow: "1px 1px 2px 0 rgba(0,0,0,.33)"
               }
+              */
+              display:"none"
             },
             active: {},
             valueLabel: {
@@ -108,28 +114,30 @@ class SliderSingle extends Component
               },
             },
             track: {
-              width: staff.width + "px!important", 
-              borderRadius:"0px!important", 
-              '&:before': {
-                  content: "''",
-                  backgroundColor: bg4, 
-                  width: staff.width,
-                  height:staff.width,
-                  borderRadius:"100%",
-                  position:"absolute",
-                  top:-staff.width/2,
-                  left:0
-              }, 
-              '&:after': {
-                  content: "''",
-                  backgroundColor: bg4, 
-                  width: staff.width,
-                  height:staff.width,
-                  borderRadius:"100%",
-                  position:"absolute",
-                  bottom:-staff.width/2,
-                  left:0
-              },
+                width: staff.width + "px!important", 
+                //borderRadius:"0px!important", 
+                '&:before': {
+                    content: "''",
+                    backgroundColor: bg4, 
+                    width: staff.width,
+                    height:staff.width,
+                    borderRadius:6,
+                    //borderRadius:"100%",
+                    position:"absolute",
+                    top:-staff.width/2,
+                    left:0
+                }, 
+                '&:after': {
+                    content: "''",
+                    backgroundColor: bg4, 
+                    width: staff.width,
+                    height:staff.width,
+                    borderRadius:6,
+                    //borderRadius:"100%",
+                    position:"absolute",
+                    bottom:-staff.width/2,
+                    left:0
+                },
             },
             rail: {
                 backgroundColor: options.backgrounds[ 0 ],
@@ -156,6 +164,10 @@ class SliderSingle extends Component
         if( nextProps.value != this.state.value )
         {
             this.setState({ value: nextProps.value })
+        }       
+        if( nextProps._width != this.state._width )
+        {
+            this.setState({ _width: nextProps._width })
         }       
         if( nextProps.type != this.state.type)
         {

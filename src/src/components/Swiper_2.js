@@ -18,7 +18,8 @@ class Swiper extends Component
             ...props,
             count : this.getCountByRange( props.range || 0 ) , 
             sections: this.getSectionByRange( props.range || 0 ) ,
-            selected : []
+            selected : [],
+            _width : props._width
         }
         window.Swiper = this;
         
@@ -33,6 +34,11 @@ class Swiper extends Component
         {
             this.setState({ range : nextProps.range });
             this.sectionsByRange( nextProps.range );
+            this.setState({slide_id:0})
+        }
+        if(nextProps._width != this.state._width)
+        {
+            this.setState({ _width : nextProps._width });
         }
     }
     //
@@ -46,6 +52,10 @@ class Swiper extends Component
     }
     getSectionByRange = range =>
     {
+        if( this.state ? this.state._width >= 720 : this.props._width >= 720 )
+        {
+            return range == 0 ? 2 : 1;
+        }
         switch( range )
         {
           case 0: 
@@ -63,6 +73,10 @@ class Swiper extends Component
     }
     getCountByRange = range =>
     {
+        if( this.state ? this.state._width >= 720 : this.props._width >= 720 )
+        {
+            return range == 0 ? 24 : this.getMaxByRange( range );
+        }
         switch( range )
         {
           case 0: 
@@ -80,7 +94,7 @@ class Swiper extends Component
     }
     getMaxByRange = range =>
     {
-        return 24 / this.getStepByRange( range ) - 1;
+        return 24 / this.getStepByRange( range ) - 1 
     }
     getStepByRange = range =>
     {
@@ -164,7 +178,7 @@ class Swiper extends Component
     }
     getSlide()
     {
-        const {slide_id, count, data, selected, type, sections, range} = this.state;
+        const {slide_id, count, data, selected, type, _width, range} = this.state;
         let sliders = []
         for( let i = slide_id * count; i < ( slide_id + 1 ) * count; i++ )
         {
@@ -178,6 +192,7 @@ class Swiper extends Component
                 step={this.getStepByRange( range )}
                 on={ this.onChange }
                 type={ type }
+                _width={ _width / count }
             /> 
           )
         }
@@ -242,7 +257,7 @@ class Swiper extends Component
             <Swipe
                 nodeName="div"
                 className="h-100 w-100"
-                mouseSwipe={true}
+                mouseSwipe={false}
                 onSwipedDown={this.onSwipedDown}
                 onSwipeEnd={this.onSwipeEnd}
                 onSwipe={this.onSwipeListener}

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@material-ui/core";
+import { FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select } from "@material-ui/core";
 import I18n from '@iobroker/adapter-react/i18n';
 
 class PriorityPanel extends Component
@@ -11,9 +11,10 @@ class PriorityPanel extends Component
             priority: props.priority
         }
     }
-    on = (evt, priority) =>
+    on = evt =>
     {
-        if( evt.target.value )
+        const priority = evt.target.value
+        if( priority )
         {
             this.setState({ priority });
             if( this.props.on )
@@ -24,10 +25,27 @@ class PriorityPanel extends Component
     }
     render()
     {
-        return <FormControl component="fieldset">
-            <FormLabel component="legend" className="tapper-title">
-                { I18n.t( "Priority" ) }
-            </FormLabel>
+        const{priority} = this.state;
+        return <FormControl component="fieldset"  className="w-100"> 
+            <InputLabel shrink id="demo-simple-select-label">{ I18n.t( "Priority" ) }</InputLabel>
+            <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                className="w-100"
+                value={priority}
+                onChange={ this.on }
+            >
+                <MenuItem value={"normal"}>
+                    {I18n.t( "Normal")}
+                </MenuItem>
+                <MenuItem value={"high"}>
+                    {I18n.t( "High")}
+                </MenuItem>
+                <MenuItem value={"highest"}>
+                    {I18n.t( "Highest eg. Holiday")}
+                </MenuItem>
+            </Select>
+            {/*
             <RadioGroup 
                 defaultValue="female" 
                 aria-label="gender"
@@ -70,6 +88,7 @@ class PriorityPanel extends Component
                     label={I18n.t( "Highest eg. Holiday")} 
                 />
             </RadioGroup>
+            */}
         </FormControl> 
     }
 

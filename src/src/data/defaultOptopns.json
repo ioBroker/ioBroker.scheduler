@@ -15,7 +15,7 @@
         "max":25,
         "staff":
         {
-            "width": 45,
+            "width": 25,
             "backgroundColor": "#d3e1f7",
             "offsetY": 16,
             "offsetX": 70

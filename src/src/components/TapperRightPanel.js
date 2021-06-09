@@ -16,8 +16,7 @@ class TapperRightPanel extends Component
     {
         return <div className="">
             <div>
-                <FormControl component="fieldset">
-                    <FormLabel component="legend" className="tapper-title">Week</FormLabel>
+                <FormControl component="fieldset"> 
                     <RadioGroup defaultValue="female" aria-label="gender" name="customized-radios">
                         <FormControlLabel 
                             value="sn" 
