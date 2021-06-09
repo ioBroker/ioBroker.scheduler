@@ -246,9 +246,9 @@ class Swiper extends Component
             <div className="left-button-add flow" onClick={ this.selectNone }>
                 <ClearIcon/>
             </div>
-        return <Fragment>
+        return <Fragment> 
         <div className="swiper-content">
-            <div className="btn-cont">
+            <div className={ sections > 1 ? "btn-cont" : "btn-cont hidden"}>
                 <div className="left-button flow" onClick={ this.prev }>
                     <ChevronLeftIcon/>
                 </div>
@@ -265,11 +265,11 @@ class Swiper extends Component
                 onSwipedRight={this.onSwipeRightListener} 
                 onTransitionEnd={this.onTransitionEnd}
             >
-                <div className="swiper" > 
+                <div className="swiper" id="tapper-inside"> 
                     { this.getSlide() }
                 </div>            
             </Swipe>
-            <div className="btn-cont">
+            <div className={ sections > 1 ? "btn-cont" : "btn-cont hidden"}>
                 <div className="right-button flow" onClick={ this.next }>
                     <ChevronRightIcon/>
                 </div>

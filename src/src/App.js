@@ -19,7 +19,7 @@ import TapperRightPanel from './components/TapperRightPanel';
 import DivicesPanel from './components/DevicesPanel';
 import EditPanel from './components/EditPanel';
 import defaultOptopns from "./data/defaultOptopns.json"
-import { FormLabel, Grid, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 
 import ClearIcon from '@material-ui/icons/Clear';
 import DehazeIcon from '@material-ui/icons/Dehaze';
@@ -259,7 +259,7 @@ class App extends GenericApp {
         const AntTab = withStyles((theme) => ({
             root: { 
                 //backgroundColor:'#444',
-                minWidth: 120,
+                minWidth: 140,
                 fontWeight: 700, 
                 fontSize: "0.75rem",
                 opacity: 1, 
@@ -311,7 +311,7 @@ class App extends GenericApp {
                             }
                         </div>
                     </Grid>
-                    <Grid item xs={12} lg={10} className="sliders-container"> 
+                    <Grid item xs={12} lg={ 9 } className="sliders-container"> 
                         
                         <Sliders 
                             type={ this.state.type }
@@ -374,10 +374,7 @@ class App extends GenericApp {
                                         <div className="close-label-left-sm flow-dark" onClick={this.onLeftOpen2}>
                                             <ClearIcon />
                                         </div>
-                                        <div className="mt-sm-auto mb-sm-auto">                                            
-                                            <FormLabel component="legend" className="tapper-title">
-                                                {I18n.t( "Settings" )}
-                                            </FormLabel>
+                                        <div className="mt-sm-auto mb-sm-auto">
                                             <div>
                                                 <TypePanel
                                                     on={this.onType}
@@ -386,16 +383,9 @@ class App extends GenericApp {
                                                 
                                                 />
                                             </div>
-                                            <div className="mt-3">
-                                                <PriorityPanel
-                                                    on={this.onPriority}
-                                                    priority={ this.state.priority }
-                                                    _width={this.state._width}
-                                                
-                                                />
-                                            </div>
+                                           
                                         </div>
-                                    </div>
+                                    </div> 
                                 </Grid>    
                                 :
                                 null
@@ -403,7 +393,7 @@ class App extends GenericApp {
                             <Grid 
                                 item 
                                 xs={12} 
-                                lg={7}  
+                                lg={6}  
                                 className={ "h-100 expert sm-hidden " }
                             >                                           
                                 <div className={
@@ -420,38 +410,76 @@ class App extends GenericApp {
                                         <DivicesPanel
                                             title={ this.isExpert ? "Devices (expert)" : "Devices" }
                                             isExpert={ this.isExpert }
-                                            rows={ 4 }  
+                                            rows={ 1 }  
                                             _width={ this.state._width }
                                         /> 
                                     </div>
                                 </div>
-                            </Grid>
-                            <Grid 
-                                item 
-                                xs={12} 
-                                lg={2}  
-                                className={ "h-100 sm-hidden " }
-                            >                                           
-                                <div 
-                                    className={
-                                        "tapper-grid tapper-shadow m-1 p-2 clip_right_sm_3 h-100 "+ 
-                                        classes.clip_left_sm_2 + 
-                                        (this.state.leftOpen3 ? " active " :"")
-                                    }                            
-                                >
-                                    <div className="close-label-left-sm flow-dark" onClick={this.onLeftOpen3}>
-                                        <ClearIcon />
-                                    </div>
-                                    <div className="mt-sm-auto mb-sm-auto">
-                                        <TapperRightPanel
-                                            _width={this.state._width}
-                                            value={this.state.week}
-                                        />
-                                    </div>
-                                </div>
-                            </Grid> 
+                            </Grid>  
+                            {
+                                this.isExpert
+                                    ? 
+                                    <Grid 
+                                        item 
+                                        xs={12} 
+                                        lg={3}  
+                                        className={ "h-100 expert sm-hidden " }
+                                    > 
+                                        <div 
+                                            className={
+                                                "tapper-grid tapper-shadow h-100 m-1 p-2 clip_left_sm_4 "+ 
+                                                classes.clip_left_sm_4 + 
+                                                (this.state.leftOpen4 ? " active " :"")
+
+                                            }
+                                        > 
+                                            <div className="close-label-left-sm flow-dark" onClick={this.onLeftOpen4}>
+                                                <ClearIcon />
+                                            </div>
+                                            <div className="mt-sm-auto mb-sm-auto">
+                                                <div className=" ">
+                                                    <PriorityPanel
+                                                        on={this.onPriority}
+                                                        priority={ this.state.priority }
+                                                        _width={this.state._width}
+                                                    
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </Grid>    
+                                    :
+                                    null
+                            } 
                         </Grid> 
-                    </Grid>  
+                    </Grid> 
+                    <Grid 
+                        item 
+                        xs={12} 
+                        lg={1} 
+                        className={
+                            "h-100  sm-hidden  " 
+                        }
+                    >
+                        <div 
+                            className={
+                                "tapper-grid tapper-shadow m-1 p-2 clip_right_sm_3 h-100 "+ 
+                                classes.clip_left_sm_2 + 
+                                (this.state.leftOpen3 ? " active " :"")
+                            }                            
+                        >
+                            <div className="close-label-left-sm flow-dark" onClick={this.onLeftOpen3}>
+                                <ClearIcon />
+                            </div>
+                            <div className="mt-sm-auto mb-sm-auto">
+                                <TapperRightPanel
+                                    _width={this.state._width}
+                                    value={this.state.week}
+                                />
+                            </div>
+                        </div>
+                        
+                    </Grid> 
                     <div className="label-menu" />
                     <div className={"label-left-sm-1 " + (this.state.leftOpen ? "active" : "")} onClick={this.onLeftOpen1}>
                         <DehazeIcon />

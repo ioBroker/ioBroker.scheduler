@@ -29,7 +29,7 @@ class TypePanel extends Component
     {
         const{type} = this.state;
         return <FormControl component="fieldset" className="w-100"> 
-                <InputLabel shrink id="type-select-label">{ I18n.t( "Type" ) }</InputLabel>
+                <FormLabel component="legend" className="tapper-title">{ I18n.t( "Type" ) }</FormLabel>
                 <Select
                     labelId="type-select-label"
                     id="type-select" 

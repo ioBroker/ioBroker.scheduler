@@ -63,11 +63,11 @@ class Sliders extends Component
     updateWindowDimensions( evt )
 	{
         const w = document.getElementById('tapper-inside').getBoundingClientRect().width; 
-        // console.log ( w )
+        console.log ( w )
         window.Sliders.setState({
             _width : window.innerWidth,
             _height: window.innerHeight,
-            _w : w
+            _w : w ? w * .85 : 30
         })
     }
     componentWillUpdate(nextProps, nextState )
@@ -78,7 +78,9 @@ class Sliders extends Component
         }
         if(nextProps.range != this.state.range )
         {
-            this.setState({ range: nextProps.range })
+            console.log( nextProps.range )
+            this.setState({ range: nextProps.range });
+            this.updateWindowDimensions( );
         } 
     } 
     
@@ -97,7 +99,6 @@ class Sliders extends Component
         >
             <div 
                 className="tapper-inside"
-                id="tapper-inside"
                 style={{ 
                     padding: 0,
                     width:"100%" 

@@ -33,7 +33,7 @@ class DivicesPanel extends Component
                 id="standard-full-width"
                 label=""
                 style={{ }}
-                className="tapper-shadow"
+                className="p-0 m-0"
                 placeholder={I18n.t( "Put device names per comma" )}
                 helperText=""
                 fullWidth

@@ -27,7 +27,7 @@ class PriorityPanel extends Component
     {
         const{priority} = this.state;
         return <FormControl component="fieldset"  className="w-100"> 
-            <InputLabel shrink id="demo-simple-select-label">{ I18n.t( "Priority" ) }</InputLabel>
+            <FormLabel component="legend" className="tapper-title">{ I18n.t( "Priority" ) }</FormLabel>
             <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
