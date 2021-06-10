@@ -19,7 +19,8 @@ class DivicesPanel extends Component
         const CssTextField = withStyles({
             root: {
                 backgroundColor:"#FFFFFF12", 
-                padding: 20,
+                padding: 0,
+                margin: 0,
                 borderRadius:15,                
                 display: "flex",
                 width: "auto"

@@ -45,6 +45,12 @@ const mobile_panel = {
         }
     }
 const styles = theme => ({
+    app:{
+        display:"flex",
+        position: "relative",
+        height: "100%",
+        backgroundColor: theme.palette.background.paper
+    },
     root: {},
     tabContent: {
         padding: 10,
@@ -83,6 +89,7 @@ class App extends GenericApp {
 
         super(props, extendedProps);
         this.state ={
+            ...this.state,
             type : "temperature",
             priority: "normal",
             menu : defaultOptopns.menu,
@@ -241,7 +248,7 @@ class App extends GenericApp {
                 <Loader theme={this.state.themeType} />
             </MuiThemeProvider>;
         }   
-        // console.log(this.props);
+        console.log(this.state);
         const { classes } = this.props;
         const { menu, activeMenu, isMenuEdit, max_menu_id, range } = this.state;
 
@@ -268,10 +275,10 @@ class App extends GenericApp {
         }))((props) => <Tab disableRipple {...props} />);
 
         return <MuiThemeProvider theme={this.state.theme}>
-            <div className="App">
+            <div className={classes.app}>
                 <Grid container 
                     spacing={0} 
-                    style={{ }}
+                    style={{ background : this.state.theme.palette.background.paper }}
                     className="mobile-scrolled"
                 > 
                     <Grid 
@@ -315,6 +322,7 @@ class App extends GenericApp {
                         
                         <Sliders 
                             type={ this.state.type }
+                            theme={ this.state.theme }
                             range={range}
                             _width={ this.state._width }
                         />
@@ -513,9 +521,7 @@ class App extends GenericApp {
                             null
                     } 
                     
-                </Grid> 
-                { this.renderError() }
-                { this.renderSaveCloseButtons() }
+                </Grid>  
             </div>
         </MuiThemeProvider>;
     }

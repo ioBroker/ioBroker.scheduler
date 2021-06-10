@@ -46,6 +46,7 @@ class Sliders extends Component
                 type : props.type ? props.type : "persent",
             range : props.range,
             selected: [],
+            theme: props.theme,
             slide_id : 0,
             _width:props._width
         }
@@ -54,7 +55,7 @@ class Sliders extends Component
     componentDidMount()
     {
         window.addEventListener('resize', this.updateWindowDimensions);
-        setTimeout(() => this.updateWindowDimensions(), 300);
+        this.updateWindowDimensions();
     }
     omponentWillUnmount() 
 	{ 
@@ -63,11 +64,10 @@ class Sliders extends Component
     updateWindowDimensions( evt )
 	{
         const w = document.getElementById('tapper-inside').getBoundingClientRect().width; 
-        console.log ( w )
         window.Sliders.setState({
             _width : window.innerWidth,
             _height: window.innerHeight,
-            _w : w ? w * .85 : 30
+            _w : w ? w * .85 : 30 
         })
     }
     componentWillUpdate(nextProps, nextState )
@@ -77,28 +77,33 @@ class Sliders extends Component
             this.setState({ type: nextProps.type })
         }
         if(nextProps.range != this.state.range )
-        {
-            console.log( nextProps.range )
+        { 
             this.setState({ range: nextProps.range });
             this.updateWindowDimensions( );
+        } 
+        if(nextProps.theme != this.state.theme )
+        { 
+            this.setState({ theme: nextProps.theme }); 
         } 
     } 
     
     render()
     { 
-        const { data, options, type, range, slide_id } = this.state; 
+        const { data, options, type, theme, range, slide_id } = this.state; 
+        // console.log(this.state);
         const { staff } = options;  
         return  <div 
             className={"tapper-grid tapper-shadow m-1 p-1 h-100 "}
             style={{
                 padding : 0,
                 paddingBottom:0,
-                backgroundColor : options.backgrounds[0],
+                backgroundColor : theme.palette.background.default,
 
             }}    
         >
             <div 
                 className="tapper-inside"
+                id="tapper-inside"
                 style={{ 
                     padding: 0,
                     width:"100%" 
@@ -106,6 +111,7 @@ class Sliders extends Component
             > 
                 <Swiper 
                     data={ data }
+                    theme={ theme }
                     type={ type }
                     range={ range }
                     _width={this.state._w}

@@ -12,6 +12,20 @@ class DayNightSwitcher extends Component
             height:     0
         }
     }
+    componentDidMount()
+    {
+        setTimeout(()=>
+        {
+            this.setState({
+                height : this.state.sections == 1
+                    ?
+                    0
+                    :
+                    document.getElementById("day-night").height
+            }) 
+        })
+        
+    }
     componentWillUpdate(nextProps, nextStyle)
     {
         if(nextProps.sections != this.state.sections)

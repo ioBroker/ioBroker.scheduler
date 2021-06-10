@@ -28,28 +28,23 @@ class SliderSingle extends Component
             i : props.i,
             postfix : props.postfix,
             type : props.type,
+            theme : props.theme,
             _width : props._width
         }
     }
     componentWillMount()
     {
-        this.redraw();
+        this.redraw();  
     }
 
     redraw()
     {   
-        const { options, _width } = this.state;
-        const { staff } = options;
-        const bg1 = options.backgrounds[ 0 ];
-        const bg2 = chroma( bg1 ).darken(.33);
-        const bg22 = chroma( bg1 ).darken(.5);
-        const bg3 = chroma( bg1 ).brighten(4);
-        const bg4 = options.backgrounds[ 2 ];
-        const bg5 = chroma( bg4 ).darken(.33);
-       
+        const { options, _width, theme } = this.state; 
+        // console.log( theme ) 
         this.PrettoSlider = withStyles({
             root: {
-              color: options.backgrounds[ 2 ],
+              //color: options.backgrounds[ 2 ],
+              color: theme.palette.primary.dark,
               width: _width + "px!important",
               borderRadius: 0,
               height: "calc(100% - 165px)!important",
@@ -78,15 +73,15 @@ class SliderSingle extends Component
                 transition: "all 100ms ease-out",
                 borderRadius:4                
             },
-            rail: {
-                backgroundColor: options.backgrounds[ 0 ],
+            rail: { 
                 transition: "all 100ms ease-out",
                 width: "90%!important",
                 borderRadius: 4, 
                 borderBottomLeftRadius: "0px!important",  
                 borderBottomRightRadius: "0px!important",  
                 height:"calc(100% + " + _width + "px)",
-                backgroundColor:"#FFF"
+                // backgroundColor:"#FFF",
+                backgroundColor:theme.palette.primary.light,
             },
         })(Slider);
     }
@@ -103,6 +98,10 @@ class SliderSingle extends Component
         if( nextProps.value != this.state.value )
         {
             this.setState({ value: nextProps.value })
+        }    
+        if( nextProps.theme != this.state.theme )
+        {
+            this.setState({ theme: nextProps.theme })
         }       
         if( nextProps._width != this.state._width )
         {

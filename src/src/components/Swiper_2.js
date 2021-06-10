@@ -24,11 +24,25 @@ class Swiper extends Component
         window.Swiper = this;
         
     }
+    componentDidUpdate()
+    {
+    setTimeout(() => {
+        this.setState({ 
+            count : this.getCountByRange( this.state.range ),
+            sections: this.getSectionByRange( this.state.range ) ,
+            isLoading:true 
+        })
+    }, 200 )
+    }
     componentWillUpdate(nextProps)
     {
         if(nextProps.type != this.state.type)
         {
             this.setState({ type : nextProps.type });
+        }
+        if(nextProps.theme != this.state.theme)
+        {
+            this.setState({ theme : nextProps.theme });
         }
         if(nextProps.range != this.state.range)
         {
@@ -94,7 +108,7 @@ class Swiper extends Component
     }
     getMaxByRange = range =>
     {
-        return 24 / this.getStepByRange( range ) - 1 
+        return 24 / this.getStepByRange( range ) 
     }
     getStepByRange = range =>
     {
@@ -169,16 +183,14 @@ class Swiper extends Component
                     state[ field ][index] =  value;
                 }
             });
-        }
-        console.log( selected );
-        console.log( value);
-        console.log( state[ field ] );
+        } 
         this.setState( state )
        
     }
     getSlide()
     {
-        const {slide_id, count, data, selected, type, _width, range} = this.state;
+        const {slide_id, count, data, selected, type, theme, _width, range, isLoading} = this.state;
+       
         let sliders = []
         for( let i = slide_id * count; i < ( slide_id + 1 ) * count; i++ )
         {
@@ -192,6 +204,7 @@ class Swiper extends Component
                 step={this.getStepByRange( range )}
                 on={ this.onChange }
                 type={ type }
+                theme={ theme }
                 _width={ _width / count }
             /> 
           )
@@ -236,7 +249,8 @@ class Swiper extends Component
     } 
     render()
     {
-        const {slide_id, count, data, selected, type, sections, range} = this.state;
+        const {slide_id, count, data, selected, type, sections, range, isLoading} = this.state;
+        if(!isLoading)  return " ";
         const selectorBtn = selected.length == 0
             ?
             <div className="left-button-add flow" onClick={ this.selectAll }>
@@ -247,13 +261,7 @@ class Swiper extends Component
                 <ClearIcon/>
             </div>
         return <Fragment> 
-        <div className="swiper-content">
-            <div className={ sections > 1 ? "btn-cont" : "btn-cont hidden"}>
-                <div className="left-button flow" onClick={ this.prev }>
-                    <ChevronLeftIcon/>
-                </div>
-                { selectorBtn }
-            </div>
+        <div className="swiper-content"> 
             <Swipe
                 nodeName="div"
                 className="h-100 w-100"
@@ -265,24 +273,11 @@ class Swiper extends Component
                 onSwipedRight={this.onSwipeRightListener} 
                 onTransitionEnd={this.onTransitionEnd}
             >
-                <div className="swiper" id="tapper-inside"> 
+                <div className="swiper"> 
                     { this.getSlide() }
                 </div>            
-            </Swipe>
-            <div className={ sections > 1 ? "btn-cont" : "btn-cont hidden"}>
-                <div className="right-button flow" onClick={ this.next }>
-                    <ChevronRightIcon/>
-                </div>
-            </div>
+            </Swipe> 
         </div>
-        {/*
-        <div>
-            SLIDE_ID = {slide_id}, QUORTE_ID = { parseInt(slide_id ) }
-        </div>
-        <div>
-            COUNT = { count }
-        </div>
-        */}
         <DayNightSwitcher
             sections={ sections }
             quorte_id={ parseInt(slide_id ) }
