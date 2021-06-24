@@ -3,56 +3,6 @@ import day_night from "../assets/img/day-night.jpg"
 
 class DayNightSwitcher extends Component
 {
-    constructor(props)
-    {
-        super(props);
-        this.state = {
-            quorte_id : props.quorte_id || 0,
-            sections  : props.sections,
-            height:     0
-        }
-    }
-    componentDidMount()
-    {
-        setTimeout(()=>
-        {
-            this.setState({
-                height : this.state.sections === 1
-                    ?
-                    0
-                    :
-                    document.getElementById("day-night").height
-            }) 
-        })
-        
-    }
-    componentWillUpdate(nextProps, nextStyle)
-    {
-        if(nextProps.sections !== this.state.sections)
-        {
-            this.setState({ 
-                sections : nextProps.sections, 
-                quorte_id : this.state.quorte_id < nextProps.sections
-                    ? 
-                    this.state.quorte_id
-                    :
-                    nextProps.sections - 1,
-                height : nextProps.sections === 1
-                    ?
-                    0
-                    :
-                    document.getElementById("day-night").height
-            })
-        } 
-        
-        if(nextProps.quorte_id !== this.state.quorte_id)
-        {
-            this.setState({ 
-                quorte_id : nextProps.quorte_id 
-            })
-        } 
-        /**/
-    }
     onSlide = quorte_id =>
     {
         
@@ -65,7 +15,8 @@ class DayNightSwitcher extends Component
     }
     render()
     {
-        const {sections, height} = this.state;
+        const {sections} = this.props;
+        const height = sections === 1 ? 0 : 78;
         const region = 100 / sections;
         const quortes = Array( sections ).fill().map((_, i) => 
         {
@@ -88,7 +39,7 @@ class DayNightSwitcher extends Component
                         style={{ 
                             maxWidth: region + "%", 
                             width: region + "%", 
-                            left: "calc("+(this.state.quorte_id * region) +"% - 5px)" }}
+                            left: "calc("+(this.props.quorte_id * region) +"% - 5px)" }}
                     >
                     </div>
                 </div>
