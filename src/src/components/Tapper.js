@@ -1,6 +1,6 @@
 import { Component } from "react";
 import TapperStaff from "./TapperStaff";
-import defaultOptopns from "../data/defaultOptopns.json"
+import defaultOptions from "../data/defaultOptions.json"
 import defaultData from "../data/defaultData.json"
 
 class Tapper extends Component
@@ -24,7 +24,7 @@ class Tapper extends Component
                 ?
                 props.options
                 :
-                defaultOptopns.options
+                defaultOptions.options
         }
     }
     render()

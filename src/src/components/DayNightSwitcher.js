@@ -17,7 +17,7 @@ class DayNightSwitcher extends Component
         setTimeout(()=>
         {
             this.setState({
-                height : this.state.sections == 1
+                height : this.state.sections === 1
                     ?
                     0
                     :
@@ -28,7 +28,7 @@ class DayNightSwitcher extends Component
     }
     componentWillUpdate(nextProps, nextStyle)
     {
-        if(nextProps.sections != this.state.sections)
+        if(nextProps.sections !== this.state.sections)
         {
             this.setState({ 
                 sections : nextProps.sections, 
@@ -37,7 +37,7 @@ class DayNightSwitcher extends Component
                     this.state.quorte_id
                     :
                     nextProps.sections - 1,
-                height : nextProps.sections == 1
+                height : nextProps.sections === 1
                     ?
                     0
                     :
@@ -45,7 +45,7 @@ class DayNightSwitcher extends Component
             })
         } 
         
-        if(nextProps.quorte_id != this.state.quorte_id)
+        if(nextProps.quorte_id !== this.state.quorte_id)
         {
             this.setState({ 
                 quorte_id : nextProps.quorte_id 

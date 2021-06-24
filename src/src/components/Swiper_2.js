@@ -4,8 +4,6 @@ import {Swipe} from 'react-swipe-component';
 import DayNightSwitcher from "./DayNightSwitcher"
 import SliderSingle from "./SliderSingle";
 
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import CodeIcon from '@material-ui/icons/Code'; 
 import ClearIcon from '@material-ui/icons/Clear';
 
@@ -36,21 +34,21 @@ class Swiper extends Component
     }
     componentWillUpdate(nextProps)
     {
-        if(nextProps.type != this.state.type)
+        if(nextProps.type !== this.state.type)
         {
             this.setState({ type : nextProps.type });
         }
-        if(nextProps.theme != this.state.theme)
+        if(nextProps.theme !== this.state.theme)
         {
             this.setState({ theme : nextProps.theme });
         }
-        if(nextProps.range != this.state.range)
+        if(nextProps.range !== this.state.range)
         {
             this.setState({ range : nextProps.range });
             this.sectionsByRange( nextProps.range );
             this.setState({slide_id:0})
         }
-        if(nextProps._width != this.state._width)
+        if(nextProps._width !== this.state._width)
         {
             this.setState({ _width : nextProps._width });
         }
@@ -68,7 +66,7 @@ class Swiper extends Component
     {
         if( this.state ? this.state._width >= 720 : this.props._width >= 720 )
         {
-            return range == 0 ? 2 : 1;
+            return range === 0 ? 2 : 1;
         }
         switch( range )
         {
@@ -89,7 +87,7 @@ class Swiper extends Component
     {
         if( this.state ? this.state._width >= 720 : this.props._width >= 720 )
         {
-            return range == 0 ? 24 : this.getMaxByRange( range );
+            return range === 0 ? 24 : this.getMaxByRange( range );
         }
         switch( range )
         {
@@ -171,7 +169,7 @@ class Swiper extends Component
     {     
         const {slide_id, count, data, selected, type, sections, range} = this.state;
         let state = {...this.state };
-        if( selected.filter( e  => e ).length == 0 || field == "selected")
+        if( selected.filter( e  => e ).length === 0 || field === "selected")
         {
             state[ field ][i] = value; 
         }
@@ -251,7 +249,7 @@ class Swiper extends Component
     {
         const {slide_id, count, data, selected, type, sections, range, isLoading} = this.state;
         if(!isLoading)  return " ";
-        const selectorBtn = selected.length == 0
+        const selectorBtn = selected.length === 0
             ?
             <div className="left-button-add flow" onClick={ this.selectAll }>
                 <CodeIcon/>

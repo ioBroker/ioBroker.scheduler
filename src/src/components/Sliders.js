@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-import { withStyles, makeStyles, useStyles } from '@material-ui/core/styles'; 
-import defaultOptopns from "../../src/data/defaultOptopns.json"
+import { withStyles } from '@material-ui/core/styles'; 
+import defaultOptions from "../../src/data/defaultOptions.json"
 import defaultData from "../../src/data/defaultData.json"  
-import { Button, Checkbox, Fab, FormControlLabel, Typography } from "@material-ui/core"; 
-import SliderSingle from "../../src/components/SliderSingle";  
 import Swiper from "../../src/components/Swiper_2";
 
 const styles = theme => ({
@@ -42,7 +40,7 @@ class Sliders extends Component
                 ?
                 props.options
                 :
-                defaultOptopns.options,
+                defaultOptions.options,
                 type : props.type ? props.type : "persent",
             range : props.range,
             selected: [],
@@ -72,16 +70,16 @@ class Sliders extends Component
     }
     componentWillUpdate(nextProps, nextState )
     {
-        if(nextProps.type != this.state.type )
+        if(nextProps.type !== this.state.type )
         {
             this.setState({ type: nextProps.type })
         }
-        if(nextProps.range != this.state.range )
+        if(nextProps.range !== this.state.range )
         { 
             this.setState({ range: nextProps.range });
             this.updateWindowDimensions( );
         } 
-        if(nextProps.theme != this.state.theme )
+        if(nextProps.theme !== this.state.theme )
         { 
             this.setState({ theme: nextProps.theme }); 
         } 

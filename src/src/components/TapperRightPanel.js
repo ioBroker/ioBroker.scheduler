@@ -1,4 +1,4 @@
-import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@material-ui/core";
+import { FormControl, FormControlLabel, RadioGroup } from "@material-ui/core";
 import Checkbox from '@material-ui/core/Checkbox';
 import React, { Component } from "react";
 import I18n from '@iobroker/adapter-react/i18n';

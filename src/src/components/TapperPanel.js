@@ -1,5 +1,5 @@
-import { Button, Dialog, DialogTitle, FormControl, Input, InputAdornment, InputLabel, MenuItem, MenuList, TextField, Typography } from "@material-ui/core";
-import React, { Component, Fragment } from "react";
+import { Button, Dialog, DialogTitle, Input, InputAdornment, MenuItem, MenuList, Typography } from "@material-ui/core";
+import React, { Component } from "react";
 import I18n from '@iobroker/adapter-react/i18n';
 
 import EditIcon from '@material-ui/icons/Edit';
@@ -18,15 +18,15 @@ class TapperPanel extends Component
     }
     componentWillUpdate(nextProps)
     {
-        if(nextProps.active != this.state.active)
+        if(nextProps.active !== this.state.active)
         {
             this.setState({ active: nextProps.active });
         }
-        if(nextProps.menu != this.state.menu)
+        if(nextProps.menu !== this.state.menu)
         {
             this.setState({ menu: nextProps.menu });
         }
-        if(nextProps.isEdit != this.state.isEdit)
+        if(nextProps.isEdit !== this.state.isEdit)
         {
             this.setState({ isEdit: nextProps.isEdit });
         }
@@ -73,7 +73,7 @@ class TapperPanel extends Component
         {
             menu.forEach((e, i) =>
             {
-                if(e.n == this.state.element_n)
+                if(e.n === this.state.element_n)
                 {
                     newMenu[ i ] ={
                         n: this.state.element_n,
@@ -99,7 +99,7 @@ class TapperPanel extends Component
         let newMenu = [];
         menu.forEach((e, i) =>
         {
-            if(e.n == this.state.element_n)
+            if(e.n === this.state.element_n)
             {
                 
             }
@@ -131,15 +131,15 @@ class TapperPanel extends Component
         const {active, menu, isEdit, isDialogOpen, dialog_content } = this.state;
         const items = menu.map((e, i) =>
         {
-            if(e.parent == "")
+            if(e.parent === "")
             {
                 const submenus = menu
-                    .filter(sub => sub.parent == e.n )
+                    .filter(sub => sub.parent === e.n )
                         .map((sub, index) =>
                         { 
                             return <MenuItem   
                                 key={sub.n}                  
-                                className={ "flow-menu-item sub " + ( isEdit ? " disable " : active == sub.n ? " active " : "") } 
+                                className={ "flow-menu-item sub " + ( isEdit ? " disable " : active === sub.n ? " active " : "") } 
                                 onClick={() => this.onClick( sub.n )} 
                                 disableRipple
                             >
@@ -165,7 +165,7 @@ class TapperPanel extends Component
                         }) 
                 return <div key={ e.n }>
                     <MenuItem                     
-                        className={ "flow-menu-item" + ( isEdit ? " disable " : active == e.n ? " active " : "") } 
+                        className={ "flow-menu-item" + ( isEdit ? " disable " : active === e.n ? " active " : "") } 
                         onClick={() => this.onClick( e.n )} 
                         
                         disableRipple

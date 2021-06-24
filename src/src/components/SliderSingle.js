@@ -1,11 +1,7 @@
 import { Component } from "react";
-import { withStyles, makeStyles, useStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
-import defaultOptopns from "../data/defaultOptopns.json"
-import defaultData from "../data/defaultData.json" 
-import chroma from "chroma-js"; 
-import { Button, Checkbox, Fab, FormControlLabel, Typography } from "@material-ui/core"; 
-import { PhonelinkRingSharp } from "@material-ui/icons";
+import defaultOptions from "../data/defaultOptions.json"
 
 const styles = theme => ({
     
@@ -20,7 +16,7 @@ class SliderSingle extends Component
                 ?
                 props.options
                 :
-                defaultOptopns.options,
+                defaultOptions.options,
             value : props.value,
             label : props.label,
             step : props.step,
@@ -87,23 +83,23 @@ class SliderSingle extends Component
     }
     componentWillUpdate(nextProps, nextState )
     {
-        if( nextProps.selected != this.state.selected )
+        if( nextProps.selected !== this.state.selected )
         { 
             this.setState({ selected: nextProps.selected });
         }
-        if( nextProps.step != this.state.step )
+        if( nextProps.step !== this.state.step )
         { 
             this.setState({ step: nextProps.step });
         }
-        if( nextProps.value != this.state.value )
+        if( nextProps.value !== this.state.value )
         {
             this.setState({ value: nextProps.value })
         }    
-        if( nextProps.theme != this.state.theme )
+        if( nextProps.theme !== this.state.theme )
         {
             this.setState({ theme: nextProps.theme })
         }       
-        if( nextProps._width != this.state._width )
+        if( nextProps._width !== this.state._width )
         {
             console.log( nextProps._width );            
             this.setState({ _width: nextProps._width });            
@@ -112,7 +108,7 @@ class SliderSingle extends Component
                 this.render()
             }, 30 )
         }       
-        if( nextProps.type != this.state.type)
+        if( nextProps.type !== this.state.type)
         {
             const { max }= this.getMinMax(nextProps.type);
             let state = { type : nextProps.type };
@@ -165,7 +161,7 @@ class SliderSingle extends Component
         switch( t )
         {
             case "temperature":
-                return defaultOptopns.options;
+                return defaultOptions.options;
             case "onnoff":
                 return { min:0, max: 1 };
             default:

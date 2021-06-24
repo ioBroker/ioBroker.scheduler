@@ -17,7 +17,7 @@ const Swiper = ( props ) => {
     useEffect(() =>
     {
       sectionsByRange();
-      if(props.range != range)
+      if(props.range !== range)
       {
         setRange( props.range )
         sectionsByRange();
@@ -81,7 +81,7 @@ const Swiper = ( props ) => {
     {       
       /* 
         let state = {...this.state };
-        if( selected.filter( e  => e ).length == 0 || field == "selected")
+        if( selected.filter( e  => e ).length === 0 || field === "selected")
         {
             state[ field ][i] = value; 
         }

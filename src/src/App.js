@@ -10,7 +10,6 @@ import GenericApp from '@iobroker/adapter-react/GenericApp';
 import Loader from '@iobroker/adapter-react/Components/Loader'
 
 import I18n from '@iobroker/adapter-react/i18n';
-import TabOptions from './Tabs/Options';
 import TapperPanel from './components/TapperPanel';
 import TypePanel from './components/TypePanel';
 import PriorityPanel from './components/PriorityPanel';
@@ -18,8 +17,8 @@ import Sliders from './components/Sliders';
 import TapperRightPanel from './components/TapperRightPanel';
 import DivicesPanel from './components/DevicesPanel';
 import EditPanel from './components/EditPanel';
-import defaultOptopns from "./data/defaultOptopns.json"
-import { Grid, Typography } from '@material-ui/core';
+import defaultOptions from "./data/defaultOptions.json"
+import { Grid } from '@material-ui/core';
 
 import ClearIcon from '@material-ui/icons/Clear';
 import DehazeIcon from '@material-ui/icons/Dehaze';
@@ -27,7 +26,6 @@ import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import CallSplitIcon from '@material-ui/icons/CallSplit';
 import ViewListIcon from '@material-ui/icons/ViewList';
-import CodeIcon from '@material-ui/icons/Code';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 
 const mobile_panel = {
@@ -41,7 +39,7 @@ const mobile_panel = {
             height: "100%",
             width:"calc(100% - 70px)",
             left:"calc(-100% - 70px)",
-            background: defaultOptopns.options.backgrounds[ 1 ]
+            background: defaultOptions.options.backgrounds[ 1 ]
         }
     }
 const styles = theme => ({
@@ -92,8 +90,8 @@ class App extends GenericApp {
             ...this.state,
             type : "temperature",
             priority: "normal",
-            menu : defaultOptopns.menu,
-            max_menu_id : defaultOptopns.max_menu_id,
+            menu : defaultOptions.menu,
+            max_menu_id : defaultOptions.max_menu_id,
             activeMenu : "main",
             isMenuEdit : false,
             range: 0 // масштаб 

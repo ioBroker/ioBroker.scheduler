@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select } from "@material-ui/core";
+import { FormControl, FormLabel, MenuItem, Select } from "@material-ui/core";
 import I18n from '@iobroker/adapter-react/i18n';
 
 class TypePanel extends Component
@@ -55,7 +55,7 @@ class TypePanel extends Component
                             <Radio 
                                 color="primary" 
                                 className={ "flow-little checkbox" } 
-                                checked={this.state.type == "persent"}
+                                checked={this.state.type === "persent"}
                                 disableRipple
                                 onChange={ evt => this.on( evt, "persent" ) }
                             />
@@ -69,7 +69,7 @@ class TypePanel extends Component
                             <Radio 
                                 color="primary" 
                                 className={ "flow-little checkbox" } 
-                                checked={this.state.type == "temperature"}
+                                checked={this.state.type === "temperature"}
                                 disableRipple
                                 onChange={ evt => this.on( evt, "temperature" ) }
                             />} 
@@ -81,7 +81,7 @@ class TypePanel extends Component
                         control={
                             <Radio 
                                 color="primary" 
-                                checked={this.state.type == "onnoff"}
+                                checked={this.state.type === "onnoff"}
                                 className={ "flow-little checkbox" } 
                                 disableRipple
                                 onChange={ evt => this.on( evt,  "onnoff" ) }
