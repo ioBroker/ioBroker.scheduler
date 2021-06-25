@@ -5,13 +5,6 @@ import I18n from '@iobroker/adapter-react/i18n';
 
 class TapperRightPanel extends Component
 {
-    constructor(props)
-    {
-        super(props);
-        this.state ={
-            ...props
-        }
-    }
     render()
     {
         return <div className="">

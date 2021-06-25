@@ -1,127 +1,62 @@
 import { Component } from "react";
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 import defaultOptions from "../data/defaultOptions.json"
 
 const styles = theme => ({
     
 });
+const usePrettoSliderStyles = makeStyles({
+    root: (props) => {return {
+        //color: options.backgrounds[ 2 ],
+        color: props.theme.palette.primary.dark,
+        width: props._width + "px!important",
+        borderRadius: 0,
+        height: "calc(100% - 165px)!important",
+        transition: "all 100ms ease-out",
+        position: "relative"
+    }},
+    thumb: {
+        display:"none"
+    },
+    active: {
+        
+    },
+    valueLabel: (props) => {return {
+        left: "calc(-50% + " + props._width/2 + "px)!important",
+        '& *': {
+        background: 'transparent',
+        fontWeight: 100,
+        borderRadius:0,
+        fontSize: "1.0rem", 
+        width: "90%!important",
+        transition: "all 100ms ease-out" 
+        },
+    }},
+    track: {
+        width: "90%!important",
+        transition: "all 100ms ease-out",
+        borderRadius:4                
+    },
+    rail: (props) => {return {
+        transition: "all 100ms ease-out",
+        width: "90%!important",
+        borderRadius: 4, 
+        borderBottomLeftRadius: "0px!important",  
+        borderBottomRightRadius: "0px!important",  
+        height:"calc(100% + " + props._width + "px)",
+        // backgroundColor:"#FFF",
+        backgroundColor:props.theme.palette.primary.light,
+    }},
+});
+
+
+const PrettoSlider = props => {
+    return <Slider classes={usePrettoSliderStyles({_width: props._width, theme: props.theme})} {...props}/>
+}
 class SliderSingle extends Component
 {
-    constructor(props)
-    {
-        super(props);
-        this.state ={
-            options : props.options
-                ?
-                props.options
-                :
-                defaultOptions.options,
-            value : props.value,
-            label : props.label,
-            step : props.step,
-            selected : props.selected,
-            i : props.i,
-            postfix : props.postfix,
-            type : props.type,
-            theme : props.theme,
-            _width : props._width
-        }
-    }
-    componentWillMount()
-    {
-        this.redraw();  
-    }
-
-    redraw()
-    {   
-        const { options, _width, theme } = this.state; 
-        // console.log( theme ) 
-        this.PrettoSlider = withStyles({
-            root: {
-              //color: options.backgrounds[ 2 ],
-              color: theme.palette.primary.dark,
-              width: _width + "px!important",
-              borderRadius: 0,
-              height: "calc(100% - 165px)!important",
-              transition: "all 100ms ease-out",
-              position: "relative"
-            },
-            thumb: {
-                display:"none"
-            },
-            active: {
-                
-            },
-            valueLabel: {
-              left: "calc(-50% + " + _width/2 + "px)!important",
-              '& *': {
-                background: 'transparent',
-                fontWeight: 100,
-                borderRadius:0,
-                fontSize: "1.0rem", 
-                width: "90%!important",
-                transition: "all 100ms ease-out" 
-              },
-            },
-            track: {
-                width: "90%!important",
-                transition: "all 100ms ease-out",
-                borderRadius:4                
-            },
-            rail: { 
-                transition: "all 100ms ease-out",
-                width: "90%!important",
-                borderRadius: 4, 
-                borderBottomLeftRadius: "0px!important",  
-                borderBottomRightRadius: "0px!important",  
-                height:"calc(100% + " + _width + "px)",
-                // backgroundColor:"#FFF",
-                backgroundColor:theme.palette.primary.light,
-            },
-        })(Slider);
-    }
-    componentWillUpdate(nextProps, nextState )
-    {
-        if( nextProps.selected !== this.state.selected )
-        { 
-            this.setState({ selected: nextProps.selected });
-        }
-        if( nextProps.step !== this.state.step )
-        { 
-            this.setState({ step: nextProps.step });
-        }
-        if( nextProps.value !== this.state.value )
-        {
-            this.setState({ value: nextProps.value })
-        }    
-        if( nextProps.theme !== this.state.theme )
-        {
-            this.setState({ theme: nextProps.theme })
-        }       
-        if( nextProps._width !== this.state._width )
-        {
-            console.log( nextProps._width );            
-            this.setState({ _width: nextProps._width });            
-            setTimeout( () => {
-                this.redraw();
-                this.render()
-            }, 30 )
-        }       
-        if( nextProps.type !== this.state.type)
-        {
-            const { max }= this.getMinMax(nextProps.type);
-            let state = { type : nextProps.type };
-            if(max < this.state.value)
-            {
-                console.log(max, this.state.value)
-                state.value = max;
-                console.log( state )
-            }
-            this.setState( state )
-            this.redraw();
-        }
-    }
+    
     handleSliderChange = ( event, data) =>
     {
         //this.setState({value: data});
@@ -129,7 +64,7 @@ class SliderSingle extends Component
     }
     handleSelected = evt =>
     { 
-        this.on( "selected", !this.state.selected );
+        this.on( "selected", !this.props.selected );
     }
     on = (field, value) =>
     {
@@ -140,7 +75,7 @@ class SliderSingle extends Component
     }
     getPostfix(value)
     {
-        switch(this.state.type)
+        switch(this.props.type)
         {
             case "temperature":
                 return value.toString() + "º";
@@ -150,14 +85,14 @@ class SliderSingle extends Component
                     <span className="text-success">on</span> 
                     : 
                     <span className="text-danger">off</span>
-            case "persent":
+            case "percent":
             default:
                 return value.toString() + "%";
         }
     }
     getMinMax( type = undefined)
     {
-        const t = type ? type : this.state.type;
+        const t = type ? type : this.props.type;
         switch( t )
         {
             case "temperature":
@@ -165,13 +100,13 @@ class SliderSingle extends Component
             case "onnoff":
                 return { min:0, max: 1 };
             default:
-            case "persent":
+            case "percent":
                 return { min:0, max:100 };
         }
     }
     getLabel = () =>
     {
-        const {i, step} = this.state;
+        const {step, i} = this.props;
         let label = i * step;
         const hrs = parseInt(label)
         const secs = ( "0" + ( label % 1 * 60) ).slice( -2 ) ;
@@ -179,20 +114,26 @@ class SliderSingle extends Component
     }
     render()
     {
-        const {i, value, step, selected, options } = this.state;
+        const options = this.props.options
+                ?
+                this.props.options
+                :
+                defaultOptions.options;
+        const { value, i, selected, theme, _width } = this.props;
         if(i < 0 )
         {
             return "";
         }
         const{min, max} = this.getMinMax();
-        const __Slider = this.PrettoSlider;
         const label = this.getLabel();
         return <span className="pretto" >
             <span className="pretto-label" style={{ marginBottom: options.staff.width / 2 + 20 }}>
                 { this.getPostfix( value || 0 ) } 
             </span>
-            <__Slider
+            <PrettoSlider
                 key={i}
+                theme={theme}
+                _width={_width}
                 orientation="vertical"  
                 aria-label="pretto slider"
                 value={ value }

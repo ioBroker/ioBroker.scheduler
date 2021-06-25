@@ -37,8 +37,8 @@ class TypePanel extends Component
                     value={type}
                     onChange={ this.on }
                 >
-                    <MenuItem value={"persent"}>
-                        {I18n.t( "Persent")}
+                    <MenuItem value={"percent"}>
+                        {I18n.t( "Percent")}
                     </MenuItem>
                     <MenuItem value={"temperature"}>
                         {I18n.t( "Temperature")}
@@ -50,18 +50,18 @@ class TypePanel extends Component
                 {/*
                 <RadioGroup defaultValue="female" aria-label="gender" name="customized-radios">
                     <FormControlLabel 
-                        value="persent" 
+                        value="percent" 
                         control={
                             <Radio 
                                 color="primary" 
                                 className={ "flow-little checkbox" } 
-                                checked={this.state.type === "persent"}
+                                checked={this.state.type === "percent"}
                                 disableRipple
-                                onChange={ evt => this.on( evt, "persent" ) }
+                                onChange={ evt => this.on( evt, "percent" ) }
                             />
                         } 
                         className="px-1"
-                        label={I18n.t( "Persent")} 
+                        label={I18n.t( "Percent")} 
                     />
                     <FormControlLabel 
                         value="temperature" 

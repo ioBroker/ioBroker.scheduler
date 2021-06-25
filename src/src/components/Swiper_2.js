@@ -13,58 +13,25 @@ class Swiper extends Component
     {
         super(props);
         this.state = {
-            ...props,
-            count : this.getCountByRange( props.range || 0 ) , 
-            sections: this.getSectionByRange( props.range || 0 ) ,
+            slide_id: 0,
             selected : [],
-            _width : props._width
+            data: props.data
         }
         window.Swiper = this;
         
     }
-    componentDidUpdate()
-    {
-    setTimeout(() => {
-        this.setState({ 
-            count : this.getCountByRange( this.state.range ),
-            sections: this.getSectionByRange( this.state.range ) ,
-            isLoading:true 
-        })
-    }, 200 )
-    }
     componentWillUpdate(nextProps)
     {
-        if(nextProps.type !== this.state.type)
+        if(nextProps.range !== this.props.range)
         {
-            this.setState({ type : nextProps.type });
+            this.setState({
+                slide_id:0
+            })
         }
-        if(nextProps.theme !== this.state.theme)
-        {
-            this.setState({ theme : nextProps.theme });
-        }
-        if(nextProps.range !== this.state.range)
-        {
-            this.setState({ range : nextProps.range });
-            this.sectionsByRange( nextProps.range );
-            this.setState({slide_id:0})
-        }
-        if(nextProps._width !== this.state._width)
-        {
-            this.setState({ _width : nextProps._width });
-        }
-    }
-    //
-    setSections = sections =>
-    {
-        this.setState({sections})
-    }
-    setCount = count =>
-    {
-        this.setState({ count })
     }
     getSectionByRange = range =>
     {
-        if( this.state ? this.state._width >= 720 : this.props._width >= 720 )
+        if( this.props._width >= 720 )
         {
             return range === 0 ? 2 : 1;
         }
@@ -85,7 +52,7 @@ class Swiper extends Component
     }
     getCountByRange = range =>
     {
-        if( this.state ? this.state._width >= 720 : this.props._width >= 720 )
+        if( this.props._width >= 720 )
         {
             return range === 0 ? 24 : this.getMaxByRange( range );
         }
@@ -126,16 +93,12 @@ class Swiper extends Component
         }
     }
 
-    sectionsByRange = range =>
-    {
-        this.setSections( this.getSectionByRange( range ) );
-        this.setCount( this.getCountByRange( range ) );
-    }
-
     //
     prev = () =>
     {
-        const{ slide_id, count, data, range } = this.state;
+        const{ slide_id } = this.state;
+        const{ range } = this.props;
+        const count = this.getCountByRange(range);
         console.log('swiped right')  
         if(slide_id > 0)
           this.setSlide_id( slide_id - 1 )
@@ -144,7 +107,9 @@ class Swiper extends Component
     }
     next = () =>
     {
-        const{ slide_id, count, data, range } = this.state;
+        const{ slide_id } = this.state;
+        const{ range } = this.props;
+        const count = this.getCountByRange(range);
         console.log('swiped left')
             if( slide_id < this.getMaxByRange(range) / count - 1 )
         this.setSlide_id( slide_id + 1 );
@@ -153,7 +118,7 @@ class Swiper extends Component
     }
     selectAll = () =>
     {
-        const{ range } = this.state;
+        const{ range } = this.props;
         this.setState( {selected: Array( this.getMaxByRange( range ) + 1).fill( 1 ).map( ( e, i ) => i ) } )
     }
     selectNone = () =>
@@ -167,10 +132,12 @@ class Swiper extends Component
     }
     onChange = ( field, value, i ) =>
     {     
-        const {slide_id, count, data, selected, type, sections, range} = this.state;
+        const {selected} = this.state;
         let state = {...this.state };
         if( selected.filter( e  => e ).length === 0 || field === "selected")
         {
+            console.log(field);
+            console.log(i);
             state[ field ][i] = value; 
         }
         else
@@ -187,14 +154,16 @@ class Swiper extends Component
     }
     getSlide()
     {
-        const {slide_id, count, data, selected, type, theme, _width, range, isLoading} = this.state;
+        const {slide_id, selected} = this.state;
+        const {type, _width, theme, data, range} = this.props;
+        const count = this.getCountByRange(range);
        
         let sliders = []
         for( let i = slide_id * count; i < ( slide_id + 1 ) * count; i++ )
         {
           sliders.push(
             <SliderSingle
-                key={ i }
+                key={ i + 'step' + this.getStepByRange(range) }
                 value={ data[ i ] } 
                 selected= { selected[ i ] }
                 label={ "" }
@@ -247,8 +216,12 @@ class Swiper extends Component
     } 
     render()
     {
-        const {slide_id, count, data, selected, type, sections, range, isLoading} = this.state;
-        if(!isLoading)  return " ";
+        if (!this.props._width) {
+            return null;
+        }
+        const {slide_id, selected} = this.state;
+        const {range} = this.props;
+        const sections = this.getSectionByRange(range);
         const selectorBtn = selected.length === 0
             ?
             <div className="left-button-add flow" onClick={ this.selectAll }>

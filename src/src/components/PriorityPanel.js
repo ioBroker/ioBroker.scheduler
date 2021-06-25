@@ -4,28 +4,19 @@ import I18n from '@iobroker/adapter-react/i18n';
 
 class PriorityPanel extends Component
 {
-    constructor(props)
-    {
-        super(props);
-        this.state ={
-            priority: props.priority
-        }
-    }
     on = evt =>
     {
         const priority = evt.target.value
         if( priority )
         {
-            this.setState({ priority });
             if( this.props.on )
                 this.props.on( priority );
         }
-            
         
     }
     render()
     {
-        const{priority} = this.state;
+        const {priority} = this.props;
         return <FormControl component="fieldset"  className="w-100"> 
             <FormLabel component="legend" className="tapper-title">{ I18n.t( "Priority" ) }</FormLabel>
             <Select

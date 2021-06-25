@@ -5,31 +5,23 @@ import defaultData from "../data/defaultData.json"
 
 class Tapper extends Component
 {
-
-    constructor(props)
-    {
-        super(props);
-        this.state ={
-            data : props.data
-                ?
-                props.data
-                :
-                defaultData.data,
-            labels : props.data
-                ?
-                props.labels
-                :
-                defaultData.labels,
-            options : props.options
-                ?
-                props.options
-                :
-                defaultOptions.options
-        }
-    }
     render()
     {
-        const {data, options} = this.state;
+        const data = this.props.data
+                ?
+                this.props.data
+                :
+                defaultData.data;
+        const labels = this.props.data
+                ?
+                this.props.labels
+                :
+                defaultData.labels;
+        const options = this.props.options
+                ?
+                this.props.options
+                :
+                defaultOptions.options;
         console.log( "options", options );
         const staffs = Array.isArray(data)
             ?
@@ -40,7 +32,7 @@ class Tapper extends Component
                    { ...options.staff }
                    min={options.min}
                    max={options.max}
-                   label={ this.state.labels[i] } 
+                   label={ labels[i] } 
                    data={staff}
                    i={ i }
                    offsetY ={ options.staff.offsetY }

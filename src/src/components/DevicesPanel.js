@@ -6,16 +6,9 @@ import I18n from '@iobroker/adapter-react/i18n';
 
 class DivicesPanel extends Component
 {
-    constructor(props)
-    {
-        super(props);
-        this.state ={
-            ...props,
-            title: props.title ? props.title : "Devices"
-        }
-    }
     render()
     {
+        const title = this.props.title ? this.props.title : "Devices";
         const CssTextField = withStyles({
             root: {
                 backgroundColor:"#FFFFFF12", 
@@ -28,7 +21,7 @@ class DivicesPanel extends Component
           })(TextField);
         return <>
             <FormLabel component="legend" className="tapper-title">
-                {I18n.t( this.state.title )}
+                {I18n.t( title )}
             </FormLabel>
             <CssTextField
                 id="standard-full-width"

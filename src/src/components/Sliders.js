@@ -41,10 +41,8 @@ class Sliders extends Component
                 props.options
                 :
                 defaultOptions.options,
-                type : props.type ? props.type : "persent",
-            range : props.range,
+                type : props.type ? props.type : "percent",
             selected: [],
-            theme: props.theme,
             slide_id : 0,
             _width:props._width
         }
@@ -70,24 +68,16 @@ class Sliders extends Component
     }
     componentWillUpdate(nextProps, nextState )
     {
-        if(nextProps.type !== this.state.type )
-        {
-            this.setState({ type: nextProps.type })
-        }
-        if(nextProps.range !== this.state.range )
+        if(nextProps.range !== this.props.range )
         { 
-            this.setState({ range: nextProps.range });
             this.updateWindowDimensions( );
-        } 
-        if(nextProps.theme !== this.state.theme )
-        { 
-            this.setState({ theme: nextProps.theme }); 
         } 
     } 
     
     render()
     { 
-        const { data, options, type, theme, range, slide_id } = this.state; 
+        const { data, options, slide_id } = this.state; 
+        const { type, theme, range } = this.props; 
         // console.log(this.state);
         const { staff } = options;  
         return  <div 
