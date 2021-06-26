@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select } from "@material-ui/core";
+import React, { Component } from 'react';
+import { FormControl, FormLabel, MenuItem, Select } from '@material-ui/core';
 import I18n from '@iobroker/adapter-react/i18n';
 
 class PriorityPanel extends Component
@@ -7,11 +7,7 @@ class PriorityPanel extends Component
     on = evt =>
     {
         const priority = evt.target.value
-        if( priority )
-        {
-            if( this.props.on )
-                this.props.on( priority );
-        }
+        this.props.on( priority );
         
     }
     render()
@@ -26,13 +22,13 @@ class PriorityPanel extends Component
                 value={priority}
                 onChange={ this.on }
             >
-                <MenuItem value={"normal"}>
+                <MenuItem value={0}>
                     {I18n.t( "Normal")}
                 </MenuItem>
-                <MenuItem value={"high"}>
+                <MenuItem value={1}>
                     {I18n.t( "High")}
                 </MenuItem>
-                <MenuItem value={"highest"}>
+                <MenuItem value={2}>
                     {I18n.t( "Highest eg. Holiday")}
                 </MenuItem>
             </Select>

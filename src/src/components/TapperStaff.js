@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 class TapperStaff extends Component
 {
@@ -13,11 +13,8 @@ class TapperStaff extends Component
     }
     onDragStart = evt =>
     {
-        const d = document.getElementById( "tapper" );
+        const d = document.getElementById( 'tapper' );
         const rect =  d.getBoundingClientRect( );
-        console.log( rect );
-        console.log( evt.pageY );
-        console.log( rect.bottom - this.state.offsetY - evt.pageY );
         this.setState( { pageY : rect.bottom - this.state.offsetY - evt.pageY } )
     }
     onDragEnd = evt =>

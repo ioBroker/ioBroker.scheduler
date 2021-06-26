@@ -1,14 +1,11 @@
-import I18n from "@iobroker/adapter-react/i18n";
-import { Component } from "react";
+import I18n from '@iobroker/adapter-react/i18n';
+import { Component } from 'react';
 
 class EditPanel extends Component
 {
     on = () =>
     {
-        if(this.props.on)
-        {
-            this.props.on( this.props.isEdit )
-        }
+        this.props.on( this.props.isEdit )
     }
     render()
     {

@@ -1,8 +1,6 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles'; 
-import defaultOptions from "../../src/data/defaultOptions.json"
-import defaultData from "../../src/data/defaultData.json"  
-import Swiper from "../../src/components/Swiper_2";
+import Intervals from './Intervals';
 
 const styles = theme => ({
     tab: {
@@ -19,34 +17,14 @@ const styles = theme => ({
     },
 });
 
-class Sliders extends Component
+class IntervalsContainer extends Component
 {
     constructor(props)
     {
         super(props);
-        window.Sliders = this;
         this.state ={
-            data : props.data
-                ?
-                props.data
-                :
-                defaultData.data,
-            labels : props.data
-                ?
-                props.labels
-                :
-                defaultData.labels,
-            options : props.options
-                ?
-                props.options
-                :
-                defaultOptions.options,
-                type : props.type ? props.type : "percent",
-            selected: [],
-            slide_id : 0,
-            _width:props._width
+            selected: []
         }
-		this.car = React.createRef();
     }
     componentDidMount()
     {
@@ -57,18 +35,16 @@ class Sliders extends Component
 	{ 
         window.removeEventListener('scroll', this.updateWindowDimensions);
     }
-    updateWindowDimensions( evt )
+    updateWindowDimensions = () =>
 	{
         const w = document.getElementById('tapper-inside').getBoundingClientRect().width; 
-        window.Sliders.setState({
-            _width : window.innerWidth,
-            _height: window.innerHeight,
+        this.setState({
             _w : w ? w * .85 : 30 
         })
     }
-    componentWillUpdate(nextProps, nextState )
+    componentDidUpdate(prevProps)
     {
-        if(nextProps.range !== this.props.range )
+        if(prevProps.range !== this.props.range )
         { 
             this.updateWindowDimensions( );
         } 
@@ -76,10 +52,7 @@ class Sliders extends Component
     
     render()
     { 
-        const { data, options, slide_id } = this.state; 
-        const { type, theme, range } = this.props; 
-        // console.log(this.state);
-        const { staff } = options;  
+        const { type, theme, range, intervals } = this.props; 
         return  <div 
             className={"tapper-grid tapper-shadow m-1 p-1 h-100 "}
             style={{
@@ -97,17 +70,17 @@ class Sliders extends Component
                     width:"100%" 
                 }}
             > 
-                <Swiper 
-                    data={ data }
+                <Intervals 
+                    data={ intervals }
+                    onChange={this.props.onChange}
                     theme={ theme }
                     type={ type }
                     range={ range }
                     _width={this.state._w}
-                    slide_id={slide_id}
                 />
             </div>
         </div> 
     }
 
 }
-export default withStyles(styles)(Sliders);
+export default withStyles(styles)(IntervalsContainer);

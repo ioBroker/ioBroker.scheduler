@@ -1,39 +1,30 @@
-import { Button, Dialog, DialogTitle, Input, InputAdornment, MenuItem, MenuList, Typography } from "@material-ui/core";
-import React, { Component } from "react";
+import { Button, Dialog, DialogTitle, Input, InputAdornment, MenuItem, MenuList, Typography } from '@material-ui/core';
+import React, { Component } from 'react';
 import I18n from '@iobroker/adapter-react/i18n';
 
 import EditIcon from '@material-ui/icons/Edit';
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd'; 
 
-class TapperPanel extends Component
+class ProfilesPanel extends Component
 {
     constructor(props)
     {
         super(props);
         this.state ={
             ...props,
-            active: typeof props.active !== "undefined" ? props.active : 0,
             isDialogOpen : false
         }
     }
-    componentWillUpdate(nextProps)
+    componentDidUpdate(prevProps)
     {
-        if(nextProps.active !== this.state.active)
+        if(prevProps.menu !== this.state.menu)
         {
-            this.setState({ active: nextProps.active });
-        }
-        if(nextProps.menu !== this.state.menu)
-        {
-            this.setState({ menu: nextProps.menu });
-        }
-        if(nextProps.isEdit !== this.state.isEdit)
-        {
-            this.setState({ isEdit: nextProps.isEdit });
+            this.setState({ menu: this.props.menu });
         }
     }
     onClick = id =>
     { 
-        if(this.props.on && !this.state.isEdit)
+        if(this.props.on && !this.props.isEdit)
         {
             this.props.on( id )
         }
@@ -117,8 +108,8 @@ class TapperPanel extends Component
         this.setState(
             { 
                 isDialogOpen : true,
-                element_title: "new title",
-                element_id:  "new-id",
+                element_title: 'new title',
+                element_id:  'new-id',
                 element_n :  this.state.max_menu_id + 1,
                 max_menu_id: this.state.max_menu_id + 1,
                 element_parent: element.n,
@@ -128,10 +119,11 @@ class TapperPanel extends Component
     }
     render()
     {
-        const {active, menu, isEdit, isDialogOpen, dialog_content } = this.state;
+        const { menu, isDialogOpen } = this.state;
+        const { active, isEdit } = this.props;
         const items = menu.map((e, i) =>
         {
-            if(e.parent === "")
+            if(e.parent === '')
             {
                 const submenus = menu
                     .filter(sub => sub.parent === e.n )
@@ -280,4 +272,4 @@ class TapperPanel extends Component
     }
 
 }
-export default TapperPanel;
+export default ProfilesPanel;

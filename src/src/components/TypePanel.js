@@ -1,33 +1,17 @@
-import React, { Component } from "react";
-import { FormControl, FormLabel, MenuItem, Select } from "@material-ui/core";
+import React, { Component } from 'react';
+import { FormControl, FormLabel, MenuItem, Select } from '@material-ui/core';
 import I18n from '@iobroker/adapter-react/i18n';
 
 class TypePanel extends Component
 {
-    constructor(props)
-    {
-        super(props);
-        this.state ={
-            type: props.type,
-            _width: props._width
-        
-        }
-    }
     on = evt =>
     {
         const type = evt.target.value;
-        if( type )
-        {
-            this.setState({type});
-            if( this.props.on )
-                this.props.on(type);
-        }
-            
-        
+        this.props.on(type);
     }
     render()
     {
-        const{type} = this.state;
+        const{type} = this.props;
         return <FormControl component="fieldset" className="w-100"> 
                 <FormLabel component="legend" className="tapper-title">{ I18n.t( "Type" ) }</FormLabel>
                 <Select
@@ -37,13 +21,13 @@ class TypePanel extends Component
                     value={type}
                     onChange={ this.on }
                 >
-                    <MenuItem value={"percent"}>
+                    <MenuItem value="percent">
                         {I18n.t( "Percent")}
                     </MenuItem>
-                    <MenuItem value={"temperature"}>
+                    <MenuItem value="temperature">
                         {I18n.t( "Temperature")}
                     </MenuItem>
-                    <MenuItem value={"onnoff"}>
+                    <MenuItem value="onnoff">
                         {I18n.t( "On/Off")}
                     </MenuItem>
                 </Select>

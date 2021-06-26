@@ -1,5 +1,5 @@
-import { Component } from "react";
-import day_night from "../assets/img/day-night.jpg"
+import { Component } from 'react';
+import day_night from '../assets/img/day-night.jpg'
 
 class DayNightSwitcher extends Component
 {

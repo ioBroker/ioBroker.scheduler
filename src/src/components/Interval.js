@@ -1,7 +1,7 @@
-import { Component } from "react";
+import { Component } from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
-import defaultOptions from "../data/defaultOptions.json"
+import defaultOptions from '../data/defaultOptions.json'
 
 const styles = theme => ({
     
@@ -10,42 +10,42 @@ const usePrettoSliderStyles = makeStyles({
     root: (props) => {return {
         //color: options.backgrounds[ 2 ],
         color: props.theme.palette.primary.dark,
-        width: props._width + "px!important",
+        width: props._width + 'px!important',
         borderRadius: 0,
-        height: "calc(100% - 165px)!important",
-        transition: "all 100ms ease-out",
-        position: "relative"
+        height: 'calc(100% - 165px)!important',
+        transition: 'all 100ms ease-out',
+        position: 'relative'
     }},
     thumb: {
-        display:"none"
+        display:'none'
     },
     active: {
         
     },
     valueLabel: (props) => {return {
-        left: "calc(-50% + " + props._width/2 + "px)!important",
+        left: 'calc(-50% + ' + props._width/2 + 'px)!important',
         '& *': {
         background: 'transparent',
         fontWeight: 100,
         borderRadius:0,
-        fontSize: "1.0rem", 
-        width: "90%!important",
-        transition: "all 100ms ease-out" 
+        fontSize: '1.0rem', 
+        width: '90%!important',
+        transition: 'all 100ms ease-out' 
         },
     }},
     track: {
-        width: "90%!important",
-        transition: "all 100ms ease-out",
+        width: '90%!important',
+        transition: 'all 100ms ease-out',
         borderRadius:4                
     },
     rail: (props) => {return {
-        transition: "all 100ms ease-out",
-        width: "90%!important",
+        transition: 'all 100ms ease-out',
+        width: '90%!important',
         borderRadius: 4, 
-        borderBottomLeftRadius: "0px!important",  
-        borderBottomRightRadius: "0px!important",  
-        height:"calc(100% + " + props._width + "px)",
-        // backgroundColor:"#FFF",
+        borderBottomLeftRadius: '0px!important',  
+        borderBottomRightRadius: '0px!important',  
+        height:'calc(100% + ' + props._width + 'px)',
+        // backgroundColor:'#FFF',
         backgroundColor:props.theme.palette.primary.light,
     }},
 });
@@ -54,17 +54,17 @@ const usePrettoSliderStyles = makeStyles({
 const PrettoSlider = props => {
     return <Slider classes={usePrettoSliderStyles({_width: props._width, theme: props.theme})} {...props}/>
 }
-class SliderSingle extends Component
+class Interval extends Component
 {
     
     handleSliderChange = ( event, data) =>
     {
         //this.setState({value: data});
-        this.on( "data", data );
+        this.on( 'data', data );
     }
     handleSelected = evt =>
     { 
-        this.on( "selected", !this.props.selected );
+        this.on( 'selected', !this.props.selected );
     }
     on = (field, value) =>
     {
@@ -77,17 +77,17 @@ class SliderSingle extends Component
     {
         switch(this.props.type)
         {
-            case "temperature":
-                return value.toString() + "º";
-            case "onnoff":
+            case 'temperature':
+                return value.toString() + 'º';
+            case 'onnoff':
                 return value 
                     ? 
-                    <span className="text-success">on</span> 
+                    <span className='text-success'>on</span> 
                     : 
-                    <span className="text-danger">off</span>
-            case "percent":
+                    <span className='text-danger'>off</span>
+            case 'percent':
             default:
-                return value.toString() + "%";
+                return value.toString() + '%';
         }
     }
     getMinMax( type = undefined)
@@ -95,12 +95,12 @@ class SliderSingle extends Component
         const t = type ? type : this.props.type;
         switch( t )
         {
-            case "temperature":
+            case 'temperature':
                 return defaultOptions.options;
-            case "onnoff":
+            case 'onnoff':
                 return { min:0, max: 1 };
             default:
-            case "percent":
+            case 'percent':
                 return { min:0, max:100 };
         }
     }
@@ -109,7 +109,7 @@ class SliderSingle extends Component
         const {step, i} = this.props;
         let label = i * step;
         const hrs = parseInt(label)
-        const secs = ( "0" + ( label % 1 * 60) ).slice( -2 ) ;
+        const secs = ( '0' + ( label % 1 * 60) ).slice( -2 ) ;
         return [hrs, secs];
     }
     render()
@@ -122,7 +122,7 @@ class SliderSingle extends Component
         const { value, i, selected, theme, _width } = this.props;
         if(i < 0 )
         {
-            return "";
+            return '';
         }
         const{min, max} = this.getMinMax();
         const label = this.getLabel();
@@ -158,4 +158,4 @@ class SliderSingle extends Component
         </span>  
     }
 }
-export default withStyles(styles)(SliderSingle);
+export default withStyles(styles)(Interval);

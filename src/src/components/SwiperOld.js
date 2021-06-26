@@ -1,8 +1,8 @@
 
-import React, { useEffect, useState } from "react"; 
-import { useSwipeable } from "react-swipeable"; // https://www.npmjs.com/package/react-swipeable
-import DayNightSwitcher from "./DayNightSwitcher"
-import SliderSingle from "./SliderSingle";
+import React, { useEffect, useState } from 'react'; 
+import { useSwipeable } from 'react-swipeable'; // https://www.npmjs.com/package/react-swipeable
+import DayNightSwitcher from './DayNightSwitcher'
+import SliderSingle from './Interval';
 
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -36,15 +36,13 @@ const Swiper = ( props ) => {
     }
     function prev()
     {
-        console.log('swiped left')
         if( slide_id < 24 - count )
           setSlide_id( (slide_id + count) % data.length );
         else
-        setSlide_id( 0 );
+          setSlide_id( 0 );
     }
     function next()
     {
-      console.log('swiped right')  
         if(slide_id > 0)
           setSlide_id( (slide_id - count) % data.length )
         else
@@ -81,7 +79,7 @@ const Swiper = ( props ) => {
     {       
       /* 
         let state = {...this.state };
-        if( selected.filter( e  => e ).length === 0 || field === "selected")
+        if( selected.filter( e  => e ).length === 0 || field === 'selected')
         {
             state[ field ][i] = value; 
         }
@@ -94,9 +92,6 @@ const Swiper = ( props ) => {
                 }
             });
         }
-        console.log( selected );
-        console.log( value);
-        console.log( state[ field ] );
         this.setState( state )
         */
     }
@@ -110,7 +105,7 @@ const Swiper = ( props ) => {
                 key={ i }
                 value={ data[ i ] } 
                 selected= { selected[ i ] }
-                label={ "" }
+                label={ '' }
                 i={ i }
                 on={ onChange }
                 type={ props.type }

@@ -1,7 +1,7 @@
-import { Component } from "react";
-import TapperStaff from "./TapperStaff";
-import defaultOptions from "../data/defaultOptions.json"
-import defaultData from "../data/defaultData.json"
+import { Component } from 'react';
+import TapperStaff from './TapperStaff';
+import defaultOptions from '../data/defaultOptions.json'
+import defaultData from '../data/defaultData.json'
 
 class Tapper extends Component
 {
@@ -22,7 +22,6 @@ class Tapper extends Component
                 this.props.options
                 :
                 defaultOptions.options;
-        console.log( "options", options );
         const staffs = Array.isArray(data)
             ?
             data.map((staff, i) =>

@@ -11,7 +11,6 @@ import IconButton from '@material-ui/core/IconButton';
 import {MdClose as IconClose} from 'react-icons/md';
 
 import I18n from '@iobroker/adapter-react/i18n';
-import Logo from '@iobroker/adapter-react/Components/Logo';
 
 const styles = theme => ({
     tab: {
