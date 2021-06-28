@@ -16,7 +16,7 @@ class Intervals extends Component
     }
     componentDidUpdate(prevProps)
     {
-        if(prevProps.range !== this.props.range)
+        if(prevProps.range !== this.props.range || prevProps._width !== this.props._width)
         {
             this.setState({
                 slide_id:0
@@ -75,18 +75,16 @@ class Intervals extends Component
     {
         const{ slide_id } = this.state;
         const{ range } = this.props;
-        const count = this.getCountByRange(range);
         if(slide_id > 0)
           this.setSlide_id( slide_id - 1 )
         else
-          this.setSlide_id( this.getMaxByRange(range) / count );
+          this.setSlide_id( this.getSectionByRange(range) - 1 );
     }
     next = () =>
     {
         const{ slide_id } = this.state;
         const{ range } = this.props;
-        const count = this.getCountByRange(range);
-        if( slide_id < this.getMaxByRange(range) / count - 1 )
+        if( slide_id < this.getSectionByRange(range) - 1 )
             this.setSlide_id( slide_id + 1 );
         else
             this.setSlide_id( 0 );

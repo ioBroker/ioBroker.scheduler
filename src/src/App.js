@@ -110,8 +110,7 @@ class App extends GenericApp {
         this.state ={
             ...this.state,
             menu : defaultOptions.menu,
-            max_menu_id : defaultOptions.max_menu_id,
-            activeMenu : 'main',
+            activeMenu : defaultOptions.menu[0].id,
             isMenuEdit : false,
             isExpert : true,
             leftOpened: [],
@@ -249,7 +248,11 @@ class App extends GenericApp {
         let profile = JSON.parse(JSON.stringify(this.state.profile))
         profile.type = type;
         if (type !== this.state.profile.type) {
+            let oldMax = minmax[this.state.profile.type].max;
+            let newMax = minmax[type].max;
+
             profile.intervals = profile.intervals.map(interval => {
+                interval = Math.round((newMax / oldMax) * interval);
                 if (interval < minmax[type].min) {
                     return minmax[type].min;
                 }
@@ -296,9 +299,9 @@ class App extends GenericApp {
     {
         this.setState({ isMenuEdit: !isMenuEdit })
     }
-    onChangeMenu = (newMenu, max_menu_id) =>
+    onChangeMenu = (newMenu) =>
     {
-        this.setState({ menu: newMenu, max_menu_id })
+        this.setState({ menu: newMenu })
     }
     onRange = (event, intervalDuration)  =>
     {

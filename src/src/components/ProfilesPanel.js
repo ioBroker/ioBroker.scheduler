@@ -1,6 +1,7 @@
 import { Button, Dialog, DialogTitle, Input, InputAdornment, MenuItem, MenuList, Typography } from '@material-ui/core';
 import React, { Component } from 'react';
 import I18n from '@iobroker/adapter-react/i18n';
+import { v4 as uuidv4 } from 'uuid';
 
 import EditIcon from '@material-ui/icons/Edit';
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd'; 
@@ -31,8 +32,7 @@ class ProfilesPanel extends Component
             { 
                 isDialogOpen : true,
                 element_title: element.title,
-                element_id: element.id,
-                element_n : element.n,
+                element_id : element.id,
                 element_parent: element.parent,
                 isnew: false
             }
@@ -46,8 +46,7 @@ class ProfilesPanel extends Component
         {
             newMenu = [...menu];
             newMenu.push({
-                n: this.state.element_n,
-                id : this.state.element_id,
+                id: this.state.element_id,
                 title : this.state.element_title,
                 parent: this.state.element_parent  
             })
@@ -56,11 +55,10 @@ class ProfilesPanel extends Component
         {
             menu.forEach((e, i) =>
             {
-                if(e.n === this.state.element_n)
+                if(e.id === this.state.element_id)
                 {
                     newMenu[ i ] ={
-                        n: this.state.element_n,
-                        id : this.state.element_id,
+                        n: this.state.element_id,
                         title : this.state.element_title,
                         parent: this.state.element_parent                      
                     };
@@ -71,7 +69,7 @@ class ProfilesPanel extends Component
         }
         
         this.setState({ isDialogOpen : false,  isnew : false });
-        this.props.onChangeMenu(newMenu, this.props.max_menu_id)
+        this.props.onChangeMenu(newMenu)
     }
     onDeleteItem = () =>
     {
@@ -79,7 +77,7 @@ class ProfilesPanel extends Component
         let newMenu = [];
         menu.forEach((e, i) =>
         {
-            if(e.n === this.state.element_n)
+            if(e.id === this.state.element_id)
             {
                 
             }
@@ -87,7 +85,7 @@ class ProfilesPanel extends Component
                 newMenu.push(e);
         }); 
         this.setState({ isDialogOpen : false,  isnew : false });
-        this.props.onChangeMenu(newMenu, this.props.max_menu_id)
+        this.props.onChangeMenu(newMenu)
     }
     onAddChild = element =>
     {        
@@ -95,13 +93,12 @@ class ProfilesPanel extends Component
             { 
                 isDialogOpen : true,
                 element_title: 'new title',
-                element_id:  'new-id',
-                element_n :  this.props.max_menu_id + 1,
-                element_parent: element.n,
+                element_id :  uuidv4(),
+                element_parent: element.id,
                 isnew: true
             }
         )
-        this.props.onChangeMenu(this.props.menu, this.props.max_menu_id + 1)
+        this.props.onChangeMenu(this.props.menu)
     }
     render()
     {
@@ -112,13 +109,13 @@ class ProfilesPanel extends Component
             if(e.parent === '')
             {
                 const submenus = menu
-                    .filter(sub => sub.parent === e.n )
+                    .filter(sub => sub.parent === e.id )
                         .map((sub, index) =>
                         { 
                             return <MenuItem   
-                                key={sub.n}                  
-                                className={ "flow-menu-item sub " + ( isEdit ? " disable " : active === sub.n ? " active " : "") } 
-                                onClick={() => this.onClick( sub.n )} 
+                                key={sub.id}                  
+                                className={ "flow-menu-item sub " + ( isEdit ? " disable " : active === sub.id ? " active " : "") } 
+                                onClick={() => this.onClick( sub.id )} 
                                 disableRipple
                             >
                                 <Typography variant="inherit">
@@ -141,10 +138,10 @@ class ProfilesPanel extends Component
                                 }
                             </MenuItem>
                         }) 
-                return <div key={ e.n }>
+                return <div key={ e.id }>
                     <MenuItem                     
-                        className={ "flow-menu-item" + ( isEdit ? " disable " : active === e.n ? " active " : "") } 
-                        onClick={() => this.onClick( e.n )} 
+                        className={ "flow-menu-item" + ( isEdit ? " disable " : active === e.id ? " active " : "") } 
+                        onClick={() => this.onClick( e.id )} 
                         
                         disableRipple
                     >
@@ -190,7 +187,7 @@ class ProfilesPanel extends Component
                     <div className="flow-menu ">
                         <div 
                             className={"tapper-edit w-100"}
-                            onClick={ () =>this.onAddChild( { n : "" } ) } 
+                            onClick={ () =>this.onAddChild( { id : "" } ) } 
                         >
                         <PlaylistAddIcon />  {I18n.t( "Add Button")}
                         </div>            
@@ -208,21 +205,6 @@ class ProfilesPanel extends Component
                     {I18n.t("Edit button")}
                 </DialogTitle>
                 <div className="p-2" style={{ width:250, minHeight:200 }}>
-                    <div className="p-2">
-                        <div htmlFor="menu-item">
-                            {I18n.t( "menu item" )}
-                        </div>
-                        <Input 
-                            id="menu-item" 
-                            value={ this.state.element_id } 
-                            onChange={ evt => this.setState({ element_id : evt.target.value })} 
-                            startAdornment={
-                                <InputAdornment position="start">
-                                    <EditIcon />
-                                </InputAdornment>
-                            }
-                        />
-                    </div> 
                     <div className="p-2">
                         <div htmlFor="label">
                             {I18n.t( "label" )}

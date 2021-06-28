@@ -68,38 +68,32 @@
     "max_menu_id":6,
     "menu": [
         {
-            "n": 1,
-            "id": "main",
+            "id": 1,
             "parent": "",
             "title": "Main"
         },
         {
-            "n":2,
-            "id": "windows",
+            "id":2,
             "parent": 1,
             "title": "Windows"
         },
         {
-            "n":3,
-            "id": "basic",
+            "id":3,
             "parent": 1,
             "title": "Basic"
         },
         {
-            "n":4,
-            "id": "heading",
+            "id":4,
             "parent": "",
             "title": "Heading"
         },
         {
-            "n":5,
-            "id": "weekend",
+            "id":5,
             "parent": 4,
             "title": "Weekend"
         },
         {
-            "n":6,
-            "id": "weekday",
+            "id":6,
             "parent": 4,
             "title": "Weekday"
         }
