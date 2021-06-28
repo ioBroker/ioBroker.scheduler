@@ -119,7 +119,11 @@ class Intervals extends Component
         }
         if (field === 'data') {
             let data = [...this.props.data];
-            if( selected.filter( e  => e ).length === 0)
+            let inSelected = selected[i];
+            if (!inSelected) {
+                this.setState({selected: []});
+            }
+            if( !inSelected || selected.filter( e  => e ).length === 0)
             {
                 data[i] = value; 
             }

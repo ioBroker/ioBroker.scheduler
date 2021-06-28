@@ -11,15 +11,7 @@ class ProfilesPanel extends Component
     {
         super(props);
         this.state ={
-            ...props,
             isDialogOpen : false
-        }
-    }
-    componentDidUpdate(prevProps)
-    {
-        if(prevProps.menu !== this.state.menu)
-        {
-            this.setState({ menu: this.props.menu });
         }
     }
     onClick = id =>
@@ -48,7 +40,7 @@ class ProfilesPanel extends Component
     }
     onUpdateItem = evt =>
     {
-        let menu = [ ...this.state.menu ];
+        let menu = [ ...this.props.menu ];
         let newMenu= [];
         if(this.state.isnew)
         {
@@ -78,15 +70,12 @@ class ProfilesPanel extends Component
             }); 
         }
         
-        this.setState({ menu:newMenu,  isDialogOpen : false,  isnew : false });
-        if(this.props.onChangeMenu)
-        {
-            this.props.onChangeMenu(newMenu, this.state.max_menu_id)
-        }
+        this.setState({ isDialogOpen : false,  isnew : false });
+        this.props.onChangeMenu(newMenu, this.props.max_menu_id)
     }
     onDeleteItem = () =>
     {
-        let menu = [ ...this.state.menu ];
+        let menu = [ ...this.props.menu ];
         let newMenu = [];
         menu.forEach((e, i) =>
         {
@@ -97,11 +86,8 @@ class ProfilesPanel extends Component
             else
                 newMenu.push(e);
         }); 
-        this.setState({ menu:newMenu,  isDialogOpen : false,  isnew : false });
-        if(this.props.onChangeMenu)
-        {
-            this.props.onChangeMenu(newMenu, this.state.max_menu_id)
-        }
+        this.setState({ isDialogOpen : false,  isnew : false });
+        this.props.onChangeMenu(newMenu, this.props.max_menu_id)
     }
     onAddChild = element =>
     {        
@@ -110,17 +96,17 @@ class ProfilesPanel extends Component
                 isDialogOpen : true,
                 element_title: 'new title',
                 element_id:  'new-id',
-                element_n :  this.state.max_menu_id + 1,
-                max_menu_id: this.state.max_menu_id + 1,
+                element_n :  this.props.max_menu_id + 1,
                 element_parent: element.n,
                 isnew: true
             }
         )
+        this.props.onChangeMenu(this.props.menu, this.props.max_menu_id + 1)
     }
     render()
     {
-        const { menu, isDialogOpen } = this.state;
-        const { active, isEdit } = this.props;
+        const { isDialogOpen } = this.state;
+        const { menu, active, isEdit } = this.props;
         const items = menu.map((e, i) =>
         {
             if(e.parent === '')
@@ -136,7 +122,7 @@ class ProfilesPanel extends Component
                                 disableRipple
                             >
                                 <Typography variant="inherit">
-                                    {I18n.t( sub.title  )}
+                                    --{I18n.t( sub.title  )}
                                 </Typography>
                                 {
                                     isEdit
