@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 import defaultOptions from '../data/defaultOptions.json'
+import minmax from '../data/minmax.json'
 
 const styles = theme => ({
     
@@ -79,7 +80,7 @@ class Interval extends Component
         {
             case 'temperature':
                 return value.toString() + 'º';
-            case 'onnoff':
+            case 'onoff':
                 return value 
                     ? 
                     <span className='text-success'>on</span> 
@@ -90,19 +91,9 @@ class Interval extends Component
                 return value.toString() + '%';
         }
     }
-    getMinMax( type = undefined)
+    getMinMax()
     {
-        const t = type ? type : this.props.type;
-        switch( t )
-        {
-            case 'temperature':
-                return defaultOptions.options;
-            case 'onnoff':
-                return { min:0, max: 1 };
-            default:
-            case 'percent':
-                return { min:0, max:100 };
-        }
+        return minmax[this.props.type];
     }
     getLabel = () =>
     {

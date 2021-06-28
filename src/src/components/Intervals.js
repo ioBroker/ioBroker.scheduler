@@ -67,11 +67,7 @@ class Intervals extends Component
     }
     getMaxByRange = range =>
     {
-        return 24 / this.getStepByRange( range ) 
-    }
-    getStepByRange = range =>
-    {
-        return range;
+        return 24 / range;
     }
 
     //
@@ -150,12 +146,12 @@ class Intervals extends Component
         {
           sliders.push(
             <Interval
-                key={ i + 'step' + this.getStepByRange(range) }
+                key={ i + 'step' + range }
                 value={ data[ i ] } 
                 selected= { selected[ i ] }
                 label={ '' }
                 i={ i }
-                step={this.getStepByRange( range )}
+                step={range}
                 on={ this.onChange }
                 type={ type }
                 theme={ theme }

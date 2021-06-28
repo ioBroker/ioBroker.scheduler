@@ -17,6 +17,7 @@ import DayOfWeekPanel from './components/DayOfWeekPanel';
 import DevicesPanel from './components/DevicesPanel';
 import EditPanel from './components/EditPanel';
 import defaultOptions from './data/defaultOptions.json'
+import minmax from './data/minmax.json'
 import { Grid } from '@material-ui/core';
 
 import ClearIcon from '@material-ui/icons/Clear';
@@ -132,9 +133,9 @@ class App extends GenericApp {
         window.addEventListener('resize', this.updateWindowDimensions);
         this.updateWindowDimensions();
     }
-    omponentWillUnmount() 
+    componentWillUnmount() 
 	{ 
-        window.removeEventListener('scroll', this.updateWindowDimensions);
+        window.removeEventListener('resize', this.updateWindowDimensions);
     }
     updateWindowDimensions = () =>
 	{
@@ -247,6 +248,17 @@ class App extends GenericApp {
     {
         let profile = JSON.parse(JSON.stringify(this.state.profile))
         profile.type = type;
+        if (type !== this.state.profile.type) {
+            profile.intervals = profile.intervals.map(interval => {
+                if (interval < minmax[type].min) {
+                    return minmax[type].min;
+                }
+                if (interval > minmax[type].max) {
+                    return minmax[type].max;
+                }
+                return interval;
+            })
+        }
         this.setState({ profile });
     }
     onPriority = priority =>
@@ -292,6 +304,26 @@ class App extends GenericApp {
     {
         let profile = JSON.parse(JSON.stringify(this.state.profile))
         profile.intervalDuration = intervalDuration;
+        if (this.state.profile.intervalDuration < intervalDuration) {
+            let relation = intervalDuration / this.state.profile.intervalDuration;
+            let newIntervals = [];
+            for (let i = 0; i < this.state.profile.intervals.length; i+=relation) {
+                newIntervals.push(this.state.profile.intervals.slice(i, i+relation));
+            }
+            profile.intervals = newIntervals.map(chunk => Math.round(chunk.reduce((a, b) => a + b, 0) / relation));
+        }
+        if (this.state.profile.intervalDuration > intervalDuration) {
+            let relation = this.state.profile.intervalDuration / intervalDuration;
+            let newIntervals = [];
+            let newIndex = 0;
+            this.state.profile.intervals.forEach((interval, index) => {
+               for (let shift = 0; shift < relation; shift++) {
+                   newIntervals[newIndex] = interval;
+                   newIndex++;
+               }
+            });
+            profile.intervals = newIntervals;
+        }
         this.setState({ profile, leftOpen7: false });
     }
     render()

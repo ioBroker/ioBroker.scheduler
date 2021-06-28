@@ -27,7 +27,7 @@ class TypePanel extends Component
                     <MenuItem value="temperature">
                         {I18n.t( "Temperature")}
                     </MenuItem>
-                    <MenuItem value="onnoff">
+                    <MenuItem value="onoff">
                         {I18n.t( "On/Off")}
                     </MenuItem>
                 </Select>
