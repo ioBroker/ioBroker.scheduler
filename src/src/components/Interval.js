@@ -11,7 +11,7 @@ const usePrettoSliderStyles = makeStyles({
     root: (props) => {return {
         //color: options.backgrounds[ 2 ],
         color: props.theme.palette.primary.dark,
-        width: props._width + 'px!important',
+        width: props.intervalsWidth + 'px!important',
         borderRadius: 0,
         height: 'calc(100% - 165px)!important',
         transition: 'all 100ms ease-out',
@@ -24,7 +24,7 @@ const usePrettoSliderStyles = makeStyles({
         
     },
     valueLabel: (props) => {return {
-        left: 'calc(-50% + ' + props._width/2 + 'px)!important',
+        left: 'calc(-50% + ' + props.intervalsWidth/2 + 'px)!important',
         '& *': {
         background: 'transparent',
         fontWeight: 100,
@@ -45,7 +45,7 @@ const usePrettoSliderStyles = makeStyles({
         borderRadius: 4, 
         borderBottomLeftRadius: '0px!important',  
         borderBottomRightRadius: '0px!important',  
-        height:'calc(100% + ' + props._width + 'px)',
+        height:'calc(100% + ' + props.intervalsWidth + 'px)',
         // backgroundColor:'#FFF',
         backgroundColor:props.theme.palette.primary.light,
     }},
@@ -53,7 +53,7 @@ const usePrettoSliderStyles = makeStyles({
 
 
 const PrettoSlider = props => {
-    return <Slider classes={usePrettoSliderStyles({_width: props._width, theme: props.theme})} {...props}/>
+    return <Slider classes={usePrettoSliderStyles({intervalsWidth: props.intervalsWidth, theme: props.theme})} {...props}/>
 }
 class Interval extends Component
 {
@@ -110,7 +110,7 @@ class Interval extends Component
                 this.props.options
                 :
                 defaultOptions.options;
-        const { value, i, selected, theme, _width } = this.props;
+        const { value, i, selected, theme, intervalsWidth } = this.props;
         if(i < 0 )
         {
             return '';
@@ -124,7 +124,7 @@ class Interval extends Component
             <PrettoSlider
                 key={i}
                 theme={theme}
-                _width={_width}
+                intervalsWidth={intervalsWidth}
                 orientation="vertical"  
                 aria-label="pretto slider"
                 value={ value }

@@ -139,8 +139,8 @@ class App extends GenericApp {
     updateWindowDimensions = () =>
 	{
         this.setState({
-            _width : window.innerWidth,
-            _height: window.innerHeight
+            windowWidth : window.innerWidth,
+            windowHeight: window.innerHeight
         })
     }
     getSelectedTab() {
@@ -392,7 +392,7 @@ class App extends GenericApp {
                             onChange={ this.onIntervals }
                             theme={ this.state.theme }
                             range={profile.intervalDuration}
-                            _width={ this.state._width }
+                            windowWidth={ this.state.windowWidth }
                         />
                         {
                             this.state.isExpert
@@ -412,7 +412,7 @@ class App extends GenericApp {
                                         <AntTabs
                                             value={ profile.intervalDuration }
                                             onChange={ this.onRange } 
-                                            orientation={ this.state._width < 768 ? 'vertical' : 'horizontal' }                                            
+                                            orientation={ this.state.windowWidth < 768 ? 'vertical' : 'horizontal' }                                            
                                             indicatorColor="primary"
                                             textColor="primary"
                                             centered
@@ -488,7 +488,7 @@ class App extends GenericApp {
                                             title={ this.state.isExpert ? "Devices (expert)" : "Devices" }
                                             isExpert={ this.state.isExpert }
                                             rows={ 1 }  
-                                            _width={ this.state._width }
+                                            windowWidth={ this.state.windowWidth }
                                         /> 
                                     </div>
                                 </div>
@@ -519,7 +519,7 @@ class App extends GenericApp {
                                                         profile={ this.state.profile }
                                                         on={this.onPriority}
                                                         priority={ this.state.profile.prio }
-                                                        _width={this.state._width}
+                                                        windowWidth={this.state.windowWidth}
                                                     
                                                     />
                                                 </div>

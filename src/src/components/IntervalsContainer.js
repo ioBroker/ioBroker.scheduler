@@ -22,6 +22,7 @@ class IntervalsContainer extends Component
     constructor(props)
     {
         super(props);
+        this.tapperRef = React.createRef();
         this.state ={
             selected: []
         }
@@ -31,15 +32,15 @@ class IntervalsContainer extends Component
         window.addEventListener('resize', this.updateWindowDimensions);
         this.updateWindowDimensions();
     }
-    omponentWillUnmount() 
+    componentWillUnmount() 
 	{ 
-        window.removeEventListener('scroll', this.updateWindowDimensions);
+        window.removeEventListener('resize', this.updateWindowDimensions);
     }
     updateWindowDimensions = () =>
 	{
-        const w = document.getElementById('tapper-inside').getBoundingClientRect().width; 
+        const w = this.tapperRef.current.getBoundingClientRect().width; 
         this.setState({
-            _w : w ? w * .85 : 30 
+            intervalsWidth : w ? w * .85 : 30 
         })
     }
     componentDidUpdate(prevProps)
@@ -65,6 +66,7 @@ class IntervalsContainer extends Component
             <div 
                 className="tapper-inside"
                 id="tapper-inside"
+                ref={this.tapperRef}
                 style={{ 
                     padding: 0,
                     width:"100%" 
@@ -76,7 +78,7 @@ class IntervalsContainer extends Component
                     theme={ theme }
                     type={ type }
                     range={ range }
-                    _width={this.state._w}
+                    intervalsWidth={this.state.intervalsWidth}
                 />
             </div>
         </div> 

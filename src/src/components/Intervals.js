@@ -16,7 +16,7 @@ class Intervals extends Component
     }
     componentDidUpdate(prevProps)
     {
-        if(prevProps.range !== this.props.range || prevProps._width !== this.props._width)
+        if(prevProps.range !== this.props.range || prevProps.intervalsWidth !== this.props.intervalsWidth)
         {
             this.setState({
                 slide_id:0
@@ -25,7 +25,7 @@ class Intervals extends Component
     }
     getSectionByRange = range =>
     {
-        if( this.props._width >= 720 )
+        if( this.props.intervalsWidth >= 720 )
         {
             return range === 0.5 ? 2 : 1;
         }
@@ -46,7 +46,7 @@ class Intervals extends Component
     }
     getCountByRange = range =>
     {
-        if( this.props._width >= 720 )
+        if( this.props.intervalsWidth >= 720 )
         {
             return range === 0.5 ? 24 : this.getMaxByRange( range );
         }
@@ -136,7 +136,7 @@ class Intervals extends Component
     getSlide()
     {
         const {slide_id, selected} = this.state;
-        const {type, _width, theme, range, data} = this.props;
+        const {type, intervalsWidth, theme, range, data} = this.props;
         const count = this.getCountByRange(range);
        
         let sliders = []
@@ -153,7 +153,7 @@ class Intervals extends Component
                 on={ this.onChange }
                 type={ type }
                 theme={ theme }
-                _width={ _width / count }
+                intervalsWidth={ intervalsWidth / count }
             /> 
           )
         }
@@ -190,7 +190,7 @@ class Intervals extends Component
     } 
     render()
     {
-        if (!this.props._width) {
+        if (!this.props.intervalsWidth) {
             return null;
         }
         const {slide_id} = this.state;
