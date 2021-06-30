@@ -113,7 +113,7 @@ class App extends GenericApp {
             activeMenu : defaultOptions.menu[0].id,
             isMenuEdit : false,
             isExpert : true,
-            leftOpened: [],
+            leftOpen: 0,
             profile: {
                 enabled: false,
                 id: '11231359898', 
@@ -149,98 +149,10 @@ class App extends GenericApp {
             return 0;
         }
     }
-    onLeftOpen = (index) =>
-    {
-        let leftOpened = JSON.parse(JSON.stringify(this.state.leftOpened));
-        let oldOpened = leftOpened[index];
-        for (let i in leftOpened) {
-            leftOpened[i] = false;
-        }
-        leftOpened[index] = !oldOpened;
-        this.setState({leftOpened});
-    }
-    onLeftOpen1 = () =>
+    onLeftOpen = (panelIndex) =>
     {
         this.setState({ 
-            leftOpen  : !this.state.leftOpen,  
-            leftOpen2 : false,  
-            leftOpen3 : false,  
-            leftOpen4 : false,  
-            leftOpen5 : false,     
-            leftOpen6 : false,
-            leftOpen7 : false
-        })
-    }
-    onLeftOpen2 = () =>
-    {
-        this.setState({ 
-            leftOpen7 : false, 
-            leftOpen  : false, 
-            leftOpen2 : !this.state.leftOpen2,
-            leftOpen3 : false,  
-            leftOpen4 : false,   
-            leftOpen5 : false,     
-            leftOpen6 : false 
-        })
-    }
-    onLeftOpen3 = () =>
-    {
-        this.setState({ 
-            leftOpen3 : !this.state.leftOpen3,  
-            leftOpen7 : false,  
-            leftOpen2 : false,  
-            leftOpen  : false,  
-            leftOpen4 : false,  
-            leftOpen5 : false,   
-            leftOpen6 : false  
-        })
-    }
-    onLeftOpen4 = () =>
-    {
-        this.setState({ 
-            leftOpen4 : !this.state.leftOpen4,   
-            leftOpen7 : false,  
-            leftOpen6 : false,  
-            leftOpen5 : false,  
-            leftOpen3 : false,  
-            leftOpen2 : false,  
-            leftOpen  : false  
-        })
-    }
-    onLeftOpen5 = () =>
-    {
-        this.setState({ 
-            leftOpen5 : !this.state.leftOpen5,  
-            leftOpen7 : false,  
-            leftOpen6 : false,  
-            leftOpen4 : false,  
-            leftOpen3 : false,  
-            leftOpen2 : false,  
-            leftOpen  : false  
-        })
-    }
-    onLeftOpen6 = () =>
-    {
-        this.setState({ 
-            leftOpen6 : !this.state.leftOpen6, 
-            leftOpen7 : false,    
-            leftOpen5 : false,    
-            leftOpen4 : false,  
-            leftOpen3 : false,  
-            leftOpen2 : false,  
-            leftOpen  : false  
-        })
-    }
-    onLeftOpen7 = () =>
-    {
-        this.setState({ 
-            leftOpen7 : !this.state.leftOpen7, 
-            leftOpen6 : false,    
-            leftOpen5 : false,    
-            leftOpen4 : false,  
-            leftOpen3 : false,  
-            leftOpen2 : false,  
-            leftOpen  : false  
+            leftOpen : this.state.leftOpen === panelIndex ? 0 : panelIndex,  
         })
     }
     onType = type =>
@@ -356,11 +268,11 @@ class App extends GenericApp {
                         <div 
                             className={
                                 'tapper-grid tapper-shadow m-1 h-100 clip-left-sm-1 ' + 
-                                ( this.state.leftOpen ? ' active' : '' )
+                                ( this.state.leftOpen === 1 ? ' active' : '' )
                             }  
                             style={{background:'#444'}}
                         > 
-                            <div className='close-label-left-sm flow-dark ' onClick={this.onLeftOpen1}>
+                            <div className='close-label-left-sm flow-dark ' onClick={() => this.onLeftOpen(1)}>
                                 <ClearIcon />
                             </div>
                             <ProfilesPanel
@@ -401,11 +313,11 @@ class App extends GenericApp {
                                     className={
                                         'tapper-grid tapper-shadow m-1 mt-1 clip_left_sm_7 '+ 
                                         classes.clip_left_sm_7 + 
-                                        (this.state.leftOpen7 ? ' active ' :'') 
+                                        (this.state.leftOpen === 7 ? ' active ' :'') 
                                     }
                                     style={{ }}
                                 >
-                                    <div className="close-label-left-sm flow-dark " onClick={this.onLeftOpen7}>
+                                    <div className="close-label-left-sm flow-dark " onClick={() => this.onLeftOpen(7)}>
                                         <ClearIcon />
                                     </div>
                                     <div className="mt-sm-auto mb-sm-auto w-100">
@@ -444,10 +356,10 @@ class App extends GenericApp {
                                         className={
                                             "tapper-grid tapper-shadow h-100 m-1 p-2 clip_left_sm_2 " + 
                                             classes.clip_left_sm_2 + 
-                                            (this.state.leftOpen2 ? " active " :"")
+                                            (this.state.leftOpen === 2 ? " active " :"")
                                         }
                                     > 
-                                        <div className="close-label-left-sm flow-dark" onClick={this.onLeftOpen2}>
+                                        <div className="close-label-left-sm flow-dark" onClick={() => this.onLeftOpen(2)}>
                                             <ClearIcon />
                                         </div>
                                         <div className="mt-sm-auto mb-sm-auto">
@@ -474,11 +386,11 @@ class App extends GenericApp {
                                 <div className={
                                         "tapper-grid tapper-shadow m-1 p-2 mt-1 clip_left_sm_5 "+ 
                                         classes.clip_left_sm_5 + 
-                                        (this.state.leftOpen5 ? " active " :"") 
+                                        (this.state.leftOpen === 5 ? " active " :"") 
                                     }
                                     style={{flexGrow:100}}
                                 >
-                                    <div className="close-label-left-sm flow-dark " onClick={this.onLeftOpen5}>
+                                    <div className="close-label-left-sm flow-dark " onClick={() => this.onLeftOpen(5)}>
                                         <ClearIcon />
                                     </div>
                                     <div className="mt-sm-auto mb-sm-auto wc-100">
@@ -506,11 +418,11 @@ class App extends GenericApp {
                                             className={
                                                 "tapper-grid tapper-shadow h-100 m-1 p-2 clip_left_sm_4 "+ 
                                                 classes.clip_left_sm_4 + 
-                                                (this.state.leftOpen4 ? " active " :"")
+                                                (this.state.leftOpen === 4 ? " active " :"")
 
                                             }
                                         > 
-                                            <div className="close-label-left-sm flow-dark" onClick={this.onLeftOpen4}>
+                                            <div className="close-label-left-sm flow-dark" onClick={() => this.onLeftOpen(4)}>
                                                 <ClearIcon />
                                             </div>
                                             <div className="mt-sm-auto mb-sm-auto">
@@ -543,10 +455,10 @@ class App extends GenericApp {
                             className={
                                 "tapper-grid tapper-shadow m-1 p-2 clip_right_sm_3 h-100 "+ 
                                 classes.clip_left_sm_2 + 
-                                (this.state.leftOpen3 ? " active " :"")
+                                (this.state.leftOpen === 3 ? " active " :"")
                             }                            
                         >
-                            <div className="close-label-left-sm flow-dark" onClick={this.onLeftOpen3}>
+                            <div className="close-label-left-sm flow-dark" onClick={() => this.onLeftOpen(3)}>
                                 <ClearIcon />
                             </div>
                             <div className="mt-sm-auto mb-sm-auto">
@@ -559,13 +471,13 @@ class App extends GenericApp {
                         
                     </Grid> 
                     <div className="label-menu" />
-                    <div className={"label-left-sm-1 " + (this.state.leftOpen ? "active" : "")} onClick={this.onLeftOpen1}>
+                    <div className={"label-left-sm-1 " + (this.state.leftOpen === 1 ? "active" : "")} onClick={() => this.onLeftOpen(1)}>
                         <DehazeIcon />
                     </div>
-                    <div className={"label-right-sm-5 " + (this.state.leftOpen5 ? "active" : "")} onClick={this.onLeftOpen5}>
+                    <div className={"label-right-sm-5 " + (this.state.leftOpen === 5 ? "active" : "")} onClick={() => this.onLeftOpen(5)}>
                         <CallSplitIcon/>
                     </div>
-                    <div className={"label-right-sm-3 " + (this.state.leftOpen3 ? "active" : "")} onClick={this.onLeftOpen3}>
+                    <div className={"label-right-sm-3 " + (this.state.leftOpen === 3 ? "active" : "")} onClick={() => this.onLeftOpen(3)}>
                         <CalendarTodayIcon/>
                     </div>
                     {
@@ -573,16 +485,16 @@ class App extends GenericApp {
                             ? 
                             <>
                                 <div className="label-menu-bottom" />
-                                <div className={"label-left-sm-2  expert " + (this.state.leftOpen2 ? "active" : "")} onClick={this.onLeftOpen2}>
+                                <div className={"label-left-sm-2  expert " + (this.state.leftOpen === 2 ? "active" : "")} onClick={() => this.onLeftOpen(2)}>
                                     <AssignmentTurnedInIcon />
                                 </div>
-                                <div className={"label-right-sm-6 " + (this.state.leftOpen6 ? "active" : "")} onClick={this.onLeftOpen6}>
+                                <div className={"label-right-sm-6 " + (this.state.leftOpen === 6 ? "active" : "")} onClick={() => this.onLeftOpen(6)}>
                                     <CallSplitIcon/>
                                 </div>
-                                <div className={"label-right-sm-4 " + (this.state.leftOpen4 ? "active" : "")} onClick={this.onLeftOpen4}>
+                                <div className={"label-right-sm-4 " + (this.state.leftOpen === 4 ? "active" : "")} onClick={() => this.onLeftOpen(4)}>
                                     <ViewListIcon/>
                                 </div>
-                                <div className={"label-right-sm-7 " + (this.state.leftOpen7 ? "active" : "")} onClick={this.onLeftOpen7}>
+                                <div className={"label-right-sm-7 " + (this.state.leftOpen === 7 ? "active" : "")} onClick={() => this.onLeftOpen(7)}>
                                     <ScheduleIcon/>
                                 </div>
 
