@@ -267,10 +267,9 @@ class App extends GenericApp {
                     > 
                         <div 
                             className={
-                                'tapper-grid tapper-shadow m-1 h-100 clip-left-sm-1 ' + 
+                                'tapper-grid tapper-shadow h-100 clip-left-sm-1 m-0 ' + 
                                 ( this.state.leftOpen === 1 ? ' active' : '' )
-                            }  
-                            style={{background:'#444'}}
+                            }
                         > 
                             <div className='close-label-left-sm flow-dark ' onClick={() => this.onLeftOpen(1)}>
                                 <ClearIcon />
@@ -283,17 +282,6 @@ class App extends GenericApp {
                                 max_menu_id={max_menu_id}
                                 onChangeMenu={this.onChangeMenu}
                             />
-                            {
-                                this.state.isExpert
-                                    ? 
-                                    <EditPanel
-                                        isEdit={isMenuEdit}
-                                        menu={menu}
-                                        on={this.onEditMenu}
-                                    /> 
-                                    :
-                                    null
-                            }
                         </div>
                     </Grid>
                     <Grid item xs={12} lg={ 9 } className="sliders-container"> 

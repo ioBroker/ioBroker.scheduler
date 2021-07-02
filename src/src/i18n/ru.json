@@ -8,7 +8,6 @@
     "Profile": "Профиль",
     "Edit Menu": "Редактировать меню",
     "Finish edit": "Закончить редактуру",
-    "Add new child": "Добавить доченюю",
     "Add Button": "Добавить кнопку",
     "Edit button": "Редактировать кнопку",
     "Sn": "Вс",
@@ -23,5 +22,19 @@
     "Type" :"Тип",
     "Priority" :"Приоритет",
     "Week" :"Неделя",
-    "Put device names per comma" :"Названия устройств через запятую"
+    "Put device names per comma" :"Названия устройств через запятую",
+    "folder": "папка",
+    "profile": "профиль",
+    "label": "метка",
+    "delete": "удалить",
+    "Edit": "Редактировать", 
+    "Search": "Искать",
+    "Open all": "Открыть все",
+    "Close all": "Закрыть все",
+    "Add folder": "Добавить папку",
+    "Add new child": "Добавить новый элемент",
+    "Add new child folder": "Добавить новую папку",
+    "Add new child profile": "Добавить новый профиль",
+    "update": "обновить",
+    "create": "создать"
 }

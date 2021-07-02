@@ -70,32 +70,46 @@
         {
             "id": 1,
             "parent": "",
-            "title": "Main"
+            "title": "Main",
+            "type":"folder",
+            "is_open": true,
+            "active":false
         },
         {
             "id":2,
             "parent": 1,
-            "title": "Windows"
+            "title": "Windows",
+            "type": "profile",
+            "active": true
         },
         {
             "id":3,
             "parent": 1,
-            "title": "Basic"
+            "title": "Basic",
+            "type":"profile",
+            "active":false
         },
         {
             "id":4,
             "parent": "",
-            "title": "Heading"
+            "title": "Heading",
+            "type":"folder",
+            "is_open": false,
+            "active":false
         },
         {
             "id":5,
             "parent": 4,
-            "title": "Weekend"
+            "title": "Weekend",
+            "type":"profile",
+            "active":false
         },
         {
             "id":6,
             "parent": 4,
-            "title": "Weekday"
+            "title": "Weekday",
+            "type":"profile",
+            "active":false
         }
     ]
 }

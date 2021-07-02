@@ -56,7 +56,6 @@ body {
   display:flex;
   flex-direction:column;
   flex-grow:1000;
-  --background-color: #d3e1f7;
 }
 .tapper-container
 { 
@@ -82,13 +81,14 @@ body {
 {
   color: $success;
 }
+/*
 .tapper-shadow
 {
-  --box-shadow: -2px -2px 3px 0 #0c0c0c2b, 2px 2px 3px 0 #faf9f9;
+  box-shadow: -2px -2px 3px 0 #0c0c0c2b, 2px 2px 3px 0 #faf9f9;
 }
 .tapper-shadow2
 {
-  --box-shadow: 7px 7px 18px 0 #43618f17, 
+  box-shadow: 7px 7px 18px 0 #43618f17, 
               inset 2px 2px 2px 0 #ffffffaa, 
               inset -2px -2px 2px 0 #46556d17, 
               -2px -2px 3px 0 #0c0c0c1a, 
@@ -96,8 +96,9 @@ body {
 }
 .tapper-grid 
 {
-  --border-radius:$radius;
+  border-radius:$radius;
 }
+*/
 .tapper-element-container
 {
   position: absolute;
@@ -241,8 +242,6 @@ body {
     margin-top: -0px;
     width: 0px;
     height: 0px;
-    --background: #85a4ff;
-    --border-radius: 100%;
     -webkit-transition: all 200ms ease-out;
     -moz-transition: all 200ms ease-out;
     -ms-transition: all 200ms ease-out;
@@ -250,11 +249,13 @@ body {
     transition: all 200ms ease-out;
     opacity:0;
   }
-  &.checkbox.Mui-checked,
   &.active
   { 
-    --box-shadow: $pressShadow; 
-    --background: radial-gradient(circle at 5% 5%, #bdcade 0%,#eff5ff 100%);
+    background: #236b8e;
+    &:hover
+    {
+      background: #236b8e;
+    }
     &::before
     {
       width: 20px;
@@ -264,28 +265,7 @@ body {
   &.disable
   {
     color:#DDD!important;
-    --background: #444!important;
-    --box-shadow: none!important;
-    &.active,
-    &:active,
-    &:hover
-    {
-      --box-shadow: none!important;
-    }
-    &.sub
-    {
-      --background: #333!important;
-    }
   }
-}
-.flow:active,
-.flow-micro:active,
-.flow-square:active,
-.flow-little:active,
-.flow-menu-item.active,
-.tapper-edit.active
-{
-  --box-shadow: $pressShadow; 
 }
 .flow-little
 {
@@ -308,19 +288,12 @@ body {
   max-height: 40px!important;
   min-height: 40px!important;
   border-radius: 0;
-  --box-shadow: -2px -2px 2px 0 #0000000a, 
-              3px 3px 3px 0 #ffffff8c !important;
-  --background: transparent!important;
 } 
 .flow-menu
 {
   display:flex;
   flex-direction:column;
   margin:15px;
-  --box-shadow: 3px 3px 3px 0px #ffffff80, 
-              -2px -2px 2px 0px #ffffff00, 
-              -2px -2px 2px 0px #000000 !important;
-  --border-radius: $radius;
   & [role="menu"]
   {
       margin:0;
@@ -331,80 +304,22 @@ body {
 .flow-dark,
 .tapper-edit,
 .tapper-edit-hor
-{
-  margin:0!important; 
+{ 
   display:flex!important;
   justify-content:center!important;
   align-items: center!important; 
-  --color:#CCC!important;
-  text-shadow: 0 2px 3px #000000;
-  --background: #555;
-  --background: -moz-linear-gradient(top,  #555 10%, #444 45%);
-  --background: -webkit-linear-gradient(top,  #555 10%, #444 45%);
-  --background: linear-gradient(to bottom,  #555 10%, #444 45%);
-  --filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#555', endColorstr='#444',GradientType=0 );
-  --box-shadow: inset -1px -1px 2px 3px #0000007a, inset 1px 1px 2px 0px #ffffff !important;
-  &:first-of-type
-  {
-    --border-top-left-radius: $radius - 6;
-    --border-top-right-radius: $radius - 6;
-  }
-  &:last-of-type
-  {
-    --border-bottom-left-radius: $radius - 6;
-    --border-bottom-right-radius: $radius - 6;
-  }
-  &.sub
-  {
-    --background: #333;
-    --box-shadow: none !important;
-    &:hover
-    {
-      --background: #292929;
-    }
-    &.active
-    {
-      --background: #222;
-    }
-  }
   &.active
   {
     color:#FFF!important;
-    --background: #444;
-    --background: -moz-linear-gradient(top,  #111 0%, #444 92% );
-    --background: -webkit-linear-gradient(top,  #111 0%, #444 92% );
-    --background: linear-gradient(to bottom,  #111 0%, #444 92% );
-    --filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#111', endColorstr='#444',GradientType=0 );
-  };
-  &:active
+  }
+  &:hover
   {
-    --box-shadow: $pressShadow
+    background: #292929;
   }
 }
 .flow-dark
 {
-  --border-radius: 100%!important;
   margin:10px!important;
-  &:hover
-  {
-    --box-shadow: $pressShadow; 
-  }
-}
-.tapper-edit-hor
-{
-  &:first-of-type
-  {
-    --border-top-left-radius: $radius - 6;
-    --border-top-right-radius: 0;
-    --border-bottom-left-radius: $radius - 6;
-    --border-bottom-right-radius: 0;
-  }
-  &:last-of-type
-  {
-    --border-bottom-left-radius: 0;
-    --border-top-right-radius: $radius - 6;
-    --border-bottom-right-radius: $radius - 6;
-  }
 }
 .mobile-scrolled
 {
@@ -448,27 +363,28 @@ body {
 } 
 .edit_button
 {
+
   width:30px;
   height:30px;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
-  --border-radius:30px;
-  margin-right:2px;
-  color:#AAA;
-  background:#333;
-  border: 1px solid #00000099;
+  margin-right:2px; 
   &:active
   {
     color:#EEE;
-    --box-shadow: $pressShadow;
   }
   & > svg
   {
     font-size: 1.2rem;
   }
-
+  .flow-menu-item:hover &,
+  .flow-menu-item.active &
+  {
+    display:flex;
+  }
 }
+
 .day_night_cont,
 .day_night-slide-cont
 {
@@ -525,10 +441,6 @@ body {
         top:-5px;
         height: calc(100% + 12px);
         width:200%;
-        --background: -moz-linear-gradient(left,  rgba(255,255,255,0) 0%, rgba(255,255,255,.55) 75%,  rgba(255,255,255,.5) 99%);
-        --background: -webkit-linear-gradient(left,  rgba(255,255,255,0) 0%, rgba(255,255,255,.55) 75%, rgba(255,255,255,.5) 99%);
-        --background: linear-gradient(to right,  rgba(255,255,255,0) 0%, rgba(255,255,255,.55) 75%, rgba(255,255,255,.5) 99%);
-        --filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=1 );
         pointer-events: none;
       }
       &::after
@@ -539,10 +451,6 @@ body {
         top:-5px;
         height: calc(100% + 12px); 
         width:200%;
-        --background: -moz-linear-gradient(left,  rgba(255,255,255,.55) 0%, rgba(255,255,255,.5) 12%, rgba(255,255,255,0) 100%);
-        --background: -webkit-linear-gradient(left, rgba(255,255,255,.55) 0%,  rgba(255,255,255,.5) 12%,rgba(255,255,255,0) 100%);
-        --background: linear-gradient(to right, rgba(255,255,255,.55) 0%,  rgba(255,255,255,.5) 12%,rgba(255,255,255,0) 100%);
-        --filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=1 );
         pointer-events: none;
       }
     }
@@ -593,61 +501,110 @@ body {
     margin-top: 15px;
   }
 }
+.m-0
+{
+  margin: 0!important;
+}
 .m-1
 {
-  margin:10px;
+  margin: 10px!important;
 }
 .p-0
 {
-  padding: 0;
+  padding: 0!important;
 }
 .p-1
 {
-  padding:10px;
+  padding:10px!important;
 }
 .px-1
 {
-  padding-left:10px;
-  padding-right:10px;
+  padding-left:10px!important;
+  padding-right:10px!important;
 }
 .p-2
 {
-  padding: 20px;
+  padding: 20px!important;
+}
+.pr-1
+{
+  padding-right: 10px!important;
+}
+.pl-1
+{
+  padding-left: 10px!important;
+}
+.pl-2
+{
+  padding-left: 20px!important;
+}
+.pl-3
+{
+  padding-left: 30px!important;
 }
 .mt-1
 {
-  margin-top:10px;
+  margin-top:10px!important;
 }
 .mt-0
 {
-  margin-top:0;
+  margin-top:0!important;
 }
 .mt-1_5
 {
-  margin-top:15px;
+  margin-top:15px!important;
 }
 .mt-2
 {
-  margin-top:20px;
+  margin-top:20px!important;
 }
 .mt-3
 {
   margin-top:30px;
 }
+.ml-1
+{
+  margin-left: 10px!important;
+}
 .mt-auto
 {
-  margin-top:auto;
+  margin-top:auto!important;
+}
+.ml-auto
+{
+  margin-left:auto!important;
+}
+.mr-auto
+{
+  margin-right:auto!important;
 }
 .mx-auto
 {
-  margin-right:auto;
-  margin-left:auto;
+  margin-right:auto!important;
+  margin-left:auto!important;
 }
 .absolute-right
 {
   position:absolute;
   right:0;
   display:flex;
+}
+.d-flex
+{
+  display:flex!important;
+}
+.flex-column
+{
+  display:flex;
+  flex-direction: column;
+}
+.flex-grow-1
+{
+  flex-grow:1;
+}
+.flex-grow-1000
+{
+  flex-grow:1000;
 }
 
 @media (max-width: $small)
@@ -730,9 +687,6 @@ body {
     left: -20px;
     width: 75px;
     height: 190px;
-    --border-radius: 20px;
-    --box-shadow: inset -1px -1px 2px 3px #0000007a, inset 1px 1px 2px 0px #ffffff !important;
-    --background: linear-gradient(to bottom, #555 10%, #444 45%);
     transform: skewY(-14deg);
     z-index:3;
   }
@@ -763,13 +717,11 @@ body {
     align-items: center;
     top:10px;
     left: 7px;
-    --border-radius: 43px; 
     -webkit-transition: all 300ms ease-out;
     -moz-transition: all 300ms ease-out;
     -ms-transition: all 300ms ease-out;
     -o-transition: all 300ms ease-out;
     transition: all 300ms ease-out; 
-    --box-shadow: inset -1px -1px 2px 3px #0000007a, inset 1px 1px 2px 0px #ffffff !important;
     background: linear-gradient(to bottom, #555 10%, #444 45%);
     &.active
     {      
@@ -779,7 +731,6 @@ body {
       background: -webkit-linear-gradient(top,  #111 0%, #444 92% );
       background: linear-gradient(to bottom,  #111 0%, #444 92% );
       filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#111', endColorstr='#444',GradientType=0 );
-      --box-shadow: $pressShadow;
     }
   }
   .label-left-sm-2
