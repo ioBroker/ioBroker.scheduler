@@ -28,7 +28,8 @@ import CallSplitIcon from '@material-ui/icons/CallSplit';
 import ViewListIcon from '@material-ui/icons/ViewList';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 
-const mobile_panel = {
+const styles = theme => {
+    const mobile_panel = {
         '@media (max-width:570px)': 
         {
             display: 'flex',
@@ -38,34 +39,38 @@ const mobile_panel = {
             height: '100%',
             width:'calc(100% - 70px)',
             left:'calc(-100% - 70px)',
-            background: defaultOptions.options.backgrounds[ 1 ]
+            background: theme.palette.background.paper
         }
     }
-const styles = theme => ({
-    app:{
-        display:'flex',
-        position: 'relative',
-        height: '100%',
-        backgroundColor: theme.palette.background.paper
-    },
-    root: {},
-    tabContent: {
-        padding: 10,
-        height: 'calc(100% - 64px - 48px - 20px)',
-        overflow: 'auto'
-    },
-    tabContentIFrame: {
-        padding: 10,
-        height: 'calc(100% - 64px - 48px - 20px - 38px)',
-        overflow: 'auto'
-    },
-    clip_left_sm_2 : mobile_panel,
-    clip_left_sm_4 : mobile_panel,
-    clip_left_sm_5 : mobile_panel,
-    clip_left_sm_6 : mobile_panel,
-    clip_left_sm_7 : mobile_panel
-    
-});
+    return {
+        app:{
+            display:'flex',
+            position: 'relative',
+            height: '100%',
+            backgroundColor: theme.palette.background.paper
+        },
+        root: {},
+        tabContent: {
+            padding: 10,
+            height: 'calc(100% - 64px - 48px - 20px)',
+            overflow: 'auto'
+        },
+        tabContentIFrame: {
+            padding: 10,
+            height: 'calc(100% - 64px - 48px - 20px - 38px)',
+            overflow: 'auto'
+        },
+        paneling: {
+            backgroundColor: theme.palette.background.paper
+        },
+        clip_left_sm_2 : mobile_panel,
+        clip_left_sm_4 : mobile_panel,
+        clip_left_sm_5 : mobile_panel,
+        clip_left_sm_6 : mobile_panel,
+        clip_left_sm_7 : mobile_panel
+        
+    }
+};
 
 const AntTabs = withStyles({
     root: { 
@@ -263,12 +268,13 @@ class App extends GenericApp {
                         item 
                         xs={12} 
                         lg={2} 
-                        className="h-100 sm-hidden " 
+                            className={ " h-100 sm-hidden " }
                     > 
                         <div 
                             className={
                                 'tapper-grid tapper-shadow h-100 clip-left-sm-1 m-0 ' + 
-                                ( this.state.leftOpen === 1 ? ' active' : '' )
+                                ( this.state.leftOpen === 1 ? ' active ' : '' ) +
+                                classes.paneling
                             }
                         > 
                             <div className='close-label-left-sm flow-dark ' onClick={() => this.onLeftOpen(1)}>
