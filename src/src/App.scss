@@ -81,52 +81,11 @@ body {
 {
   color: $success;
 }
-/*
-.tapper-shadow
-{
-  box-shadow: -2px -2px 3px 0 #0c0c0c2b, 2px 2px 3px 0 #faf9f9;
-}
-.tapper-shadow2
-{
-  box-shadow: 7px 7px 18px 0 #43618f17, 
-              inset 2px 2px 2px 0 #ffffffaa, 
-              inset -2px -2px 2px 0 #46556d17, 
-              -2px -2px 3px 0 #0c0c0c1a, 
-              2px 2px 3px 0 #faf9f91a;
-}
-.tapper-grid 
-{
-  border-radius:$radius;
-}
-*/
-.tapper-element-container
-{
-  position: absolute;
-  bottom:0; 
-  width: 70px;
-  height: 200px;
-  bottom: 0px;
-  left: 0px;
-  background-color: #a50153;
-  border-radius: 10px;
-  display: flex;
-  align-items: flex-start; 
-}
-.tapper-element-tapper
-{
-  width : 100%;
-  position:relative;
-  border-radius : 10px;
-  cursor : pointer;
-  margin: 5px;
-  border: 1px solid #00000012;
-} 
 .pretto
 {
   position:relative;
   height: 100%;
   display: flex;
-  align-items: center;  
   flex-direction: column;
   & > span
   {
@@ -137,6 +96,9 @@ body {
     color: #6c7a93;
     font-weight:700;
     font-size:.9rem; 
+    height: 30px;    
+    width: 90%!important;
+    text-align: center;
   };
   &:hover[aria-label="pretto slider"]
   {
@@ -148,6 +110,14 @@ body {
     position:absolute;
     font-size:0.9rem;
     font-weight:700;
+    bottom:-10px;
+    margin-left:3px;
+    width: 90%!important;
+    border-radius: 4px!important; 
+    &.active
+    {
+      color:#FFF;
+    }
   };
   &-secs
   {
@@ -159,53 +129,6 @@ body {
     position:absolute; 
   }
 }   
-.tapper-element-tapper-inner
-{
-  width : calc(100% - 5px);
-  height:100%;
-  background-color : #379fe9;
-  border-radius : 100%; 
-  opacity:0;  
-  -webkit-transition: all 300ms ease-out;
-  -moz-transition: all 300ms ease-out;
-  -ms-transition: all 300ms ease-out;
-  -o-transition: all 300ms ease-out;
-  transition: all 300ms ease-out;
-
-}
-.tapper-element-container:hover .tapper-element-tapper > .tapper-element-tapper-inner
-{
-  opacity:1;
-}
-.tapper-element-tapper-inner-inner 
-{
-  border-radius : 100%; 
-  width:100%;
-  height: 100%;
-  opacity: .5;
-  position:relative;
-  background : radial-gradient(circle at 12% 12%,  #c2d2ec 0%, #00000000 60%, #ffffff 80%);
-  -webkit-transition: all 200ms ease-out;
-  -moz-transition: all 200ms ease-out;
-  -ms-transition: all 200ms ease-out;
-  -o-transition: all 200ms ease-out;
-  transition: all 200ms ease-out;
-}
-.tapper-element-tapper-inner-inner:active
-{
-  background : radial-gradient(circle at 19% 19%,  #c2d2ec 0%, #00000000 60%, #ffffff 80%);
-  opacity: 1;
-}
-.tapper-element-label
-{
-  position:absolute;
-  width:100%;
-  top: -30px;
-  font-weight:900;
-  font-size:1.2rem;
-  color:#6c7a92;
-  text-align:center;
-}
 
 
 .App-header {

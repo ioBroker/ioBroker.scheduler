@@ -9,31 +9,43 @@ const styles = theme => ({
 });
 const usePrettoSliderStyles = makeStyles({
     root: (props) => {return {
-        //color: options.backgrounds[ 2 ],
+        //color: options.backgrounds[ 2 ], 
         color: props.theme.palette.primary.dark,
         width: props.intervalsWidth + 'px!important',
         borderRadius: 0,
-        height: 'calc(100% - 165px)!important',
+        height: 'calc(100% - 90px)!important',
         transition: 'all 100ms ease-out',
         position: 'relative'
     }},
-    thumb: {
-        display:'none'
+    thumb:  (props) => {
+        console.log(props.theme.palette);
+        return {
+            //left: 'calc(-50% + ' + (props.intervalsWidth/2-15) + 'px)!important',
+            left: 'calc( 50% + ' + 10 + 'px)!important',
+            width:0,
+            height: 0,
+            display: props.type == "onoff" ? "none" : "flex"
+        }
     },
     active: {
-        
+        backgroundColor:"transparent",
+        width:0,
+        height:0
+
     },
-    valueLabel: (props) => {return {
-        left: 'calc(-50% + ' + props.intervalsWidth/2 + 'px)!important',
-        '& *': {
-        background: 'transparent',
-        fontWeight: 100,
-        borderRadius:0,
-        fontSize: '1.0rem', 
-        width: '90%!important',
-        transition: 'all 100ms ease-out' 
-        },
-    }},
+    valueLabel:  (props) => {
+        console.log(props.theme.palette);
+        return {
+            left: -20,
+            '& *': {
+                background: 'transparent',
+                fontWeight: 100, 
+                color: props.theme.palette.text.primary,
+                fontSize: '1.0rem',  
+                transition: 'all 100ms ease-out' 
+            }
+        }
+    },
     track: {
         width: '90%!important',
         transition: 'all 100ms ease-out',
@@ -53,7 +65,16 @@ const usePrettoSliderStyles = makeStyles({
 
 
 const PrettoSlider = props => {
-    return <Slider classes={usePrettoSliderStyles({intervalsWidth: props.intervalsWidth, theme: props.theme})} {...props}/>
+    return <Slider 
+        classes={
+            usePrettoSliderStyles({
+                intervalsWidth: props.intervalsWidth, 
+                type: props.type, 
+                theme: props.theme
+            })
+        } 
+        {...props}
+    />
 }
 class Interval extends Component
 {
@@ -97,7 +118,7 @@ class Interval extends Component
     }
     getLabel = () =>
     {
-        const {step, i} = this.props;
+        const {step, i} = this.props;         
         let label = i * step;
         const hrs = parseInt(label)
         const secs = ( '0' + ( label % 1 * 60) ).slice( -2 ) ;
@@ -109,37 +130,39 @@ class Interval extends Component
                 ?
                 this.props.options
                 :
-                defaultOptions.options;
-        const { value, i, selected, theme, intervalsWidth } = this.props;
+                defaultOptions.options; 
+        const { value, i, selected, theme, intervalsWidth, type } = this.props;
         if(i < 0 )
         {
             return '';
-        }
+        } 
         const{min, max} = this.getMinMax();
         const label = this.getLabel();
+        const val = isNaN(value) ? 0 : value;
+        const vl = type==="onoff" ? this.getPostfix( val || 0 ) : '';
+        const v2 = type!=="onoff" ? this.getPostfix( val || 0 ) : '';
         return <span className="pretto" >
-            <span className="pretto-label" style={{ marginBottom: options.staff.width / 2 + 20 }}>
-                { this.getPostfix( value || 0 ) } 
+            <span className="pretto-label" >
+                { vl } 
             </span>
             <PrettoSlider
                 key={i}
                 theme={theme}
                 intervalsWidth={intervalsWidth}
+                type={type}
                 orientation="vertical"  
                 aria-label="pretto slider"
-                value={ value }
+                value={ val }
+                valueLabelFormat={ v2 }
                 min={min}
                 max={max}
                 selected= { selected }
                 onChange={ this.handleSliderChange }
+                valueLabelDisplay="on"
             /> 
             <div 
                 className={"pretto-time flow-square" + ( selected ? " active" : "" )} 
-                style={{                           
-                    bottom:-(options.staff.width + 0),
-                    marginLeft:7,
-                    width:"calc(100% - 14px)" 
-                }}
+                style={{ }}
                 i={i}
                 onClick={this.handleSelected}
             >
