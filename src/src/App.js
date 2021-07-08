@@ -235,7 +235,7 @@ class App extends GenericApp {
             let relation = this.state.profile.intervalDuration / intervalDuration;
             let newIntervals = [];
             let newIndex = 0;
-            this.state.profile.intervals.forEach((interval, index) => {
+            this.state.profile.intervals.forEach((interval) => {
                for (let shift = 0; shift < relation; shift++) {
                    newIntervals[newIndex] = interval;
                    newIndex++;
@@ -267,7 +267,7 @@ class App extends GenericApp {
                         item 
                         xs={12} 
                         lg={2} 
-                            className={ " h-100 sm-hidden " }
+                            className="h-100 sm-hidden"
                     > 
                         <div 
                             className={
@@ -343,13 +343,13 @@ class App extends GenericApp {
                                     item 
                                     xs={12} 
                                     lg={3}  
-                                    className={ "h-100 expert sm-hidden " }
+                                    className="h-100 expert sm-hidden"
                                 >
                                     <div 
                                         className={
-                                            "tapper-grid tapper-shadow h-100 m-1 p-2 clip_left_sm_2 " + 
+                                            'tapper-grid tapper-shadow h-100 m-1 p-2 clip_left_sm_2 ' + 
                                             classes.clip_left_sm_2 + 
-                                            (this.state.leftOpen === 2 ? " active " :"")
+                                            (this.state.leftOpen === 2 ? ' active ' :'')
                                         }
                                     > 
                                         <div className="close-label-left-sm flow-dark" onClick={() => this.onLeftOpen(2)}>
@@ -374,16 +374,16 @@ class App extends GenericApp {
                                 item 
                                 xs={12} 
                                 lg={6}  
-                                className={ "h-100 expert sm-hidden " }
+                                className="h-100 expert sm-hidden"
                             >                                           
                                 <div className={
-                                        "tapper-grid tapper-shadow m-1 p-2 mt-1 clip_left_sm_5 "+ 
+                                        'tapper-grid tapper-shadow m-1 p-2 mt-1 clip_left_sm_5 '+ 
                                         classes.clip_left_sm_5 + 
-                                        (this.state.leftOpen === 5 ? " active " :"") 
+                                        (this.state.leftOpen === 5 ? ' active ' : '') 
                                     }
                                     style={{flexGrow:100}}
                                 >
-                                    <div className="close-label-left-sm flow-dark " onClick={() => this.onLeftOpen(5)}>
+                                    <div className="close-label-left-sm flow-dark" onClick={() => this.onLeftOpen(5)}>
                                         <ClearIcon />
                                     </div>
                                     <div className="mt-sm-auto mb-sm-auto wc-100">
@@ -405,13 +405,13 @@ class App extends GenericApp {
                                         item 
                                         xs={12} 
                                         lg={3}  
-                                        className={ "h-100 expert sm-hidden " }
+                                        className="h-100 expert sm-hidden "
                                     > 
                                         <div 
                                             className={
-                                                "tapper-grid tapper-shadow h-100 m-1 p-2 clip_left_sm_4 "+ 
+                                                'tapper-grid tapper-shadow h-100 m-1 p-2 clip_left_sm_4 '+ 
                                                 classes.clip_left_sm_4 + 
-                                                (this.state.leftOpen === 4 ? " active " :"")
+                                                (this.state.leftOpen === 4 ? ' active ' :'')
 
                                             }
                                         > 
@@ -419,13 +419,12 @@ class App extends GenericApp {
                                                 <ClearIcon />
                                             </div>
                                             <div className="mt-sm-auto mb-sm-auto">
-                                                <div className=" ">
+                                                <div>
                                                     <PriorityPanel
                                                         profile={ this.state.profile }
                                                         on={this.onPriority}
                                                         priority={ this.state.profile.prio }
                                                         windowWidth={this.state.windowWidth}
-                                                    
                                                     />
                                                 </div>
                                             </div>
@@ -440,15 +439,13 @@ class App extends GenericApp {
                         item 
                         xs={12} 
                         lg={1} 
-                        className={
-                            "h-100  sm-hidden  " 
-                        }
+                        className="h-100  sm-hidden"
                     >
                         <div 
                             className={
-                                "tapper-grid tapper-shadow m-1 p-2 clip_right_sm_3 h-100 "+ 
+                                'tapper-grid tapper-shadow m-1 p-2 clip_right_sm_3 h-100 '+ 
                                 classes.clip_left_sm_2 + 
-                                (this.state.leftOpen === 3 ? " active " :"")
+                                (this.state.leftOpen === 3 ? ' active ' :'')
                             }                            
                         >
                             <div className="close-label-left-sm flow-dark" onClick={() => this.onLeftOpen(3)}>
@@ -464,13 +461,13 @@ class App extends GenericApp {
                         
                     </Grid> 
                     <div className="label-menu" />
-                    <div className={"label-left-sm-1 " + (this.state.leftOpen === 1 ? "active" : "")} onClick={() => this.onLeftOpen(1)}>
+                    <div className={'label-left-sm-1 ' + (this.state.leftOpen === 1 ? 'active' : '')} onClick={() => this.onLeftOpen(1)}>
                         <DehazeIcon />
                     </div>
-                    <div className={"label-right-sm-5 " + (this.state.leftOpen === 5 ? "active" : "")} onClick={() => this.onLeftOpen(5)}>
+                    <div className={'label-right-sm-5 ' + (this.state.leftOpen === 5 ? 'active' : '')} onClick={() => this.onLeftOpen(5)}>
                         <CallSplitIcon/>
                     </div>
-                    <div className={"label-right-sm-3 " + (this.state.leftOpen === 3 ? "active" : "")} onClick={() => this.onLeftOpen(3)}>
+                    <div className={'label-right-sm-3 ' + (this.state.leftOpen === 3 ? 'active' : '')} onClick={() => this.onLeftOpen(3)}>
                         <CalendarTodayIcon/>
                     </div>
                     {
@@ -478,16 +475,16 @@ class App extends GenericApp {
                             ? 
                             <>
                                 <div className="label-menu-bottom" />
-                                <div className={"label-left-sm-2  expert " + (this.state.leftOpen === 2 ? "active" : "")} onClick={() => this.onLeftOpen(2)}>
+                                <div className={'label-left-sm-2  expert ' + (this.state.leftOpen === 2 ? 'active' : '')} onClick={() => this.onLeftOpen(2)}>
                                     <AssignmentTurnedInIcon />
                                 </div>
-                                <div className={"label-right-sm-6 " + (this.state.leftOpen === 6 ? "active" : "")} onClick={() => this.onLeftOpen(6)}>
+                                <div className={'label-right-sm-6 ' + (this.state.leftOpen === 6 ? 'active' : '')} onClick={() => this.onLeftOpen(6)}>
                                     <CallSplitIcon/>
                                 </div>
-                                <div className={"label-right-sm-4 " + (this.state.leftOpen === 4 ? "active" : "")} onClick={() => this.onLeftOpen(4)}>
+                                <div className={'label-right-sm-4 ' + (this.state.leftOpen === 4 ? 'active' : '')} onClick={() => this.onLeftOpen(4)}>
                                     <ViewListIcon/>
                                 </div>
-                                <div className={"label-right-sm-7 " + (this.state.leftOpen === 7 ? "active" : "")} onClick={() => this.onLeftOpen(7)}>
+                                <div className={'label-right-sm-7 ' + (this.state.leftOpen === 7 ? 'active' : '')} onClick={() => this.onLeftOpen(7)}>
                                     <ScheduleIcon/>
                                 </div>
 

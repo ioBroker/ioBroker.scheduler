@@ -25,7 +25,6 @@ class DayOfWeekPanel extends Component
                         checked={this.props.dow.includes(index)}
                         color="primary" 
                         className={ "flow checkbox" } 
-                        disableRipple={true}
                         onChange={e => this.props.onChange(index, e.target.checked)}
                     />} 
                     label={I18n.t( title )}

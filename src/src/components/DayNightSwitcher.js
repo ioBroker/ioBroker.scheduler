@@ -5,13 +5,10 @@ class DayNightSwitcher extends Component
 {
     onSlide = quorte_id =>
     {
-        
         if(this.props.on)
         {
             this.props.on( quorte_id )     
         }
-        
-       /*this.setState({ quorte_id })*/
     }
     render()
     {
@@ -24,15 +21,12 @@ class DayNightSwitcher extends Component
                 key={i}
                 className="day-night-quorte" 
                 onClick={()=> this.onSlide( i )}
-            >
-
-            </div>
+            ></div>
         })
         return <div className="day_night_cont" style={{ height }}>
             <div>
                 <img src={ day_night } alt="day-night" id="day-night"/>
                 <div className="day_night">
-                    
                     { quortes }
                     <div
                         className="day-night-slide"

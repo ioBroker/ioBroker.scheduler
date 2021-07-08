@@ -8,7 +8,6 @@ const styles = theme => ({
 });
 const usePrettoSliderStyles = makeStyles({
     root: (props) => {return {
-        //color: options.backgrounds[ 2 ], 
         color: props.theme.palette.primary.dark,
         width: props.intervalsWidth + 'px!important',
         borderRadius: 0,
@@ -18,15 +17,14 @@ const usePrettoSliderStyles = makeStyles({
     }},
     thumb:  (props) => {
         return {
-            //left: 'calc(-50% + ' + (props.intervalsWidth/2-15) + 'px)!important',
             left: 'calc( 50% + ' + 10 + 'px)!important',
             width:0,
             height: 0,
-            display: props.type === "onoff" ? "none" : "flex"
+            display: props.type === 'onoff' ? 'none' : 'flex'
         }
     },
     active: {
-        backgroundColor:"transparent",
+        backgroundColor: 'transparent',
         width:0,
         height:0
 
@@ -55,7 +53,6 @@ const usePrettoSliderStyles = makeStyles({
         borderBottomLeftRadius: '0px!important',  
         borderBottomRightRadius: '0px!important',  
         height:'calc(100% + ' + props.intervalsWidth + 'px)',
-        // backgroundColor:'#FFF',
         backgroundColor:props.theme.palette.primary.light,
     }},
 });
@@ -78,7 +75,6 @@ class Interval extends Component
     
     handleSliderChange = ( event, data) =>
     {
-        //this.setState({value: data});
         this.on( 'data', data );
     }
     handleSelected = evt =>
@@ -131,8 +127,8 @@ class Interval extends Component
         const{min, max} = this.getMinMax();
         const label = this.getLabel();
         const val = isNaN(value) ? 0 : value;
-        const vl = type==="onoff" ? this.getPostfix( val || 0 ) : '';
-        const v2 = type!=="onoff" ? this.getPostfix( val || 0 ) : '';
+        const vl = type === 'onoff' ? this.getPostfix( val || 0 ) : '';
+        const v2 = type !== 'onoff' ? this.getPostfix( val || 0 ) : '';
         return <span className="pretto" >
             <span className="pretto-label" >
                 { vl } 

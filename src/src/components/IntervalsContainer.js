@@ -55,7 +55,7 @@ class IntervalsContainer extends Component
     { 
         const { type, theme, range, intervals } = this.props; 
         return  <div 
-            className={"tapper-grid tapper-shadow m-1 p-1 h-100 "}
+            className="tapper-grid tapper-shadow m-1 p-1 h-100"
             style={{
                 padding : 0,
                 paddingBottom:0,
@@ -69,7 +69,7 @@ class IntervalsContainer extends Component
                 ref={this.tapperRef}
                 style={{ 
                     padding: 0,
-                    width:"100%" 
+                    width: "100%" 
                 }}
             > 
                 <Intervals 

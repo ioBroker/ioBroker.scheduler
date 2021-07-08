@@ -23,7 +23,7 @@ class ProfilesPanel extends Component
         this.state ={
             isDialogOpen    : false,
             isSearch        : false,
-            searchbled      : ""
+            searchbled      : ''
         }
     } 
     onActive = id =>
@@ -53,7 +53,7 @@ class ProfilesPanel extends Component
             }
         )
     }
-    onUpdateItem = evt =>
+    onUpdateItem = () =>
     {
         let menu = [ ...this.props.menu ];
         let newMenu= [];
@@ -92,14 +92,11 @@ class ProfilesPanel extends Component
     {
         let menu = [ ...this.props.menu ];
         let newMenu = [];
-        menu.forEach((e, i) =>
+        menu.forEach((e) =>
         {
-            if(e.id === this.state.element_id)
-            {
-                
-            }
-            else
+            if(e.id !== this.state.element_id) {
                 newMenu.push(e);
+            }
         }); 
         this.setState({ isDialogOpen : false,  isnew : false });
         this.props.onChangeMenu(newMenu)
@@ -133,7 +130,7 @@ class ProfilesPanel extends Component
         let menu    = [ ...this.props.menu ];
         let newMenu = menu.map( e =>
         {
-            if(e.type === "folder")  e.is_open = false;
+            if(e.type === 'folder')  e.is_open = false;
             return e;    
         })
         this.props.onChangeMenu(newMenu)
@@ -143,7 +140,7 @@ class ProfilesPanel extends Component
         let menu    = [ ...this.props.menu ];
         let newMenu = menu.map( e =>
         {
-            if(e.type === "folder")  e.is_open = true;
+            if(e.type === 'folder')  e.is_open = true;
             return e;    
         })
         this.props.onChangeMenu(newMenu)
@@ -163,7 +160,7 @@ class ProfilesPanel extends Component
                             ?
                             <div key={sub.id}>
                             {
-                                sub.type === "profile" 
+                                sub.type === 'profile' 
                                     ? 
                                     this.profile( sub, level + 1 ) 
                                     : 
@@ -180,33 +177,33 @@ class ProfilesPanel extends Component
             <FolderIcon     className="pr-1" onClick={ evt => this.onOpen(fld.id, true ) } />
         return <div key={ fld.id }>
             <MenuItem                     
-                className={ "flow-menu-item " + ( active === fld.id ? " active " : "") } 
+                className={ 'flow-menu-item ' + ( active === fld.id ? ' active ' : '') } 
                 onClick={() => this.onClick( fld.id )} 
                 style={{ marginLeft: (level * 20) }}
                 disableRipple
             >
-                <Typography variant="inherit"  className=" w-100">
+                <Typography variant="inherit"  className="w-100">
                     {folder_sample}  {I18n.t( fld.title  )}
                 </Typography>
 
                 <div className="absolute-right">
                     <div 
                         className="edit_button" 
-                        title={I18n.t("Add new child profile")} 
-                        onClick={() =>this.onAddChild( fld, "profile" )}
+                        title={I18n.t('Add new child profile')} 
+                        onClick={() =>this.onAddChild( fld, 'profile' )}
                     >
                         <AddIcon />
                     </div>
                     <div 
                         className="edit_button" 
-                        title={I18n.t("Add new child folder")} 
-                        onClick={() =>this.onAddChild( fld, "folder" )}
+                        title={I18n.t('Add new child folder')} 
+                        onClick={() =>this.onAddChild( fld, 'folder' )}
                     >
                         <CreateNewFolderIcon />
                     </div>
                     <div 
-                        className="edit_button" 
-                        title={I18n.t("Edit")}  
+                        className='edit_button' 
+                        title={I18n.t('Edit')}  
                         onClick={() => this.onEditDialog( fld )}
                     >
                         <EditIcon />
@@ -221,19 +218,19 @@ class ProfilesPanel extends Component
     {
         const { active } = this.props;
         return <MenuItem                        
-            className={ "flow-menu-item sub " + ( active === sub.id ? " active " : "") } 
+            className={ 'flow-menu-item sub ' + ( active === sub.id ? ' active ' : '') } 
             style={{ marginLeft: (level * 20) }}
             onClick={() => this.onClick( sub.id, level + 1 )} 
             disableRipple
         >
             <Typography variant="inherit" className="pl-1 w-100">
-                <ScheduleIcon className="pr-1" /> {I18n.t( sub.title  )}
+                <ScheduleIcon className="pr-1" /> {I18n.t( sub.title )}
             </Typography>
             
             <div className="absolute-right">
                 <div 
                     className="edit_button" 
-                    title={I18n.t("Edit")} 
+                    title={I18n.t('Edit')} 
                     onClick={ () => this.onEditDialog( sub ) }
                 >
                     <EditIcon />
@@ -244,7 +241,7 @@ class ProfilesPanel extends Component
     }
     onSearch = () =>
     {
-        this.setState({ isSearch : !this.state.isSearch, searchbled: "" });
+        this.setState({ isSearch : !this.state.isSearch, searchbled: '' });
     }
     onSearchedText = evt =>
     {
@@ -259,14 +256,14 @@ class ProfilesPanel extends Component
             <>
                 <TextField
                     className="ml-1 w-100" 
-                    placeholder={I18n.t("search text")}
+                    placeholder={I18n.t('search text')}
                     onChange={ this.onSearchedText }
                 />
                  <IconButton  
                     aria-label="upload picture" 
                     component="span"
                     size="small" 
-                    title={I18n.t("finish searching")}
+                    title={I18n.t('finish searching')}
                     onClick={ this.onSearch }
                 >
                    <CloseIcon />  
@@ -278,13 +275,10 @@ class ProfilesPanel extends Component
                     aria-label="upload picture" 
                     component="span"
                     size="small" 
-                    title={I18n.t("Add folder")}
+                    title={I18n.t('Add folder')}
                     onClick={ 
                         () => {
-                            this.onAddChild( { id : "" }, "folder" );
-                            setTimeout( () => {
-                                // this.onUpdateItem()
-                            }, 200);
+                            this.onAddChild( { id : '' }, 'folder' );
                         }
                     }
                 >
@@ -297,7 +291,7 @@ class ProfilesPanel extends Component
                             aria-label="upload picture" 
                             component="span"
                             size="small"
-                            title={I18n.t("Close all")}
+                            title={I18n.t('Close all')}
                         >
                             <UnfoldLessIcon 
                                 onClick={this.onCloseAll}
@@ -308,7 +302,7 @@ class ProfilesPanel extends Component
                             aria-label="upload picture" 
                             component="span"
                             size="small"
-                            title={I18n.t("Open all")}
+                            title={I18n.t('Open all')}
                         >
                             <UnfoldMoreIcon 
                                 onClick={ this.onOpenAll }
@@ -321,7 +315,7 @@ class ProfilesPanel extends Component
                     component="span"
                     size="small" 
                     className="ml-auto" 
-                    title={I18n.t("Search")}
+                    title={I18n.t('Search')}
                     onClick={ this.onSearch }
                 >
                    <SearchIcon />  
@@ -339,7 +333,7 @@ class ProfilesPanel extends Component
                 {
                     return e.title.toLowerCase().indexOf( this.state.searchbled.toLowerCase() ) > -1
                         ?
-                        e.type === "folder"
+                        e.type === 'folder'
                             ?
                             this.folder(e, 0)
                             :
@@ -349,7 +343,7 @@ class ProfilesPanel extends Component
                 })
             :
             menu
-                .filter(e => e.parent === "" )
+                .filter(e => e.parent === '' )
                     .map((e) =>
                     {
                         return this.folder(e, 0);
@@ -371,12 +365,12 @@ class ProfilesPanel extends Component
                 open={isDialogOpen}
             >
                 <DialogTitle id="simple-dialog-title">
-                    {I18n.t("Edit")}
+                    {I18n.t('Edit')}
                 </DialogTitle>
                 <div className="p-2 flex-column" style={{ width:250, minHeight:200 }}>
                     <div className="p-2">
                         <div htmlFor="label">
-                            {I18n.t( "label" )}
+                            {I18n.t( 'label' )}
                         </div>
                         <Input 
                             id="label" 
@@ -390,7 +384,7 @@ class ProfilesPanel extends Component
                     </div> 
                     <div className="mt-auto">
                         <Button onClick={ this.onUpdateItem }>
-                            {I18n.t( this.state.isnew ? "create" : "update" )}
+                            {I18n.t( this.state.isnew ? 'create' : 'update' )}
                         </Button>
                         {
                             this.state.isnew
@@ -398,7 +392,7 @@ class ProfilesPanel extends Component
                                 null
                                 :
                                 <Button onClick={ this.onDeleteItem }>
-                                    {I18n.t( "delete" )}
+                                    {I18n.t( 'delete' )}
                                 </Button>
 
                         }

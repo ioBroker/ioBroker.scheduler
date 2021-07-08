@@ -70,11 +70,10 @@ class Intervals extends Component
         return 24 / range;
     }
 
-    //
     prev = () =>
     {
-        const{ slide_id } = this.state;
-        const{ range } = this.props;
+        const { slide_id } = this.state;
+        const { range } = this.props;
         if(slide_id > 0)
           this.setSlide_id( slide_id - 1 )
         else
@@ -82,8 +81,8 @@ class Intervals extends Component
     }
     next = () =>
     {
-        const{ slide_id } = this.state;
-        const{ range } = this.props;
+        const { slide_id } = this.state;
+        const { range } = this.props;
         if( slide_id < this.getSectionByRange(range) - 1 )
             this.setSlide_id( slide_id + 1 );
         else
@@ -147,7 +146,7 @@ class Intervals extends Component
                 key={ i + 'step' + range }
                 value={ data[ i ] } 
                 selected= { selected[ i ] }
-                label={ '' }
+                label=""
                 i={ i }
                 step={range}
                 on={ this.onChange }
@@ -159,15 +158,6 @@ class Intervals extends Component
         }
         return sliders;
     }
-    // 
-    onSwipedDown = evt =>
-    { 
-
-    }
-    onSwipeEnd = evt =>
-    { 
-
-    }
     onSwipeLeftListener = () => 
     {
         this.prev();
@@ -176,18 +166,6 @@ class Intervals extends Component
     {
         this.next();
     }
-    onSwipingRight()
-    {
-    }
-    onSwipingLeft() 
-    {
-    }
-    onSwipeListener = e =>
-    { 
-    }
-    onTransitionEnd = () =>
-    {
-    } 
     render()
     {
         if (!this.props.intervalsWidth) {
@@ -202,12 +180,8 @@ class Intervals extends Component
                     nodeName="div"
                     className="h-100 w-100"
                     mouseSwipe={false}
-                    onSwipedDown={this.onSwipedDown}
-                    onSwipeEnd={this.onSwipeEnd}
-                    onSwipe={this.onSwipeListener}
                     onSwipedLeft={this.onSwipeLeftListener}
                     onSwipedRight={this.onSwipeRightListener} 
-                    onTransitionEnd={this.onTransitionEnd}
                 >
                     <div className="swiper"> 
                         { this.getSlide() }

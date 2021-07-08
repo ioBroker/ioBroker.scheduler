@@ -11,10 +11,10 @@ class EditPanel extends Component
     {
         return <div className="flow-menu mt-auto">
             <div 
-                className={"tapper-edit w-100" + (this.props.isEdit ? " active" : "") }
+                className={'tapper-edit w-100' + (this.props.isEdit ? ' active' : '') }
                 onClick={this.on}
             >
-                {I18n.t( this.props.isEdit ? "Finish edit" : "Edit Menu")}
+                {I18n.t( this.props.isEdit ? 'Finish edit' : 'Edit Menu')}
             </div>            
         </div>
     }
