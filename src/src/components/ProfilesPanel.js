@@ -7,12 +7,10 @@ import { Paper } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
 import CreateNewFolderIcon from '@material-ui/icons/CreateNewFolder';
-import ImportExportIcon from '@material-ui/icons/ImportExport';
 import SearchIcon from '@material-ui/icons/Search';
 import FolderIcon from '@material-ui/icons/Folder';
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 import ScheduleIcon from '@material-ui/icons/Schedule';
-import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd'; 
 import UnfoldLessIcon from '@material-ui/icons/UnfoldLess';
 import UnfoldMoreIcon from '@material-ui/icons/UnfoldMore';
 import CloseIcon from '@material-ui/icons/Close';
@@ -58,7 +56,6 @@ class ProfilesPanel extends Component
     onUpdateItem = evt =>
     {
         let menu = [ ...this.props.menu ];
-        console.log(menu )
         let newMenu= [];
         if(this.state.isnew)
         {
@@ -126,7 +123,7 @@ class ProfilesPanel extends Component
         let menu    = [ ...this.props.menu ];
         let newMenu = menu.map( e =>
         {
-            if(e.id == id)  e.is_open = is_open;
+            if(e.id === id)  e.is_open = is_open;
             return e;    
         })
         this.props.onChangeMenu(newMenu)
@@ -134,10 +131,9 @@ class ProfilesPanel extends Component
     onCloseAll = () =>
     {
         let menu    = [ ...this.props.menu ];
-        console.log( menu );
         let newMenu = menu.map( e =>
         {
-            if(e.type == "folder")  e.is_open = false;
+            if(e.type === "folder")  e.is_open = false;
             return e;    
         })
         this.props.onChangeMenu(newMenu)
@@ -145,17 +141,16 @@ class ProfilesPanel extends Component
     onOpenAll = () =>
     {
         let menu    = [ ...this.props.menu ];
-        console.log( menu );
         let newMenu = menu.map( e =>
         {
-            if(e.type == "folder")  e.is_open = true;
+            if(e.type === "folder")  e.is_open = true;
             return e;    
         })
         this.props.onChangeMenu(newMenu)
     }
     folder = (fld, level) =>
     {
-        const { menu, active, isEdit } = this.props;
+        const { menu, active } = this.props;
         const submenus = this.state.isSearch && this.state.searchbled
             ?
             null
@@ -168,7 +163,7 @@ class ProfilesPanel extends Component
                             ?
                             <div key={sub.id}>
                             {
-                                sub.type =="profile" 
+                                sub.type === "profile" 
                                     ? 
                                     this.profile( sub, level + 1 ) 
                                     : 
@@ -255,7 +250,6 @@ class ProfilesPanel extends Component
     {
         const text = evt.target.value;
         this.setState( { searchbled : text } );
-        console.log(text);
     }
     head = () =>
     {
@@ -337,15 +331,15 @@ class ProfilesPanel extends Component
     render()
     {
         const { isDialogOpen } = this.state;
-        const { menu, active, isEdit } = this.props;
+        const { menu } = this.props;
         const items = this.state.isSearch && this.state.searchbled
             ?
             menu
-                .map((e,i) =>
+                .map((e) =>
                 {
                     return e.title.toLowerCase().indexOf( this.state.searchbled.toLowerCase() ) > -1
                         ?
-                        e.type == "folder"
+                        e.type === "folder"
                             ?
                             this.folder(e, 0)
                             :
@@ -355,8 +349,8 @@ class ProfilesPanel extends Component
                 })
             :
             menu
-                .filter(e => e.parent == "" )
-                    .map((e, i) =>
+                .filter(e => e.parent === "" )
+                    .map((e) =>
                     {
                         return this.folder(e, 0);
                     })

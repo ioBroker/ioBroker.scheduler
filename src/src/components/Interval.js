@@ -1,7 +1,6 @@
 import { Component } from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
-import defaultOptions from '../data/defaultOptions.json'
 import minmax from '../data/minmax.json'
 
 const styles = theme => ({
@@ -18,13 +17,12 @@ const usePrettoSliderStyles = makeStyles({
         position: 'relative'
     }},
     thumb:  (props) => {
-        console.log(props.theme.palette);
         return {
             //left: 'calc(-50% + ' + (props.intervalsWidth/2-15) + 'px)!important',
             left: 'calc( 50% + ' + 10 + 'px)!important',
             width:0,
             height: 0,
-            display: props.type == "onoff" ? "none" : "flex"
+            display: props.type === "onoff" ? "none" : "flex"
         }
     },
     active: {
@@ -34,7 +32,6 @@ const usePrettoSliderStyles = makeStyles({
 
     },
     valueLabel:  (props) => {
-        console.log(props.theme.palette);
         return {
             left: -20,
             '& *': {
@@ -126,11 +123,6 @@ class Interval extends Component
     }
     render()
     {
-        const options = this.props.options
-                ?
-                this.props.options
-                :
-                defaultOptions.options; 
         const { value, i, selected, theme, intervalsWidth, type } = this.props;
         if(i < 0 )
         {

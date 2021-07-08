@@ -15,7 +15,6 @@ import PriorityPanel from './components/PriorityPanel';
 import IntervalsContainer from './components/IntervalsContainer';
 import DayOfWeekPanel from './components/DayOfWeekPanel';
 import DevicesPanel from './components/DevicesPanel';
-import EditPanel from './components/EditPanel';
 import defaultOptions from './data/defaultOptions.json'
 import minmax from './data/minmax.json'
 import { Grid } from '@material-ui/core';
