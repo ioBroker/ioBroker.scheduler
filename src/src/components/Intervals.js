@@ -1,199 +1,183 @@
-import React, { Component } from 'react'; 
-import { Fragment } from 'react';
-import {Swipe} from 'react-swipe-component';
-import DayNightSwitcher from './DayNightSwitcher'
+import React, { Component, Fragment } from 'react';
+
+import { Swipe } from 'react-swipe-component';
+import DayNightSwitcher from './DayNightSwitcher';
 import Interval from './Interval';
 
-class Intervals extends Component
-{
-    constructor(props)
-    {
+class Intervals extends Component {
+    constructor(props) {
         super(props);
         this.state = {
-            slide_id: 0,
-            selected : []
-        }
+            slideId: 0,
+            selected: [],
+        };
     }
-    componentDidUpdate(prevProps)
-    {
-        if(prevProps.range !== this.props.range || prevProps.intervalsWidth !== this.props.intervalsWidth)
-        {
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.range !== this.props.range || prevProps.intervalsWidth !== this.props.intervalsWidth) {
             this.setState({
-                slide_id:0
-            })
+                slideId: 0,
+            });
         }
     }
-    getSectionByRange = range =>
-    {
-        if( this.props.intervalsWidth >= 720 )
-        {
+
+    getSectionByRange = (range) => {
+        if (this.props.intervalsWidth >= 720) {
             return range === 0.5 ? 2 : 1;
         }
-        switch( range )
-        {
-          case 0.5: 
-            return 8; 
-          case 1: 
-            return 4; 
-          case 2: 
-            return 3; 
-          case 4: 
-            return 1; 
-          case 3:
-          default: 
-            return 2; 
+        switch (range) {
+        case 0.5:
+            return 8;
+        case 1:
+            return 4;
+        case 2:
+            return 3;
+        case 4:
+            return 1;
+        case 3:
+        default:
+            return 2;
         }
     }
-    getCountByRange = range =>
-    {
-        if( this.props.intervalsWidth >= 720 )
-        {
-            return range === 0.5 ? 24 : this.getMaxByRange( range );
+
+    getCountByRange = (range) => {
+        if (this.props.intervalsWidth >= 720) {
+            return range === 0.5 ? 24 : this.getMaxByRange(range);
         }
-        switch( range )
-        {
-          case 0.5: 
+        switch (range) {
+        case 0.5:
             return 6;
-          case 1:
+        case 1:
             return 6;
-          case 2:
+        case 2:
             return 4;
-          case 4:
+        case 4:
             return 6;
-          case 3:
-          default:
+        case 3:
+        default:
             return 4;
         }
     }
-    getMaxByRange = range =>
-    {
-        return 24 / range;
+
+    getMaxByRange = (range) => 24 / range
+
+    prev = () => {
+        const { slideId } = this.state;
+        const { range } = this.props;
+        if (slideId > 0) this.setSlideId(slideId - 1);
+        else this.setSlideId(this.getSectionByRange(range) - 1);
     }
 
-    prev = () =>
-    {
-        const { slide_id } = this.state;
+    next = () => {
+        const { slideId } = this.state;
         const { range } = this.props;
-        if(slide_id > 0)
-          this.setSlide_id( slide_id - 1 )
-        else
-          this.setSlide_id( this.getSectionByRange(range) - 1 );
-    }
-    next = () =>
-    {
-        const { slide_id } = this.state;
-        const { range } = this.props;
-        if( slide_id < this.getSectionByRange(range) - 1 )
-            this.setSlide_id( slide_id + 1 );
-        else
-            this.setSlide_id( 0 );
-    }
-    selectAll = () =>
-    {
-        const{ range } = this.props;
-        this.setState( {selected: Array( this.getMaxByRange( range ) + 1).fill( 1 ).map( ( e, i ) => i ) } )
-    }
-    selectNone = () =>
-    {
-        this.setState( {selected: [] } )
+        if (slideId < this.getSectionByRange(range) - 1) this.setSlideId(slideId + 1);
+        else this.setSlideId(0);
     }
 
-    setSlide_id = slide_id =>
-    {
-        this.setState( { slide_id : parseInt( slide_id ) } );
+    selectAll = () => {
+        const { range } = this.props;
+        this.setState({ selected: Array(this.getMaxByRange(range) + 1).fill(1).map((e, i) => i) });
     }
-    onChange = ( field, value, i ) =>
-    {     
-        const {selected} = this.state;
-        let state = {...this.state };
+
+    selectNone = () => {
+        this.setState({ selected: [] });
+    }
+
+    setSlideId = (slideId) => {
+        this.setState({ slideId: parseInt(slideId) });
+    }
+
+    onChange = (field, value, i) => {
+        const { selected } = this.state;
+        const state = { ...this.state };
         if (field === 'selected') {
-            state[ field ][i] = value;
-            this.setState( state )
+            state[field][i] = value;
+            this.setState(state);
         }
         if (field === 'data') {
-            let data = [...this.props.data];
-            let inSelected = selected[i];
+            const data = [...this.props.data];
+            const inSelected = selected[i];
             if (!inSelected) {
-                this.setState({selected: []});
+                this.setState({ selected: [] });
             }
-            if( !inSelected || selected.filter( e  => e ).length === 0)
-            {
-                data[i] = value; 
-            }
-            else
-            {
+            if (!inSelected || selected.filter((e) => e).length === 0) {
+                data[i] = value;
+            } else {
                 data.forEach((element, index) => {
-                    if( selected[index] )
-                    {
-                        data[index] =  value;
+                    if (selected[index]) {
+                        data[index] = value;
                     }
                 });
             }
             this.props.onChange(data);
         }
     }
-    getSlide()
-    {
-        const {slide_id, selected} = this.state;
-        const {type, intervalsWidth, theme, range, data} = this.props;
+
+    getSlide() {
+        const { slideId, selected } = this.state;
+        const {
+            type, intervalsWidth, theme, range, data,
+        } = this.props;
         const count = this.getCountByRange(range);
-       
-        let sliders = []
-        for( let i = slide_id * count; i < ( slide_id + 1 ) * count; i++ )
-        {
-          sliders.push(
-            <Interval
-                key={ i + 'step' + range }
-                value={ data[ i ] } 
-                selected= { selected[ i ] }
-                label=""
-                i={ i }
-                step={range}
-                on={ this.onChange }
-                type={ type }
-                theme={ theme }
-                intervalsWidth={ intervalsWidth / count }
-            /> 
-          )
+
+        const sliders = [];
+        for (let i = slideId * count; i < (slideId + 1) * count; i++) {
+            sliders.push(
+                <Interval
+                    key={`${i}step${range}`}
+                    value={data[i]}
+                    selected={selected[i]}
+                    label=""
+                    i={i}
+                    step={range}
+                    on={this.onChange}
+                    type={type}
+                    theme={theme}
+                    intervalsWidth={intervalsWidth / count}
+                />,
+            );
         }
         return sliders;
     }
-    onSwipeLeftListener = () => 
-    {
+
+    onSwipeLeftListener = () => {
         this.prev();
     }
-    onSwipeRightListener = () =>
-    {
+
+    onSwipeRightListener = () => {
         this.next();
     }
-    render()
-    {
+
+    render() {
         if (!this.props.intervalsWidth) {
             return null;
         }
-        const {slide_id} = this.state;
-        const {range} = this.props;
+        const { slideId } = this.state;
+        const { range } = this.props;
         const sections = this.getSectionByRange(range);
-        return <Fragment> 
-            <div className="swiper-content"> 
-                <Swipe
-                    nodeName="div"
-                    className="h-100 w-100"
-                    mouseSwipe={false}
-                    onSwipedLeft={this.onSwipeLeftListener}
-                    onSwipedRight={this.onSwipeRightListener} 
-                >
-                    <div className="swiper"> 
-                        { this.getSlide() }
-                    </div>            
-                </Swipe> 
-            </div>
-            <DayNightSwitcher
-                sections={ sections }
-                quorte_id={ parseInt(slide_id ) }
-                on={ quorte_id => this.setSlide_id ( quorte_id ) }
-            />
-      </Fragment> ;
+        return (
+            <>
+                <div className="swiper-content">
+                    <Swipe
+                        nodeName="div"
+                        className="h-100 w-100"
+                        mouseSwipe={false}
+                        onSwipedLeft={this.onSwipeLeftListener}
+                        onSwipedRight={this.onSwipeRightListener}
+                    >
+                        <div className="swiper">
+                            { this.getSlide() }
+                        </div>
+                    </Swipe>
+                </div>
+                <DayNightSwitcher
+                    sections={sections}
+                    quorte_id={parseInt(slideId)}
+                    on={(quorteId) => this.setSlideId(quorteId)}
+                />
+            </>
+        );
     }
 }
 export default Intervals;

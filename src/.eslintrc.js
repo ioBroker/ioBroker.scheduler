@@ -1,0 +1,47 @@
+module.exports = {
+    env: {
+        browser: true,
+        es2021: true,
+    },
+    extends: [
+        // 'plugin:react/recommended',
+        'airbnb',
+        'react-app',
+    ],
+    parser: 'babel-eslint',
+    parserOptions: {
+        ecmaFeatures: {
+            jsx: true,
+        },
+        ecmaVersion: 12,
+        sourceType: 'module',
+    },
+    plugins: [
+        // 'react',
+    ],
+    rules: {
+        'react/jsx-indent': 'off',
+        'react/jsx-indent-props': 'off',
+        'react/no-access-state-in-setstate': 'off',
+        'jsx-a11y/click-events-have-key-events': 'off',
+        'jsx-a11y/no-static-element-interactions': 'off',
+        'no-plusplus': 'off',
+        'react/react-in-jsx-scope': 'off',
+        'react/prop-types': 'off',
+        'react/no-render-return-value': 'off',
+        'max-len': 'off',
+        'react/destructuring-assignment': 'off',
+        'react/prefer-stateless-function': 'off',
+        'react/self-closing-comp': 'off',
+        'react/jsx-filename-extension': 'off',
+        'no-nested-ternary': 'off',
+        'react/no-array-index-key': 'off',
+        'react/jsx-props-no-spreading': 'off',
+        'react/sort-comp': 'off',
+        'react/no-did-update-set-state': 'off',
+        'global-require': 'off',
+        'import/extensions': 'off',
+        radix: 'off',
+        indent: ['error', 4],
+    },
+};

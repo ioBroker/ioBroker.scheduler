@@ -10,29 +10,30 @@ const daysOfWeek = [
     'We',
     'Th',
     'Fr',
-    'Sa'
-]
+    'Sa',
+];
 
-class DayOfWeekPanel extends Component
-{
-    render()
-    {
-        return <FormControl component="fieldset"> 
-            {daysOfWeek.map((title, index) =>
-                <FormControlLabel 
-                    key={index}
-                    control={<Checkbox 
-                        checked={this.props.dow.includes(index)}
-                        color="primary" 
-                        className={ "flow checkbox" } 
-                        onChange={e => this.props.onChange(index, e.target.checked)}
-                    />} 
-                    label={I18n.t( title )}
-                    className="px-1"
-                />
-            )}
-        </FormControl>
+class DayOfWeekPanel extends Component {
+    render() {
+        return (
+            <FormControl component="fieldset">
+                {daysOfWeek.map((title, index) => (
+                    <FormControlLabel
+                        key={index}
+                        control={(
+                            <Checkbox
+                                checked={this.props.dow.includes(index)}
+                                color="primary"
+                                className="flow checkbox"
+                                onChange={(e) => this.props.onChange(index, e.target.checked)}
+                            />
+                        )}
+                        label={I18n.t(title)}
+                        className="px-1"
+                    />
+                ))}
+            </FormControl>
+        );
     }
-
 }
 export default DayOfWeekPanel;
