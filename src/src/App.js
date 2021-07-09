@@ -15,7 +15,7 @@ import PriorityPanel from './components/PriorityPanel';
 import IntervalsContainer from './components/IntervalsContainer';
 import DayOfWeekPanel from './components/DayOfWeekPanel';
 import DevicesPanel from './components/DevicesPanel';
-import defaultOptions from './data/defaultOptions.json'
+// import defaultOptions from './data/defaultOptions.json'
 import minmax from './data/minmax.json'
 import { Grid } from '@material-ui/core';
 
@@ -28,7 +28,7 @@ import ViewListIcon from '@material-ui/icons/ViewList';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 
 const styles = theme => {
-    const mobile_panel = {
+    const mobilePanel = {
         '@media (max-width:570px)': 
         {
             display: 'flex',
@@ -45,7 +45,7 @@ const styles = theme => {
         app:{
             display:'flex',
             position: 'relative',
-            height: '100%',
+            height: 'calc(100% - 64px)',
             backgroundColor: theme.palette.background.paper
         },
         root: {},
@@ -62,11 +62,11 @@ const styles = theme => {
         paneling: {
             backgroundColor: theme.palette.background.paper
         },
-        clip_left_sm_2 : mobile_panel,
-        clip_left_sm_4 : mobile_panel,
-        clip_left_sm_5 : mobile_panel,
-        clip_left_sm_6 : mobile_panel,
-        clip_left_sm_7 : mobile_panel
+        clip_left_sm_2 : mobilePanel,
+        clip_left_sm_4 : mobilePanel,
+        clip_left_sm_5 : mobilePanel,
+        clip_left_sm_6 : mobilePanel,
+        clip_left_sm_7 : mobilePanel
         
     }
 };
@@ -91,7 +91,7 @@ const AntTab = withStyles((theme) => ({
         opacity: 1, 
     },
     selected: {},
-}))((props) => <Tab disableRipple {...props} />);
+}))((props) => <Tab {...props} />);
 
 class App extends GenericApp {
     constructor(props) {
@@ -113,8 +113,8 @@ class App extends GenericApp {
         super(props, extendedProps);
         this.state ={
             ...this.state,
-            menu : defaultOptions.menu,
-            activeMenu : defaultOptions.menu[0].id,
+            menu : [],//defaultOptions.menu,
+            activeProfile : -1,//defaultOptions.menu[0].id,
             isMenuEdit : false,
             isExpert : true,
             leftOpen: 0,
@@ -209,7 +209,7 @@ class App extends GenericApp {
     }
     onMenu = active =>
     {
-        this.setState({ activeMenu : active, leftOpen : false });
+        this.setState({ activeProfile : active, leftOpen : false });
     }
     onEditMenu = isMenuEdit =>
     {
@@ -245,16 +245,26 @@ class App extends GenericApp {
         }
         this.setState({ profile, leftOpen7: false });
     }
+    onConnectionReady() {
+        if (!this.state.native.profiles) {
+            let native = {
+                profiles: []
+            };
+            this.setState({native: native});
+            this.savedNative = native;
+        }
+    }
     render()
     { 
-        if (!this.state.loaded) 
+        if (!this.state.loaded || !this.state.native.profiles) 
         {
             return <MuiThemeProvider theme={this.state.theme}>
                 <Loader theme={this.state.themeType} />
             </MuiThemeProvider>;
         }   
+        
         const { classes } = this.props;
-        const { menu, activeMenu, isMenuEdit, max_menu_id, profile } = this.state;
+        const { menu, activeProfile, isMenuEdit, profile } = this.state;
 
         return <MuiThemeProvider theme={this.state.theme}>
             <div className={classes.app}>
@@ -280,11 +290,10 @@ class App extends GenericApp {
                                 <ClearIcon />
                             </div>
                             <ProfilesPanel
-                                active={activeMenu}
+                                active={activeProfile}
                                 isEdit={isMenuEdit}
                                 menu={menu}
                                 on={this.onMenu}
-                                max_menu_id={max_menu_id}
                                 onChangeMenu={this.onChangeMenu}
                             />
                         </div>
@@ -308,7 +317,6 @@ class App extends GenericApp {
                                         classes.clip_left_sm_7 + 
                                         (this.state.leftOpen === 7 ? ' active ' :'') 
                                     }
-                                    style={{ }}
                                 >
                                     <div className="close-label-left-sm flow-dark " onClick={() => this.onLeftOpen(7)}>
                                         <ClearIcon />
@@ -495,6 +503,7 @@ class App extends GenericApp {
                     
                 </Grid>  
             </div>
+            {this.renderSaveCloseButtons()}
         </MuiThemeProvider>;
     }
 }

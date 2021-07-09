@@ -59,6 +59,10 @@ const usePrettoSliderStyles = makeStyles({
 
 
 const PrettoSlider = props => {
+    let componentProps = {...props};
+    delete componentProps['intervalsWidth'];
+    delete componentProps['type'];
+    delete componentProps['theme'];
     return <Slider 
         classes={
             usePrettoSliderStyles({
@@ -67,7 +71,7 @@ const PrettoSlider = props => {
                 theme: props.theme
             })
         } 
-        {...props}
+        {...componentProps}
     />
 }
 class Interval extends Component

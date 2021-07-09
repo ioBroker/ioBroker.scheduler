@@ -60,7 +60,6 @@ class IntervalsContainer extends Component
                 padding : 0,
                 paddingBottom:0,
                 backgroundColor : theme.palette.background.default,
-
             }}    
         >
             <div 

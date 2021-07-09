@@ -27,7 +27,6 @@ const CssTextField = withStyles({
             <CssTextField
                 id="standard-full-width"
                 label=""
-                style={{ }}
                 value={this.props.members.join(', ')}
                 onChange={e => this.props.onChange(e.target.value)}
                 className="p-0 m-0"

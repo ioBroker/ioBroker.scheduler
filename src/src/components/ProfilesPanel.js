@@ -15,6 +15,17 @@ import UnfoldLessIcon from '@material-ui/icons/UnfoldLess';
 import UnfoldMoreIcon from '@material-ui/icons/UnfoldMore';
 import CloseIcon from '@material-ui/icons/Close';
 
+const defaultProfileData = {
+    enabled: false,
+    name: 'Basic', 
+    members: ['id1', 'id2'],
+    type: 'temperature',
+    prio: 0, // 0 normal, 1 - high, 2 - highest
+    dow: [1, 2, 3, 4, 5], // 0 - sunday, 1 - monday
+    intervalDuration: 0.5, // in hours
+    intervals: [3, 14, 6, 22, 18, 3, 14, 6, 22, 18, 3, 14, 6, 22, 18, 3, 14, 6, 22, 18, 3, 14, 6, 22, 22 ]
+}
+
 class ProfilesPanel extends Component
 {
     constructor(props)
@@ -23,7 +34,7 @@ class ProfilesPanel extends Component
         this.state ={
             isDialogOpen    : false,
             isSearch        : false,
-            searchbled      : ''
+            searchText      : ''
         }
     } 
     onActive = id =>
@@ -46,10 +57,10 @@ class ProfilesPanel extends Component
         this.setState(
             { 
                 isDialogOpen : true,
-                element_title: element.title,
-                element_id : element.id,
-                element_parent: element.parent,
-                isnew: false
+                dialogElementTitle: element.title,
+                dialogElementId : element.id,
+                dialogElementParent: element.parent,
+                isNew: false
             }
         )
     }
@@ -57,27 +68,28 @@ class ProfilesPanel extends Component
     {
         let menu = [ ...this.props.menu ];
         let newMenu= [];
-        if(this.state.isnew)
+        if(this.state.isNew)
         {
             newMenu = [...menu];
             newMenu.push({
-                id: this.state.element_id,
-                title : this.state.element_title,
-                parent: this.state.element_parent,
-                type: this.state.element_type
+                id: this.state.dialogElementId,
+                title : this.state.dialogElementTitle,
+                parent: this.state.dialogElementParent,
+                type: this.state.dialogElementType,
+                data: defaultProfileData,
             })
         }
         else
         {
             menu.forEach((e, i) =>
             {
-                if(e.id === this.state.element_id)
+                if(e.id === this.state.dialogElementId)
                 {
                     newMenu[ i ] ={
-                        n: this.state.element_id,
-                        title : this.state.element_title,
-                        parent: this.state.element_parent,
-                        type: this.state.element_type                     
+                        n: this.state.dialogElementId,
+                        title : this.state.dialogElementTitle,
+                        parent: this.state.dialogElementParent,
+                        type: this.state.dialogElementType                     
                     };
                 }
                 else
@@ -85,7 +97,7 @@ class ProfilesPanel extends Component
             }); 
         }
         
-        this.setState({ isDialogOpen : false,  isnew : false });
+        this.setState({ isDialogOpen : false,  isNew : false });
         this.props.onChangeMenu(newMenu)
     }
     onDeleteItem = () =>
@@ -94,11 +106,11 @@ class ProfilesPanel extends Component
         let newMenu = [];
         menu.forEach((e) =>
         {
-            if(e.id !== this.state.element_id) {
+            if(e.id !== this.state.dialogElementId) {
                 newMenu.push(e);
             }
         }); 
-        this.setState({ isDialogOpen : false,  isnew : false });
+        this.setState({ isDialogOpen : false,  isNew : false });
         this.props.onChangeMenu(newMenu)
     }
     onAddChild = (element, type) =>
@@ -106,11 +118,11 @@ class ProfilesPanel extends Component
         this.setState(
             { 
                 isDialogOpen : true,
-                element_title: I18n.t( type),
-                element_type: type,
-                element_id :  uuidv4(),
-                element_parent: element.id,
-                isnew: true
+                dialogElementTitle: I18n.t( type),
+                dialogElementType: type,
+                dialogElementId :  uuidv4(),
+                dialogElementParent: element.id,
+                isNew: true
             }
         )
         this.props.onChangeMenu(this.props.menu)
@@ -148,7 +160,7 @@ class ProfilesPanel extends Component
     folder = (fld, level) =>
     {
         const { menu, active } = this.props;
-        const submenus = this.state.isSearch && this.state.searchbled
+        const submenus = this.state.isSearch && this.state.searchText
             ?
             null
             :
@@ -172,9 +184,9 @@ class ProfilesPanel extends Component
                     });
         const folder_sample = fld.is_open
             ?  
-            <FolderOpenIcon className="pr-1" onClick={ evt => this.onOpen(fld.id, false) }  /> 
+            <FolderOpenIcon className="pr-1" onClick={ () => this.onOpen(fld.id, false) }  /> 
             : 
-            <FolderIcon     className="pr-1" onClick={ evt => this.onOpen(fld.id, true ) } />
+            <FolderIcon     className="pr-1" onClick={ () => this.onOpen(fld.id, true ) } />
         return <div key={ fld.id }>
             <MenuItem                     
                 className={ 'flow-menu-item ' + ( active === fld.id ? ' active ' : '') } 
@@ -202,7 +214,7 @@ class ProfilesPanel extends Component
                         <CreateNewFolderIcon />
                     </div>
                     <div 
-                        className='edit_button' 
+                        className="edit_button" 
                         title={I18n.t('Edit')}  
                         onClick={() => this.onEditDialog( fld )}
                     >
@@ -241,12 +253,12 @@ class ProfilesPanel extends Component
     }
     onSearch = () =>
     {
-        this.setState({ isSearch : !this.state.isSearch, searchbled: '' });
+        this.setState({ isSearch : !this.state.isSearch, searchText: '' });
     }
     onSearchedText = evt =>
     {
         const text = evt.target.value;
-        this.setState( { searchbled : text } );
+        this.setState( { searchText : text } );
     }
     head = () =>
     {
@@ -285,17 +297,17 @@ class ProfilesPanel extends Component
                    <CreateNewFolderIcon />  
                 </IconButton>
                 {
-                    menu.filter(e => e.is_open ).length > 0
+                    menu.length ? (
+                        menu.filter(e => e.is_open ).length > 0
                         ?
                         <IconButton  
                             aria-label="upload picture" 
                             component="span"
                             size="small"
                             title={I18n.t('Close all')}
+                            onClick={this.onCloseAll}
                         >
-                            <UnfoldLessIcon 
-                                onClick={this.onCloseAll}
-                            />
+                            <UnfoldLessIcon />
                         </IconButton>                        
                         :                        
                         <IconButton  
@@ -303,12 +315,11 @@ class ProfilesPanel extends Component
                             component="span"
                             size="small"
                             title={I18n.t('Open all')}
+                            onClick={ this.onOpenAll }
                         >
-                            <UnfoldMoreIcon 
-                                onClick={ this.onOpenAll }
-                            />
+                            <UnfoldMoreIcon />
                         </IconButton>
-                        
+                    ) : null
                 }
                 <IconButton  
                     aria-label="upload picture" 
@@ -326,12 +337,12 @@ class ProfilesPanel extends Component
     {
         const { isDialogOpen } = this.state;
         const { menu } = this.props;
-        const items = this.state.isSearch && this.state.searchbled
+        const items = this.state.isSearch && this.state.searchText
             ?
             menu
                 .map((e) =>
                 {
-                    return e.title.toLowerCase().indexOf( this.state.searchbled.toLowerCase() ) > -1
+                    return e.title.toLowerCase().indexOf( this.state.searchText.toLowerCase() ) > -1
                         ?
                         e.type === 'folder'
                             ?
@@ -348,7 +359,7 @@ class ProfilesPanel extends Component
                     {
                         return this.folder(e, 0);
                     })
-        return <div className="flow-menu flex-grow-1000 scrolled-auto m-0" onClick={ () => this.onActive( -1 ) } >
+        return <div className="flow-menu flex-grow-1000 scrolled-auto m-0" >
             <Paper className="d-flex" style={{ height : 32 }}> 
                 { this.head() }
             </Paper>
@@ -374,8 +385,8 @@ class ProfilesPanel extends Component
                         </div>
                         <Input 
                             id="label" 
-                            value={ this.state.element_title } 
-                            onChange={ evt => this.setState({ element_title : evt.target.value })} 
+                            value={ this.state.dialogElementTitle } 
+                            onChange={ evt => this.setState({ dialogElementTitle : evt.target.value })} 
                             startAdornment={
                                 <InputAdornment position="start">
                                     <EditIcon />
@@ -384,10 +395,10 @@ class ProfilesPanel extends Component
                     </div> 
                     <div className="mt-auto">
                         <Button onClick={ this.onUpdateItem }>
-                            {I18n.t( this.state.isnew ? 'create' : 'update' )}
+                            {I18n.t( this.state.isNew ? 'create' : 'update' )}
                         </Button>
                         {
-                            this.state.isnew
+                            this.state.isNew
                                 ?
                                 null
                                 :
