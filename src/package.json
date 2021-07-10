@@ -9,6 +9,8 @@
         "@sentry/browser": "^6.5.1",
         "@sentry/integrations": "^6.5.1",
         "chroma-js": "^2.1.2",
+        "eslint-plugin-eqeqeq-fix": "^1.0.3",
+        "eslint-plugin-only-warn": "^1.0.2",
         "jquery": "^3.6.0",
         "node-sass": "^6.0.0",
         "react": "^17.0.2",

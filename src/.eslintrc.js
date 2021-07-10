@@ -4,9 +4,10 @@ module.exports = {
         es2021: true,
     },
     extends: [
-        // 'plugin:react/recommended',
+        'plugin:react/recommended',
         'airbnb',
-        'react-app',
+        // 'react-app',
+        'plugin:eqeqeq-fix/recommended',
     ],
     parser: 'babel-eslint',
     parserOptions: {
@@ -17,9 +18,11 @@ module.exports = {
         sourceType: 'module',
     },
     plugins: [
-        // 'react',
+        'only-warn',
+        'react',
     ],
     rules: {
+        'arrow-parens': [1, 'as-needed'],
         'react/jsx-indent': 'off',
         'react/jsx-indent-props': 'off',
         'react/no-access-state-in-setstate': 'off',
@@ -41,6 +44,7 @@ module.exports = {
         'react/no-did-update-set-state': 'off',
         'global-require': 'off',
         'import/extensions': 'off',
+        'no-undef': 2,
         radix: 'off',
         indent: ['error', 4],
     },

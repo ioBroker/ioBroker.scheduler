@@ -3,11 +3,11 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 import minmax from '../data/minmax.json';
 
-const styles = (theme) => ({
+const styles = () => ({
 
 });
 const usePrettoSliderStyles = makeStyles({
-    root: (props) => ({
+    root: props => ({
         color: props.theme.palette.primary.dark,
         width: `${props.intervalsWidth}px!important`,
         borderRadius: 0,
@@ -15,7 +15,7 @@ const usePrettoSliderStyles = makeStyles({
         transition: 'all 100ms ease-out',
         position: 'relative',
     }),
-    thumb: (props) => ({
+    thumb: props => ({
         left: `calc( 50% + ${10}px)!important`,
         width: 0,
         height: 0,
@@ -27,7 +27,7 @@ const usePrettoSliderStyles = makeStyles({
         height: 0,
 
     },
-    valueLabel: (props) => ({
+    valueLabel: props => ({
         left: -20,
         '& *': {
             background: 'transparent',
@@ -42,7 +42,7 @@ const usePrettoSliderStyles = makeStyles({
         transition: 'all 100ms ease-out',
         borderRadius: 4,
     },
-    rail: (props) => ({
+    rail: props => ({
         transition: 'all 100ms ease-out',
         width: '90%!important',
         borderRadius: 4,
@@ -53,7 +53,7 @@ const usePrettoSliderStyles = makeStyles({
     }),
 });
 
-const PrettoSlider = (props) => {
+const PrettoSlider = props => {
     const componentProps = { ...props };
     delete componentProps.intervalsWidth;
     delete componentProps.type;
@@ -76,7 +76,7 @@ class Interval extends Component {
         this.on('data', data);
     }
 
-    handleSelected = (evt) => {
+    handleSelected = () => {
         this.on('selected', !this.props.selected);
     }
 
@@ -108,7 +108,7 @@ class Interval extends Component {
         const { step, i } = this.props;
         const label = i * step;
         const hrs = parseInt(label);
-        const secs = (`0${label % 1 * 60}`).slice(-2);
+        const secs = (`0${(label % 1) * 60}`).slice(-2);
         return [hrs, secs];
     }
 
@@ -121,7 +121,7 @@ class Interval extends Component {
         }
         const { min, max } = this.getMinMax();
         const label = this.getLabel();
-        const val = isNaN(value) ? 0 : value;
+        const val = !value ? 0 : value;
         const vl = type === 'onoff' ? this.getPostfix(val || 0) : '';
         const v2 = type !== 'onoff' ? this.getPostfix(val || 0) : '';
         return (

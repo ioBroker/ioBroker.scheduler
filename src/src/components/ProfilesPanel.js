@@ -37,13 +37,13 @@ class ProfilesPanel extends Component {
         };
     }
 
-    onActive = (id) => {
+    onActive = id => {
         if (this.props.on && !this.props.isEdit) {
             this.props.on(id);
         }
     }
 
-    onClick = (id) => {
+    onClick = id => {
         setTimeout(() => this.onActive(id), 200);
     }
 
@@ -51,7 +51,7 @@ class ProfilesPanel extends Component {
         this.setState({ isDialogOpen: !this.state.isDialogOpen });
     }
 
-    onEditDialog = (element) => {
+    onEditDialog = element => {
         this.setState(
             {
                 isDialogOpen: true,
@@ -95,7 +95,7 @@ class ProfilesPanel extends Component {
     onDeleteItem = () => {
         const menu = [...this.props.menu];
         const newMenu = [];
-        menu.forEach((e) => {
+        menu.forEach(e => {
             if (e.id !== this.state.dialogElementId) {
                 newMenu.push(e);
             }
@@ -120,7 +120,7 @@ class ProfilesPanel extends Component {
 
     onOpen = (id, isOpen) => {
         const menu = [...this.props.menu];
-        const newMenu = menu.map((e) => {
+        const newMenu = menu.map(e => {
             if (e.id === id) e.is_open = isOpen;
             return e;
         });
@@ -129,7 +129,7 @@ class ProfilesPanel extends Component {
 
     onCloseAll = () => {
         const menu = [...this.props.menu];
-        const newMenu = menu.map((e) => {
+        const newMenu = menu.map(e => {
             if (e.type === 'folder') e.is_open = false;
             return e;
         });
@@ -138,7 +138,7 @@ class ProfilesPanel extends Component {
 
     onOpenAll = () => {
         const menu = [...this.props.menu];
-        const newMenu = menu.map((e) => {
+        const newMenu = menu.map(e => {
             if (e.type === 'folder') e.is_open = true;
             return e;
         });
@@ -150,8 +150,8 @@ class ProfilesPanel extends Component {
         const submenus = this.state.isSearch && this.state.searchText
             ? null
             : menu
-                .filter((sub) => sub.parent === fld.id)
-                .map((sub) => (fld.is_open
+                .filter(sub => sub.parent === fld.id)
+                .map(sub => (fld.is_open
                     ? (
                         <div key={sub.id}>
                             {
@@ -242,7 +242,7 @@ class ProfilesPanel extends Component {
         this.setState({ isSearch: !this.state.isSearch, searchText: '' });
     }
 
-    onSearchedText = (evt) => {
+    onSearchedText = evt => {
         const text = evt.target.value;
         this.setState({ searchText: text });
     }
@@ -285,7 +285,7 @@ class ProfilesPanel extends Component {
                     </IconButton>
                     {
                         menu.length ? (
-                            menu.filter((e) => e.is_open).length > 0
+                            menu.filter(e => e.is_open).length > 0
                                 ? (
                                     <IconButton
                                         aria-label="upload picture"
@@ -329,14 +329,14 @@ class ProfilesPanel extends Component {
         const { menu } = this.props;
         const items = this.state.isSearch && this.state.searchText
             ? menu
-                .map((e) => (e.title.toLowerCase().indexOf(this.state.searchText.toLowerCase()) > -1
+                .map(e => (e.title.toLowerCase().indexOf(this.state.searchText.toLowerCase()) > -1
                     ? e.type === 'folder'
                         ? this.folder(e, 0)
                         : this.profile(e, 0)
                     : null))
             : menu
-                .filter((e) => e.parent === '')
-                .map((e) => this.folder(e, 0));
+                .filter(e => e.parent === '')
+                .map(e => this.folder(e, 0));
         return (
             <div className="flow-menu flex-grow-1000 scrolled-auto m-0">
                 <Paper className="d-flex" style={{ height: 32 }}>
@@ -363,7 +363,7 @@ class ProfilesPanel extends Component {
                             <Input
                                 id="label"
                                 value={this.state.dialogElementTitle}
-                                onChange={(evt) => this.setState({ dialogElementTitle: evt.target.value })}
+                                onChange={evt => this.setState({ dialogElementTitle: evt.target.value })}
                                 startAdornment={(
                                     <InputAdornment position="start">
                                         <EditIcon />

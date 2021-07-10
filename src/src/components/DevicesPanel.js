@@ -25,7 +25,7 @@ class DevicesPanel extends Component {
                     id="standard-full-width"
                     label=""
                     value={this.props.members.join(', ')}
-                    onChange={(e) => this.props.onChange(e.target.value)}
+                    onChange={e => this.props.onChange(e.target.value)}
                     className="p-0 m-0"
                     placeholder={I18n.t('Put device names per comma')}
                     helperText=""

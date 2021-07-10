@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Intervals from './Intervals';
 
-const styles = (theme) => ({
+const styles = () => ({
     tab: {
         width: '100%',
         minHeight: '100%',

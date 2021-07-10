@@ -21,7 +21,7 @@ class Intervals extends Component {
         }
     }
 
-    getSectionByRange = (range) => {
+    getSectionByRange = range => {
         if (this.props.intervalsWidth >= 720) {
             return range === 0.5 ? 2 : 1;
         }
@@ -40,7 +40,7 @@ class Intervals extends Component {
         }
     }
 
-    getCountByRange = (range) => {
+    getCountByRange = range => {
         if (this.props.intervalsWidth >= 720) {
             return range === 0.5 ? 24 : this.getMaxByRange(range);
         }
@@ -59,7 +59,7 @@ class Intervals extends Component {
         }
     }
 
-    getMaxByRange = (range) => 24 / range
+    getMaxByRange = range => 24 / range
 
     prev = () => {
         const { slideId } = this.state;
@@ -84,7 +84,7 @@ class Intervals extends Component {
         this.setState({ selected: [] });
     }
 
-    setSlideId = (slideId) => {
+    setSlideId = slideId => {
         this.setState({ slideId: parseInt(slideId) });
     }
 
@@ -101,7 +101,7 @@ class Intervals extends Component {
             if (!inSelected) {
                 this.setState({ selected: [] });
             }
-            if (!inSelected || selected.filter((e) => e).length === 0) {
+            if (!inSelected || selected.filter(e => e).length === 0) {
                 data[i] = value;
             } else {
                 data.forEach((element, index) => {
@@ -174,7 +174,7 @@ class Intervals extends Component {
                 <DayNightSwitcher
                     sections={sections}
                     quorte_id={parseInt(slideId)}
-                    on={(quorteId) => this.setSlideId(quorteId)}
+                    on={quorteId => this.setSlideId(quorteId)}
                 />
             </>
         );

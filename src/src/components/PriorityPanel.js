@@ -5,7 +5,7 @@ import {
 import I18n from '@iobroker/adapter-react/i18n';
 
 class PriorityPanel extends Component {
-    on = (evt) => {
+    on = evt => {
         const priority = evt.target.value;
         this.props.on(priority);
     }

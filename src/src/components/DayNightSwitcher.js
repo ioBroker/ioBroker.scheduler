@@ -2,7 +2,7 @@ import { Component } from 'react';
 import dayNight from '../assets/img/day-night.jpg';
 
 class DayNightSwitcher extends Component {
-    onSlide = (quorteId) => {
+    onSlide = quorteId => {
         if (this.props.on) {
             this.props.on(quorteId);
         }
