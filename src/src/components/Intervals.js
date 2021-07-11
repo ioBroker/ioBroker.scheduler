@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component, Fragment } from 'react';
 
 import { Swipe } from 'react-swipe-component';
@@ -173,11 +174,20 @@ class Intervals extends Component {
                 </div>
                 <DayNightSwitcher
                     sections={sections}
-                    quorte_id={parseInt(slideId)}
+                    quorteId={parseInt(slideId)}
                     on={quorteId => this.setSlideId(quorteId)}
                 />
             </>
         );
     }
 }
+
+Intervals.propTypes = {
+    data: PropTypes.array,
+    intervalsWidth: PropTypes.number,
+    onChange: PropTypes.func,
+    range: PropTypes.number,
+    theme: PropTypes.object,
+    type: PropTypes.string,
+};
 export default Intervals;

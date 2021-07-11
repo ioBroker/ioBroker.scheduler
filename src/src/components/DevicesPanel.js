@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { FormLabel, TextField, withStyles } from '@material-ui/core';
 import I18n from '@iobroker/adapter-react/i18n';
@@ -41,4 +42,11 @@ class DevicesPanel extends Component {
         );
     }
 }
+
+DevicesPanel.propTypes = {
+    members: PropTypes.array,
+    onChange: PropTypes.func,
+    rows: PropTypes.number,
+    title: PropTypes.string,
+};
 export default DevicesPanel;

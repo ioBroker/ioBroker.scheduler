@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Component } from 'react';
 import dayNight from '../assets/img/day-night.jpg';
 
@@ -30,7 +31,7 @@ class DayNightSwitcher extends Component {
                             style={{
                                 maxWidth: `${region}%`,
                                 width: `${region}%`,
-                                left: `calc(${this.props.quorte_id * region}% - 5px)`,
+                                left: `calc(${this.props.quorteId * region}% - 5px)`,
                             }}
                         />
                     </div>
@@ -39,4 +40,10 @@ class DayNightSwitcher extends Component {
         );
     }
 }
+
+DayNightSwitcher.propTypes = {
+    on: PropTypes.func,
+    quorteId: PropTypes.number,
+    sections: PropTypes.number,
+};
 export default DayNightSwitcher;

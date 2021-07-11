@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { FormControl, FormControlLabel } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import React, { Component } from 'react';
@@ -36,4 +37,9 @@ class DayOfWeekPanel extends Component {
         );
     }
 }
+
+DayOfWeekPanel.propTypes = {
+    dow: PropTypes.array,
+    onChange: PropTypes.func,
+};
 export default DayOfWeekPanel;

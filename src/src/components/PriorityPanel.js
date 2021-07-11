@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
     FormControl, FormLabel, MenuItem, Select,
@@ -36,4 +37,9 @@ class PriorityPanel extends Component {
         );
     }
 }
+
+PriorityPanel.propTypes = {
+    on: PropTypes.func,
+    priority: PropTypes.string,
+};
 export default PriorityPanel;

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import {
     Button, Dialog, DialogTitle, Divider, IconButton, Input, InputAdornment, MenuItem, MenuList, Typography, TextField, Paper,
 } from '@material-ui/core';
@@ -43,10 +44,6 @@ class ProfilesPanel extends Component {
         }
     }
 
-    onClick = id => {
-        setTimeout(() => this.onActive(id), 200);
-    }
-
     onDialog = () => {
         this.setState({ isDialogOpen: !this.state.isDialogOpen });
     }
@@ -64,11 +61,9 @@ class ProfilesPanel extends Component {
     }
 
     onUpdateItem = () => {
-        const menu = [...this.props.menu];
-        let newMenu = [];
+        const newProfiles = JSON.parse(JSON.stringify(this.props.profiles));
         if (this.state.isNew) {
-            newMenu = [...menu];
-            newMenu.push({
+            newProfiles.push({
                 id: this.state.dialogElementId,
                 title: this.state.dialogElementTitle,
                 parent: this.state.dialogElementParent,
@@ -76,32 +71,24 @@ class ProfilesPanel extends Component {
                 data: defaultProfileData,
             });
         } else {
-            menu.forEach((e, i) => {
-                if (e.id === this.state.dialogElementId) {
-                    newMenu[i] = {
-                        n: this.state.dialogElementId,
-                        title: this.state.dialogElementTitle,
-                        parent: this.state.dialogElementParent,
-                        type: this.state.dialogElementType,
-                    };
-                } else newMenu[i] = e;
-            });
+            const profile = newProfiles.find(foundProfile => foundProfile.id === this.state.dialogElementId);
+            profile.title = this.state.dialogElementTitle;
         }
 
         this.setState({ isDialogOpen: false, isNew: false });
-        this.props.onChangeMenu(newMenu);
+        this.props.onChangeMenu(newProfiles);
     }
 
     onDeleteItem = () => {
-        const menu = [...this.props.menu];
-        const newMenu = [];
-        menu.forEach(e => {
+        const profiles = [...this.props.profiles];
+        const newProfiles = [];
+        profiles.forEach(e => {
             if (e.id !== this.state.dialogElementId) {
-                newMenu.push(e);
+                newProfiles.push(e);
             }
         });
         this.setState({ isDialogOpen: false, isNew: false });
-        this.props.onChangeMenu(newMenu);
+        this.props.onChangeMenu(newProfiles);
     }
 
     onAddChild = (element, type) => {
@@ -115,43 +102,42 @@ class ProfilesPanel extends Component {
                 isNew: true,
             },
         );
-        this.props.onChangeMenu(this.props.menu);
     }
 
     onOpen = (id, isOpen) => {
-        const menu = [...this.props.menu];
-        const newMenu = menu.map(e => {
-            if (e.id === id) e.is_open = isOpen;
+        const profiles = [...this.props.profiles];
+        const newProfiles = profiles.map(e => {
+            if (e.id === id) e.isOpen = isOpen;
             return e;
         });
-        this.props.onChangeMenu(newMenu);
+        this.props.onChangeMenu(newProfiles);
     }
 
     onCloseAll = () => {
-        const menu = [...this.props.menu];
-        const newMenu = menu.map(e => {
-            if (e.type === 'folder') e.is_open = false;
+        const profiles = [...this.props.profiles];
+        const newProfiles = profiles.map(e => {
+            if (e.type === 'folder') e.isOpen = false;
             return e;
         });
-        this.props.onChangeMenu(newMenu);
+        this.props.onChangeMenu(newProfiles);
     }
 
     onOpenAll = () => {
-        const menu = [...this.props.menu];
-        const newMenu = menu.map(e => {
-            if (e.type === 'folder') e.is_open = true;
+        const profiles = [...this.props.profiles];
+        const newProfiles = profiles.map(e => {
+            if (e.type === 'folder') e.isOpen = true;
             return e;
         });
-        this.props.onChangeMenu(newMenu);
+        this.props.onChangeMenu(newProfiles);
     }
 
     folder = (fld, level) => {
-        const { menu, active } = this.props;
+        const { profiles, active } = this.props;
         const submenus = this.state.isSearch && this.state.searchText
             ? null
-            : menu
+            : profiles
                 .filter(sub => sub.parent === fld.id)
-                .map(sub => (fld.is_open
+                .map(sub => (fld.isOpen
                     ? (
                         <div key={sub.id}>
                             {
@@ -162,14 +148,30 @@ class ProfilesPanel extends Component {
                         </div>
                     )
                     : null));
-        const folderSample = fld.is_open
-            ? <FolderOpenIcon className="pr-1" onClick={() => this.onOpen(fld.id, false)} />
-            : <FolderIcon className="pr-1" onClick={() => this.onOpen(fld.id, true)} />;
+        const folderSample = fld.isOpen
+            ? (
+                <FolderOpenIcon
+                    className="pr-1"
+                    onClick={e => {
+                        this.onOpen(fld.id, false);
+                        e.stopPropagation();
+                    }}
+                />
+            )
+            : (
+                <FolderIcon
+                    className="pr-1"
+                    onClick={e => {
+                        this.onOpen(fld.id, true);
+                        e.stopPropagation();
+                    }}
+                />
+            );
         return (
             <div key={fld.id}>
                 <MenuItem
                     className={`flow-menu-item ${active === fld.id ? ' active ' : ''}`}
-                    onClick={() => this.onClick(fld.id)}
+                    onClick={() => this.onActive(fld.id)}
                     style={{ marginLeft: (level * 20) }}
                     disableRipple
                 >
@@ -215,7 +217,7 @@ class ProfilesPanel extends Component {
             <MenuItem
                 className={`flow-menu-item sub ${active === sub.id ? ' active ' : ''}`}
                 style={{ marginLeft: (level * 20) }}
-                onClick={() => this.onClick(sub.id, level + 1)}
+                onClick={() => this.onActive(sub.id)}
                 disableRipple
             >
                 <Typography variant="inherit" className="pl-1 w-100">
@@ -248,7 +250,7 @@ class ProfilesPanel extends Component {
     }
 
     head = () => {
-        const { menu } = this.props;
+        const { profiles } = this.props;
         return this.state.isSearch
             ? (
                 <>
@@ -284,8 +286,8 @@ class ProfilesPanel extends Component {
                         <CreateNewFolderIcon />
                     </IconButton>
                     {
-                        menu.length ? (
-                            menu.filter(e => e.is_open).length > 0
+                        profiles.length ? (
+                            profiles.filter(e => e.isOpen).length > 0
                                 ? (
                                     <IconButton
                                         aria-label="upload picture"
@@ -326,15 +328,15 @@ class ProfilesPanel extends Component {
 
     render() {
         const { isDialogOpen } = this.state;
-        const { menu } = this.props;
+        const { profiles } = this.props;
         const items = this.state.isSearch && this.state.searchText
-            ? menu
+            ? profiles
                 .map(e => (e.title.toLowerCase().indexOf(this.state.searchText.toLowerCase()) > -1
                     ? e.type === 'folder'
                         ? this.folder(e, 0)
                         : this.profile(e, 0)
                     : null))
-            : menu
+            : profiles
                 .filter(e => e.parent === '')
                 .map(e => this.folder(e, 0));
         return (
@@ -392,4 +394,12 @@ class ProfilesPanel extends Component {
         );
     }
 }
+
+ProfilesPanel.propTypes = {
+    active: PropTypes.any,
+    isEdit: PropTypes.bool,
+    profiles: PropTypes.array,
+    on: PropTypes.func,
+    onChangeMenu: PropTypes.func,
+};
 export default ProfilesPanel;

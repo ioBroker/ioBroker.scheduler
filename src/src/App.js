@@ -112,7 +112,6 @@ class App extends GenericApp {
         super(props, extendedProps);
         this.state = {
             ...this.state,
-            menu: [], // defaultOptions.menu,
             activeProfile: -1, // defaultOptions.menu[0].id,
             isMenuEdit: false,
             isExpert: true,
@@ -219,7 +218,7 @@ class App extends GenericApp {
         this.changeProfile(profile);
     }
 
-    onMenu = active => {
+    onSelectProfile = active => {
         this.setState({ activeProfile: active, leftOpen: false });
     }
 
@@ -319,8 +318,8 @@ class App extends GenericApp {
                                 <ProfilesPanel
                                     active={activeProfile}
                                     isEdit={isMenuEdit}
-                                    menu={profiles}
-                                    on={this.onMenu}
+                                    profiles={profiles}
+                                    on={this.onSelectProfile}
                                     onChangeMenu={this.changeProfiles}
                                 />
                             </div>

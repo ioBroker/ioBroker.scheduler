@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
     FormControl, FormLabel, MenuItem, Select,
@@ -36,4 +37,9 @@ class TypePanel extends Component {
         );
     }
 }
+
+TypePanel.propTypes = {
+    on: PropTypes.func,
+    type: PropTypes.string,
+};
 export default TypePanel;

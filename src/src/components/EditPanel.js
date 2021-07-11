@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import I18n from '@iobroker/adapter-react/i18n';
 import { Component } from 'react';
 
@@ -19,4 +20,9 @@ class EditPanel extends Component {
         );
     }
 }
+
+EditPanel.propTypes = {
+    isEdit: PropTypes.bool,
+    on: PropTypes.func,
+};
 export default EditPanel;

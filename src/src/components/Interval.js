@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
@@ -158,4 +159,15 @@ class Interval extends Component {
         );
     }
 }
+
+Interval.propTypes = {
+    i: PropTypes.number,
+    intervalsWidth: PropTypes.number,
+    on: PropTypes.func,
+    selected: PropTypes.bool,
+    step: PropTypes.number,
+    theme: PropTypes.object,
+    type: PropTypes.string,
+    value: PropTypes.number,
+};
 export default withStyles(styles)(Interval);

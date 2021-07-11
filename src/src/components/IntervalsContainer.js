@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Intervals from './Intervals';
@@ -81,4 +82,12 @@ class IntervalsContainer extends Component {
         );
     }
 }
+
+IntervalsContainer.propTypes = {
+    intervals: PropTypes.array,
+    onChange: PropTypes.func,
+    range: PropTypes.number,
+    theme: PropTypes.object,
+    type: PropTypes.string,
+};
 export default withStyles(styles)(IntervalsContainer);
