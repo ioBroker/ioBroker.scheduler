@@ -14,11 +14,13 @@ const daysOfWeek = [
     'Sa',
 ];
 
+const dowOrder = [1, 2, 3, 4, 5, 6, 0];
+
 class DayOfWeekPanel extends Component {
     render() {
         return (
             <FormControl component="fieldset">
-                {daysOfWeek.map((title, index) => (
+                {dowOrder.map(index => (
                     <FormControlLabel
                         key={index}
                         control={(
@@ -29,7 +31,7 @@ class DayOfWeekPanel extends Component {
                                 onChange={e => this.props.onChange(index, e.target.checked)}
                             />
                         )}
-                        label={I18n.t(title)}
+                        label={I18n.t(daysOfWeek[index])}
                         className="px-1"
                     />
                 ))}

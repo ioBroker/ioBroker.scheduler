@@ -175,7 +175,7 @@ class Intervals extends Component {
                 <DayNightSwitcher
                     sections={sections}
                     quorteId={parseInt(slideId)}
-                    on={quorteId => this.setSlideId(quorteId)}
+                    onChange={quorteId => this.setSlideId(quorteId)}
                 />
             </>
         );

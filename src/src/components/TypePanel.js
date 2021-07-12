@@ -8,7 +8,7 @@ import I18n from '@iobroker/adapter-react/i18n';
 class TypePanel extends Component {
     on = evt => {
         const type = evt.target.value;
-        this.props.on(type);
+        this.props.onChange(type);
     }
 
     render() {
@@ -39,7 +39,7 @@ class TypePanel extends Component {
 }
 
 TypePanel.propTypes = {
-    on: PropTypes.func,
+    onChange: PropTypes.func,
     type: PropTypes.string,
 };
 export default TypePanel;

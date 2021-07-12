@@ -39,9 +39,7 @@ class ProfilesPanel extends Component {
     }
 
     onActive = id => {
-        if (this.props.on && !this.props.isEdit) {
-            this.props.on(id);
-        }
+        this.props.onSelectProfile(id);
     }
 
     onDialog = () => {
@@ -69,6 +67,7 @@ class ProfilesPanel extends Component {
                 parent: this.state.dialogElementParent,
                 type: this.state.dialogElementType,
                 data: defaultProfileData,
+                isOpen: true,
             });
         } else {
             const profile = newProfiles.find(foundProfile => foundProfile.id === this.state.dialogElementId);
@@ -76,7 +75,7 @@ class ProfilesPanel extends Component {
         }
 
         this.setState({ isDialogOpen: false, isNew: false });
-        this.props.onChangeMenu(newProfiles);
+        this.props.onChangeProfiles(newProfiles);
     }
 
     onDeleteItem = () => {
@@ -88,7 +87,7 @@ class ProfilesPanel extends Component {
             }
         });
         this.setState({ isDialogOpen: false, isNew: false });
-        this.props.onChangeMenu(newProfiles);
+        this.props.onChangeProfiles(newProfiles);
     }
 
     onAddChild = (element, type) => {
@@ -110,7 +109,7 @@ class ProfilesPanel extends Component {
             if (e.id === id) e.isOpen = isOpen;
             return e;
         });
-        this.props.onChangeMenu(newProfiles);
+        this.props.onChangeProfiles(newProfiles);
     }
 
     onCloseAll = () => {
@@ -119,7 +118,7 @@ class ProfilesPanel extends Component {
             if (e.type === 'folder') e.isOpen = false;
             return e;
         });
-        this.props.onChangeMenu(newProfiles);
+        this.props.onChangeProfiles(newProfiles);
     }
 
     onOpenAll = () => {
@@ -128,12 +127,12 @@ class ProfilesPanel extends Component {
             if (e.type === 'folder') e.isOpen = true;
             return e;
         });
-        this.props.onChangeMenu(newProfiles);
+        this.props.onChangeProfiles(newProfiles);
     }
 
     folder = (fld, level) => {
         const { profiles, active } = this.props;
-        const submenus = this.state.isSearch && this.state.searchText
+        const subProfiles = this.state.isSearch && this.state.searchText
             ? null
             : profiles
                 .filter(sub => sub.parent === fld.id)
@@ -206,7 +205,7 @@ class ProfilesPanel extends Component {
                     </div>
 
                 </MenuItem>
-                { submenus }
+                { subProfiles }
             </div>
         );
     }
@@ -374,14 +373,14 @@ class ProfilesPanel extends Component {
                             />
                         </div>
                         <div className="mt-auto">
-                            <Button onClick={this.onUpdateItem}>
+                            <Button onClick={this.onUpdateItem} variant="contained" color="primary">
                                 {I18n.t(this.state.isNew ? 'create' : 'update')}
                             </Button>
                             {
                                 this.state.isNew
                                     ? null
                                     : (
-                                        <Button onClick={this.onDeleteItem}>
+                                        <Button onClick={this.onDeleteItem} variant="contained">
                                             {I18n.t('delete')}
                                         </Button>
                                     )
@@ -397,9 +396,8 @@ class ProfilesPanel extends Component {
 
 ProfilesPanel.propTypes = {
     active: PropTypes.any,
-    isEdit: PropTypes.bool,
     profiles: PropTypes.array,
-    on: PropTypes.func,
-    onChangeMenu: PropTypes.func,
+    onSelectProfile: PropTypes.func,
+    onChangeProfiles: PropTypes.func,
 };
 export default ProfilesPanel;

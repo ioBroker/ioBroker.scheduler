@@ -8,7 +8,7 @@ import I18n from '@iobroker/adapter-react/i18n';
 class PriorityPanel extends Component {
     on = evt => {
         const priority = evt.target.value;
-        this.props.on(priority);
+        this.props.onChange(priority);
     }
 
     render() {
@@ -39,7 +39,7 @@ class PriorityPanel extends Component {
 }
 
 PriorityPanel.propTypes = {
-    on: PropTypes.func,
+    onChange: PropTypes.func,
     priority: PropTypes.string,
 };
 export default PriorityPanel;

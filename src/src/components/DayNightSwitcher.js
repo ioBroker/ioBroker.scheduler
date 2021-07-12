@@ -4,8 +4,8 @@ import dayNight from '../assets/img/day-night.jpg';
 
 class DayNightSwitcher extends Component {
     onSlide = quorteId => {
-        if (this.props.on) {
-            this.props.on(quorteId);
+        if (this.props.onChange) {
+            this.props.onChange(quorteId);
         }
     }
 
@@ -42,7 +42,7 @@ class DayNightSwitcher extends Component {
 }
 
 DayNightSwitcher.propTypes = {
-    on: PropTypes.func,
+    onChange: PropTypes.func,
     quorteId: PropTypes.number,
     sections: PropTypes.number,
 };

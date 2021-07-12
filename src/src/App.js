@@ -113,21 +113,8 @@ class App extends GenericApp {
         this.state = {
             ...this.state,
             activeProfile: -1, // defaultOptions.menu[0].id,
-            isMenuEdit: false,
             isExpert: true,
             leftOpen: 0,
-            profile: {
-                enabled: false,
-                id: '11231359898',
-                name: 'Basic',
-                members: ['id1', 'id2'],
-                type: 'temperature',
-                prio: 0, // 0 normal, 1 - high, 2 - highest
-                dow: [1, 2, 3, 4, 5], // 0 - sunday, 1 - monday
-                intervalDuration: 0.5, // in hours
-                intervals: [3, 14, 6, 22, 18, 3, 14, 6, 22, 18, 3,
-                    14, 6, 22, 18, 3, 14, 6, 22, 18, 3, 14, 6, 22, 22],
-            },
         };
     }
 
@@ -222,10 +209,6 @@ class App extends GenericApp {
         this.setState({ activeProfile: active, leftOpen: false });
     }
 
-    onEditMenu = isMenuEdit => {
-        this.setState({ isMenuEdit: !isMenuEdit });
-    }
-
     changeProfiles = profiles => {
         this.fullUpdateNativeValue('profiles', profiles);
     }
@@ -286,7 +269,7 @@ class App extends GenericApp {
         }
 
         const { classes } = this.props;
-        const { activeProfile, isMenuEdit } = this.state;
+        const { activeProfile } = this.state;
         const profile = this.currentProfile();
         const { profiles } = this.state.native;
 
@@ -317,10 +300,9 @@ class App extends GenericApp {
                                 </div>
                                 <ProfilesPanel
                                     active={activeProfile}
-                                    isEdit={isMenuEdit}
                                     profiles={profiles}
-                                    on={this.onSelectProfile}
-                                    onChangeMenu={this.changeProfiles}
+                                    onSelectProfile={this.onSelectProfile}
+                                    onChangeProfiles={this.changeProfiles}
                                 />
                             </div>
                             <div className={`label-left-sm-1 ${this.state.leftOpen === 1 ? 'active' : ''}`} onClick={() => this.onLeftOpen(1)}>
@@ -398,7 +380,7 @@ class App extends GenericApp {
                                                             <div className="mt-sm-auto mb-sm-auto">
                                                                 <div>
                                                                     <TypePanel
-                                                                        on={this.onType}
+                                                                        onChange={this.onType}
                                                                         type={this.currentProfile().type}
                                                                     />
                                                                 </div>
@@ -461,7 +443,7 @@ class App extends GenericApp {
                                                                 <div>
                                                                     <PriorityPanel
                                                                         profile={this.currentProfile()}
-                                                                        on={this.onPriority}
+                                                                        onChange={this.onPriority}
                                                                         priority={this.currentProfile().prio}
                                                                         windowWidth={this.state.windowWidth}
                                                                     />
@@ -516,13 +498,10 @@ class App extends GenericApp {
                                                 <div className={`label-left-sm-2  expert ${this.state.leftOpen === 2 ? 'active' : ''}`} onClick={() => this.onLeftOpen(2)}>
                                                     <AssignmentTurnedInIcon />
                                                 </div>
-                                                <div className={`label-right-sm-6 ${this.state.leftOpen === 6 ? 'active' : ''}`} onClick={() => this.onLeftOpen(6)}>
-                                                    <CallSplitIcon />
-                                                </div>
-                                                <div className={`label-right-sm-4 ${this.state.leftOpen === 4 ? 'active' : ''}`} onClick={() => this.onLeftOpen(4)}>
+                                                <div className={`label-right-sm-6 ${this.state.leftOpen === 4 ? 'active' : ''}`} onClick={() => this.onLeftOpen(4)}>
                                                     <ViewListIcon />
                                                 </div>
-                                                <div className={`label-right-sm-7 ${this.state.leftOpen === 7 ? 'active' : ''}`} onClick={() => this.onLeftOpen(7)}>
+                                                <div className={`label-right-sm-4 ${this.state.leftOpen === 7 ? 'active' : ''}`} onClick={() => this.onLeftOpen(7)}>
                                                     <ScheduleIcon />
                                                 </div>
                                             </>

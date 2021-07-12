@@ -31,6 +31,7 @@ class DevicesPanel extends Component {
                     placeholder={I18n.t('Put device names per comma')}
                     helperText=""
                     fullWidth
+                    disabled={!this.props.isExpert}
                     margin="normal"
                     multiline
                     rows={this.props.rows || 3}
@@ -48,5 +49,6 @@ DevicesPanel.propTypes = {
     onChange: PropTypes.func,
     rows: PropTypes.number,
     title: PropTypes.string,
+    isExpert: PropTypes.bool,
 };
 export default DevicesPanel;
