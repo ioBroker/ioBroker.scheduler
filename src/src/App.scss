@@ -10,10 +10,10 @@ $danger : #dd5325;
 $success : #73b6a8;
 $small: 768px;
 $radius: 19px;
-$pressShadow : 2px 2px 4px 0 #f5fbffed , 
-  -2px -2px 4px 0 #8693ac7a, 
-  inset -2px -2px 2px 0 #ffffff5c, 
-  inset 2px 2px 2px 0 #00000021!important; 
+$pressShadow : 2px 2px 4px 0 #f5fbffed ,
+  -2px -2px 4px 0 #8693ac7a,
+  inset -2px -2px 2px 0 #ffffff5c,
+  inset 2px 2px 2px 0 #00000021!important;
 
 body {
   margin: 0;
@@ -21,7 +21,7 @@ body {
   color: $tapper-color;
 }
 .App {
-  display:flex; 
+  display:flex;
   position: relative;
 }
 .scrolled-auto
@@ -37,7 +37,7 @@ body {
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: #444;
-} 
+}
 .sliders-container
 {
   width:100%;
@@ -58,15 +58,15 @@ body {
   flex-grow:1000;
 }
 .tapper-container
-{ 
-  position: relative; 
+{
+  position: relative;
 }
 .tapper-inside
 {
   overflow: hidden;
   height: $tapper-height;
-  flex-grow: 1;  
-  position: relative; 
+  flex-grow: 1;
+  position: relative;
   display: -webkit-flex;
   display: flex;
   flex-direction: column;
@@ -92,11 +92,11 @@ body {
     padding:0 3px!important;
   };
   &-label
-  {  
+  {
     color: #6c7a93;
     font-weight:700;
-    font-size:.9rem; 
-    height: 30px;    
+    font-size:.9rem;
+    height: 30px;
     width: 90%!important;
     text-align: center;
   };
@@ -113,7 +113,7 @@ body {
     bottom:-10px;
     margin-left:3px;
     width: 90%!important;
-    border-radius: 4px!important; 
+    border-radius: 4px!important;
     &.active
     {
       color:#FFF;
@@ -126,9 +126,9 @@ body {
   }
   &-check
   {
-    position:absolute; 
+    position:absolute;
   }
-}   
+}
 
 
 .App-header {
@@ -173,7 +173,7 @@ body {
     opacity:0;
   }
   &.active
-  { 
+  {
     background: #236b8e;
     &:hover
     {
@@ -196,14 +196,14 @@ body {
   height: 30px !important;
   max-height: 30px!important;
   min-height: 30px!important;
-} 
+}
 .flow-micro
 {
   width: 22px;
   height:22px !important;
   max-height: 22px!important;
   min-height: 22px!important;
-} 
+}
 .flow-square
 {
   width: 40px;
@@ -211,26 +211,27 @@ body {
   max-height: 40px!important;
   min-height: 40px!important;
   border-radius: 0;
-} 
-.flow-menu
-{
-  display:flex;
-  flex-direction:column;
-  margin:15px;
+}
+.flow-menu {
+  display: flex;
+  padding-left: 5px;
+  flex-direction: column;
+  margin: 15px;
+  background: #FFFFFF10;
   & [role="menu"]
   {
       margin:0;
       padding:0;
   };
-} 
+}
 .flow-menu-item,
 .flow-dark,
 .tapper-edit,
 .tapper-edit-hor
-{ 
+{
   display:flex!important;
   justify-content:center!important;
-  align-items: center!important; 
+  align-items: center!important;
   &.active
   {
     color:#FFF!important;
@@ -246,10 +247,9 @@ body {
 }
 .mobile-scrolled
 {
-  overflow-y:auto;
-  overflow-y:hidden;
- 
-} 
+  overflow-y: auto;
+  overflow-y: hidden;
+}
 .hidden
 {
   display:none;
@@ -259,12 +259,12 @@ body {
   height:100%;
   display: flex;
   flex-direction: column;
-} 
+}
 .w-100
 {
   width:100%;
   display: flex;
-} 
+}
 .wc-100
 {
   width:100%;
@@ -283,7 +283,7 @@ body {
 .label-menu-bottom
 {
   display:none!important;
-} 
+}
 .edit_button
 {
 
@@ -292,7 +292,7 @@ body {
   display: none;
   justify-content: center;
   align-items: center;
-  margin-right:2px; 
+  margin-right:2px;
   &:active
   {
     color:#EEE;
@@ -329,7 +329,7 @@ body {
     max-width: 550px;
     height: auto;
     max-height: 90px;
-  }  
+  }
   & > div >.day_night
   {
     height: 100%;
@@ -340,7 +340,7 @@ body {
     & > .day-night-quorte,
     & > .day-night-slide
     {
-      display:flex;      
+      display:flex;
       width:100%;
     }
     & > .day-night-slide
@@ -372,7 +372,7 @@ body {
         position:absolute;
         right:calc(-200% - 5px);
         top:-5px;
-        height: calc(100% + 12px); 
+        height: calc(100% + 12px);
         width:200%;
         pointer-events: none;
       }
@@ -393,12 +393,12 @@ body {
   & > .btn-cont > .left-button-add,
   & > .btn-cont > .right-button
   {
-      position:relative; 
-      margin:0px; 
+      position:relative;
+      margin:0;
       width:40px!important;
       min-width: 40px!important;
       height:40px!important;
-      left:15px;     
+      left:15px;
       top: 50%;
       & > svg
       {
@@ -568,7 +568,7 @@ body {
     padding:0;
     margin:0;
   }
-  .clip-left-sm-1, 
+  .clip-left-sm-1,
   .clip_left_sm_2,
   .clip_left_sm_4,
   .clip_left_sm_5,
@@ -590,9 +590,9 @@ body {
     {
       left:0;
     }
-  } 
+  }
   .swiper-content
-  { 
+  {
     justify-content: center;
     & > .left-button,
     & > .right-button
@@ -633,7 +633,7 @@ body {
     position:absolute;
     z-index:4;
     width:40px;
-    height:40px; 
+    height:40px;
     color:#DDD;
     display:flex!important;
     justify-content:center;
@@ -644,10 +644,10 @@ body {
     -moz-transition: all 300ms ease-out;
     -ms-transition: all 300ms ease-out;
     -o-transition: all 300ms ease-out;
-    transition: all 300ms ease-out; 
+    transition: all 300ms ease-out;
     background: linear-gradient(to bottom, #555 10%, #444 45%);
     &.active
-    {      
+    {
       color:#FFF!important;
       background: #444;
       background: -moz-linear-gradient(top,  #111 0%, #444 92% );
@@ -662,25 +662,25 @@ body {
     top: auto;
   }
   .label-right-sm-3
-  {  
+  {
     top:60px;
   }
   .label-right-sm-4
-  {  
+  {
     top: auto;
     bottom: 11px;
   }
   .label-right-sm-5
-  {  
+  {
     top: 110px;
   }
   .label-right-sm-6
-  {  
+  {
     top: auto;
     bottom: 110px;
   }
   .label-right-sm-7
-  {  
+  {
     top: auto;
     bottom: 160px;
   }
@@ -701,8 +701,8 @@ body {
     margin: 0;
     box-shadow: none;
     border-radius: 0;
-    align-items: center;    
-    padding: 0px 10px 0 60px !important; 
+    align-items: center;
+    padding: 0px 10px 0 60px !important;
   }
   .flow-menu
   {

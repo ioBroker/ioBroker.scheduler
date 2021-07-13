@@ -48,6 +48,8 @@ module.exports = {
         'react/forbid-prop-types': 'off',
         'react/require-default-props': 'off',
         'import/no-extraneous-dependencies': 'off',
+        'react/jsx-wrap-multilines': 'off',
+        'react/jsx-closing-tag-location': 'off',
         radix: 'off',
         indent: ['error', 4],
     },

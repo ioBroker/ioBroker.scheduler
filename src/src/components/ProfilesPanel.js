@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
 import { withStyles } from '@material-ui/core/styles';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -22,14 +23,14 @@ import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
 import CreateNewFolderIcon from '@material-ui/icons/CreateNewFolder';
 import SearchIcon from '@material-ui/icons/Search';
-import FolderIcon from '@material-ui/icons/Folder';
-import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import UnfoldLessIcon from '@material-ui/icons/UnfoldLess';
 import UnfoldMoreIcon from '@material-ui/icons/UnfoldMore';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CheckIcon from '@material-ui/icons/Check';
+import FolderIcon from '@iobroker/adapter-react/icons/IconClosed';
+import FolderOpenIcon from '@iobroker/adapter-react/icons/IconOpen';
 
 import I18n from '@iobroker/adapter-react/i18n';
 
@@ -49,7 +50,7 @@ const styles = {
         position: 'absolute',
         top: 5,
         right: 5,
-    },
+    }
 };
 
 class ProfilesPanel extends Component {
@@ -179,6 +180,7 @@ class ProfilesPanel extends Component {
                         </div>
                     )
                     : null));
+
         const folderSample = fld.isOpen
             ? (
                 <FolderOpenIcon
@@ -420,7 +422,7 @@ class ProfilesPanel extends Component {
                     { this.head() }
                 </Paper>
                 <Divider />
-                <MenuList className="p-1">
+                <MenuList>
                     { items }
                 </MenuList>
 

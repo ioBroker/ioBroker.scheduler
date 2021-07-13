@@ -3,7 +3,7 @@
     "version": "0.0.1",
     "private": true,
     "dependencies": {
-        "@iobroker/adapter-react": "^1.6.26",
+        "@iobroker/adapter-react": "^1.6.31",
         "@material-ui/core": "^4.11.4",
         "@material-ui/icons": "^4.11.2",
         "@sentry/browser": "^6.5.1",
@@ -12,6 +12,7 @@
         "eslint-plugin-eqeqeq-fix": "^1.0.3",
         "eslint-plugin-only-warn": "^1.0.2",
         "jquery": "^3.6.0",
+        "clsx": "^1.1.1",
         "node-sass": "^6.0.0",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
