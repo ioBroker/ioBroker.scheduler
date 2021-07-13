@@ -1,10 +1,22 @@
-import PropTypes from 'prop-types';
-import {
-    Button, Dialog, DialogTitle, Divider, IconButton, Input, InputAdornment, MenuItem, MenuList, Typography, TextField, Paper,
-} from '@material-ui/core';
 import React, { Component } from 'react';
-import I18n from '@iobroker/adapter-react/i18n';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import { v4 as uuidv4 } from 'uuid';
+
+import {
+    Button,
+    Dialog,
+    DialogTitle,
+    Divider,
+    IconButton,
+    InputAdornment,
+    MenuItem,
+    MenuList,
+    Typography,
+    TextField,
+    Paper,
+    DialogContent, DialogActions,
+} from '@material-ui/core';
 
 import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
@@ -16,6 +28,10 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 import UnfoldLessIcon from '@material-ui/icons/UnfoldLess';
 import UnfoldMoreIcon from '@material-ui/icons/UnfoldMore';
 import CloseIcon from '@material-ui/icons/Close';
+import DeleteIcon from '@material-ui/icons/Delete';
+import CheckIcon from '@material-ui/icons/Check';
+
+import I18n from '@iobroker/adapter-react/i18n';
 
 const defaultProfileData = {
     enabled: false,
@@ -26,6 +42,14 @@ const defaultProfileData = {
     dow: [1, 2, 3, 4, 5], // 0 - sunday, 1 - monday
     intervalDuration: 0.5, // in hours
     intervals: [3, 14, 6, 22, 18, 3, 14, 6, 22, 18, 3, 14, 6, 22, 18, 3, 14, 6, 22, 18, 3, 14, 6, 22, 22],
+};
+
+const styles = {
+    closeButton: {
+        position: 'absolute',
+        top: 5,
+        right: 5,
+    },
 };
 
 class ProfilesPanel extends Component {
@@ -51,6 +75,7 @@ class ProfilesPanel extends Component {
             {
                 isDialogOpen: true,
                 dialogElementTitle: element.title,
+                dialogOriginalElementTitle: element.title,
                 dialogElementId: element.id,
                 dialogElementParent: element.parent,
                 isNew: false,
@@ -95,6 +120,7 @@ class ProfilesPanel extends Component {
             {
                 isDialogOpen: true,
                 dialogElementTitle: I18n.t(type),
+                dialogOriginalElementTitle: '',
                 dialogElementType: type,
                 dialogElementId: uuidv4(),
                 dialogElementParent: element.id,
@@ -106,7 +132,9 @@ class ProfilesPanel extends Component {
     onOpen = (id, isOpen) => {
         const profiles = [...this.props.profiles];
         const newProfiles = profiles.map(e => {
-            if (e.id === id) e.isOpen = isOpen;
+            if (e.id === id) {
+                e.isOpen = isOpen;
+            }
             return e;
         });
         this.props.onChangeProfiles(newProfiles);
@@ -115,7 +143,9 @@ class ProfilesPanel extends Component {
     onCloseAll = () => {
         const profiles = [...this.props.profiles];
         const newProfiles = profiles.map(e => {
-            if (e.type === 'folder') e.isOpen = false;
+            if (e.type === 'folder') {
+                e.isOpen = false;
+            }
             return e;
         });
         this.props.onChangeProfiles(newProfiles);
@@ -124,7 +154,9 @@ class ProfilesPanel extends Component {
     onOpenAll = () => {
         const profiles = [...this.props.profiles];
         const newProfiles = profiles.map(e => {
-            if (e.type === 'folder') e.isOpen = true;
+            if (e.type === 'folder') {
+                e.isOpen = true;
+            }
             return e;
         });
         this.props.onChangeProfiles(newProfiles);
@@ -325,8 +357,51 @@ class ProfilesPanel extends Component {
             );
     }
 
-    render() {
+    renderEditDeleteDialog() {
         const { isDialogOpen } = this.state;
+        return <Dialog
+            onClose={this.onDialog}
+            open={isDialogOpen}
+            maxWidth="sm"
+            fullWidth
+        >
+            <IconButton onClick={this.onDialog} className={this.props.classes.closeButton}><CloseIcon /></IconButton>
+            <DialogTitle>
+                {I18n.t('Edit')}
+            </DialogTitle>
+            <DialogContent>
+                <TextField
+                    fullWidth
+                    label={I18n.t('Name')}
+                    value={this.state.dialogElementTitle}
+                    onChange={evt => this.setState({ dialogElementTitle: evt.target.value })}
+                    InputProps={{
+                        startAdornment:
+                            <InputAdornment position="start">
+                                <EditIcon />
+                            </InputAdornment>,
+                    }}
+                />
+            </DialogContent>
+            <DialogActions>
+                {
+                    !this.state.isNew && <Button onClick={this.onDeleteItem} variant="outlined" startIcon={<DeleteIcon />}>
+                        {I18n.t('Delete')}
+                    </Button>
+                }
+                <Button
+                    disabled={!this.state.dialogElementTitle || this.state.dialogElementTitle === this.state.dialogOriginalElementTitle}
+                    onClick={this.onUpdateItem}
+                    variant="contained"
+                    color="primary"
+                    startIcon={<CheckIcon />}>
+                    {I18n.t(this.state.isNew ? 'Create' : 'Update')}
+                </Button>
+            </DialogActions>
+        </Dialog>;
+    }
+
+    render() {
         const { profiles } = this.props;
         const items = this.state.isSearch && this.state.searchText
             ? profiles
@@ -338,6 +413,7 @@ class ProfilesPanel extends Component {
             : profiles
                 .filter(e => e.parent === '')
                 .map(e => this.folder(e, 0));
+
         return (
             <div className="flow-menu flex-grow-1000 scrolled-auto m-0">
                 <Paper className="d-flex" style={{ height: 32 }}>
@@ -348,47 +424,7 @@ class ProfilesPanel extends Component {
                     { items }
                 </MenuList>
 
-                <Dialog
-                    onClose={this.onDialog}
-                    aria-labelledby="simple-dialog-title"
-                    open={isDialogOpen}
-                >
-                    <DialogTitle id="simple-dialog-title">
-                        {I18n.t('Edit')}
-                    </DialogTitle>
-                    <div className="p-2 flex-column" style={{ width: 250, minHeight: 200 }}>
-                        <div className="p-2">
-                            <div htmlFor="label">
-                                {I18n.t('label')}
-                            </div>
-                            <Input
-                                id="label"
-                                value={this.state.dialogElementTitle}
-                                onChange={evt => this.setState({ dialogElementTitle: evt.target.value })}
-                                startAdornment={(
-                                    <InputAdornment position="start">
-                                        <EditIcon />
-                                    </InputAdornment>
-                                )}
-                            />
-                        </div>
-                        <div className="mt-auto">
-                            <Button onClick={this.onUpdateItem} variant="contained" color="primary">
-                                {I18n.t(this.state.isNew ? 'create' : 'update')}
-                            </Button>
-                            {
-                                this.state.isNew
-                                    ? null
-                                    : (
-                                        <Button onClick={this.onDeleteItem} variant="contained">
-                                            {I18n.t('delete')}
-                                        </Button>
-                                    )
-
-                            }
-                        </div>
-                    </div>
-                </Dialog>
+                {this.renderEditDeleteDialog()}
             </div>
         );
     }
@@ -400,4 +436,4 @@ ProfilesPanel.propTypes = {
     onSelectProfile: PropTypes.func,
     onChangeProfiles: PropTypes.func,
 };
-export default ProfilesPanel;
+export default withStyles(styles)(ProfilesPanel);
