@@ -3,20 +3,24 @@
     "version": "0.0.1",
     "private": true,
     "dependencies": {
-        "@iobroker/adapter-react": "^1.6.26",
+        "@iobroker/adapter-react": "^1.6.31",
         "@material-ui/core": "^4.11.4",
         "@material-ui/icons": "^4.11.2",
         "@sentry/browser": "^6.5.1",
         "@sentry/integrations": "^6.5.1",
         "chroma-js": "^2.1.2",
+        "eslint-plugin-eqeqeq-fix": "^1.0.3",
+        "eslint-plugin-only-warn": "^1.0.2",
         "jquery": "^3.6.0",
+        "clsx": "^1.1.1",
         "node-sass": "^6.0.0",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
         "react-icons": "^4.2.0",
         "react-scripts": "^4.0.3",
         "react-swipe-component": "^3.0.0",
-        "sass-loader": "^12.0.0"
+        "sass-loader": "^12.0.0",
+        "uuid": "^8.3.2"
     },
     "scripts": {
         "start": "react-scripts start",
@@ -33,5 +37,13 @@
         "not dead",
         "not ie <= 11",
         "not op_mini all"
-    ]
+    ],
+    "devDependencies": {
+        "eslint": "^7.30.0",
+        "eslint-config-airbnb": "^18.2.1",
+        "eslint-plugin-import": "^2.23.4",
+        "eslint-plugin-jsx-a11y": "^6.4.1",
+        "eslint-plugin-react": "^7.24.0",
+        "eslint-plugin-react-hooks": "^4.2.0"
+    }
 }
