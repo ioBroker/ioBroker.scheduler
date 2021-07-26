@@ -127,6 +127,13 @@ class ProfilesPanel extends Component {
         this.props.onChangeProfiles(newProfiles);
     }
 
+    onMoveItem = (profileId, newParentId) => {
+        const newProfiles = JSON.parse(JSON.stringify(this.props.profiles));
+        const profile = newProfiles.find(foundProfile => foundProfile.id === profileId);
+        profile.parent = newParentId;
+        this.props.onChangeProfiles(newProfiles);
+    }
+
     onAddChild = (element, type) => {
         this.setState(
             {
