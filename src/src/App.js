@@ -150,7 +150,7 @@ class App extends GenericApp {
         const findedProfile = this.state.native.profiles.find(
             profile => profile.id === this.state.activeProfile,
         );
-        return findedProfile ? findedProfile.data : null;
+        return findedProfile ? findedProfile.type === 'profile' && findedProfile.data : null;
     }
 
     changeProfile = newData => {
@@ -191,7 +191,7 @@ class App extends GenericApp {
 
     onDevices = devices => {
         const profile = JSON.parse(JSON.stringify(this.currentProfile()));
-        profile.members = devices.split(', ');
+        profile.members = devices;
         this.changeProfile(profile);
     }
 

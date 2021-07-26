@@ -5,8 +5,8 @@ import React, { Component } from 'react';
 import I18n from '@iobroker/adapter-react/i18n';
 
 const daysOfWeek = [
-    'Sn',
-    'Mn',
+    'Su',
+    'Mo',
     'Tu',
     'We',
     'Th',
