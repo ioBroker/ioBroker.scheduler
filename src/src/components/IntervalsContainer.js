@@ -16,6 +16,15 @@ const styles = () => ({
     columnSettings: {
         width: 'calc(100% - 370px)',
     },
+    tapperInside:{
+        overflow: "hidden",
+        height: "100%",
+        flexGrow: 1,
+        position: "relative",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center"
+    }
 });
 
 class IntervalsContainer extends Component {
@@ -61,7 +70,7 @@ class IntervalsContainer extends Component {
                 }}
             >
                 <div
-                    className="tapper-inside"
+                    className={this.props.classes.tapperInside}
                     id="tapper-inside"
                     ref={this.tapperRef}
                     style={{

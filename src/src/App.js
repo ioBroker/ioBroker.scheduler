@@ -66,6 +66,12 @@ const styles = theme => {
         clip_left_sm_5: mobilePanel,
         clip_left_sm_6: mobilePanel,
         clip_left_sm_7: mobilePanel,
+        slidersContainer: {
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+        }
 
     };
 };
@@ -83,7 +89,7 @@ const AntTabs = withStyles({
 
 const AntTab = withStyles(() => ({
     root: {
-    // backgroundColor:'#444',
+        // backgroundColor:'#444',
         minWidth: 140,
         fontWeight: 700,
         fontSize: '0.75rem',
@@ -273,6 +279,8 @@ class App extends GenericApp {
         const profile = this.currentProfile();
         const { profiles } = this.state.native;
 
+        // console.log(this.props);
+
         return (
             <MuiThemeProvider theme={this.state.theme}>
                 <div className={classes.app}>
@@ -290,8 +298,7 @@ class App extends GenericApp {
                         >
                             <div
                                 className={
-                                    `tapper-grid tapper-shadow h-100 clip-left-sm-1 m-0 ${
-                                        this.state.leftOpen === 1 ? ' active ' : ''
+                                    `tapper-grid tapper-shadow h-100 clip-left-sm-1 m-0 ${this.state.leftOpen === 1 ? ' active ' : ''
                                     }${classes.paneling}`
                                 }
                             >
@@ -311,7 +318,7 @@ class App extends GenericApp {
                         </Grid>
                         {this.currentProfile() ? (
                             <>
-                                <Grid item xs={12} lg={9} className="sliders-container">
+                                <Grid item xs={12} lg={9} className={this.props.classes.slidersContainer}>
 
                                     <IntervalsContainer
                                         type={this.currentProfile().type}
@@ -326,8 +333,7 @@ class App extends GenericApp {
                                             ? (
                                                 <div
                                                     className={
-                                                        `tapper-grid tapper-shadow m-1 mt-1 clip_left_sm_7 ${
-                                                            classes.clip_left_sm_7
+                                                        `tapper-grid tapper-shadow m-1 mt-1 clip_left_sm_7 ${classes.clip_left_sm_7
                                                         }${this.state.leftOpen === 7 ? ' active ' : ''}`
                                                     }
                                                 >
@@ -369,8 +375,7 @@ class App extends GenericApp {
                                                     >
                                                         <div
                                                             className={
-                                                                `tapper-grid tapper-shadow h-100 m-1 p-2 clip_left_sm_2 ${
-                                                                    classes.clip_left_sm_2
+                                                                `tapper-grid tapper-shadow h-100 m-1 p-2 clip_left_sm_2 ${classes.clip_left_sm_2
                                                                 }${this.state.leftOpen === 2 ? ' active ' : ''}`
                                                             }
                                                         >
@@ -399,8 +404,7 @@ class App extends GenericApp {
                                         >
                                             <div
                                                 className={
-                                                    `tapper-grid tapper-shadow m-1 p-2 mt-1 clip_left_sm_5 ${
-                                                        classes.clip_left_sm_5
+                                                    `tapper-grid tapper-shadow m-1 p-2 mt-1 clip_left_sm_5 ${classes.clip_left_sm_5
                                                     }${this.state.leftOpen === 5 ? ' active ' : ''}`
                                                 }
                                                 style={{ flexGrow: 100 }}
@@ -431,8 +435,7 @@ class App extends GenericApp {
                                                     >
                                                         <div
                                                             className={
-                                                                `tapper-grid tapper-shadow h-100 m-1 p-2 clip_left_sm_4 ${
-                                                                    classes.clip_left_sm_4
+                                                                `tapper-grid tapper-shadow h-100 m-1 p-2 clip_left_sm_4 ${classes.clip_left_sm_4
                                                                 }${this.state.leftOpen === 4 ? ' active ' : ''}`
                                                             }
                                                         >
@@ -464,8 +467,7 @@ class App extends GenericApp {
                                 >
                                     <div
                                         className={
-                                            `tapper-grid tapper-shadow m-1 p-2 clip_right_sm_3 h-100 ${
-                                                classes.clip_left_sm_2
+                                            `tapper-grid tapper-shadow m-1 p-2 clip_right_sm_3 h-100 ${classes.clip_left_sm_2
                                             }${this.state.leftOpen === 3 ? ' active ' : ''}`
                                         }
                                     >

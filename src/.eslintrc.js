@@ -50,6 +50,7 @@ module.exports = {
         'import/no-extraneous-dependencies': 'off',
         'react/jsx-wrap-multilines': 'off',
         'react/jsx-closing-tag-location': 'off',
+        'linebreak-style': ["error", "windows"],
         radix: 'off',
         indent: ['error', 4],
     },

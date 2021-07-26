@@ -89,15 +89,15 @@ class Interval extends Component {
 
     getPostfix(value) {
         switch (this.props.type) {
-        case 'temperature':
-            return `${value.toString()}º`;
-        case 'onoff':
-            return value
-                ? <span className="text-success">on</span>
-                : <span className="text-danger">off</span>;
-        case 'percent':
-        default:
-            return `${value.toString()}%`;
+            case 'temperature':
+                return `${value.toString()}º`;
+            case 'onoff':
+                return value
+                    ? <span style={this.props.theme.palette.text.success}>on</span>
+                    : <span style={this.props.theme.palette.text.danger}>off</span>;
+            case 'percent':
+            default:
+                return `${value.toString()}%`;
         }
     }
 
@@ -117,6 +117,7 @@ class Interval extends Component {
         const {
             value, i, selected, theme, intervalsWidth, type,
         } = this.props;
+        console.log(this.props.theme)
         if (i < 0) {
             return '';
         }
@@ -128,7 +129,7 @@ class Interval extends Component {
         return (
             <span className="pretto">
                 <span className="pretto-label">
-                    { vl }
+                    {vl}
                 </span>
                 <PrettoSlider
                     key={i}
@@ -147,11 +148,11 @@ class Interval extends Component {
                 />
                 <div
                     className={`pretto-time flow-square${selected ? ' active' : ''}`}
-                    style={{ }}
+                    style={{}}
                     i={i}
                     onClick={this.handleSelected}
                 >
-                    <span>{ label[0] }</span>
+                    <span>{label[0]}</span>
                     <span className="pretto-secs">{label[1]}</span>
 
                 </div>

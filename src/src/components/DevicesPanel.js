@@ -3,6 +3,13 @@ import React, { Component } from 'react';
 import { FormLabel, TextField, withStyles } from '@material-ui/core';
 import I18n from '@iobroker/adapter-react/i18n';
 
+const styles = {
+    tapperTitle: {
+        fontSize: "1.3rem",
+        textTransform: "uppercase",
+        paddingBottom: "1rem!important"
+    }
+}
 const CssTextField = withStyles({
     root: {
         backgroundColor: '#FFFFFF12',
@@ -19,7 +26,7 @@ class DevicesPanel extends Component {
         const title = this.props.title ? this.props.title : 'Devices';
         return (
             <>
-                <FormLabel component="legend" className="tapper-title">
+                <FormLabel component="legend" className={this.props.classes.tapperTitle}>
                     {I18n.t(title)}
                 </FormLabel>
                 <CssTextField
@@ -51,4 +58,4 @@ DevicesPanel.propTypes = {
     title: PropTypes.string,
     isExpert: PropTypes.bool,
 };
-export default DevicesPanel;
+export default withStyles(styles)(DevicesPanel);

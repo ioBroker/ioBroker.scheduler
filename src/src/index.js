@@ -5,12 +5,12 @@ import * as Sentry from '@sentry/browser';
 import * as SentryIntegrations from '@sentry/integrations';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import './index.css';
-import theme from '@iobroker/adapter-react/Theme';
+// import theme from '@iobroker/adapter-react/Theme';
 import Utils from '@iobroker/adapter-react/Components/Utils';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { version } from '../package.json';
-// import theme from './theme';
+import theme from './theme';
 
 window.adapterName = 'scheduler';
 let themeName = Utils.getThemeName();

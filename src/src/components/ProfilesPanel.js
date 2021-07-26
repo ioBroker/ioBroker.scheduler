@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
 import { withStyles } from '@material-ui/core/styles';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -50,6 +49,18 @@ const styles = {
         position: 'absolute',
         top: 5,
         right: 5,
+    },
+    scrolledAuto: {
+        overflowX: "hidden",
+        overflowY: "auto",
+        flexGrow: 1000,
+        width: "calc(100% - 30px)",
+        margin: 0
+    },
+    tapperTitle: {
+        fontSize: "1.3rem",
+        textTransform: "uppercase",
+        paddingBottom: "1rem!important"
     }
 };
 
@@ -239,7 +250,7 @@ class ProfilesPanel extends Component {
                     </div>
 
                 </MenuItem>
-                { subProfiles }
+                {subProfiles}
             </div>
         );
     }
@@ -396,8 +407,15 @@ class ProfilesPanel extends Component {
                     onClick={this.onUpdateItem}
                     variant="contained"
                     color="primary"
-                    startIcon={<CheckIcon />}>
-                    {I18n.t(this.state.isNew ? 'Create' : 'Update')}
+                    startIcon={<CheckIcon />}
+                >
+                    {
+                        I18n.t(
+                            this.state.isNew
+                                ? 'Create'
+                                : 'Update',
+                        )
+                    }
                 </Button>
             </DialogActions>
         </Dialog>;
@@ -417,13 +435,13 @@ class ProfilesPanel extends Component {
                 .map(e => this.folder(e, 0));
 
         return (
-            <div className="flow-menu flex-grow-1000 scrolled-auto m-0">
+            <div className={this.props.classes.scrolledAuto}>
                 <Paper className="d-flex" style={{ height: 32 }}>
-                    { this.head() }
+                    {this.head()}
                 </Paper>
                 <Divider />
                 <MenuList>
-                    { items }
+                    {items}
                 </MenuList>
 
                 {this.renderEditDeleteDialog()}
