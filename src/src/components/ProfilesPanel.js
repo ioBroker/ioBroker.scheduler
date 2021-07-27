@@ -311,7 +311,6 @@ class ProfilesPanel extends Component {
                         onChange={this.onSearchedText}
                     />
                     <IconButton
-                        aria-label="upload picture"
                         component="span"
                         size="small"
                         title={I18n.t('finish searching')}
@@ -324,7 +323,18 @@ class ProfilesPanel extends Component {
             : (
                 <>
                     <IconButton
-                        aria-label="upload picture"
+                        component="span"
+                        size="small"
+                        title={I18n.t('Add profile')}
+                        onClick={
+                            () => {
+                                this.onAddChild({ id: '' }, 'profile');
+                            }
+                        }
+                    >
+                        <AddIcon />
+                    </IconButton>
+                    <IconButton
                         component="span"
                         size="small"
                         title={I18n.t('Add folder')}
@@ -338,10 +348,9 @@ class ProfilesPanel extends Component {
                     </IconButton>
                     {
                         profiles.length ? (
-                            profiles.filter(e => e.isOpen).length > 0
+                            profiles.filter(e => e.type === 'folder' && e.isOpen).length > 0
                                 ? (
                                     <IconButton
-                                        aria-label="upload picture"
                                         component="span"
                                         size="small"
                                         title={I18n.t('Close all')}
@@ -352,7 +361,6 @@ class ProfilesPanel extends Component {
                                 )
                                 : (
                                     <IconButton
-                                        aria-label="upload picture"
                                         component="span"
                                         size="small"
                                         title={I18n.t('Open all')}
@@ -364,7 +372,6 @@ class ProfilesPanel extends Component {
                         ) : null
                     }
                     <IconButton
-                        aria-label="upload picture"
                         component="span"
                         size="small"
                         className="ml-auto"
@@ -439,7 +446,7 @@ class ProfilesPanel extends Component {
                     : null))
             : profiles
                 .filter(e => e.parent === '')
-                .map(e => this.folder(e, 0));
+                .map(e => (e.type === 'folder' ? this.folder(e, 0) : this.profile(e, 0)));
 
         return (
             <div className={this.props.classes.scrolledAuto}>
