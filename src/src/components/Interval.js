@@ -5,16 +5,56 @@ import Slider from '@material-ui/core/Slider';
 import minmax from '../data/minmax.json';
 
 const styles = () => ({
+    pretto: {
+        position: 'relative',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        width: props => props.intervalsWidth,
+        //padding:"0 3px"
+    },
+    prettoLabel: {
+        color: '#6c7a93',
+        fontWeight: 700,
+        fontSize: '.9rem',
+        height: 30,
+        width: 'calc(100% - 5px)',
+        textAlign: 'center',
+    },
+    prettoTime: {
+        position: 'absolute',
+        fontSize: '0.9rem',
+        fontWeight: 700,
+        bottom: 27,
+        width: 'calc(100% - 5px)',
+        borderRadius: '4px!important',
+        height: 28,
+        maxHeight: 28,
+        minHeight: 28,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        cursor: 'pointer',
 
+    },
+    active: {
+        backgroundColor: props => props.theme.palette.primary.light,
+        color: "#FFF"
+    },
+    prettoSecs: {
+        fontSize: '0.6rem',
+        fontWeight: 100
+    }
 });
 const usePrettoSliderStyles = makeStyles({
     root: props => ({
-        color: props.theme.palette.primary.dark,
+        color: props.theme.palette.primary.light,
         width: `${props.intervalsWidth}px!important`,
         borderRadius: 0,
         height: 'calc(100% - 90px)!important',
         transition: 'all 100ms ease-out',
         position: 'relative',
+        padding: "0!important"
     }),
     thumb: props => ({
         left: `calc( 50% + ${10}px)!important`,
@@ -39,19 +79,20 @@ const usePrettoSliderStyles = makeStyles({
         },
     }),
     track: {
-        width: '90%!important',
+        width: 'calc(100% - 5px)!important',
         transition: 'all 100ms ease-out',
         borderRadius: 4,
     },
     rail: props => ({
         transition: 'all 100ms ease-out',
-        width: '90%!important',
+        width: 'calc(100% - 5px)!important',
         borderRadius: 4,
         borderBottomLeftRadius: '0px!important',
         borderBottomRightRadius: '0px!important',
         height: `calc(100% + ${props.intervalsWidth}px)`,
         backgroundColor: props.theme.palette.primary.light,
     }),
+
 });
 
 const PrettoSlider = props => {
@@ -117,7 +158,7 @@ class Interval extends Component {
         const {
             value, i, selected, theme, intervalsWidth, type,
         } = this.props;
-        console.log(this.props.theme)
+        const { pretto, prettoLabel, prettoTime, active, prettoSecs } = this.props.classes
         if (i < 0) {
             return '';
         }
@@ -127,8 +168,8 @@ class Interval extends Component {
         const vl = type === 'onoff' ? this.getPostfix(val || 0) : '';
         const v2 = type !== 'onoff' ? this.getPostfix(val || 0) : '';
         return (
-            <span className="pretto">
-                <span className="pretto-label">
+            <span className={pretto}>
+                <span className={prettoLabel} >
                     {vl}
                 </span>
                 <PrettoSlider
@@ -147,13 +188,17 @@ class Interval extends Component {
                     valueLabelDisplay="on"
                 />
                 <div
-                    className={`pretto-time flow-square${selected ? ' active' : ''}`}
-                    style={{}}
+                    className={
+                        prettoTime + " " +
+                        (selected ? active : '')
+                    }
                     i={i}
                     onClick={this.handleSelected}
                 >
                     <span>{label[0]}</span>
-                    <span className="pretto-secs">{label[1]}</span>
+                    <span className={prettoSecs}>
+                        {label[1]}
+                    </span>
 
                 </div>
             </span>

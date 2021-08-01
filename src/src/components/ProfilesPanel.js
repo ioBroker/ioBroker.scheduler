@@ -44,7 +44,7 @@ const defaultProfileData = {
     intervals: [3, 14, 6, 22, 18, 3, 14, 6, 22, 18, 3, 14, 6, 22, 18, 3, 14, 6, 22, 18, 3, 14, 6, 22, 22],
 };
 
-const styles = {
+const styles = theme => ({
     closeButton: {
         position: 'absolute',
         top: 5,
@@ -61,8 +61,67 @@ const styles = {
         fontSize: "1.3rem",
         textTransform: "uppercase",
         paddingBottom: "1rem!important"
+    },
+    edit_button:
+    {
+        width: 30,
+        height: 30,
+        display: 'none',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 2,
+        '&:active':
+        {
+            color: '#EEE',
+        },
+        '&>svg':
+        {
+            fontSize: '1.2rem',
+        },
+        '.flow-menu-item:hover &':
+        {
+            display: 'flex'
+        },
+        '.flow-menu-item.active &':
+        {
+            display: 'flex'
+        }
+    },
+    flowMenuItem: {
+        height: 28,
+        maxHeight: 28,
+        minHeight: 28,
+        padding: 0,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        cursor: 'pointer',
+        position: 'relative',
+        "&.active":
+        {
+            backgroundColor: props => {
+                return theme.palette.primary.light
+            },
+            color: "#FFF"
+        },
+        "&:hover":
+        {
+            backgroundColor: props => {
+                console.log(theme);
+                return theme.palette.primary.dark
+            },
+            color: theme.palette.grey[200]
+        },
+        "&::before":
+        {
+            width: 20,
+            height: 20,
+        }
+    },
+    active: {
+
     }
-};
+});
 
 class ProfilesPanel extends Component {
     constructor(props) {
@@ -176,6 +235,7 @@ class ProfilesPanel extends Component {
 
     folder = (fld, level) => {
         const { profiles, active } = this.props;
+        const { flowMenuItem, edit_button } = this.props.classes
         const subProfiles = this.state.isSearch && this.state.searchText
             ? null
             : profiles
@@ -214,12 +274,12 @@ class ProfilesPanel extends Component {
         return (
             <div key={fld.id}>
                 <MenuItem
-                    className={`flow-menu-item ${active === fld.id ? ' active ' : ''}`}
+                    className={flowMenuItem + ` flow-menu-item ${active === fld.id ? ' active ' : ''}`}
                     onClick={() => this.onActive(fld.id)}
-                    style={{ marginLeft: (level * 20) }}
+                    style={{ marginLeft: (level * 12) }}
                     disableRipple
                 >
-                    <Typography variant="inherit" className="w-100">
+                    <Typography variant="inherit" className="pl-1 w-100">
                         {folderSample}
                         {' '}
                         {I18n.t(fld.title)}
@@ -227,21 +287,21 @@ class ProfilesPanel extends Component {
 
                     <div className="absolute-right">
                         <div
-                            className="edit_button"
+                            className={edit_button}
                             title={I18n.t('Add new child profile')}
                             onClick={() => this.onAddChild(fld, 'profile')}
                         >
                             <AddIcon />
                         </div>
                         <div
-                            className="edit_button"
+                            className={edit_button}
                             title={I18n.t('Add new child folder')}
                             onClick={() => this.onAddChild(fld, 'folder')}
                         >
                             <CreateNewFolderIcon />
                         </div>
                         <div
-                            className="edit_button"
+                            className={edit_button}
                             title={I18n.t('Edit')}
                             onClick={() => this.onEditDialog(fld)}
                         >
@@ -257,10 +317,11 @@ class ProfilesPanel extends Component {
 
     profile = (sub, level) => {
         const { active } = this.props;
+        const { flowMenuItem, edit_button } = this.props.classes;
         return (
             <MenuItem
-                className={`flow-menu-item sub ${active === sub.id ? ' active ' : ''}`}
-                style={{ marginLeft: (level * 20) }}
+                className={flowMenuItem + ` flow-menu-item sub ${active === sub.id ? ' active ' : ''}`}
+                style={{ marginLeft: (level * 12) }}
                 onClick={() => this.onActive(sub.id)}
                 disableRipple
             >
@@ -272,7 +333,7 @@ class ProfilesPanel extends Component {
 
                 <div className="absolute-right">
                     <div
-                        className="edit_button"
+                        className={edit_button}
                         title={I18n.t('Edit')}
                         onClick={() => this.onEditDialog(sub)}
                     >
@@ -378,7 +439,12 @@ class ProfilesPanel extends Component {
             maxWidth="sm"
             fullWidth
         >
-            <IconButton onClick={this.onDialog} className={this.props.classes.closeButton}><CloseIcon /></IconButton>
+            <IconButton
+                onClick={this.onDialog}
+                className={this.props.classes.closeButton}
+            >
+                <CloseIcon />
+            </IconButton>
             <DialogTitle>
                 {I18n.t('Edit')}
             </DialogTitle>
@@ -425,11 +491,13 @@ class ProfilesPanel extends Component {
         const { profiles } = this.props;
         const items = this.state.isSearch && this.state.searchText
             ? profiles
-                .map(e => (e.title.toLowerCase().indexOf(this.state.searchText.toLowerCase()) > -1
-                    ? e.type === 'folder'
-                        ? this.folder(e, 0)
-                        : this.profile(e, 0)
-                    : null))
+                .map(e => {
+                    return (e.title && e.title.toLowerCase().indexOf(this.state.searchText.toLowerCase()) > -1
+                        ? e.type === 'folder'
+                            ? this.folder(e, 0)
+                            : this.profile(e, 0)
+                        : null)
+                })
             : profiles
                 .filter(e => e.parent === '')
                 .map(e => this.folder(e, 0));
@@ -455,5 +523,6 @@ ProfilesPanel.propTypes = {
     profiles: PropTypes.array,
     onSelectProfile: PropTypes.func,
     onChangeProfiles: PropTypes.func,
+    theme: PropTypes.object,
 };
 export default withStyles(styles)(ProfilesPanel);
