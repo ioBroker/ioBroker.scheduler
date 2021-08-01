@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { v4 as uuidv4 } from 'uuid';
 
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { TouchBackend } from 'react-dnd-touch-backend';
+
 import {
     Button,
     Dialog,
@@ -43,6 +47,12 @@ const defaultProfileData = {
     intervalDuration: 0.5, // in hours
     intervals: [3, 14, 6, 22, 18, 3, 14, 6, 22, 18, 3, 14, 6, 22, 18, 3, 14, 6, 22, 18, 3, 14, 6, 22, 22],
 };
+
+function isTouchDevice() {
+    return (('ontouchstart' in window) ||
+        (navigator.maxTouchPoints > 0) ||
+        (navigator.msMaxTouchPoints > 0));
+}
 
 const styles = {
     closeButton: {
@@ -449,17 +459,19 @@ class ProfilesPanel extends Component {
                 .map(e => (e.type === 'folder' ? this.folder(e, 0) : this.profile(e, 0)));
 
         return (
-            <div className={this.props.classes.scrolledAuto}>
-                <Paper className="d-flex" style={{ height: 32 }}>
-                    {this.head()}
-                </Paper>
-                <Divider />
-                <MenuList>
-                    {items}
-                </MenuList>
+            <DndProvider backend={isTouchDevice() ? TouchBackend : HTML5Backend}>
+                <div className={this.props.classes.scrolledAuto}>
+                    <Paper className="d-flex" style={{ height: 32 }}>
+                        {this.head()}
+                    </Paper>
+                    <Divider />
+                    <MenuList>
+                        {items}
+                    </MenuList>
 
-                {this.renderEditDeleteDialog()}
-            </div>
+                    {this.renderEditDeleteDialog()}
+                </div>
+            </DndProvider>
         );
     }
 }
