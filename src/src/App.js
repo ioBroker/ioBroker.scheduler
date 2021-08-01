@@ -6,6 +6,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import GenericApp from '@iobroker/adapter-react/GenericApp';
 import Loader from '@iobroker/adapter-react/Components/Loader';
+import Fab from '@material-ui/core/Fab';
 
 import I18n from '@iobroker/adapter-react/i18n';
 // import defaultOptions from './data/defaultOptions.json'
@@ -28,6 +29,19 @@ import ProfilesPanel from './components/ProfilesPanel';
 
 const styles = theme => {
     const mobilePanel = {
+        '@media (max-width:768px)':
+        {
+            position: 'absolute',
+            top: 0,
+            width: 'calc(100% - 70px)',
+            left: 'calc(-100% - 70px)',
+            zIndex: 2,
+            transition: 'all 300ms ease-out',
+            '&.active':
+            {
+                left: 0,
+            }
+        },
         '@media (max-width:570px)':
         {
             display: 'flex',
@@ -40,12 +54,176 @@ const styles = theme => {
             background: theme.palette.background.paper,
         },
     };
+    const leftRSM = {
+        position: 'absolute',
+        zIndex: 4,
+        color: '#FF0000',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        top: 10,
+        left: 7,
+        transition: 'all 300ms ease-out',
+        '&.active':
+        {
+            color: '#FFF',
+        }
+    }
     return {
         app: {
             display: 'flex',
             position: 'relative',
             height: 'calc(100% - 64px)',
             backgroundColor: theme.palette.background.paper,
+        },
+        mobileScrolled:
+        {
+            overflowY: 'auto'
+        },
+        tapperGrid: {
+            margin: 0,
+            boxShadow: 'none',
+            borderRadius: 0,
+            alignItems: 'center',
+            padding: 10,
+            '@media (max-width:570px)':
+            {
+                margin: 0,
+                boxShadow: 'none',
+                borderRadius: 0,
+                alignItems: 'center',
+                padding: '0px 10px 0 60px',
+            }
+        },
+        flowDark: {
+            width: 26,
+            height: 28,
+            maxHeight: 28,
+            minHeight: 28,
+            padding: 0,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            cursor: 'pointer',
+            position: 'relative',
+            '&::before':
+            {
+                content: "",
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                marginLeft: 0,
+                marginTop: 0,
+                width: 0,
+                height: 0,
+                transition: 'all 200ms ease-out',
+                opacity: 0,
+            }
+        },
+        closeLabelLeftSm:
+        {
+            display: 'none',
+            '@media (max-width:570px)':
+            {
+                height: 60,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+            }
+        },
+        labelLeftSm1:
+        {
+            display: 'none',
+            '@media (max-width:570px)':
+            {
+                ...leftRSM
+            }
+        },
+        labelLeftSm2:
+        {
+            display: 'none',
+            '@media (max-width:570px)':
+            {
+                ...leftRSM,
+                bottom: 61,
+                top: 'auto',
+            }
+        },
+        labelRightSm3:
+        {
+            display: 'none',
+            '@media (max-width:570px)':
+            {
+                ...leftRSM,
+                top: 60
+            }
+        },
+        labelRightSm4:
+        {
+            display: 'none',
+            '@media (max-width:570px)':
+            {
+                ...leftRSM,
+                top: 'auto',
+                bottom: 11
+            }
+        },
+        labelRightSm5:
+        {
+            display: 'none',
+            '@media (max-width:570px)':
+            {
+                ...leftRSM,
+                top: 110
+            }
+        },
+        labelRightSm6:
+        {
+            display: 'none',
+            '@media (max-width:570px)':
+            {
+                ...leftRSM,
+                top: 'auto',
+                bottom: 110
+            }
+        },
+        labelRightSm7:
+        {
+            display: 'none',
+            '@media (max-width:570px)':
+            {
+                ...leftRSM,
+                top: 'auto',
+                bottom: 160
+            }
+        },
+        labelMenu:
+        {
+            display: 'none',
+            '@media (max-width:570px)':
+            {
+
+            }
+        },
+        labelNenuBottom:
+        {
+            display: 'none',
+            '@media (max-width:570px)':
+            {
+
+            }
+        },
+        labelMenuBottom:
+        {
+            display: 'none',
+            '@media (max-width:768px)':
+            {
+                top: 'auto',
+                bottom: -75,
+                transform: 'skewY(11deg)',
+                height: 290,
+            }
+
         },
         root: {},
         tabContent: {
@@ -61,6 +239,7 @@ const styles = theme => {
         paneling: {
             backgroundColor: theme.palette.background.paper,
         },
+        clip_left_sm_1: mobilePanel,
         clip_left_sm_2: mobilePanel,
         clip_left_sm_4: mobilePanel,
         clip_left_sm_5: mobilePanel,
@@ -252,7 +431,6 @@ class App extends GenericApp {
             profile.intervals = newIntervals;
         }
         this.changeProfile(profile);
-        this.setState({ leftOpen7: false });
     }
 
     onConnectionReady() {
@@ -279,7 +457,7 @@ class App extends GenericApp {
         const profile = this.currentProfile();
         const { profiles } = this.state.native;
 
-        // console.log(this.props);
+        console.log(this.props);
 
         return (
             <MuiThemeProvider theme={this.state.theme}>
@@ -288,7 +466,7 @@ class App extends GenericApp {
                         container
                         spacing={0}
                         style={{ background: this.state.theme.palette.background.paper }}
-                        className="mobile-scrolled"
+                        className={classes.mobileScrolled}
                     >
                         <Grid
                             item
@@ -298,11 +476,15 @@ class App extends GenericApp {
                         >
                             <div
                                 className={
-                                    `tapper-grid tapper-shadow h-100 clip-left-sm-1 m-0 ${this.state.leftOpen === 1 ? ' active ' : ''
+                                    classes.tapperGrid + " " + classes.clip_left_sm_1 +
+                                    ` h-100 clip-left-sm-1 m-0 ${this.state.leftOpen === 1 ? ' active ' : ''
                                     }${classes.paneling}`
                                 }
                             >
-                                <div className="close-label-left-sm flow-dark " onClick={() => this.onLeftOpen(1)}>
+                                <div
+                                    className={classes.flowDark + " " + classes.closeLabelLeftSm}
+                                    onClick={() => this.onLeftOpen(1)}
+                                >
                                     <ClearIcon />
                                 </div>
                                 <ProfilesPanel
@@ -310,10 +492,20 @@ class App extends GenericApp {
                                     profiles={profiles}
                                     onSelectProfile={this.onSelectProfile}
                                     onChangeProfiles={this.changeProfiles}
+                                    theme={this.props.theme}
                                 />
                             </div>
-                            <div className={`label-left-sm-1 ${this.state.leftOpen === 1 ? 'active' : ''}`} onClick={() => this.onLeftOpen(1)}>
-                                <DehazeIcon />
+                            <div
+                                className={classes.labelLeftSm1 + ` ${this.state.leftOpen === 1 ? 'active' : ''}`}
+                                onClick={() => this.onLeftOpen(1)}
+                            >
+                                <Fab
+                                    size="small"
+                                    color={this.state.leftOpen === 1 ? "secondary" : "primary"}
+                                    aria-label="add"
+                                >
+                                    <DehazeIcon />
+                                </Fab>
                             </div>
                         </Grid>
                         {this.currentProfile() ? (
@@ -333,11 +525,15 @@ class App extends GenericApp {
                                             ? (
                                                 <div
                                                     className={
-                                                        `tapper-grid tapper-shadow m-1 mt-1 clip_left_sm_7 ${classes.clip_left_sm_7
+                                                        classes.tapperGrid +
+                                                        ` m-1 mt-1 ${classes.clip_left_sm_7
                                                         }${this.state.leftOpen === 7 ? ' active ' : ''}`
                                                     }
                                                 >
-                                                    <div className="close-label-left-sm flow-dark " onClick={() => this.onLeftOpen(7)}>
+                                                    <div
+                                                        className={classes.flowDark + " " + classes.closeLabelLeftSm}
+                                                        onClick={() => this.onLeftOpen(7)}
+                                                    >
                                                         <ClearIcon />
                                                     </div>
                                                     <div className="mt-sm-auto mb-sm-auto w-100">
@@ -375,11 +571,15 @@ class App extends GenericApp {
                                                     >
                                                         <div
                                                             className={
-                                                                `tapper-grid tapper-shadow h-100 m-1 p-2 clip_left_sm_2 ${classes.clip_left_sm_2
+                                                                classes.tapperGrid +
+                                                                ` h-100 m-1 p-2 ${classes.clip_left_sm_2
                                                                 }${this.state.leftOpen === 2 ? ' active ' : ''}`
                                                             }
                                                         >
-                                                            <div className="close-label-left-sm flow-dark" onClick={() => this.onLeftOpen(2)}>
+                                                            <div
+                                                                className={classes.flowDark + " " + classes.closeLabelLeftSm}
+                                                                onClick={() => this.onLeftOpen(2)}
+                                                            >
                                                                 <ClearIcon />
                                                             </div>
                                                             <div className="mt-sm-auto mb-sm-auto">
@@ -404,12 +604,16 @@ class App extends GenericApp {
                                         >
                                             <div
                                                 className={
-                                                    `tapper-grid tapper-shadow m-1 p-2 mt-1 clip_left_sm_5 ${classes.clip_left_sm_5
+                                                    classes.tapperGrid +
+                                                    ` m-1 p-2 mt-1 ${classes.clip_left_sm_5
                                                     }${this.state.leftOpen === 5 ? ' active ' : ''}`
                                                 }
                                                 style={{ flexGrow: 100 }}
                                             >
-                                                <div className="close-label-left-sm flow-dark" onClick={() => this.onLeftOpen(5)}>
+                                                <div
+                                                    className={classes.flowDark + " " + classes.closeLabelLeftSm}
+                                                    onClick={() => this.onLeftOpen(5)}
+                                                >
                                                     <ClearIcon />
                                                 </div>
                                                 <div className="mt-sm-auto mb-sm-auto wc-100">
@@ -435,11 +639,15 @@ class App extends GenericApp {
                                                     >
                                                         <div
                                                             className={
-                                                                `tapper-grid tapper-shadow h-100 m-1 p-2 clip_left_sm_4 ${classes.clip_left_sm_4
+                                                                classes.tapperGrid +
+                                                                ` h-100 m-1 p-2 ${classes.clip_left_sm_4
                                                                 }${this.state.leftOpen === 4 ? ' active ' : ''}`
                                                             }
                                                         >
-                                                            <div className="close-label-left-sm flow-dark" onClick={() => this.onLeftOpen(4)}>
+                                                            <div
+                                                                className={classes.flowDark + " " + classes.closeLabelLeftSm}
+                                                                onClick={() => this.onLeftOpen(4)}
+                                                            >
                                                                 <ClearIcon />
                                                             </div>
                                                             <div className="mt-sm-auto mb-sm-auto">
@@ -467,11 +675,15 @@ class App extends GenericApp {
                                 >
                                     <div
                                         className={
-                                            `tapper-grid tapper-shadow m-1 p-2 clip_right_sm_3 h-100 ${classes.clip_left_sm_2
+                                            classes.tapperGrid +
+                                            ` m-1 p-2 h-100 ${classes.clip_left_sm_2
                                             }${this.state.leftOpen === 3 ? ' active ' : ''}`
                                         }
                                     >
-                                        <div className="close-label-left-sm flow-dark" onClick={() => this.onLeftOpen(3)}>
+                                        <div
+                                            className={classes.flowDark + " " + classes.closeLabelLeftSm}
+                                            onClick={() => this.onLeftOpen(3)}
+                                        >
                                             <ClearIcon />
                                         </div>
                                         <div className="mt-sm-auto mb-sm-auto">
@@ -484,27 +696,57 @@ class App extends GenericApp {
 
                                 </Grid>
 
-                                <div className="label-menu" />
+                                <div className={classes.labelMenuBottom} />
 
-                                <div className={`label-right-sm-5 ${this.state.leftOpen === 5 ? 'active' : ''}`} onClick={() => this.onLeftOpen(5)}>
-                                    <CallSplitIcon />
+                                <div className={classes.labelRightSm5 + ` ${this.state.leftOpen === 5 ? 'active' : ''}`} onClick={() => this.onLeftOpen(5)}>
+                                    <Fab
+                                        size="small"
+                                        color={this.state.leftOpen === 5 ? "secondary" : "primary"}
+                                        aria-label="split"
+                                    >
+                                        <CallSplitIcon />
+                                    </Fab>
                                 </div>
-                                <div className={`label-right-sm-3 ${this.state.leftOpen === 3 ? 'active' : ''}`} onClick={() => this.onLeftOpen(3)}>
-                                    <CalendarTodayIcon />
+                                <div className={classes.labelRightSm3 + ` ${this.state.leftOpen === 3 ? 'active' : ''}`} onClick={() => this.onLeftOpen(3)}>
+                                    <Fab
+                                        size="small"
+                                        color={this.state.leftOpen === 3 ? "secondary" : "primary"}
+                                        aria-label="calendar"
+                                    >
+                                        <CalendarTodayIcon />
+                                    </Fab>
                                 </div>
                                 {
                                     this.state.isExpert
                                         ? (
                                             <>
-                                                <div className="label-menu-bottom" />
-                                                <div className={`label-left-sm-2  expert ${this.state.leftOpen === 2 ? 'active' : ''}`} onClick={() => this.onLeftOpen(2)}>
-                                                    <AssignmentTurnedInIcon />
+                                                <div className={classes.labelMenuBottom} />
+                                                <div className={classes.labelLeftSm2 + `  expert ${this.state.leftOpen === 2 ? 'active' : ''}`} onClick={() => this.onLeftOpen(2)}>
+                                                    <Fab
+                                                        size="small"
+                                                        color={this.state.leftOpen === 2 ? "secondary" : "primary"}
+                                                        aria-label="assignment"
+                                                    >
+                                                        <AssignmentTurnedInIcon />
+                                                    </Fab>
                                                 </div>
-                                                <div className={`label-right-sm-6 ${this.state.leftOpen === 4 ? 'active' : ''}`} onClick={() => this.onLeftOpen(4)}>
-                                                    <ViewListIcon />
+                                                <div className={classes.labelRightSm6 + ` ${this.state.leftOpen === 4 ? 'active' : ''}`} onClick={() => this.onLeftOpen(4)}>
+                                                    <Fab
+                                                        size="small"
+                                                        color={this.state.leftOpen === 4 ? "secondary" : "primary"}
+                                                        aria-label="view"
+                                                    >
+                                                        <ViewListIcon />
+                                                    </Fab>
                                                 </div>
-                                                <div className={`label-right-sm-4 ${this.state.leftOpen === 7 ? 'active' : ''}`} onClick={() => this.onLeftOpen(7)}>
-                                                    <ScheduleIcon />
+                                                <div className={classes.labelRightSm4 + ` ${this.state.leftOpen === 7 ? 'active' : ''}`} onClick={() => this.onLeftOpen(7)}>
+                                                    <Fab
+                                                        size="small"
+                                                        color={this.state.leftOpen === 7 ? "secondary" : "primary"}
+                                                        aria-label="scheduler"
+                                                    >
+                                                        <ScheduleIcon />
+                                                    </Fab>
                                                 </div>
                                             </>
                                         )

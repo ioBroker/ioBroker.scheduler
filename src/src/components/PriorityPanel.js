@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
-    FormControl, FormLabel, MenuItem, Select, withStyles
+    FormControl, FormLabel, MenuItem, Select
 } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 import I18n from '@iobroker/adapter-react/i18n';
 
 

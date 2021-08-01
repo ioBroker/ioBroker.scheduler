@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { FormControl, FormControlLabel } from '@material-ui/core';
+import { FormControl, FormControlLabel, withStyles } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import React, { Component } from 'react';
 import I18n from '@iobroker/adapter-react/i18n';
@@ -15,9 +15,23 @@ const daysOfWeek = [
 ];
 
 const dowOrder = [1, 2, 3, 4, 5, 6, 0];
-
+const styles = {
+    flow: {
+        width: 26,
+        height: 28,
+        maxHeight: 28,
+        minHeight: 28,
+        padding: 0,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        cursor: 'pointer',
+        position: 'relative',
+    }
+}
 class DayOfWeekPanel extends Component {
     render() {
+        const { flow } = this.props.classes;
         return (
             <FormControl component="fieldset">
                 {dowOrder.map(index => (
@@ -27,7 +41,7 @@ class DayOfWeekPanel extends Component {
                             <Checkbox
                                 checked={this.props.dow.includes(index)}
                                 color="primary"
-                                className="flow checkbox"
+                                className={flow}
                                 onChange={e => this.props.onChange(index, e.target.checked)}
                             />
                         )}
@@ -44,4 +58,4 @@ DayOfWeekPanel.propTypes = {
     dow: PropTypes.array,
     onChange: PropTypes.func,
 };
-export default DayOfWeekPanel;
+export default withStyles(styles)(DayOfWeekPanel);

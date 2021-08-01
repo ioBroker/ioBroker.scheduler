@@ -1,10 +1,30 @@
+import { withStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import React, { Component, Fragment } from 'react';
-
-import { Swipe } from 'react-swipe-component';
+import React, { Component } from 'react';
 import DayNightSwitcher from './DayNightSwitcher';
 import Interval from './Interval';
 
+const styles = {
+    swiperContent: {
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'space-between',
+        '@media (max-width:570px)':
+        {
+            justifyContent: 'center',
+        }
+
+    },
+    swiper: {
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        marginTop: 15,
+        position: 'relative',
+    }
+}
 class Intervals extends Component {
     constructor(props) {
         super(props);
@@ -27,17 +47,17 @@ class Intervals extends Component {
             return range === 0.5 ? 2 : 1;
         }
         switch (range) {
-        case 0.5:
-            return 8;
-        case 1:
-            return 4;
-        case 2:
-            return 3;
-        case 4:
-            return 1;
-        case 3:
-        default:
-            return 2;
+            case 0.5:
+                return 8;
+            case 1:
+                return 4;
+            case 2:
+                return 3;
+            case 4:
+                return 1;
+            case 3:
+            default:
+                return 2;
         }
     }
 
@@ -46,17 +66,17 @@ class Intervals extends Component {
             return range === 0.5 ? 24 : this.getMaxByRange(range);
         }
         switch (range) {
-        case 0.5:
-            return 6;
-        case 1:
-            return 6;
-        case 2:
-            return 4;
-        case 4:
-            return 6;
-        case 3:
-        default:
-            return 4;
+            case 0.5:
+                return 6;
+            case 1:
+                return 6;
+            case 2:
+                return 4;
+            case 4:
+                return 6;
+            case 3:
+            default:
+                return 4;
         }
     }
 
@@ -156,21 +176,14 @@ class Intervals extends Component {
         }
         const { slideId } = this.state;
         const { range } = this.props;
+        const { swiperContent, swiper } = this.props.classes;
         const sections = this.getSectionByRange(range);
         return (
             <>
-                <div className="swiper-content">
-                    <Swipe
-                        nodeName="div"
-                        className="h-100 w-100"
-                        mouseSwipe={false}
-                        onSwipedLeft={this.onSwipeLeftListener}
-                        onSwipedRight={this.onSwipeRightListener}
-                    >
-                        <div className="swiper">
-                            { this.getSlide() }
-                        </div>
-                    </Swipe>
+                <div className={swiperContent  }>
+                    <div className={swiper}>
+                        {this.getSlide()}
+                    </div>
                 </div>
                 <DayNightSwitcher
                     sections={sections}
@@ -190,4 +203,4 @@ Intervals.propTypes = {
     theme: PropTypes.object,
     type: PropTypes.string,
 };
-export default Intervals;
+export default withStyles(styles)(Intervals);
