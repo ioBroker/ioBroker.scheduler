@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { v4 as uuidv4 } from 'uuid';
 
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { getEmptyImage, HTML5Backend } from 'react-dnd-html5-backend';
 import { TouchBackend } from 'react-dnd-touch-backend';
+import { usePreview } from 'react-dnd-preview';
 
 import {
     Button,
@@ -46,6 +47,14 @@ const defaultProfileData = {
     dow: [1, 2, 3, 4, 5], // 0 - sunday, 1 - monday
     intervalDuration: 0.5, // in hours
     intervals: [3, 14, 6, 22, 18, 3, 14, 6, 22, 18, 3, 14, 6, 22, 18, 3, 14, 6, 22, 18, 3, 14, 6, 22, 22],
+};
+
+const DndPreview = () => {
+    const { display/* , itemType */, item, style } = usePreview();
+    if (!display) {
+        return null;
+    }
+    return <div style={{ zIndex: 10000, ...style }}>{item.preview}</div>;
 };
 
 function isTouchDevice() {
@@ -97,6 +106,11 @@ const styles = theme => ({
             display: 'flex',
         },
     },
+    dndHover:
+        {
+            backgroundColor: () => theme.palette.primary.dark,
+            color: theme.palette.grey[200],
+        },
     flowMenuItem: {
         height: 28,
         maxHeight: 28,
@@ -142,45 +156,6 @@ const styles = theme => ({
     },
 });
 
-const ProfileDrag = props => {
-    const [{ isDragging }, dragRef, preview] = useDrag(
-        {
-            type: 'profile',
-            item: () => ({ profileId: props.profileData.id, preview: props.children }),
-            end: (item, monitor) => {
-                const dropResult = monitor.getDropResult();
-                if (item && dropResult) {
-                    props.onMoveItem(item.profileId, dropResult.folderId);
-                }
-            },
-            collect: monitor => ({
-                isDragging: monitor.isDragging(),
-                handlerId: monitor.getHandlerId(),
-            }),
-        },
-    );
-
-    return <div ref={dragRef}>
-        {props.children}
-    </div>;
-};
-
-const FolderDrop = props => {
-    const [{ CanDrop, isOver, isCanDrop }, drop] = useDrop(() => ({
-        accept: 'profile',
-        drop: () => ({ folderId: props.folderData.id }),
-        canDrop: (item, monitor) => canDrop(monitor.getItem().profileId, props.folderData.id, props.profiles),
-        collect: (monitor, item) => ({
-            isOver: monitor.isOver(),
-            CanDrop: monitor.canDrop(),
-        }),
-    }), [props.profiles]);
-
-    return <div ref={drop}>
-        {props.children}
-    </div>;
-};
-
 function canDrop(childId, parentId, profiles) {
     const child = profiles.find(profile => profile.id === childId);
     if (!child.parent && !parentId) {
@@ -202,6 +177,51 @@ function canDrop(childId, parentId, profiles) {
     }
     return true;
 }
+
+const ProfileDrag = props => {
+    const [, dragRef, preview] = useDrag(
+        {
+            type: 'profile',
+            item: () => ({ profileId: props.profileData.id, preview: props.children }),
+            end: (item, monitor) => {
+                const dropResult = monitor.getDropResult();
+                if (item && dropResult) {
+                    props.onMoveItem(item.profileId, dropResult.folderId);
+                }
+            },
+            collect: monitor => ({
+                isDragging: monitor.isDragging(),
+                handlerId: monitor.getHandlerId(),
+            }),
+        },
+    );
+    useEffect(() => {
+        preview(getEmptyImage(), { captureDraggingState: true });
+    }, []);
+
+    return <div ref={dragRef}>
+        {props.children}
+    </div>;
+};
+
+const FolderDrop = props => {
+    const [{ isOver, CanDrop }, drop] = useDrop(() => ({
+        accept: 'profile',
+        drop: () => ({ folderId: props.folderData.id }),
+        canDrop: (item, monitor) => canDrop(monitor.getItem().profileId, props.folderData.id, props.profiles),
+        collect: monitor => ({
+            isOver: monitor.isOver(),
+            CanDrop: monitor.canDrop(),
+        }),
+    }), [props.profiles]);
+
+    return <div
+        ref={drop}
+        className={CanDrop && isOver ? props.classes.dndHover : null}
+    >
+        {props.children}
+    </div>;
+};
 
 class ProfilesPanel extends Component {
     constructor(props) {
@@ -398,7 +418,7 @@ class ProfilesPanel extends Component {
         );
 
         return <div key={fld.id}>
-            <FolderDrop folderData={fld} profiles={this.props.profiles}>
+            <FolderDrop folderData={fld} profiles={this.props.profiles} classes={this.props.classes}>
                 <ProfileDrag onMoveItem={this.onMoveItem} profileData={fld}>
                     {result}
                 </ProfileDrag>
@@ -427,7 +447,10 @@ class ProfilesPanel extends Component {
                     <div
                         className={editButton}
                         title={I18n.t('Edit')}
-                        onClick={() => this.onEditDialog(sub)}
+                        onClick={e => {
+                            e.stopPropagation();
+                            this.onEditDialog(sub);
+                        }}
                     >
                         <EditIcon />
                     </div>
@@ -531,7 +554,7 @@ class ProfilesPanel extends Component {
                 </>
             );
 
-        return <FolderDrop folderData={{ id: '' }} profiles={this.props.profiles}>
+        return <FolderDrop folderData={{ id: '' }} profiles={this.props.profiles} classes={this.props.classes}>
             {result}
         </FolderDrop>;
     }
@@ -608,6 +631,7 @@ class ProfilesPanel extends Component {
         return (
 
             <DndProvider backend={isTouchDevice() ? TouchBackend : HTML5Backend}>
+                <DndPreview />
                 <div className={this.props.classes.scrolledAuto}>
                     <Paper className={this.props.classes.head}>
                         {this.head()}

@@ -10,7 +10,7 @@ import Fab from '@material-ui/core/Fab';
 
 import I18n from '@iobroker/adapter-react/i18n';
 // import defaultOptions from './data/defaultOptions.json'
-import { Drawer, Grid } from '@material-ui/core';
+import { Drawer, Grid, IconButton } from '@material-ui/core';
 
 import ClearIcon from '@material-ui/icons/Clear';
 import DehazeIcon from '@material-ui/icons/Dehaze';
@@ -80,7 +80,6 @@ const styles = theme => {
             transition: 'width 300ms ease-in',
         },
         drGridClose: {
-            width: 40,
             transition: 'width 300ms ease-in',
         },
         tapperGrid: {
@@ -552,7 +551,7 @@ class App extends GenericApp {
             PaperProps={{
                 style: { width: '100%' },
             }}
-            open={content && this.state.leftOpen}
+            open={!!content && this.state.leftOpen}
         >
             <div
                 className={
@@ -606,12 +605,19 @@ class App extends GenericApp {
                 <div
                     className={this.state.isDrawOpen ? classes.drGrid : classes.drGridClose}
                 >
-                    <div className="absolute-right p-1" onClick={this.onDrawerHandler}>
-                        {
-                            this.state.isDrawOpen
-                                ? <ChevronLeftIcon className="ml-auto" />
-                                : <ChevronRightIcon className="ml-auto" />
-                        }
+                    <div className="absolute-right p-1">
+                        <IconButton
+                            component="span"
+                            size="small"
+                            title={I18n.t('finish searching')}
+                            onClick={this.onDrawerHandler}
+                        >
+                            {
+                                this.state.isDrawOpen
+                                    ? <ChevronLeftIcon className="ml-auto" />
+                                    : <ChevronRightIcon className="ml-auto" />
+                            }
+                        </IconButton>
                     </div>
                     {profileGrid}
                 </div>
@@ -811,8 +817,15 @@ class App extends GenericApp {
                                     {I18n.t('Select or create profile in left menu')}
                                 </div>
                         }
-                        <div className="absolute-left p-1" onClick={this.onDrawerHandler}>
-                            <DehazeIcon />
+                        <div className="absolute-left p-1">
+                            <IconButton
+                                component="span"
+                                size="small"
+                                title={I18n.t('finish searching')}
+                                onClick={this.onDrawerHandler}
+                            >
+                                <DehazeIcon />
+                            </IconButton>
                         </div>
                     </Grid>
                 </div>
