@@ -1,19 +1,18 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
-    FormControl, FormLabel, MenuItem, Select
+    FormControl, FormLabel, MenuItem, Select,
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import I18n from '@iobroker/adapter-react/i18n';
 
-
 const styles = {
     tapperTitle: {
-        fontSize: "1.3rem",
-        textTransform: "uppercase",
-        paddingBottom: "1rem!important"
-    }
-}
+        fontSize: '1.3rem',
+        textTransform: 'uppercase',
+        paddingBottom: '1rem!important',
+    },
+};
 class PriorityPanel extends Component {
     on = evt => {
         const priority = evt.target.value;

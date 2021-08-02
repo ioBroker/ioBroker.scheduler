@@ -7,19 +7,19 @@ import I18n from '@iobroker/adapter-react/i18n';
 
 const styles = () => ({
     tapperInside: {
-        overflow: "hidden",
-        height: "100%",
+        overflow: 'hidden',
+        height: '100%',
         flexGrow: 1,
-        position: "relative",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center"
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
     },
     tapperTitle: {
-        fontSize: "1.3rem",
-        textTransform: "uppercase",
-        paddingBottom: "1rem!important"
-    }
+        fontSize: '1.3rem',
+        textTransform: 'uppercase',
+        paddingBottom: '1rem!important',
+    },
 });
 
 class TypePanel extends Component {

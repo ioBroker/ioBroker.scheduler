@@ -13,7 +13,7 @@ const styles = {
         '@media (max-width:570px)':
         {
             justifyContent: 'center',
-        }
+        },
 
     },
     swiper: {
@@ -23,17 +23,17 @@ const styles = {
         alignItems: 'center',
         marginTop: 15,
         position: 'relative',
-    }
-}
+    },
+};
 class Intervals extends Component {
     constructor(props) {
         super(props);
-        //console.log(props.intervalsWidth)
+        // console.log(props.intervalsWidth)
         this.state = {
             slideId: 0,
             selected: [],
             intervalsWidth: props.intervalsWidth,
-            key: parseInt(Date.now() + Math.random() * 1000)
+            key: parseInt(Date.now() + Math.random() * 1000),
         };
     }
 
@@ -44,14 +44,13 @@ class Intervals extends Component {
             });
         }
         if (this.props.intervalsWidth && nextProps.intervalsWidth !== this.props.intervalsWidth) {
-            //console.log(nextProps.intervalsWidth, this.props.intervalsWidth)
-            //setTimeout(() => {
-                this.setState({ 
-                    intervalsWidth: this.props.intervalsWidth + Math.random(),
-                    key: parseInt(Date.now() + Math.random() * 1000)
-                });
-           // }, 1)
-            
+            // console.log(nextProps.intervalsWidth, this.props.intervalsWidth)
+            // setTimeout(() => {
+            this.setState({
+                intervalsWidth: this.props.intervalsWidth + Math.random(),
+                key: parseInt(Date.now() + Math.random() * 1000),
+            });
+            // }, 1)
         }
     }
 
@@ -60,17 +59,17 @@ class Intervals extends Component {
             return range === 0.5 ? 2 : 1;
         }
         switch (range) {
-            case 0.5:
-                return 8;
-            case 1:
-                return 4;
-            case 2:
-                return 3;
-            case 4:
-                return 1;
-            case 3:
-            default:
-                return 2;
+        case 0.5:
+            return 8;
+        case 1:
+            return 4;
+        case 2:
+            return 3;
+        case 4:
+            return 1;
+        case 3:
+        default:
+            return 2;
         }
     }
 
@@ -79,17 +78,17 @@ class Intervals extends Component {
             return range === 0.5 ? 24 : this.getMaxByRange(range);
         }
         switch (range) {
-            case 0.5:
-                return 6;
-            case 1:
-                return 6;
-            case 2:
-                return 4;
-            case 4:
-                return 6;
-            case 3:
-            default:
-                return 4;
+        case 0.5:
+            return 6;
+        case 1:
+            return 6;
+        case 2:
+            return 4;
+        case 4:
+            return 6;
+        case 3:
+        default:
+            return 4;
         }
     }
 
@@ -149,11 +148,12 @@ class Intervals extends Component {
     }
 
     getSlide() {
-        const { intervalsWidth, slideId, selected,key } = this.state;
+        const {
+            intervalsWidth, slideId, selected, key,
+        } = this.state;
         const {
             type, theme, range, data,
         } = this.props;
-        console.log( intervalsWidth / count )
         const count = this.getCountByRange(range);
 
         const sliders = [];
@@ -203,7 +203,7 @@ class Intervals extends Component {
                 quorteId={parseInt(slideId)}
                 onChange={quorteId => this.setSlideId(quorteId)}
             />
-        </>
+        </>;
     }
 }
 

@@ -17,17 +17,17 @@ const styles = () => ({
             borderRadius: 0,
             alignItems: 'center',
             padding: '0px 10px 0 60px',
-        }
+        },
     },
     tapperInside: {
-        overflow: "hidden",
-        height: "100%",
+        overflow: 'hidden',
+        height: '100%',
         flexGrow: 1,
-        position: "relative",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center"
-    }
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+    },
 });
 
 class IntervalsContainer extends Component {
@@ -58,7 +58,7 @@ class IntervalsContainer extends Component {
     updateWindowDimensions = () => {
         const w = this.tapperRef.current.getBoundingClientRect().width;
         this.setState({
-            intervalsWidth: w ? w : 30,
+            intervalsWidth: w || 30,
         });
     }
 
@@ -67,11 +67,11 @@ class IntervalsContainer extends Component {
             type, theme, range, intervals,
         } = this.props;
         const { tapperGrid, tapperInside } = this.props.classes;
-        //console.log(this.state.intervalsWidth);
+        // console.log(this.state.intervalsWidth);
         return (
             <div
-                className={tapperGrid + " m-1 h-100 "}
-                style={{  
+                className={`${tapperGrid} m-1 h-100 `}
+                style={{
                     backgroundColor: theme.palette.background.default,
                 }}
             >

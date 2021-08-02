@@ -27,8 +27,8 @@ const styles = {
         alignItems: 'center',
         cursor: 'pointer',
         position: 'relative',
-    }
-}
+    },
+};
 class DayOfWeekPanel extends Component {
     render() {
         const { flow } = this.props.classes;

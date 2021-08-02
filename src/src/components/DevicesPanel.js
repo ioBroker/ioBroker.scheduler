@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { FormLabel, TextField, withStyles } from '@material-ui/core';
+import { FormLabel, withStyles } from '@material-ui/core';
 import I18n from '@iobroker/adapter-react/i18n';
 import ChipInput from 'material-ui-chip-input';
 
 const styles = {
     tapperTitle: {
-        fontSize: "1.3rem",
-        textTransform: "uppercase",
-        paddingBottom: "1rem!important"
+        fontSize: '1.3rem',
+        textTransform: 'uppercase',
+        paddingBottom: '1rem!important',
     },
 };
 const CssTextField = withStyles({

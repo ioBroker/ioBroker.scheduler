@@ -11,7 +11,7 @@ const styles = () => ({
         display: 'flex',
         flexDirection: 'column',
         width: props => props.intervalsWidth,
-        //padding:"0 3px"
+        // padding:"0 3px"
     },
     prettoLabel: {
         color: '#6c7a93',
@@ -39,58 +39,58 @@ const styles = () => ({
     },
     active: {
         backgroundColor: props => props.theme.palette.primary.light,
-        color: "#FFF"
+        color: '#FFF',
     },
     prettoSecs: {
         fontSize: '0.6rem',
-        fontWeight: 100
-    }
+        fontWeight: 100,
+    },
 });
 const usePrettoSliderStyles = makeStyles({
-        root: props => ({
-            color: props.theme.palette.primary.light,
-            width: `${props.intervalsWidth}px!important`,
-            borderRadius: 0,
-            height: 'calc(100% - 90px)!important',
+    root: props => ({
+        color: props.theme.palette.primary.light,
+        width: `${props.intervalsWidth}px!important`,
+        borderRadius: 0,
+        height: 'calc(100% - 90px)!important',
+        transition: 'all 100ms ease-out',
+        position: 'relative',
+        padding: '0!important',
+    }),
+    thumb: props => ({
+        left: `calc( 50% + ${10}px)!important`,
+        width: 0,
+        height: 0,
+        display: props.type === 'onoff' ? 'none' : 'flex',
+    }),
+    active: {
+        backgroundColor: 'transparent',
+        width: 0,
+        height: 0,
+    },
+    valueLabel: props => ({
+        left: -20,
+        '& *': {
+            background: 'transparent',
+            fontWeight: 100,
+            color: props.theme.palette.text.primary,
+            fontSize: '1.0rem',
             transition: 'all 100ms ease-out',
-            position: 'relative',
-            padding: "0!important"
-        }),
-        thumb: props => ({
-            left: `calc( 50% + ${10}px)!important`,
-            width: 0,
-            height: 0,
-            display: props.type === 'onoff' ? 'none' : 'flex',
-        }),
-        active: {
-            backgroundColor: 'transparent',
-            width: 0,
-            height: 0,
         },
-        valueLabel: props => ({
-            left: -20,
-            '& *': {
-                background: 'transparent',
-                fontWeight: 100,
-                color: props.theme.palette.text.primary,
-                fontSize: '1.0rem',
-                transition: 'all 100ms ease-out',
-            },
-        }),
-        track: {
-            width: 'calc(100% - 5px)!important',
-            transition: 'all 100ms ease-out',
-            borderRadius: 4,
-        },
-        rail: props => ({
-            transition: 'all 100ms ease-out',
-            width: 'calc(100% - 5px)!important',
-            borderRadius: 4,
-            borderBottomLeftRadius: '0px!important',
-            borderBottomRightRadius: '0px!important',
-            height: `calc(100% + 90px)`,
-            backgroundColor: props.theme.palette.primary.light,
-        }),
+    }),
+    track: {
+        width: 'calc(100% - 5px)!important',
+        transition: 'all 100ms ease-out',
+        borderRadius: 4,
+    },
+    rail: props => ({
+        transition: 'all 100ms ease-out',
+        width: 'calc(100% - 5px)!important',
+        borderRadius: 4,
+        borderBottomLeftRadius: '0px!important',
+        borderBottomRightRadius: '0px!important',
+        height: 'calc(100% + 90px)',
+        backgroundColor: props.theme.palette.primary.light,
+    }),
 });
 
 const PrettoSlider = props => {
@@ -98,7 +98,6 @@ const PrettoSlider = props => {
     delete componentProps.intervalsWidth;
     delete componentProps.type;
     delete componentProps.theme;
-    console.log(props.intervalsWidth)
     return (
         <Slider
             classes={
@@ -116,13 +115,14 @@ class Interval extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            intervalsWidth: props.intervalsWidth
-        }
+            intervalsWidth: props.intervalsWidth,
+        };
     }
+
     componentDidUpdate(prevProps) {
         if (prevProps.intervalsWidth !== this.props.intervalsWidth) {
             this.setState({
-                intervalsWidth: this.props.intervalsWidth
+                intervalsWidth: this.props.intervalsWidth,
             });
         }
     }
@@ -143,15 +143,15 @@ class Interval extends Component {
 
     getPostfix(value) {
         switch (this.props.type) {
-            case 'temperature':
-                return `${value.toString()}º`;
-            case 'onoff':
-                return value
-                    ? <span style={this.props.theme.palette.text.success}>on</span>
-                    : <span style={this.props.theme.palette.text.danger}>off</span>;
-            case 'percent':
-            default:
-                return `${value.toString()}%`;
+        case 'temperature':
+            return `${value.toString()}º`;
+        case 'onoff':
+            return value
+                ? <span style={this.props.theme.palette.text.success}>on</span>
+                : <span style={this.props.theme.palette.text.danger}>off</span>;
+        case 'percent':
+        default:
+            return `${value.toString()}%`;
         }
     }
 
@@ -171,8 +171,10 @@ class Interval extends Component {
         const {
             value, i, selected, theme, type,
         } = this.props;
-        const { intervalsWidth, } = this.state;
-        const { pretto, prettoLabel, prettoTime, active, prettoSecs } = this.props.classes
+        const { intervalsWidth } = this.state;
+        const {
+            pretto, prettoLabel, prettoTime, active, prettoSecs,
+        } = this.props.classes;
         if (i < 0) {
             return '';
         }
@@ -183,7 +185,7 @@ class Interval extends Component {
         const v2 = type !== 'onoff' ? this.getPostfix(val || 0) : '';
         return (
             <span className={pretto}>
-                <span className={prettoLabel} >
+                <span className={prettoLabel}>
                     {vl}
                 </span>
                 <PrettoSlider
@@ -203,8 +205,8 @@ class Interval extends Component {
                 />
                 <div
                     className={
-                        prettoTime + " " +
-                        (selected ? active : '')
+                        `${prettoTime} ${
+                            selected ? active : ''}`
                     }
                     i={i}
                     onClick={this.handleSelected}

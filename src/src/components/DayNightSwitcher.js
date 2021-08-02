@@ -12,7 +12,7 @@ const styles = {
         overflow: 'hidden',
         transition: 'height 300ms ease-out',
         '&>div': {
-            position: 'relative'
+            position: 'relative',
         },
         '&>div>.day_night':
         {
@@ -47,8 +47,8 @@ const styles = {
             height: 'calc(100% + 12px)',
             width: '200%',
             pointerEvents: 'none',
-            background: "linear-gradient(to left,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 99%,rgba(255,255,255,0) 100%)",
-            filter: "progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 )"
+            background: 'linear-gradient(to left,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 99%,rgba(255,255,255,0) 100%)',
+            filter: "progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 )",
 
         },
         '&::after': {
@@ -59,24 +59,24 @@ const styles = {
             height: 'calc(100% + 12px)',
             width: '200%',
             pointerEvents: 'none',
-            background: "linear-gradient(to right,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 99%,rgba(255,255,255,0) 100%)",
-            filter: "progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 )"
+            background: 'linear-gradient(to right,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 99%,rgba(255,255,255,0) 100%)',
+            filter: "progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 )",
 
-        }
+        },
     },
 
     dn: {
         width: '100%',
         maxWidth: 550,
-        height: 'auto',
+        // height: 'auto',
         maxHeight: 90,
         height: '100%',
         position: 'absolute',
         top: 0,
         left: 0,
         display: 'flex',
-    }
-}
+    },
+};
 class DayNightSwitcher extends Component {
     onSlide = quorteId => {
         if (this.props.onChange) {
@@ -86,7 +86,9 @@ class DayNightSwitcher extends Component {
 
     render() {
         const { sections } = this.props;
-        const { dayNightCont, dayNightSlide, dayNightQoute, dn } = this.props.classes;
+        const {
+            dayNightCont, dayNightSlide, dayNightQoute, dn,
+        } = this.props.classes;
         const height = sections === 1 ? 0 : 78;
         const region = 100 / sections;
         const quortes = Array(sections).fill().map((_, i) => (

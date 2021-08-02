@@ -36,7 +36,6 @@ import FolderIcon from '@iobroker/adapter-react/icons/IconClosed';
 import FolderOpenIcon from '@iobroker/adapter-react/icons/IconOpen';
 
 import I18n from '@iobroker/adapter-react/i18n';
-import { Autorenew } from '@material-ui/icons';
 
 const defaultProfileData = {
     enabled: false,
@@ -50,9 +49,9 @@ const defaultProfileData = {
 };
 
 function isTouchDevice() {
-    return (('ontouchstart' in window) ||
-        (navigator.maxTouchPoints > 0) ||
-        (navigator.msMaxTouchPoints > 0));
+    return (('ontouchstart' in window)
+        || (navigator.maxTouchPoints > 0)
+        || (navigator.msMaxTouchPoints > 0));
 }
 
 const styles = theme => ({
@@ -62,18 +61,18 @@ const styles = theme => ({
         right: 5,
     },
     scrolledAuto: {
-        overflowX: "hidden",
-        overflowY: "auto",
+        overflowX: 'hidden',
+        overflowY: 'auto',
         flexGrow: 1000,
-        width: "calc(100% - 30px)",
-        margin: 0
+        width: 'calc(100% - 30px)',
+        margin: 0,
     },
     tapperTitle: {
-        fontSize: "1.3rem",
-        textTransform: "uppercase",
-        paddingBottom: "1rem!important"
+        fontSize: '1.3rem',
+        textTransform: 'uppercase',
+        paddingBottom: '1rem!important',
     },
-    edit_button:
+    editButton:
     {
         width: 30,
         height: 30,
@@ -91,12 +90,12 @@ const styles = theme => ({
         },
         '.flow-menu-item:hover &':
         {
-            display: 'flex'
+            display: 'flex',
         },
         '.flow-menu-item.active &':
         {
-            display: 'flex'
-        }
+            display: 'flex',
+        },
     },
     flowMenuItem: {
         height: 28,
@@ -108,35 +107,30 @@ const styles = theme => ({
         alignItems: 'center',
         cursor: 'pointer',
         position: 'relative',
-        "&.active":
+        '&.active':
         {
-            backgroundColor: props => {
-                return theme.palette.primary.light
-            },
-            color: "#FFF"
+            backgroundColor: () => theme.palette.primary.light,
+            color: '#FFF',
         },
-        "&:hover":
+        '&:hover':
         {
-            backgroundColor: props => {
-                //console.log(theme);
-                return theme.palette.primary.dark
-            },
-            color: theme.palette.grey[200]
+            backgroundColor: () => theme.palette.primary.dark,
+            color: theme.palette.grey[200],
         },
-        "&::before":
+        '&::before':
         {
             width: 20,
             height: 20,
-        }
+        },
     },
     active: {
 
     },
     head: {
         height: 32,
-        display: "flex",
+        display: 'flex',
         marginRight: 20,
-        boxShadow: "none"
+        boxShadow: 'none',
     },
     divide: {
         marginRight: 20,
@@ -144,8 +138,8 @@ const styles = theme => ({
     },
     searchIcon:
     {
-        marginLeft: "auto"
-    }
+        marginLeft: 'auto',
+    },
 });
 
 class ProfilesPanel extends Component {
@@ -267,7 +261,7 @@ class ProfilesPanel extends Component {
 
     folder = (fld, level) => {
         const { profiles, active } = this.props;
-        const { flowMenuItem, edit_button } = this.props.classes
+        const { flowMenuItem, editButton } = this.props.classes;
         const subProfiles = this.state.isSearch && this.state.searchText
             ? null
             : profiles
@@ -306,7 +300,7 @@ class ProfilesPanel extends Component {
         return (
             <div key={fld.id}>
                 <MenuItem
-                    className={flowMenuItem + ` flow-menu-item ${active === fld.id ? ' active ' : ''}`}
+                    className={`${flowMenuItem} flow-menu-item ${active === fld.id ? ' active ' : ''}`}
                     onClick={() => this.onActive(fld.id)}
                     style={{ marginLeft: (level * 12) }}
                     disableRipple
@@ -319,21 +313,21 @@ class ProfilesPanel extends Component {
 
                     <div className="absolute-right">
                         <div
-                            className={edit_button}
+                            className={editButton}
                             title={I18n.t('Add new child profile')}
                             onClick={() => this.onAddChild(fld, 'profile')}
                         >
                             <AddIcon />
                         </div>
                         <div
-                            className={edit_button}
+                            className={editButton}
                             title={I18n.t('Add new child folder')}
                             onClick={() => this.onAddChild(fld, 'folder')}
                         >
                             <CreateNewFolderIcon />
                         </div>
                         <div
-                            className={edit_button}
+                            className={editButton}
                             title={I18n.t('Edit')}
                             onClick={() => this.onEditDialog(fld)}
                         >
@@ -349,10 +343,10 @@ class ProfilesPanel extends Component {
 
     profile = (sub, level) => {
         const { active } = this.props;
-        const { flowMenuItem, edit_button } = this.props.classes;
+        const { flowMenuItem, editButton } = this.props.classes;
         return (
             <MenuItem
-                className={flowMenuItem + ` flow-menu-item sub ${active === sub.id ? ' active ' : ''}`}
+                className={`${flowMenuItem} flow-menu-item sub ${active === sub.id ? ' active ' : ''}`}
                 style={{ marginLeft: (level * 12) }}
                 onClick={() => this.onActive(sub.id)}
                 disableRipple
@@ -365,7 +359,7 @@ class ProfilesPanel extends Component {
 
                 <div className="absolute-right">
                     <div
-                        className={edit_button}
+                        className={editButton}
                         title={I18n.t('Edit')}
                         onClick={() => this.onEditDialog(sub)}
                     >
@@ -530,13 +524,11 @@ class ProfilesPanel extends Component {
         const { profiles } = this.props;
         const items = this.state.isSearch && this.state.searchText
             ? profiles
-                .map(e => {
-                    return (e.title && e.title.toLowerCase().indexOf(this.state.searchText.toLowerCase()) > -1
-                        ? e.type === 'folder'
-                            ? this.folder(e, 0)
-                            : this.profile(e, 0)
-                        : null)
-                })
+                .map(e => (e.title && e.title.toLowerCase().indexOf(this.state.searchText.toLowerCase()) > -1
+                    ? e.type === 'folder'
+                        ? this.folder(e, 0)
+                        : this.profile(e, 0)
+                    : null))
             : profiles
                 .filter(e => e.parent === '')
                 .map(e => (e.type === 'folder' ? this.folder(e, 0) : this.profile(e, 0)));
@@ -555,7 +547,7 @@ class ProfilesPanel extends Component {
 
                     {this.renderEditDeleteDialog()}
                 </div>
-            </DndProvider> 
+            </DndProvider>
         );
     }
 }
@@ -565,6 +557,6 @@ ProfilesPanel.propTypes = {
     profiles: PropTypes.array,
     onSelectProfile: PropTypes.func,
     onChangeProfiles: PropTypes.func,
-    theme: PropTypes.object,
+    classes: PropTypes.object,
 };
 export default withStyles(styles)(ProfilesPanel);
