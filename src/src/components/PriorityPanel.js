@@ -51,6 +51,6 @@ class PriorityPanel extends Component {
 
 PriorityPanel.propTypes = {
     onChange: PropTypes.func,
-    priority: PropTypes.string,
+    priority: PropTypes.number,
 };
 export default withStyles(styles)(PriorityPanel);

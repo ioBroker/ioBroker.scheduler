@@ -54,7 +54,7 @@ class DevicesPanel extends Component {
                     fullWidth
                     disabled={!this.props.isExpert}
                     margin="normal"
-                    multiline
+                    multiline="1"
                     rows={this.props.rows || 3}
                     InputLabelProps={{
                         shrink: true,

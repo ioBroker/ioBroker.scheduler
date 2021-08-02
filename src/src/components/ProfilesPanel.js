@@ -32,6 +32,7 @@ import FolderIcon from '@iobroker/adapter-react/icons/IconClosed';
 import FolderOpenIcon from '@iobroker/adapter-react/icons/IconOpen';
 
 import I18n from '@iobroker/adapter-react/i18n';
+import { Autorenew } from '@material-ui/icons';
 
 const defaultProfileData = {
     enabled: false,
@@ -107,7 +108,7 @@ const styles = theme => ({
         "&:hover":
         {
             backgroundColor: props => {
-                console.log(theme);
+                //console.log(theme);
                 return theme.palette.primary.dark
             },
             color: theme.palette.grey[200]
@@ -120,6 +121,20 @@ const styles = theme => ({
     },
     active: {
 
+    },
+    head: {
+        height: 32,
+        display: "flex",
+        marginRight: 20,
+        boxShadow: "none"
+    },
+    divide: {
+        marginRight: 20,
+        marginTop: 8,
+    },
+    searchIcon:
+    {
+        marginLeft: "auto"
     }
 });
 
@@ -435,7 +450,7 @@ class ProfilesPanel extends Component {
                     <IconButton
                         component="span"
                         size="small"
-                        className="ml-auto"
+                        className={this.props.classes.searchIcon}
                         title={I18n.t('Search')}
                         onClick={this.onSearch}
                     >
@@ -518,10 +533,10 @@ class ProfilesPanel extends Component {
 
         return (
             <div className={this.props.classes.scrolledAuto}>
-                <Paper className="d-flex" style={{ height: 32 }}>
+                <Paper className={this.props.classes.head}>
                     {this.head()}
                 </Paper>
-                <Divider />
+                <Divider className={this.props.classes.divide} />
                 <MenuList>
                     {items}
                 </MenuList>

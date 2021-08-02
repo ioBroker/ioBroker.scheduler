@@ -47,52 +47,50 @@ const styles = () => ({
     }
 });
 const usePrettoSliderStyles = makeStyles({
-    root: props => ({
-        color: props.theme.palette.primary.light,
-        width: `${props.intervalsWidth}px!important`,
-        borderRadius: 0,
-        height: 'calc(100% - 90px)!important',
-        transition: 'all 100ms ease-out',
-        position: 'relative',
-        padding: "0!important"
-    }),
-    thumb: props => ({
-        left: `calc( 50% + ${10}px)!important`,
-        width: 0,
-        height: 0,
-        display: props.type === 'onoff' ? 'none' : 'flex',
-    }),
-    active: {
-        backgroundColor: 'transparent',
-        width: 0,
-        height: 0,
-
-    },
-    valueLabel: props => ({
-        left: -20,
-        '& *': {
-            background: 'transparent',
-            fontWeight: 100,
-            color: props.theme.palette.text.primary,
-            fontSize: '1.0rem',
+        root: props => ({
+            color: props.theme.palette.primary.light,
+            width: `${props.intervalsWidth}px!important`,
+            borderRadius: 0,
+            height: 'calc(100% - 90px)!important',
             transition: 'all 100ms ease-out',
+            position: 'relative',
+            padding: "0!important"
+        }),
+        thumb: props => ({
+            left: `calc( 50% + ${10}px)!important`,
+            width: 0,
+            height: 0,
+            display: props.type === 'onoff' ? 'none' : 'flex',
+        }),
+        active: {
+            backgroundColor: 'transparent',
+            width: 0,
+            height: 0,
         },
-    }),
-    track: {
-        width: 'calc(100% - 5px)!important',
-        transition: 'all 100ms ease-out',
-        borderRadius: 4,
-    },
-    rail: props => ({
-        transition: 'all 100ms ease-out',
-        width: 'calc(100% - 5px)!important',
-        borderRadius: 4,
-        borderBottomLeftRadius: '0px!important',
-        borderBottomRightRadius: '0px!important',
-        height: `calc(100% + ${props.intervalsWidth}px)`,
-        backgroundColor: props.theme.palette.primary.light,
-    }),
-
+        valueLabel: props => ({
+            left: -20,
+            '& *': {
+                background: 'transparent',
+                fontWeight: 100,
+                color: props.theme.palette.text.primary,
+                fontSize: '1.0rem',
+                transition: 'all 100ms ease-out',
+            },
+        }),
+        track: {
+            width: 'calc(100% - 5px)!important',
+            transition: 'all 100ms ease-out',
+            borderRadius: 4,
+        },
+        rail: props => ({
+            transition: 'all 100ms ease-out',
+            width: 'calc(100% - 5px)!important',
+            borderRadius: 4,
+            borderBottomLeftRadius: '0px!important',
+            borderBottomRightRadius: '0px!important',
+            height: `calc(100% + 90px)`,
+            backgroundColor: props.theme.palette.primary.light,
+        }),
 });
 
 const PrettoSlider = props => {
@@ -100,6 +98,7 @@ const PrettoSlider = props => {
     delete componentProps.intervalsWidth;
     delete componentProps.type;
     delete componentProps.theme;
+    console.log(props.intervalsWidth)
     return (
         <Slider
             classes={
@@ -114,6 +113,20 @@ const PrettoSlider = props => {
     );
 };
 class Interval extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            intervalsWidth: props.intervalsWidth
+        }
+    }
+    componentDidUpdate(prevProps) {
+        if (prevProps.intervalsWidth !== this.props.intervalsWidth) {
+            this.setState({
+                intervalsWidth: this.props.intervalsWidth
+            });
+        }
+    }
+
     handleSliderChange = (event, data) => {
         this.on('data', data);
     }
@@ -156,8 +169,9 @@ class Interval extends Component {
 
     render() {
         const {
-            value, i, selected, theme, intervalsWidth, type,
+            value, i, selected, theme, type,
         } = this.props;
+        const { intervalsWidth, } = this.state;
         const { pretto, prettoLabel, prettoTime, active, prettoSecs } = this.props.classes
         if (i < 0) {
             return '';

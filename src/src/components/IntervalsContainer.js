@@ -46,6 +46,9 @@ class IntervalsContainer extends Component {
         if (prevProps.range !== this.props.range) {
             this.updateWindowDimensions();
         }
+        if (prevProps.windowWidth !== this.props.windowWidth) {
+            this.updateWindowDimensions();
+        }
     }
 
     componentWillUnmount() {
@@ -64,6 +67,7 @@ class IntervalsContainer extends Component {
             type, theme, range, intervals,
         } = this.props;
         const { tapperGrid, tapperInside } = this.props.classes;
+        //console.log(this.state.intervalsWidth);
         return (
             <div
                 className={tapperGrid + " m-1 h-100 "}
