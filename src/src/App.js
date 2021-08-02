@@ -31,34 +31,10 @@ import ProfilesPanel from './components/ProfilesPanel';
 
 const styles = theme => {
     const mobilePanel = {
-        '@media (max-width:768px)':
-        {
-            position: 'absolute',
-            top: 0,
-            width: 'calc(100% - 70px)',
-            left: 'calc(-100% - 70px)',
-            zIndex: 2,
-            transition: 'all 300ms ease-out',
-            '&.active':
-            {
-                left: 0,
-            },
-        },
-        '@media (max-width:570px)':
-        {
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            padding: '0px 10px 0 60px !important',
-            height: '100%',
-            width: 'calc(100% - 70px)',
-            left: 'calc(-100% - 70px)',
-            background: theme.palette.background.paper,
-        },
     };
     const leftRSM = {
         position: 'absolute',
-        zIndex: 4,
+        zIndex: 2000,
         color: '#FF0000',
         display: 'flex',
         justifyContent: 'center',
@@ -266,12 +242,7 @@ const styles = theme => {
         paneling: {
             backgroundColor: theme.palette.background.paper,
         },
-        clip_left_sm_1: mobilePanel,
-        clip_left_sm_2: mobilePanel,
-        clip_left_sm_4: mobilePanel,
-        clip_left_sm_5: mobilePanel,
-        clip_left_sm_6: mobilePanel,
-        clip_left_sm_7: mobilePanel,
+        mobilePanel,
         slidersContainer: {
             width: '100%',
             height: '100%',
@@ -466,6 +437,7 @@ class App extends GenericApp {
             profile.intervals = newIntervals;
         }
         this.changeProfile(profile);
+        this.onLeftOpen(this.state.leftOpen);
     }
 
     onConnectionReady() {
@@ -478,6 +450,127 @@ class App extends GenericApp {
         }
     }
 
+    renderProfile() {
+        const { activeProfile } = this.state;
+        const { profiles } = this.state.native;
+
+        return <ProfilesPanel
+            active={activeProfile}
+            profiles={profiles}
+            onSelectProfile={this.onSelectProfile}
+            onChangeProfiles={this.changeProfiles}
+            theme={this.props.theme}
+        />;
+    }
+
+    renderRange() {
+        const profile = this.currentProfile();
+
+        return <div className="mt-sm-auto mb-sm-auto w-100">
+            <AntTabs
+                value={profile.intervalDuration}
+                onChange={this.onRange}
+                orientation={this.state.windowWidth < 768 ? 'vertical' : 'horizontal'}
+                indicatorColor="primary"
+                textColor="primary"
+                centered
+            >
+                {
+                    [0.5, 1, 2, 3, 4].map(
+                        duration => <AntTab key={duration} value={duration} label={`${duration} ${I18n.t('hr')}`} />,
+                    )
+                }
+            </AntTabs>
+        </div>;
+    }
+
+    renderType() {
+        return <div className="mt-sm-auto mb-sm-auto">
+            <div>
+                <TypePanel
+                    onChange={this.onType}
+                    type={this.currentProfile().type}
+                />
+            </div>
+
+        </div>;
+    }
+
+    renderDow() {
+        return <div className="mt-sm-auto mb-sm-auto">
+            <DayOfWeekPanel
+                dow={this.currentProfile().dow}
+                onChange={this.onDow}
+            />
+        </div>;
+    }
+
+    renderPriority() {
+        return <div className="mt-sm-auto mb-sm-auto">
+            <div>
+                <PriorityPanel
+                    profile={this.currentProfile()}
+                    onChange={this.onPriority}
+                    priority={this.currentProfile().prio}
+                    windowWidth={this.state.windowWidth}
+                />
+            </div>
+        </div>;
+    }
+
+    renderDevices() {
+        return <div className="mt-sm-auto mb-sm-auto wc-100">
+            <DevicesPanel
+                members={this.currentProfile().members}
+                onChange={this.onDevices}
+                title={this.state.isExpert ? 'Devices (expert)' : 'Devices'}
+                isExpert={this.state.isExpert}
+                rows={1}
+                windowWidth={this.state.windowWidth}
+            />
+        </div>;
+    }
+
+    renderDrawer() {
+        let content = null;
+        if (this.state.leftOpen === 1) {
+            content = this.renderProfile();
+        } else if (this.state.leftOpen === 2) {
+            content = this.renderType();
+        } else if (this.state.leftOpen === 3) {
+            content = this.renderDow();
+        } else if (this.state.leftOpen === 4) {
+            content = this.renderPriority();
+        } else if (this.state.leftOpen === 5) {
+            content = this.renderDevices();
+        } else if (this.state.leftOpen === 7) {
+            content = this.renderRange();
+        }
+
+        return <Drawer
+            anchor="left"
+            PaperProps={{
+                style: { width: '100%' },
+            }}
+            open={content && this.state.leftOpen}
+        >
+            <div
+                className={
+                    `${this.props.classes.tapperGrid
+                    } h-100 m-1 p-2 ${this.props.classes.mobilePanel} active`
+                }
+            >
+                <div
+                    className={`${this.props.classes.flowDark} ${this.props.classes.closeLabelLeftSm}`}
+                    onClick={() => this.onLeftOpen(this.state.leftOpen)}
+                >
+                    <ClearIcon />
+                </div>
+                {content}
+            </div>
+        </Drawer>;
+    }
+
     render() {
         if (!this.state.loaded || !this.state.native.profiles) {
             return (
@@ -488,49 +581,19 @@ class App extends GenericApp {
         }
 
         const { classes } = this.props;
-        const { activeProfile } = this.state;
         const profile = this.currentProfile();
-        const { profiles } = this.state.native;
 
         const profileGrid = <>
             <div
                 className={
-                    `${classes.tapperGrid} ${
-                        classes.clip_left_sm_1} ${
-                        classes.paneling} ${
-                        this.state.leftOpen === 1 ? ' active ' : ''
-                    } h-100 m-0 `
+                    `${classes.tapperGrid} ${classes.paneling} h-100 m-0`
                 }
             >
-                <div
-                    className={`${classes.flowDark} ${classes.closeLabelLeftSm}`}
-                    onClick={() => this.onLeftOpen(1)}
-                >
-                    <ClearIcon />
-                </div>
-                <ProfilesPanel
-                    active={activeProfile}
-                    profiles={profiles}
-                    onSelectProfile={this.onSelectProfile}
-                    onChangeProfiles={this.changeProfiles}
-                    theme={this.props.theme}
-                />
-            </div>
-            <div
-                className={`${classes.labelLeftSm1} ${this.state.leftOpen === 1 ? 'active' : ''}`}
-                onClick={() => this.onLeftOpen(1)}
-            >
-                <Fab
-                    size="small"
-                    color={this.state.leftOpen === 1 ? 'secondary' : 'primary'}
-                    aria-label="add"
-                >
-                    <DehazeIcon />
-                </Fab>
+                {this.renderProfile()}
             </div>
         </>;
         const profilePanel = this.state.windowWidth < 768
-            ? profileGrid
+            ? null
             : <Drawer
                 variant="persistent"
                 anchor="left"
@@ -553,11 +616,23 @@ class App extends GenericApp {
                     {profileGrid}
                 </div>
             </Drawer>;
-
         return (
             <MuiThemeProvider theme={this.state.theme}>
                 <div className={classes.app}>
                     {profilePanel}
+                    <div
+                        className={`${classes.labelLeftSm1} ${this.state.leftOpen === 1 ? 'active' : ''}`}
+                        onClick={() => this.onLeftOpen(1)}
+                    >
+                        <Fab
+                            size="small"
+                            color={this.state.leftOpen === 1 ? 'secondary' : 'primary'}
+                            aria-label="add"
+                        >
+                            <DehazeIcon />
+                        </Fab>
+                    </div>
+                    {this.renderDrawer()}
                     <Grid
                         container
                         spacing={0}
@@ -583,33 +658,10 @@ class App extends GenericApp {
                                                     ? (
                                                         <div
                                                             className={
-                                                                `${classes.tapperGrid
-                                                                } m-1 mt-1 ${classes.clip_left_sm_7
-                                                                }${this.state.leftOpen === 7 ? ' active ' : ''}`
+                                                                `${classes.tapperGrid} m-1 mt-1`
                                                             }
                                                         >
-                                                            <div
-                                                                className={`${classes.flowDark} ${classes.closeLabelLeftSm}`}
-                                                                onClick={() => this.onLeftOpen(7)}
-                                                            >
-                                                                <ClearIcon />
-                                                            </div>
-                                                            <div className="mt-sm-auto mb-sm-auto w-100">
-                                                                <AntTabs
-                                                                    value={profile.intervalDuration}
-                                                                    onChange={this.onRange}
-                                                                    orientation={this.state.windowWidth < 768 ? 'vertical' : 'horizontal'}
-                                                                    indicatorColor="primary"
-                                                                    textColor="primary"
-                                                                    centered
-                                                                >
-                                                                    {
-                                                                        [0.5, 1, 2, 3, 4].map(
-                                                                            duration => <AntTab key={duration} value={duration} label={`${duration} ${I18n.t('hr')}`} />,
-                                                                        )
-                                                                    }
-                                                                </AntTabs>
-                                                            </div>
+                                                            {this.state.windowWidth > 768 ? this.renderRange() : null}
                                                         </div>
                                                     )
                                                     : null
@@ -629,26 +681,10 @@ class App extends GenericApp {
                                                             >
                                                                 <div
                                                                     className={
-                                                                        `${classes.tapperGrid
-                                                                        } h-100 m-1 p-2 ${classes.clip_left_sm_2
-                                                                        }${this.state.leftOpen === 2 ? ' active ' : ''}`
+                                                                        `${classes.tapperGrid} h-100 m-1 p-2`
                                                                     }
                                                                 >
-                                                                    <div
-                                                                        className={`${classes.flowDark} ${classes.closeLabelLeftSm}`}
-                                                                        onClick={() => this.onLeftOpen(2)}
-                                                                    >
-                                                                        <ClearIcon />
-                                                                    </div>
-                                                                    <div className="mt-sm-auto mb-sm-auto">
-                                                                        <div>
-                                                                            <TypePanel
-                                                                                onChange={this.onType}
-                                                                                type={this.currentProfile().type}
-                                                                            />
-                                                                        </div>
-
-                                                                    </div>
+                                                                    {this.state.windowWidth > 768 ? this.renderType() : null}
                                                                 </div>
                                                             </Grid>
                                                         )
@@ -662,28 +698,11 @@ class App extends GenericApp {
                                                 >
                                                     <div
                                                         className={
-                                                            `${classes.tapperGrid
-                                                            } m-1 p-2 mt-1 ${classes.clip_left_sm_5
-                                                            }${this.state.leftOpen === 5 ? ' active ' : ''}`
+                                                            `${classes.tapperGrid} m-1 p-2 mt-1`
                                                         }
                                                         style={{ flexGrow: 100 }}
                                                     >
-                                                        <div
-                                                            className={`${classes.flowDark} ${classes.closeLabelLeftSm}`}
-                                                            onClick={() => this.onLeftOpen(5)}
-                                                        >
-                                                            <ClearIcon />
-                                                        </div>
-                                                        <div className="mt-sm-auto mb-sm-auto wc-100">
-                                                            <DevicesPanel
-                                                                members={this.currentProfile().members}
-                                                                onChange={this.onDevices}
-                                                                title={this.state.isExpert ? 'Devices (expert)' : 'Devices'}
-                                                                isExpert={this.state.isExpert}
-                                                                rows={1}
-                                                                windowWidth={this.state.windowWidth}
-                                                            />
-                                                        </div>
+                                                        {this.state.windowWidth > 768 ? this.renderDevices() : null}
                                                     </div>
                                                 </Grid>
                                                 {
@@ -697,27 +716,10 @@ class App extends GenericApp {
                                                             >
                                                                 <div
                                                                     className={
-                                                                        `${classes.tapperGrid
-                                                                        } h-100 m-1 p-2 ${classes.clip_left_sm_4
-                                                                        }${this.state.leftOpen === 4 ? ' active ' : ''}`
+                                                                        `${classes.tapperGrid} h-100 m-1 p-2`
                                                                     }
                                                                 >
-                                                                    <div
-                                                                        className={`${classes.flowDark} ${classes.closeLabelLeftSm}`}
-                                                                        onClick={() => this.onLeftOpen(4)}
-                                                                    >
-                                                                        <ClearIcon />
-                                                                    </div>
-                                                                    <div className="mt-sm-auto mb-sm-auto">
-                                                                        <div>
-                                                                            <PriorityPanel
-                                                                                profile={this.currentProfile()}
-                                                                                onChange={this.onPriority}
-                                                                                priority={this.currentProfile().prio}
-                                                                                windowWidth={this.state.windowWidth}
-                                                                            />
-                                                                        </div>
-                                                                    </div>
+                                                                    {this.state.windowWidth > 768 ? this.renderPriority() : null}
                                                                 </div>
                                                             </Grid>
                                                         )
@@ -733,23 +735,10 @@ class App extends GenericApp {
                                         >
                                             <div
                                                 className={
-                                                    `${classes.tapperGrid
-                                                    } m-1 p-2 h-100 ${classes.clip_left_sm_2
-                                                    }${this.state.leftOpen === 3 ? ' active ' : ''}`
+                                                    `${classes.tapperGrid} m-1 p-2 h-100`
                                                 }
                                             >
-                                                <div
-                                                    className={`${classes.flowDark} ${classes.closeLabelLeftSm}`}
-                                                    onClick={() => this.onLeftOpen(3)}
-                                                >
-                                                    <ClearIcon />
-                                                </div>
-                                                <div className="mt-sm-auto mb-sm-auto">
-                                                    <DayOfWeekPanel
-                                                        dow={this.currentProfile().dow}
-                                                        onChange={this.onDow}
-                                                    />
-                                                </div>
+                                                {this.state.windowWidth > 768 ? this.renderDow() : null}
                                             </div>
 
                                         </Grid>
