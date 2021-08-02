@@ -90,6 +90,9 @@ const styles = theme => {
             flexBasis: 330,
             transition: 'width 300ms ease-in',
         },
+        drawerPaper: {
+            height: 'calc(100% - 64px)',
+        },
         drGrid: {
             width: 330,
             transition: 'width 300ms ease-in',
@@ -328,7 +331,7 @@ class App extends GenericApp {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         window.addEventListener('resize', this.updateWindowDimensions);
         this.updateWindowDimensions();
     }
@@ -532,7 +535,10 @@ class App extends GenericApp {
                 variant="persistent"
                 anchor="left"
                 open={this.state.isDrawOpen}
-                className={this.state.isDrawOpen ? classes.drawer : classes.drawerClose}
+                classes={{
+                    root: this.state.isDrawOpen ? classes.drawer : classes.drawerClose,
+                    paper: classes.drawerPaper,
+                }}
             >
                 <div
                     className={this.state.isDrawOpen ? classes.drGrid : classes.drGridClose}
@@ -806,7 +812,15 @@ class App extends GenericApp {
                                         }
                                     </>
                                 )
-                                : null
+                                : <div style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    width: '100%',
+                                }}
+                                >
+                                    {I18n.t('Select or create profile in left menu')}
+                                </div>
                         }
                         <div className="absolute-left p-1" onClick={this.onDrawerHandler}>
                             <DehazeIcon />

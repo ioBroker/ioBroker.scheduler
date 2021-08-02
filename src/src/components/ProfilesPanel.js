@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { v4 as uuidv4 } from 'uuid';
 
-import { DndProvider } from 'react-dnd';
+import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { TouchBackend } from 'react-dnd-touch-backend';
 
@@ -141,6 +141,67 @@ const styles = theme => ({
         marginLeft: 'auto',
     },
 });
+
+const ProfileDrag = props => {
+    const [{ isDragging }, dragRef, preview] = useDrag(
+        {
+            type: 'profile',
+            item: () => ({ profileId: props.profileData.id, preview: props.children }),
+            end: (item, monitor) => {
+                const dropResult = monitor.getDropResult();
+                if (item && dropResult) {
+                    props.onMoveItem(item.profileId, dropResult.folderId);
+                }
+            },
+            collect: monitor => ({
+                isDragging: monitor.isDragging(),
+                handlerId: monitor.getHandlerId(),
+            }),
+        },
+    );
+
+    return <div ref={dragRef}>
+        {props.children}
+    </div>;
+};
+
+const FolderDrop = props => {
+    const [{ CanDrop, isOver, isCanDrop }, drop] = useDrop(() => ({
+        accept: 'profile',
+        drop: () => ({ folderId: props.folderData.id }),
+        canDrop: (item, monitor) => canDrop(monitor.getItem().profileId, props.folderData.id, props.profiles),
+        collect: (monitor, item) => ({
+            isOver: monitor.isOver(),
+            CanDrop: monitor.canDrop(),
+        }),
+    }), [props.profiles]);
+
+    return <div ref={drop}>
+        {props.children}
+    </div>;
+};
+
+function canDrop(childId, parentId, profiles) {
+    const child = profiles.find(profile => profile.id === childId);
+    if (!child.parent && !parentId) {
+        return false;
+    }
+    if (!parentId) {
+        return true;
+    }
+    if (child.parent === parentId) {
+        return false;
+    }
+
+    let foundParent = profiles.find(profile => profile.id === parentId);
+    while (foundParent.parent) {
+        if (foundParent.parent === childId) {
+            return false;
+        }
+        foundParent = foundParent.parent;
+    }
+    return true;
+}
 
 class ProfilesPanel extends Component {
     constructor(props) {
@@ -297,54 +358,59 @@ class ProfilesPanel extends Component {
                     }}
                 />
             );
-        return (
-            <div key={fld.id}>
-                <MenuItem
-                    className={`${flowMenuItem} flow-menu-item ${active === fld.id ? ' active ' : ''}`}
-                    onClick={() => this.onActive(fld.id)}
-                    style={{ marginLeft: (level * 12) }}
-                    disableRipple
-                >
-                    <Typography variant="inherit" className="pl-1 w-100">
-                        {folderSample}
-                        {' '}
-                        {I18n.t(fld.title)}
-                    </Typography>
+        const result = (
+            <MenuItem
+                className={`${flowMenuItem} flow-menu-item ${active === fld.id ? ' active ' : ''}`}
+                style={{ marginLeft: (level * 12) }}
+                disableRipple
+            >
+                <Typography variant="inherit" className="pl-1 w-100">
+                    {folderSample}
+                    {' '}
+                    {I18n.t(fld.title)}
+                </Typography>
 
-                    <div className="absolute-right">
-                        <div
-                            className={editButton}
-                            title={I18n.t('Add new child profile')}
-                            onClick={() => this.onAddChild(fld, 'profile')}
-                        >
-                            <AddIcon />
-                        </div>
-                        <div
-                            className={editButton}
-                            title={I18n.t('Add new child folder')}
-                            onClick={() => this.onAddChild(fld, 'folder')}
-                        >
-                            <CreateNewFolderIcon />
-                        </div>
-                        <div
-                            className={editButton}
-                            title={I18n.t('Edit')}
-                            onClick={() => this.onEditDialog(fld)}
-                        >
-                            <EditIcon />
-                        </div>
+                <div className="absolute-right">
+                    <div
+                        className={editButton}
+                        title={I18n.t('Add new child profile')}
+                        onClick={() => this.onAddChild(fld, 'profile')}
+                    >
+                        <AddIcon />
                     </div>
+                    <div
+                        className={editButton}
+                        title={I18n.t('Add new child folder')}
+                        onClick={() => this.onAddChild(fld, 'folder')}
+                    >
+                        <CreateNewFolderIcon />
+                    </div>
+                    <div
+                        className={editButton}
+                        title={I18n.t('Edit')}
+                        onClick={() => this.onEditDialog(fld)}
+                    >
+                        <EditIcon />
+                    </div>
+                </div>
 
-                </MenuItem>
-                {subProfiles}
-            </div>
+            </MenuItem>
         );
+
+        return <div key={fld.id}>
+            <FolderDrop folderData={fld} profiles={this.props.profiles}>
+                <ProfileDrag onMoveItem={this.onMoveItem} profileData={fld}>
+                    {result}
+                </ProfileDrag>
+            </FolderDrop>
+            {subProfiles}
+        </div>;
     }
 
     profile = (sub, level) => {
         const { active } = this.props;
         const { flowMenuItem, editButton } = this.props.classes;
-        return (
+        const result = (
             <MenuItem
                 className={`${flowMenuItem} flow-menu-item sub ${active === sub.id ? ' active ' : ''}`}
                 style={{ marginLeft: (level * 12) }}
@@ -369,6 +435,8 @@ class ProfilesPanel extends Component {
 
             </MenuItem>
         );
+
+        return <ProfileDrag onMoveItem={this.onMoveItem} profileData={sub}>{result}</ProfileDrag>;
     }
 
     onSearch = () => {
@@ -382,7 +450,7 @@ class ProfilesPanel extends Component {
 
     head = () => {
         const { profiles } = this.props;
-        return this.state.isSearch
+        const result = this.state.isSearch
             ? (
                 <>
                     <TextField
@@ -462,6 +530,10 @@ class ProfilesPanel extends Component {
                     </IconButton>
                 </>
             );
+
+        return <FolderDrop folderData={{ id: '' }} profiles={this.props.profiles}>
+            {result}
+        </FolderDrop>;
     }
 
     renderEditDeleteDialog() {
