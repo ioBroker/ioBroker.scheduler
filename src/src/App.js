@@ -531,6 +531,9 @@ class App extends GenericApp {
     }
 
     renderDrawer() {
+        if (this.state.windowWidth >= 768) {
+            return null;
+        }
         let content = null;
         if (this.state.leftOpen === 1) {
             content = this.renderProfile();

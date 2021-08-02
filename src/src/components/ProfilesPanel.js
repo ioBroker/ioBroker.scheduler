@@ -79,7 +79,7 @@ const styles = theme => ({
     tapperTitle: {
         fontSize: '1.3rem',
         textTransform: 'uppercase',
-        paddingBottom: '1rem!important',
+        paddingBottom: '1rem',
     },
     editButton:
     {

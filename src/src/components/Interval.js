@@ -27,7 +27,7 @@ const styles = () => ({
         fontWeight: 700,
         bottom: 27,
         width: 'calc(100% - 5px)',
-        borderRadius: '4px!important',
+        borderRadius: '4px',
         height: 28,
         maxHeight: 28,
         minHeight: 28,
@@ -49,15 +49,17 @@ const styles = () => ({
 const usePrettoSliderStyles = makeStyles({
     root: props => ({
         color: props.theme.palette.primary.light,
-        width: `${props.intervalsWidth}px!important`,
         borderRadius: 0,
-        height: 'calc(100% - 90px)!important',
         transition: 'all 100ms ease-out',
         position: 'relative',
-        padding: '0!important',
+        '&&': {
+            width: `${props.intervalsWidth}px`,
+            padding: '0',
+            height: 'calc(100% - 90px)',
+        },
     }),
     thumb: props => ({
-        left: `calc( 50% + ${10}px)!important`,
+        left: `calc( 50% + ${10}px)`,
         width: 0,
         height: 0,
         display: props.type === 'onoff' ? 'none' : 'flex',
@@ -78,18 +80,22 @@ const usePrettoSliderStyles = makeStyles({
         },
     }),
     track: {
-        width: 'calc(100% - 5px)!important',
         transition: 'all 100ms ease-out',
         borderRadius: 4,
+        '&&': {
+            width: 'calc(100% - 5px)',
+        },
     },
     rail: props => ({
         transition: 'all 100ms ease-out',
-        width: 'calc(100% - 5px)!important',
         borderRadius: 4,
-        borderBottomLeftRadius: '0px!important',
-        borderBottomRightRadius: '0px!important',
         height: 'calc(100% + 90px)',
         backgroundColor: props.theme.palette.primary.light,
+        '&&': {
+            width: 'calc(100% - 5px)',
+            borderBottomLeftRadius: '0px',
+            borderBottomRightRadius: '0px',
+        },
     }),
 });
 
