@@ -15,10 +15,12 @@ const CssTextField = withStyles({
     root: {
         backgroundColor: '#FFFFFF12',
         padding: 0,
-        margin: 0,
         borderRadius: 15,
         display: 'flex',
         width: 'auto',
+    },
+    chipContainer: {
+        marginTop: '-6px',
     },
 })(ChipInput);
 
@@ -44,7 +46,6 @@ class DevicesPanel extends Component {
                 </FormLabel>
                 <CssTextField
                     id="standard-full-width"
-                    label=""
                     value={this.props.members}
                     onAdd={this.deviceAdd}
                     onDelete={this.deviceDelete}
@@ -53,7 +54,6 @@ class DevicesPanel extends Component {
                     helperText=""
                     fullWidth
                     disabled={!this.props.isExpert}
-                    margin="normal"
                     multiline="1"
                     rows={this.props.rows || 3}
                     InputLabelProps={{
