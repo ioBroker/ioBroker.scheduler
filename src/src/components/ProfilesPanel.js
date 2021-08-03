@@ -308,8 +308,8 @@ class ProfilesPanel extends Component {
     }
 
     onOpen = (id, isOpen) => {
-        const profiles = [...this.props.profiles];
-        const newProfiles = profiles.map(e => {
+        const newProfiles = JSON.parse(JSON.stringify(this.props.profiles));
+        newProfiles.forEach(e => {
             if (e.id === id) {
                 e.isOpen = isOpen;
             }
@@ -319,8 +319,8 @@ class ProfilesPanel extends Component {
     }
 
     onCloseAll = () => {
-        const profiles = [...this.props.profiles];
-        const newProfiles = profiles.map(e => {
+        const newProfiles = JSON.parse(JSON.stringify(this.props.profiles));
+        newProfiles.forEach(e => {
             if (e.type === 'folder') {
                 e.isOpen = false;
             }
@@ -330,8 +330,8 @@ class ProfilesPanel extends Component {
     }
 
     onOpenAll = () => {
-        const profiles = [...this.props.profiles];
-        const newProfiles = profiles.map(e => {
+        const newProfiles = JSON.parse(JSON.stringify(this.props.profiles));
+        newProfiles.forEach(e => {
             if (e.type === 'folder') {
                 e.isOpen = true;
             }
@@ -574,7 +574,8 @@ class ProfilesPanel extends Component {
                 <CloseIcon />
             </IconButton>
             <DialogTitle>
-                {I18n.t('Edit')}
+                {`${I18n.t(this.state.isNew ? 'Add' : 'Edit')} ${
+                    I18n.t(this.state.dialogElementType === 'folder' ? 'folder' : 'profile')}`}
             </DialogTitle>
             <DialogContent>
                 <TextField

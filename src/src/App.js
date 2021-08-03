@@ -248,6 +248,12 @@ const styles = theme => {
             display: 'flex',
             flexDirection: 'column',
         },
+        emptyProfile: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
+        },
 
     };
 };
@@ -810,13 +816,7 @@ class App extends GenericApp {
                                         }
                                     </>
                                 )
-                                : <div style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    width: '100%',
-                                }}
-                                >
+                                : <div className={classes.emptyProfile}>
                                     {I18n.t('Select or create profile in left menu')}
                                 </div>
                         }

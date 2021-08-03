@@ -123,13 +123,13 @@ class Intervals extends Component {
 
     onChange = (field, value, i) => {
         const { selected } = this.state;
-        const state = { ...this.state };
+        const state = JSON.parse(JSON.stringify(this.state));
         if (field === 'selected') {
             state[field][i] = value;
             this.setState(state);
         }
         if (field === 'data') {
-            const data = [...this.props.data];
+            const data = JSON.parse(JSON.stringify(this.props.data));
             const inSelected = selected[i];
             if (!inSelected) {
                 this.setState({ selected: [] });
