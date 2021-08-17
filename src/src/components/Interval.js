@@ -44,6 +44,7 @@ const styles = () => ({
     prettoSecs: {
         fontSize: '0.6rem',
         fontWeight: 100,
+        color: props => props.theme.palette.text.primary,
     },
 });
 const usePrettoSliderStyles = makeStyles({
@@ -217,7 +218,7 @@ class Interval extends Component {
                     i={i}
                     onClick={this.handleSelected}
                 >
-                    <span>{label[0]}</span>
+                    <span style={{ color: this.props.theme.palette.text.primary }}>{label[0]}</span>
                     <span className={prettoSecs}>
                         {label[1]}
                     </span>

@@ -480,15 +480,18 @@ class ProfilesPanel extends Component {
                         className="ml-1 w-100"
                         placeholder={I18n.t('search text')}
                         onChange={this.onSearchedText}
+                        InputProps={{
+                            endAdornment:
+                            <IconButton
+                                component="span"
+                                size="small"
+                                title={I18n.t('finish searching')}
+                                onClick={this.onSearch}
+                            >
+                                <CloseIcon />
+                            </IconButton>,
+                        }}
                     />
-                    <IconButton
-                        component="span"
-                        size="small"
-                        title={I18n.t('finish searching')}
-                        onClick={this.onSearch}
-                    >
-                        <CloseIcon />
-                    </IconButton>
                 </>
             )
             : (
@@ -561,9 +564,15 @@ class ProfilesPanel extends Component {
 
     renderEditDeleteDialog() {
         const { isDialogOpen } = this.state;
+        const canSubmit = this.state.dialogElementTitle && this.state.dialogElementTitle !== this.state.dialogOriginalElementTitle;
         return <Dialog
             onClose={this.onDialog}
             open={isDialogOpen}
+            onKeyDown={e => {
+                if (e.keyCode === 13 && canSubmit) {
+                    this.onUpdateItem();
+                }
+            }}
             maxWidth="sm"
             fullWidth
         >
@@ -579,6 +588,7 @@ class ProfilesPanel extends Component {
             </DialogTitle>
             <DialogContent>
                 <TextField
+                    autoFocus
                     fullWidth
                     label={I18n.t('Name')}
                     value={this.state.dialogElementTitle}
@@ -598,7 +608,7 @@ class ProfilesPanel extends Component {
                     </Button>
                 }
                 <Button
-                    disabled={!this.state.dialogElementTitle || this.state.dialogElementTitle === this.state.dialogOriginalElementTitle}
+                    disabled={!canSubmit}
                     onClick={this.onUpdateItem}
                     variant="contained"
                     color="primary"

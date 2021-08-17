@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { FormLabel, withStyles } from '@material-ui/core';
+import { FormLabel, withStyles, makeStyles } from '@material-ui/core';
 import I18n from '@iobroker/adapter-react/i18n';
 import ChipInput from 'material-ui-chip-input';
 
@@ -11,9 +11,8 @@ const styles = {
         paddingBottom: '1rem',
     },
 };
-const CssTextField = withStyles({
+const useChipStyles = makeStyles({
     root: {
-        backgroundColor: '#FFFFFF12',
         padding: 0,
         borderRadius: 15,
         display: 'flex',
@@ -22,7 +21,23 @@ const CssTextField = withStyles({
     chipContainer: {
         marginTop: '-6px',
     },
-})(ChipInput);
+    chip: props => ({
+        '&>svg': {
+            display: props.disabled ? 'none' : null,
+        },
+    }),
+});
+
+const CssTextField = props => {
+    const chipStyles = useChipStyles({
+        disabled: props.disabled,
+        theme: props.theme,
+    });
+    return <ChipInput
+        classes={chipStyles}
+        {...props}
+    />;
+};
 
 class DevicesPanel extends Component {
     deviceAdd = device => {
@@ -49,7 +64,6 @@ class DevicesPanel extends Component {
                     value={this.props.members}
                     onAdd={this.deviceAdd}
                     onDelete={this.deviceDelete}
-                    className="p-0 m-0"
                     placeholder={I18n.t('Put device names per comma')}
                     helperText=""
                     fullWidth

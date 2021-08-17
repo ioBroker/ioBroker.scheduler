@@ -253,6 +253,7 @@ const styles = theme => {
             alignItems: 'center',
             justifyContent: 'center',
             width: '100%',
+            color: theme.palette.text.primary,
         },
 
     };
@@ -506,6 +507,7 @@ class App extends GenericApp {
             <DayOfWeekPanel
                 dow={this.currentProfile().dow}
                 onChange={this.onDow}
+                theme={this.state.theme}
             />
         </div>;
     }

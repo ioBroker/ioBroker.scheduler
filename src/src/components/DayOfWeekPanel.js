@@ -15,7 +15,7 @@ const daysOfWeek = [
 ];
 
 const dowOrder = [1, 2, 3, 4, 5, 6, 0];
-const styles = {
+const styles = () => ({
     flow: {
         width: 26,
         height: 28,
@@ -28,10 +28,13 @@ const styles = {
         cursor: 'pointer',
         position: 'relative',
     },
-};
+    label: {
+        color: props => props.theme.palette.text.primary,
+    },
+});
 class DayOfWeekPanel extends Component {
     render() {
-        const { flow } = this.props.classes;
+        const { flow, label } = this.props.classes;
         return (
             <FormControl component="fieldset">
                 {dowOrder.map(index => (
@@ -46,7 +49,7 @@ class DayOfWeekPanel extends Component {
                             />
                         )}
                         label={I18n.t(daysOfWeek[index])}
-                        className="px-1"
+                        className={label}
                     />
                 ))}
             </FormControl>
