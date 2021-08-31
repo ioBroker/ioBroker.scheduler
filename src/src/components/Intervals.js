@@ -1,24 +1,56 @@
+import { withStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import React, { Component, Fragment } from 'react';
-
-import { Swipe } from 'react-swipe-component';
+import React, { Component } from 'react';
 import DayNightSwitcher from './DayNightSwitcher';
 import Interval from './Interval';
 
+const styles = {
+    swiperContent: {
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'space-between',
+        '@media (max-width:570px)':
+        {
+            justifyContent: 'center',
+        },
+
+    },
+    swiper: {
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        marginTop: 15,
+        position: 'relative',
+    },
+};
 class Intervals extends Component {
     constructor(props) {
         super(props);
+        // console.log(props.intervalsWidth)
         this.state = {
             slideId: 0,
             selected: [],
+            intervalsWidth: props.intervalsWidth,
+            key: parseInt(Date.now() + Math.random() * 1000),
         };
     }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.range !== this.props.range || prevProps.intervalsWidth !== this.props.intervalsWidth) {
+    componentDidUpdate(nextProps) {
+        if (nextProps.range !== this.props.range) {
             this.setState({
                 slideId: 0,
             });
+        }
+        if (this.props.intervalsWidth && nextProps.intervalsWidth !== this.props.intervalsWidth) {
+            // console.log(nextProps.intervalsWidth, this.props.intervalsWidth)
+            // setTimeout(() => {
+            this.setState({
+                intervalsWidth: this.props.intervalsWidth + Math.random(),
+                key: parseInt(Date.now() + Math.random() * 1000),
+            });
+            // }, 1)
         }
     }
 
@@ -42,7 +74,7 @@ class Intervals extends Component {
     }
 
     getCountByRange = range => {
-        if (this.props.intervalsWidth >= 720) {
+        if (this.state.intervalsWidth >= 720) {
             return range === 0.5 ? 24 : this.getMaxByRange(range);
         }
         switch (range) {
@@ -91,13 +123,13 @@ class Intervals extends Component {
 
     onChange = (field, value, i) => {
         const { selected } = this.state;
-        const state = { ...this.state };
+        const state = JSON.parse(JSON.stringify(this.state));
         if (field === 'selected') {
             state[field][i] = value;
             this.setState(state);
         }
         if (field === 'data') {
-            const data = [...this.props.data];
+            const data = JSON.parse(JSON.stringify(this.props.data));
             const inSelected = selected[i];
             if (!inSelected) {
                 this.setState({ selected: [] });
@@ -116,9 +148,11 @@ class Intervals extends Component {
     }
 
     getSlide() {
-        const { slideId, selected } = this.state;
         const {
-            type, intervalsWidth, theme, range, data,
+            intervalsWidth, slideId, selected, key,
+        } = this.state;
+        const {
+            type, theme, range, data,
         } = this.props;
         const count = this.getCountByRange(range);
 
@@ -126,7 +160,7 @@ class Intervals extends Component {
         for (let i = slideId * count; i < (slideId + 1) * count; i++) {
             sliders.push(
                 <Interval
-                    key={`${i}step${range}`}
+                    key={`${i}step${range}${key}`}
                     value={data[i]}
                     selected={selected[i]}
                     label=""
@@ -151,34 +185,25 @@ class Intervals extends Component {
     }
 
     render() {
-        if (!this.props.intervalsWidth) {
+        if (!this.state.intervalsWidth) {
             return null;
         }
         const { slideId } = this.state;
         const { range } = this.props;
+        const { swiperContent, swiper } = this.props.classes;
         const sections = this.getSectionByRange(range);
-        return (
-            <>
-                <div className="swiper-content">
-                    <Swipe
-                        nodeName="div"
-                        className="h-100 w-100"
-                        mouseSwipe={false}
-                        onSwipedLeft={this.onSwipeLeftListener}
-                        onSwipedRight={this.onSwipeRightListener}
-                    >
-                        <div className="swiper">
-                            { this.getSlide() }
-                        </div>
-                    </Swipe>
+        return <>
+            <div className={swiperContent}>
+                <div className={swiper}>
+                    {this.getSlide()}
                 </div>
-                <DayNightSwitcher
-                    sections={sections}
-                    quorteId={parseInt(slideId)}
-                    onChange={quorteId => this.setSlideId(quorteId)}
-                />
-            </>
-        );
+            </div>
+            <DayNightSwitcher
+                sections={sections}
+                quorteId={parseInt(slideId)}
+                onChange={quorteId => this.setSlideId(quorteId)}
+            />
+        </>;
     }
 }
 
@@ -190,4 +215,4 @@ Intervals.propTypes = {
     theme: PropTypes.object,
     type: PropTypes.string,
 };
-export default Intervals;
+export default withStyles(styles)(Intervals);

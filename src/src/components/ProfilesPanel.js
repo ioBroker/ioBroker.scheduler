@@ -1,7 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { v4 as uuidv4 } from 'uuid';
+
+import { DndProvider, useDrag, useDrop } from 'react-dnd';
+import { getEmptyImage, HTML5Backend } from 'react-dnd-html5-backend';
+import { TouchBackend } from 'react-dnd-touch-backend';
+import { usePreview } from 'react-dnd-preview';
 
 import {
     Button,
@@ -44,24 +49,178 @@ const defaultProfileData = {
     intervals: [3, 14, 6, 22, 18, 3, 14, 6, 22, 18, 3, 14, 6, 22, 18, 3, 14, 6, 22, 18, 3, 14, 6, 22, 22],
 };
 
-const styles = {
+const DndPreview = () => {
+    const { display/* , itemType */, item, style } = usePreview();
+    if (!display) {
+        return null;
+    }
+    return <div style={{ zIndex: 10000, ...style }}>{item.preview}</div>;
+};
+
+function isTouchDevice() {
+    return (('ontouchstart' in window)
+        || (navigator.maxTouchPoints > 0)
+        || (navigator.msMaxTouchPoints > 0));
+}
+
+const styles = theme => ({
     closeButton: {
         position: 'absolute',
         top: 5,
         right: 5,
     },
     scrolledAuto: {
-        overflowX: "hidden",
-        overflowY: "auto",
+        overflowX: 'hidden',
+        overflowY: 'auto',
         flexGrow: 1000,
-        width: "calc(100% - 30px)",
-        margin: 0
+        width: 'calc(100% - 30px)',
+        margin: 0,
     },
     tapperTitle: {
-        fontSize: "1.3rem",
-        textTransform: "uppercase",
-        paddingBottom: "1rem!important"
+        fontSize: '1.3rem',
+        textTransform: 'uppercase',
+        paddingBottom: '1rem',
+    },
+    editButton:
+    {
+        width: 30,
+        height: 30,
+        display: 'none',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 2,
+        '&:active':
+        {
+            color: '#EEE',
+        },
+        '&>svg':
+        {
+            fontSize: '1.2rem',
+        },
+        '.flow-menu-item:hover &':
+        {
+            display: 'flex',
+        },
+        '.flow-menu-item.active &':
+        {
+            display: 'flex',
+        },
+    },
+    dndHover:
+        {
+            backgroundColor: () => theme.palette.primary.dark,
+            color: theme.palette.grey[200],
+        },
+    flowMenuItem: {
+        height: 28,
+        maxHeight: 28,
+        minHeight: 28,
+        padding: 0,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        cursor: 'pointer',
+        position: 'relative',
+        '&.active':
+        {
+            backgroundColor: () => theme.palette.primary.light,
+            color: '#FFF',
+        },
+        '&:hover':
+        {
+            backgroundColor: () => theme.palette.primary.dark,
+            color: theme.palette.grey[200],
+        },
+        '&::before':
+        {
+            width: 20,
+            height: 20,
+        },
+    },
+    active: {
+
+    },
+    head: {
+        height: 32,
+        display: 'flex',
+        marginRight: 20,
+        boxShadow: 'none',
+    },
+    divide: {
+        marginRight: 20,
+        marginTop: 8,
+    },
+    searchIcon:
+    {
+        marginLeft: 'auto',
+    },
+});
+
+function canDrop(childId, parentId, profiles) {
+    const child = profiles.find(profile => profile.id === childId);
+    if (!child.parent && !parentId) {
+        return false;
     }
+    if (!parentId) {
+        return true;
+    }
+    if (child.parent === parentId) {
+        return false;
+    }
+
+    let foundParent = profiles.find(profile => profile.id === parentId);
+    while (foundParent.parent) {
+        if (foundParent.parent === childId) {
+            return false;
+        }
+        foundParent = foundParent.parent;
+    }
+    return true;
+}
+
+const ProfileDrag = props => {
+    const [, dragRef, preview] = useDrag(
+        {
+            type: 'profile',
+            item: () => ({ profileId: props.profileData.id, preview: props.children }),
+            end: (item, monitor) => {
+                const dropResult = monitor.getDropResult();
+                if (item && dropResult) {
+                    props.onMoveItem(item.profileId, dropResult.folderId);
+                }
+            },
+            collect: monitor => ({
+                isDragging: monitor.isDragging(),
+                handlerId: monitor.getHandlerId(),
+            }),
+        },
+    );
+    useEffect(() => {
+        preview(getEmptyImage(), { captureDraggingState: true });
+    }, []);
+
+    return <div ref={dragRef}>
+        {props.children}
+    </div>;
+};
+
+const FolderDrop = props => {
+    const [{ isOver, CanDrop }, drop] = useDrop(() => ({
+        accept: 'profile',
+        drop: () => ({ folderId: props.folderData.id }),
+        canDrop: (item, monitor) => canDrop(monitor.getItem().profileId, props.folderData.id, props.profiles),
+        collect: monitor => ({
+            isOver: monitor.isOver(),
+            CanDrop: monitor.canDrop(),
+        }),
+    }), [props.profiles]);
+
+    return <div
+        ref={drop}
+        className={CanDrop && isOver ? props.classes.dndHover : null}
+    >
+        {props.children}
+    </div>;
 };
 
 class ProfilesPanel extends Component {
@@ -149,8 +308,8 @@ class ProfilesPanel extends Component {
     }
 
     onOpen = (id, isOpen) => {
-        const profiles = [...this.props.profiles];
-        const newProfiles = profiles.map(e => {
+        const newProfiles = JSON.parse(JSON.stringify(this.props.profiles));
+        newProfiles.forEach(e => {
             if (e.id === id) {
                 e.isOpen = isOpen;
             }
@@ -160,8 +319,8 @@ class ProfilesPanel extends Component {
     }
 
     onCloseAll = () => {
-        const profiles = [...this.props.profiles];
-        const newProfiles = profiles.map(e => {
+        const newProfiles = JSON.parse(JSON.stringify(this.props.profiles));
+        newProfiles.forEach(e => {
             if (e.type === 'folder') {
                 e.isOpen = false;
             }
@@ -171,8 +330,8 @@ class ProfilesPanel extends Component {
     }
 
     onOpenAll = () => {
-        const profiles = [...this.props.profiles];
-        const newProfiles = profiles.map(e => {
+        const newProfiles = JSON.parse(JSON.stringify(this.props.profiles));
+        newProfiles.forEach(e => {
             if (e.type === 'folder') {
                 e.isOpen = true;
             }
@@ -183,6 +342,7 @@ class ProfilesPanel extends Component {
 
     folder = (fld, level) => {
         const { profiles, active } = this.props;
+        const { flowMenuItem, editButton } = this.props.classes;
         const subProfiles = this.state.isSearch && this.state.searchText
             ? null
             : profiles
@@ -218,56 +378,62 @@ class ProfilesPanel extends Component {
                     }}
                 />
             );
-        return (
-            <div key={fld.id}>
-                <MenuItem
-                    className={`flow-menu-item ${active === fld.id ? ' active ' : ''}`}
-                    onClick={() => this.onActive(fld.id)}
-                    style={{ marginLeft: (level * 20) }}
-                    disableRipple
-                >
-                    <Typography variant="inherit" className="w-100">
-                        {folderSample}
-                        {' '}
-                        {I18n.t(fld.title)}
-                    </Typography>
+        const result = (
+            <MenuItem
+                className={`${flowMenuItem} flow-menu-item ${active === fld.id ? ' active ' : ''}`}
+                style={{ marginLeft: (level * 12) }}
+                disableRipple
+            >
+                <Typography variant="inherit" className="pl-1 w-100">
+                    {folderSample}
+                    {' '}
+                    {I18n.t(fld.title)}
+                </Typography>
 
-                    <div className="absolute-right">
-                        <div
-                            className="edit_button"
-                            title={I18n.t('Add new child profile')}
-                            onClick={() => this.onAddChild(fld, 'profile')}
-                        >
-                            <AddIcon />
-                        </div>
-                        <div
-                            className="edit_button"
-                            title={I18n.t('Add new child folder')}
-                            onClick={() => this.onAddChild(fld, 'folder')}
-                        >
-                            <CreateNewFolderIcon />
-                        </div>
-                        <div
-                            className="edit_button"
-                            title={I18n.t('Edit')}
-                            onClick={() => this.onEditDialog(fld)}
-                        >
-                            <EditIcon />
-                        </div>
+                <div className="absolute-right">
+                    <div
+                        className={editButton}
+                        title={I18n.t('Add new child profile')}
+                        onClick={() => this.onAddChild(fld, 'profile')}
+                    >
+                        <AddIcon />
                     </div>
+                    <div
+                        className={editButton}
+                        title={I18n.t('Add new child folder')}
+                        onClick={() => this.onAddChild(fld, 'folder')}
+                    >
+                        <CreateNewFolderIcon />
+                    </div>
+                    <div
+                        className={editButton}
+                        title={I18n.t('Edit')}
+                        onClick={() => this.onEditDialog(fld)}
+                    >
+                        <EditIcon />
+                    </div>
+                </div>
 
-                </MenuItem>
-                {subProfiles}
-            </div>
+            </MenuItem>
         );
+
+        return <div key={fld.id}>
+            <FolderDrop folderData={fld} profiles={this.props.profiles} classes={this.props.classes}>
+                <ProfileDrag onMoveItem={this.onMoveItem} profileData={fld}>
+                    {result}
+                </ProfileDrag>
+            </FolderDrop>
+            {subProfiles}
+        </div>;
     }
 
     profile = (sub, level) => {
         const { active } = this.props;
-        return (
+        const { flowMenuItem, editButton } = this.props.classes;
+        const result = (
             <MenuItem
-                className={`flow-menu-item sub ${active === sub.id ? ' active ' : ''}`}
-                style={{ marginLeft: (level * 20) }}
+                className={`${flowMenuItem} flow-menu-item sub ${active === sub.id ? ' active ' : ''}`}
+                style={{ marginLeft: (level * 12) }}
                 onClick={() => this.onActive(sub.id)}
                 disableRipple
             >
@@ -279,9 +445,12 @@ class ProfilesPanel extends Component {
 
                 <div className="absolute-right">
                     <div
-                        className="edit_button"
+                        className={editButton}
                         title={I18n.t('Edit')}
-                        onClick={() => this.onEditDialog(sub)}
+                        onClick={e => {
+                            e.stopPropagation();
+                            this.onEditDialog(sub);
+                        }}
                     >
                         <EditIcon />
                     </div>
@@ -289,6 +458,8 @@ class ProfilesPanel extends Component {
 
             </MenuItem>
         );
+
+        return <ProfileDrag onMoveItem={this.onMoveItem} profileData={sub}>{result}</ProfileDrag>;
     }
 
     onSearch = () => {
@@ -302,22 +473,25 @@ class ProfilesPanel extends Component {
 
     head = () => {
         const { profiles } = this.props;
-        return this.state.isSearch
+        const result = this.state.isSearch
             ? (
                 <>
                     <TextField
                         className="ml-1 w-100"
                         placeholder={I18n.t('search text')}
                         onChange={this.onSearchedText}
+                        InputProps={{
+                            endAdornment:
+                            <IconButton
+                                component="span"
+                                size="small"
+                                title={I18n.t('finish searching')}
+                                onClick={this.onSearch}
+                            >
+                                <CloseIcon />
+                            </IconButton>,
+                        }}
                     />
-                    <IconButton
-                        component="span"
-                        size="small"
-                        title={I18n.t('finish searching')}
-                        onClick={this.onSearch}
-                    >
-                        <CloseIcon />
-                    </IconButton>
                 </>
             )
             : (
@@ -374,7 +548,7 @@ class ProfilesPanel extends Component {
                     <IconButton
                         component="span"
                         size="small"
-                        className="ml-auto"
+                        className={this.props.classes.searchIcon}
                         title={I18n.t('Search')}
                         onClick={this.onSearch}
                     >
@@ -382,22 +556,39 @@ class ProfilesPanel extends Component {
                     </IconButton>
                 </>
             );
+
+        return <FolderDrop folderData={{ id: '' }} profiles={this.props.profiles} classes={this.props.classes}>
+            {result}
+        </FolderDrop>;
     }
 
     renderEditDeleteDialog() {
         const { isDialogOpen } = this.state;
+        const canSubmit = this.state.dialogElementTitle && this.state.dialogElementTitle !== this.state.dialogOriginalElementTitle;
         return <Dialog
             onClose={this.onDialog}
             open={isDialogOpen}
+            onKeyDown={e => {
+                if (e.keyCode === 13 && canSubmit) {
+                    this.onUpdateItem();
+                }
+            }}
             maxWidth="sm"
             fullWidth
         >
-            <IconButton onClick={this.onDialog} className={this.props.classes.closeButton}><CloseIcon /></IconButton>
+            <IconButton
+                onClick={this.onDialog}
+                className={this.props.classes.closeButton}
+            >
+                <CloseIcon />
+            </IconButton>
             <DialogTitle>
-                {I18n.t('Edit')}
+                {`${I18n.t(this.state.isNew ? 'Add' : 'Edit')} ${
+                    I18n.t(this.state.dialogElementType === 'folder' ? 'folder' : 'profile')}`}
             </DialogTitle>
             <DialogContent>
                 <TextField
+                    autoFocus
                     fullWidth
                     label={I18n.t('Name')}
                     value={this.state.dialogElementTitle}
@@ -417,7 +608,7 @@ class ProfilesPanel extends Component {
                     </Button>
                 }
                 <Button
-                    disabled={!this.state.dialogElementTitle || this.state.dialogElementTitle === this.state.dialogOriginalElementTitle}
+                    disabled={!canSubmit}
                     onClick={this.onUpdateItem}
                     variant="contained"
                     color="primary"
@@ -439,7 +630,7 @@ class ProfilesPanel extends Component {
         const { profiles } = this.props;
         const items = this.state.isSearch && this.state.searchText
             ? profiles
-                .map(e => (e.title.toLowerCase().indexOf(this.state.searchText.toLowerCase()) > -1
+                .map(e => (e.title && e.title.toLowerCase().indexOf(this.state.searchText.toLowerCase()) > -1
                     ? e.type === 'folder'
                         ? this.folder(e, 0)
                         : this.profile(e, 0)
@@ -449,17 +640,21 @@ class ProfilesPanel extends Component {
                 .map(e => (e.type === 'folder' ? this.folder(e, 0) : this.profile(e, 0)));
 
         return (
-            <div className={this.props.classes.scrolledAuto}>
-                <Paper className="d-flex" style={{ height: 32 }}>
-                    {this.head()}
-                </Paper>
-                <Divider />
-                <MenuList>
-                    {items}
-                </MenuList>
 
-                {this.renderEditDeleteDialog()}
-            </div>
+            <DndProvider backend={isTouchDevice() ? TouchBackend : HTML5Backend}>
+                <DndPreview />
+                <div className={this.props.classes.scrolledAuto}>
+                    <Paper className={this.props.classes.head}>
+                        {this.head()}
+                    </Paper>
+                    <Divider />
+                    <MenuList>
+                        {items}
+                    </MenuList>
+
+                    {this.renderEditDeleteDialog()}
+                </div>
+            </DndProvider>
         );
     }
 }
@@ -469,5 +664,6 @@ ProfilesPanel.propTypes = {
     profiles: PropTypes.array,
     onSelectProfile: PropTypes.func,
     onChangeProfiles: PropTypes.func,
+    classes: PropTypes.object,
 };
 export default withStyles(styles)(ProfilesPanel);
