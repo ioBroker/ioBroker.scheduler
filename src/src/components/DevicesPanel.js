@@ -1,8 +1,14 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { FormLabel, withStyles, makeStyles } from '@material-ui/core';
-import I18n from '@iobroker/adapter-react/i18n';
 import ChipInput from 'material-ui-chip-input';
+
+import {
+    FormLabel, withStyles, makeStyles, IconButton,
+} from '@material-ui/core';
+import IconAdd from '@material-ui/icons/Add';
+
+import I18n from '@iobroker/adapter-react/i18n';
+import DialogSelectID from '@iobroker/adapter-react/Dialogs/SelectID';
 
 const styles = {
     tapperTitle: {
@@ -33,6 +39,7 @@ const CssTextField = props => {
         disabled: props.disabled,
         theme: props.theme,
     });
+
     return <ChipInput
         classes={chipStyles}
         {...props}
@@ -40,6 +47,13 @@ const CssTextField = props => {
 };
 
 class DevicesPanel extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            showSelectId: false,
+        };
+    }
+
     deviceAdd = device => {
         const devices = JSON.parse(JSON.stringify(this.props.members));
         devices.push(device);
@@ -52,30 +66,49 @@ class DevicesPanel extends Component {
         this.props.onChange(devices);
     }
 
+    renderSelectIdDialog() {
+        if (this.state.showSelectId) {
+            return <DialogSelectID
+                key="tableSelect"
+                imagePrefix="../.."
+                dialogName={this.props.adapterName}
+                themeType={this.props.themeType}
+                socket={this.props.socket}
+                statesOnly
+                selected={this.state.selectIdValue}
+                onClose={() => this.setState({ showSelectId: false })}
+                onOk={selected => {
+                    const id = selected;
+                    this.setState({ showSelectId: false }, () => this.deviceAdd(id));
+                }}
+            />;
+        }
+
+        return null;
+    }
+
     render() {
         const title = this.props.title ? this.props.title : 'Devices';
-        return (
-            <>
-                <FormLabel component="legend" className={this.props.classes.tapperTitle}>
-                    {I18n.t(title)}
-                </FormLabel>
-                <CssTextField
-                    id="standard-full-width"
-                    value={this.props.members}
-                    onAdd={this.deviceAdd}
-                    onDelete={this.deviceDelete}
-                    placeholder={I18n.t('Put device names per comma')}
-                    helperText=""
-                    fullWidth
-                    disabled={!this.props.isExpert}
-                    multiline="1"
-                    rows={this.props.rows || 3}
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                />
-            </>
-        );
+        return <>
+            {this.renderSelectIdDialog()}
+            <FormLabel component="legend" className={this.props.classes.tapperTitle}>
+                {I18n.t(title)}
+            </FormLabel>
+            <CssTextField
+                id="standard-full-width"
+                value={this.props.members}
+                onAdd={this.deviceAdd}
+                onDelete={this.deviceDelete}
+                placeholder={I18n.t('Put device names per comma')}
+                helperText=""
+                fullWidth
+                disabled={!this.props.isExpert}
+                multiline="1"
+                rows={this.props.rows || 3}
+                InputLabelProps={{ shrink: true }}
+            />
+            <IconButton onClick={() => this.setState({ showSelectId: true })}><IconAdd /></IconButton>
+        </>;
     }
 }
 
@@ -85,5 +118,6 @@ DevicesPanel.propTypes = {
     rows: PropTypes.number,
     title: PropTypes.string,
     isExpert: PropTypes.bool,
+    socket: PropTypes.object,
 };
 export default withStyles(styles)(DevicesPanel);

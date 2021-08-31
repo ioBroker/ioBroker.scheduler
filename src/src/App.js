@@ -498,7 +498,6 @@ class App extends GenericApp {
                     type={this.currentProfile().type}
                 />
             </div>
-
         </div>;
     }
 
@@ -530,9 +529,10 @@ class App extends GenericApp {
             <DevicesPanel
                 members={this.currentProfile().members}
                 onChange={this.onDevices}
-                title={this.state.isExpert ? 'Devices (expert)' : 'Devices'}
+                title={I18n.t('Devices')}
                 isExpert={this.state.isExpert}
                 rows={1}
+                socket={this.socket}
                 windowWidth={this.state.windowWidth}
             />
         </div>;
@@ -593,15 +593,12 @@ class App extends GenericApp {
         const { classes } = this.props;
         const profile = this.currentProfile();
 
-        const profileGrid = <>
-            <div
-                className={
-                    `${classes.tapperGrid} ${classes.paneling} h-100 m-0`
-                }
-            >
-                {this.renderProfile()}
-            </div>
-        </>;
+        const profileGrid = <div
+            className={`${classes.tapperGrid} ${classes.paneling} h-100 m-0`}
+        >
+            {this.renderProfile()}
+        </div>;
+
         const profilePanel = this.state.windowWidth < 768
             ? null
             : <Drawer
@@ -633,210 +630,182 @@ class App extends GenericApp {
                     {profileGrid}
                 </div>
             </Drawer>;
-        return (
-            <MuiThemeProvider theme={this.state.theme}>
-                <div className={classes.app}>
-                    {profilePanel}
-                    <div
-                        className={`${classes.labelLeftSm1} ${this.state.leftOpen === 1 ? 'active' : ''}`}
-                        onClick={() => this.onLeftOpen(1)}
-                    >
-                        <Fab
-                            size="small"
-                            color={this.state.leftOpen === 1 ? 'secondary' : 'primary'}
-                            aria-label="add"
-                        >
-                            <DehazeIcon />
-                        </Fab>
-                    </div>
-                    {this.renderDrawer()}
-                    <Grid
-                        container
-                        spacing={0}
-                        style={{ background: this.state.theme.palette.background.paper }}
-                        className={classes.mobileScrolled}
-                    >
-                        {
-                            this.currentProfile()
-                                ? (
-                                    <>
-                                        <Grid item xs={12} lg={11} className={this.props.classes.slidersContainer}>
 
-                                            <IntervalsContainer
-                                                type={this.currentProfile().type}
-                                                intervals={this.currentProfile().intervals}
-                                                onChange={this.onIntervals}
-                                                theme={this.state.theme}
-                                                range={profile.intervalDuration}
-                                                windowWidth={this.state.windowWidth}
-                                            />
-                                            {
-                                                this.state.isExpert
-                                                    ? (
-                                                        <div
-                                                            className={
-                                                                `${classes.tapperGrid} m-1 mt-1`
-                                                            }
-                                                        >
-                                                            {this.state.windowWidth > 768 ? this.renderRange() : null}
-                                                        </div>
-                                                    )
-                                                    : null
-                                            }
-                                            <Grid
-                                                container
-                                                spacing={0}
-                                            >
-                                                {
-                                                    this.state.isExpert
-                                                        ? (
-                                                            <Grid
-                                                                item
-                                                                xs={12}
-                                                                lg={3}
-                                                                className="h-100 expert sm-hidden"
-                                                            >
-                                                                <div
-                                                                    className={
-                                                                        `${classes.tapperGrid} h-100 m-1 p-2`
-                                                                    }
-                                                                >
-                                                                    {this.state.windowWidth > 768 ? this.renderType() : null}
-                                                                </div>
-                                                            </Grid>
-                                                        )
-                                                        : null
-                                                }
-                                                <Grid
+        return <MuiThemeProvider theme={this.state.theme}>
+            <div className={classes.app}>
+                {profilePanel}
+                <div
+                    className={`${classes.labelLeftSm1} ${this.state.leftOpen === 1 ? 'active' : ''}`}
+                    onClick={() => this.onLeftOpen(1)}
+                >
+                    <Fab
+                        size="small"
+                        color={this.state.leftOpen === 1 ? 'secondary' : 'primary'}
+                        aria-label="add"
+                    >
+                        <DehazeIcon />
+                    </Fab>
+                </div>
+                {this.renderDrawer()}
+                <Grid
+                    container
+                    spacing={0}
+                    style={{ background: this.state.theme.palette.background.paper }}
+                    className={classes.mobileScrolled}
+                >
+                    {
+                        this.currentProfile()
+                            ? <>
+                                <Grid item xs={12} lg={11} className={this.props.classes.slidersContainer}>
+                                    <IntervalsContainer
+                                        type={this.currentProfile().type}
+                                        intervals={this.currentProfile().intervals}
+                                        onChange={this.onIntervals}
+                                        theme={this.state.theme}
+                                        range={profile.intervalDuration}
+                                        windowWidth={this.state.windowWidth}
+                                    />
+                                    {
+                                        this.state.isExpert
+                                            ? <div className={`${classes.tapperGrid} m-1 mt-1`}>
+                                                {this.state.windowWidth > 768 ? this.renderRange() : null}
+                                            </div>
+                                            : null
+                                    }
+                                    <Grid
+                                        container
+                                        spacing={0}
+                                    >
+                                        {
+                                            this.state.isExpert
+                                                ? <Grid
                                                     item
                                                     xs={12}
-                                                    lg={6}
+                                                    lg={3}
                                                     className="h-100 expert sm-hidden"
                                                 >
                                                     <div
-                                                        className={
-                                                            `${classes.tapperGrid} m-1 p-2 mt-1`
-                                                        }
-                                                        style={{ flexGrow: 100 }}
+                                                        className={`${classes.tapperGrid} h-100 m-1 p-2`}
                                                     >
-                                                        {this.state.windowWidth > 768 ? this.renderDevices() : null}
+                                                        {this.state.windowWidth > 768 ? this.renderType() : null}
                                                     </div>
                                                 </Grid>
-                                                {
-                                                    this.state.isExpert
-                                                        ? (
-                                                            <Grid
-                                                                item
-                                                                xs={12}
-                                                                lg={3}
-                                                                className="h-100 expert sm-hidden "
-                                                            >
-                                                                <div
-                                                                    className={
-                                                                        `${classes.tapperGrid} h-100 m-1 p-2`
-                                                                    }
-                                                                >
-                                                                    {this.state.windowWidth > 768 ? this.renderPriority() : null}
-                                                                </div>
-                                                            </Grid>
-                                                        )
-                                                        : null
-                                                }
-                                            </Grid>
-                                        </Grid>
+                                                : null
+                                        }
                                         <Grid
                                             item
                                             xs={12}
-                                            lg={1}
-                                            className="h-100  sm-hidden"
+                                            lg={6}
+                                            className="h-100 expert sm-hidden"
                                         >
                                             <div
-                                                className={
-                                                    `${classes.tapperGrid} m-1 p-2 h-100`
-                                                }
+                                                className={`${classes.tapperGrid} m-1 p-2 mt-1`}
+                                                style={{ flexGrow: 100 }}
                                             >
-                                                {this.state.windowWidth > 768 ? this.renderDow() : null}
+                                                {this.state.windowWidth > 768 ? this.renderDevices() : null}
                                             </div>
-
                                         </Grid>
-
-                                        <div className={classes.labelMenuBottom} />
-
-                                        <div className={`${classes.labelRightSm5} ${this.state.leftOpen === 5 ? 'active' : ''}`} onClick={() => this.onLeftOpen(5)}>
-                                            <Fab
-                                                size="small"
-                                                color={this.state.leftOpen === 5 ? 'secondary' : 'primary'}
-                                                aria-label="split"
-                                            >
-                                                <CallSplitIcon />
-                                            </Fab>
-                                        </div>
-                                        <div className={`${classes.labelRightSm3} ${this.state.leftOpen === 3 ? 'active' : ''}`} onClick={() => this.onLeftOpen(3)}>
-                                            <Fab
-                                                size="small"
-                                                color={this.state.leftOpen === 3 ? 'secondary' : 'primary'}
-                                                aria-label="calendar"
-                                            >
-                                                <CalendarTodayIcon />
-                                            </Fab>
-                                        </div>
                                         {
                                             this.state.isExpert
-                                                ? (
-                                                    <>
-                                                        <div className={classes.labelMenuBottom} />
-                                                        <div className={`${classes.labelLeftSm2}  expert ${this.state.leftOpen === 2 ? 'active' : ''}`} onClick={() => this.onLeftOpen(2)}>
-                                                            <Fab
-                                                                size="small"
-                                                                color={this.state.leftOpen === 2 ? 'secondary' : 'primary'}
-                                                                aria-label="assignment"
-                                                            >
-                                                                <AssignmentTurnedInIcon />
-                                                            </Fab>
-                                                        </div>
-                                                        <div className={`${classes.labelRightSm6} ${this.state.leftOpen === 4 ? 'active' : ''}`} onClick={() => this.onLeftOpen(4)}>
-                                                            <Fab
-                                                                size="small"
-                                                                color={this.state.leftOpen === 4 ? 'secondary' : 'primary'}
-                                                                aria-label="view"
-                                                            >
-                                                                <ViewListIcon />
-                                                            </Fab>
-                                                        </div>
-                                                        <div className={`${classes.labelRightSm4} ${this.state.leftOpen === 7 ? 'active' : ''}`} onClick={() => this.onLeftOpen(7)}>
-                                                            <Fab
-                                                                size="small"
-                                                                color={this.state.leftOpen === 7 ? 'secondary' : 'primary'}
-                                                                aria-label="scheduler"
-                                                            >
-                                                                <ScheduleIcon />
-                                                            </Fab>
-                                                        </div>
-                                                    </>
-                                                )
+                                                ? <Grid
+                                                    item
+                                                    xs={12}
+                                                    lg={3}
+                                                    className="h-100 expert sm-hidden"
+                                                >
+                                                    <div className={`${classes.tapperGrid} h-100 m-1 p-2`}>
+                                                        {this.state.windowWidth > 768 ? this.renderPriority() : null}
+                                                    </div>
+                                                </Grid>
                                                 : null
                                         }
-                                    </>
-                                )
-                                : <div className={classes.emptyProfile}>
-                                    {I18n.t('Select or create profile in left menu')}
+                                    </Grid>
+                                </Grid>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    lg={1}
+                                    className="h-100  sm-hidden"
+                                >
+                                    <div className={`${classes.tapperGrid} m-1 p-2 h-100`}>
+                                        {this.state.windowWidth > 768 ? this.renderDow() : null}
+                                    </div>
+
+                                </Grid>
+
+                                <div className={classes.labelMenuBottom} />
+
+                                <div className={`${classes.labelRightSm5} ${this.state.leftOpen === 5 ? 'active' : ''}`} onClick={() => this.onLeftOpen(5)}>
+                                    <Fab
+                                        size="small"
+                                        color={this.state.leftOpen === 5 ? 'secondary' : 'primary'}
+                                        aria-label="split"
+                                    >
+                                        <CallSplitIcon />
+                                    </Fab>
                                 </div>
-                        }
-                        <div className="absolute-left p-1">
-                            <IconButton
-                                component="span"
-                                size="small"
-                                title={I18n.t('finish searching')}
-                                onClick={this.onDrawerHandler}
-                            >
-                                <DehazeIcon />
-                            </IconButton>
-                        </div>
-                    </Grid>
-                </div>
-                {this.renderSaveCloseButtons()}
-            </MuiThemeProvider>
-        );
+                                <div className={`${classes.labelRightSm3} ${this.state.leftOpen === 3 ? 'active' : ''}`} onClick={() => this.onLeftOpen(3)}>
+                                    <Fab
+                                        size="small"
+                                        color={this.state.leftOpen === 3 ? 'secondary' : 'primary'}
+                                        aria-label="calendar"
+                                    >
+                                        <CalendarTodayIcon />
+                                    </Fab>
+                                </div>
+                                {
+                                    this.state.isExpert
+                                        ? <>
+                                            <div className={classes.labelMenuBottom} />
+                                            <div className={`${classes.labelLeftSm2} expert ${this.state.leftOpen === 2 ? 'active' : ''}`} onClick={() => this.onLeftOpen(2)}>
+                                                <Fab
+                                                    size="small"
+                                                    color={this.state.leftOpen === 2 ? 'secondary' : 'primary'}
+                                                    aria-label="assignment"
+                                                >
+                                                    <AssignmentTurnedInIcon />
+                                                </Fab>
+                                            </div>
+                                            <div className={`${classes.labelRightSm6} ${this.state.leftOpen === 4 ? 'active' : ''}`} onClick={() => this.onLeftOpen(4)}>
+                                                <Fab
+                                                    size="small"
+                                                    color={this.state.leftOpen === 4 ? 'secondary' : 'primary'}
+                                                    aria-label="view"
+                                                >
+                                                    <ViewListIcon />
+                                                </Fab>
+                                            </div>
+                                            <div className={`${classes.labelRightSm4} ${this.state.leftOpen === 7 ? 'active' : ''}`} onClick={() => this.onLeftOpen(7)}>
+                                                <Fab
+                                                    size="small"
+                                                    color={this.state.leftOpen === 7 ? 'secondary' : 'primary'}
+                                                    aria-label="scheduler"
+                                                >
+                                                    <ScheduleIcon />
+                                                </Fab>
+                                            </div>
+                                        </>
+                                        : null
+                                }
+                            </>
+                            : <div className={classes.emptyProfile}>
+                                {I18n.t('Select or create profile in left menu')}
+                            </div>
+                    }
+                    <div className="absolute-left p-1">
+                        <IconButton
+                            component="span"
+                            size="small"
+                            title={I18n.t('finish searching')}
+                            onClick={this.onDrawerHandler}
+                        >
+                            <DehazeIcon />
+                        </IconButton>
+                    </div>
+                </Grid>
+            </div>
+            {this.renderSaveCloseButtons()}
+        </MuiThemeProvider>;
     }
 }
 
