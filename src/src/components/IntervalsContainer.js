@@ -4,27 +4,30 @@ import { withStyles } from '@material-ui/core/styles';
 import Intervals from './Intervals';
 
 const styles = () => ({
-    tab: {
-        width: '100%',
-        minHeight: '100%',
+    tapperGrid: {
+        margin: 0,
+        boxShadow: 'none',
+        borderRadius: 0,
+        alignItems: 'center',
+        padding: 10,
+        '@media (max-width:570px)':
+        {
+            margin: 0,
+            boxShadow: 'none',
+            borderRadius: 0,
+            alignItems: 'center',
+            padding: '0px 10px 0 60px',
+        },
     },
-    column: {
-        display: 'inline-block',
-        verticalAlign: 'top',
-        marginRight: 20,
-    },
-    columnSettings: {
-        width: 'calc(100% - 370px)',
-    },
-    tapperInside:{
-        overflow: "hidden",
-        height: "100%",
+    tapperInside: {
+        overflow: 'hidden',
+        height: '100%',
         flexGrow: 1,
-        position: "relative",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center"
-    }
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+    },
 });
 
 class IntervalsContainer extends Component {
@@ -43,6 +46,9 @@ class IntervalsContainer extends Component {
         if (prevProps.range !== this.props.range) {
             this.updateWindowDimensions();
         }
+        if (prevProps.windowWidth !== this.props.windowWidth) {
+            this.updateWindowDimensions();
+        }
     }
 
     componentWillUnmount() {
@@ -52,7 +58,7 @@ class IntervalsContainer extends Component {
     updateWindowDimensions = () => {
         const w = this.tapperRef.current.getBoundingClientRect().width;
         this.setState({
-            intervalsWidth: w ? w * 0.85 : 30,
+            intervalsWidth: w || 30,
         });
     }
 
@@ -60,17 +66,17 @@ class IntervalsContainer extends Component {
         const {
             type, theme, range, intervals,
         } = this.props;
+        const { tapperGrid, tapperInside } = this.props.classes;
+        // console.log(this.state.intervalsWidth);
         return (
             <div
-                className="tapper-grid tapper-shadow m-1 p-1 h-100"
+                className={`${tapperGrid} m-1 h-100 `}
                 style={{
-                    padding: 0,
-                    paddingBottom: 0,
                     backgroundColor: theme.palette.background.default,
                 }}
             >
                 <div
-                    className={this.props.classes.tapperInside}
+                    className={tapperInside}
                     id="tapper-inside"
                     ref={this.tapperRef}
                     style={{
