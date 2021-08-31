@@ -20,7 +20,7 @@ import {
     Typography,
     TextField,
     Paper,
-    DialogContent, DialogActions,
+    DialogContent, DialogActions, Checkbox,
 } from '@material-ui/core';
 
 import EditIcon from '@material-ui/icons/Edit';
@@ -340,6 +340,13 @@ class ProfilesPanel extends Component {
         this.props.onChangeProfiles(newProfiles);
     }
 
+    onSetEnabled = (profileId) => {
+        const newProfiles = JSON.parse(JSON.stringify(this.props.profiles));
+        const profile = newProfiles.find(foundProfile => foundProfile.id === profileId);
+        profile.data.enabled = !profile.data.enabled;
+        this.props.onChangeProfiles(newProfiles);
+    }
+
     folder = (fld, level) => {
         const { profiles, active } = this.props;
         const { flowMenuItem, editButton } = this.props.classes;
@@ -439,8 +446,16 @@ class ProfilesPanel extends Component {
             >
                 <Typography variant="inherit" className="pl-1 w-100">
                     <ScheduleIcon className="pr-1" />
-                    {' '}
+                    <Checkbox 
+                        color="string" 
+                        style={{padding: 0}} 
+                        size="small" 
+                        onClick={() => this.onSetEnabled(sub.id)} checked={sub.data.enabled}
+                    />
                     {I18n.t(sub.title)}
+                    {' '}
+                    {sub.data.prio === 1 ? <>&#8593;</> : ''}
+                    {sub.data.prio === 2 ? <>&#8593;&#8593;</> : ''}
                 </Typography>
 
                 <div className="absolute-right">
