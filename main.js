@@ -42,7 +42,10 @@ function startAdapter(options) {
 }
 
 function main() {
-
+    adapter.log.info(adapterName);
+    setInterval(() => {
+        console.log('test')
+    }, 1000);
 }
 
 // If started as allInOne mode => return function to create instance
