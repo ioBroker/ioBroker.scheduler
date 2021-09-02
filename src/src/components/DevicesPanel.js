@@ -21,8 +21,7 @@ const useChipStyles = makeStyles({
     root: {
         padding: 0,
         borderRadius: 15,
-        display: 'flex',
-        width: 'auto',
+        flex: 1,
     },
     chipContainer: {
         marginTop: '-6px',
@@ -74,6 +73,7 @@ class DevicesPanel extends Component {
                 dialogName={this.props.adapterName}
                 themeType={this.props.themeType}
                 socket={this.props.socket}
+                statesOnly
                 onClose={() => this.setState({ showSelectId: false })}
                 onOk={selected => {
                     const id = selected;
@@ -92,21 +92,19 @@ class DevicesPanel extends Component {
             <FormLabel component="legend" className={this.props.classes.tapperTitle}>
                 {I18n.t(title)}
             </FormLabel>
-            <div>
+            <div style={{ display: 'flex' }}>
                 <CssTextField
-                    id="standard-full-width"
                     value={this.props.members}
                     onAdd={this.deviceAdd}
                     onDelete={this.deviceDelete}
                     placeholder={I18n.t('Put device names per comma')}
                     helperText=""
-                    fullWidth
                     disabled={!this.props.isExpert}
                     multiline="1"
                     rows={this.props.rows || 3}
                     InputLabelProps={{ shrink: true }}
                 />
-                <IconButton onClick={() => this.setState({ showSelectId: true })}><IconAdd /></IconButton>
+                <IconButton size="small" onClick={() => this.setState({ showSelectId: true })}><IconAdd /></IconButton>
             </div>
         </>;
     }
