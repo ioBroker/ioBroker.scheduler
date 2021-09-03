@@ -305,6 +305,7 @@ class App extends GenericApp {
             activeProfile: -1, // defaultOptions.menu[0].id,
             isExpert: true,
             leftOpen: 0,
+            devicesCache: {},
         };
     }
 
@@ -534,6 +535,10 @@ class App extends GenericApp {
                 rows={1}
                 socket={this.socket}
                 windowWidth={this.state.windowWidth}
+                devicesCache={this.state.devicesCache}
+                type={this.currentProfile().type}
+                prio={this.currentProfile().prio}
+                profiles={this.state.native.profiles}
             />
         </div>;
     }
@@ -581,6 +586,34 @@ class App extends GenericApp {
         </Drawer>;
     }
 
+    loadDevices() {
+        const devices = [];
+        this.state.native.profiles.forEach(profile => {
+            if (profile.data && profile.data.members) {
+                profile.data.members.forEach(device => {
+                    if (!devices.includes(device)) {
+                        devices.push(device);
+                    }
+                });
+            }
+        });
+        const devicesCache = JSON.parse(JSON.stringify(this.state.devicesCache));
+        let changed = false;
+        Promise.all(devices.map(device => {
+            if (!this.state.devicesCache[device] && this.state.devicesCache[device] !== false) {
+                return this.socket.getObject(device).then(object => {
+                    devicesCache[device] = object || false;
+                    changed = true;
+                });
+            }
+            return null;
+        })).then(() => {
+            if (changed) {
+                this.setState({ devicesCache });
+            }
+        });
+    }
+
     render() {
         if (!this.state.loaded || !this.state.native.profiles) {
             return (
@@ -589,6 +622,8 @@ class App extends GenericApp {
                 </MuiThemeProvider>
             );
         }
+
+        this.loadDevices();
 
         const { classes } = this.props;
         const profile = this.currentProfile();

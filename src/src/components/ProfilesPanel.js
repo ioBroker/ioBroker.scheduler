@@ -448,7 +448,7 @@ class ProfilesPanel extends Component {
                     <ScheduleIcon className="pr-1" />
                     <Tooltip title={sub.data.enabled ? I18n.t('Enabled') : I18n.t('Disabled')}>
                         <Checkbox
-                            color="string"
+                            color="default"
                             style={{ padding: 0 }}
                             size="small"
                             onClick={() => this.onSetEnabled(sub.id)}
@@ -477,7 +477,7 @@ class ProfilesPanel extends Component {
             </MenuItem>
         );
 
-        return <ProfileDrag onMoveItem={this.onMoveItem} profileData={sub}>{result}</ProfileDrag>;
+        return <ProfileDrag key={sub.id} onMoveItem={this.onMoveItem} profileData={sub}>{result}</ProfileDrag>;
     }
 
     onSearch = () => {
