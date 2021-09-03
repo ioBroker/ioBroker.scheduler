@@ -112,7 +112,7 @@ class DevicesPanel extends Component {
                 <div>
                     {this.props.members.map(device => <span key={device}>
                         <Tooltip
-                            title={I18n.t('Errors') + ': ' + errors[device].join(', ')}
+                            title={`${I18n.t('Errors')}: ${errors[device].join(', ')}`}
                             style={errors[device].length ? null : { display: 'none' }}
                         >
                             <Chip
