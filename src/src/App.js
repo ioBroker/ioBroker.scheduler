@@ -284,7 +284,6 @@ const AntTab = withStyles(() => ({
 class App extends GenericApp {
     constructor(props) {
         const extendedProps = { ...props };
-        extendedProps.encryptedFields = ['pass'];
         extendedProps.translations = {
             en: require('./i18n/en'),
             de: require('./i18n/de'),
@@ -298,7 +297,10 @@ class App extends GenericApp {
             'zh-cn': require('./i18n/zh-cn'),
         };
 
+        extendedProps.sentryDSN = window.sentryDSN;
+
         super(props, extendedProps);
+
         this.state = {
             ...this.state,
             isDrawOpen: true,

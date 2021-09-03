@@ -3,8 +3,6 @@
 /* jslint node: true */
 'use strict';
 
-// @ts-ignore
-const CronJob = require('cron').CronJob;
 const utils       = require('@iobroker/adapter-core'); // Get common adapter utils
 // @ts-ignore
 const adapterName = require('./package.json').name.split('.').pop();
@@ -14,6 +12,8 @@ const adapterName = require('./package.json').name.split('.').pop();
  * @type {ioBroker.Adapter}
  */
 let adapter;
+let timer;
+const devices = {};
 
 function startAdapter(options) {
     options = options || {};
@@ -21,22 +21,20 @@ function startAdapter(options) {
     Object.assign(options, {
         name: adapterName,
         objectChange: (id, obj) => {
-        },
-        stateChange: (id, state) => {
-
+            if (devices[id]) {
+                if (obj) {
+                    devices[id] = obj;
+                    delete devices[id].native;
+                } else {
+                    delete devices[id];
+                }
+            }
         },
         unload: callback => {
-            try {
-
-                callback();
-            } catch (e) {
-                callback();
-            }
-        },
-        message: obj => {
-            if (obj) {
-
-            }
+            // stop running timer
+            timer && clearTimeout(timer);
+            timer = null;
+            callback();
         },
         ready: () => main()
     });
@@ -46,22 +44,22 @@ function startAdapter(options) {
     return adapter;
 }
 
-function checkObject(object, type) {
+function checkObject(obj, type) {
     if (type === 'percent') {
-        return object.common.unit === '%' || ('min' in object.common && 'max' in object.common);
+        return obj.common.unit === '%' || ('min' in obj.common && 'max' in obj.common);
     } else if (type === 'temperature') {
-        return object.common.type === 'number';
+        return obj.common.type === 'number';
     } else if (type === 'onoff') {
-        return object.common.type === 'boolean';
+        return obj.common.type === 'boolean';
     }
     return false;
 }
 
-function convertValue(object, type, value) {
+function convertValue(obj, type, value) {
     if (type === 'percent') {
-        if ('min' in object.common && 'max' in object.common) {
-            const delta = object.common.max - object.common.min;
-            return object.common.min + Math.round(delta * value / 100);
+        if ('min' in obj.common && 'max' in obj.common) {
+            const delta = obj.common.max - obj.common.min;
+            return obj.common.min + Math.round(delta * value / 100);
         } else {
             return value;
         }
@@ -70,91 +68,107 @@ function convertValue(object, type, value) {
     } else if (type === 'onoff') {
         return !!value;
     }
+
     return false;
 }
 
 const updateStates = async () => {
-    const settings = await adapter.getForeignObjectAsync('system.adapter.scheduler.0');
-    const profiles = settings.native.profiles;
+    const profiles = adapter.config.profiles;
     const now = new Date();
-    const devices = {};
-    // const nextTime = new Date(now);
-    // if (nextTime.getMinutes() < 30) {
-    //     nextTime.setMinutes(30);
-    // } else {
-    //     nextTime.setHours(nextTime.getHours() + 1);
-    //     nextTime.setMinutes(0);
-    // }
-    // nextTime.setSeconds(0);
-    // nextTime.setMilliseconds(0);
-    // adapter.log.info(`${nextTime}`);
+    const active = {};
+
     for (const k in profiles) {
         const profile = profiles[k];
-        if (profile.type === 'profile' 
+
+        if (profile.type === 'profile'
             && profile.data.enabled
             && profile.data.dow.includes(now.getDay())
         ) {
             const index = Math.floor((now.getHours() + now.getMinutes() / 60) / profile.data.intervalDuration);
             const value = profile.data.intervals[index];
-            for (const k in profile.data.members) {
-                const member = profile.data.members[k];
-                if (!devices[member]) {
-                    devices[member] = []
+
+            profile.data.members.forEach(id => {
+                if (!devices[id]) {
+                    adapter.log.warn(`Device ${id} used in schedule "${profile.title}", but object does not exist.`);
+                    // this object was deleted after adapter start
+                    return;
                 }
-                devices[member].push({
-                    id: profile.id,
-                    title: profile.title,
-                    priority: profile.data.prio,
-                    type: profile.data.type,
-                    value: value,
-                });
-            }
+
+                if (!active[id] || active[id].priority < profile.data.prio) {
+                    active[id] = {
+                        id: profile.id,
+                        title: profile.title,
+                        priority: profile.data.prio,
+                        type: profile.data.type,
+                        value,
+                    };
+                } else if (active[id] && active[id].priority === profile.data.prio) {
+                    adapter.log.error(`"${id}" is in two or more profiles: "${profile.title}" and "${active[id].title}"(<-used for control)`);
+                }
+            });
         }
     }
-    const duplicates = [];
-    for (const device in devices) {
-        const object = await adapter.getForeignObjectAsync(device);
-        if (object) {
-            const profiles = devices[device];
-            let selectedPriority = -1;
-            let selectedProfile = null;
-            for (const k in profiles) {
-                const profile = profiles[k];
-                let error = false;
-                if (duplicates.includes(`${device} ${profile.priority}`)) {
-                    adapter.log.error(`${device} in ${profile.title} is duplicate`);
-                    error = true;
-                }
-                duplicates.push(`${device} ${profile.priority}`);
-                if (!checkObject(object, profile.type)) {
-                    adapter.log.error(`${device} in ${profile.title} is not type ${profile.type}`);
-                    error = true;
-                }
-                if (profile.priority <= selectedPriority) {
-                    continue;
-                }
-                if (error) {
-                    continue;
-                }
-                selectedPriority = profile.priority;
-                selectedProfile = profile;
-            }
-            if (!selectedProfile) {
-                continue;
-            }
-            const value = convertValue(object, selectedProfile.type, selectedProfile.value);
-            adapter.setForeignState(device, value);                        
-            adapter.log.info(`${device} in ${selectedProfile.title} set to ${value}`);
-        } else {
-            adapter.log.error(`${device} does not exists`);
+
+    for (const id in active) {
+        const profile = active[id];
+
+        if (!checkObject(devices[id], profile.type)) {
+            adapter.log.error(`${device} in ${profile.title} is not type ${profile.type}`);
+            continue;
         }
+
+        const value = convertValue(devices[id], profile.type, profile.value);
+        await adapter.setForeignStateChangedAsync(id, value);
+
+        adapter.log.info(`${id} in ${profile.title} set to ${value}`);
     }
 }
 
-function main() {
+function startNextInterval() {
+    const time = new Date();
+
+    if (time.getMinutes() < 30) {
+        time.setMinutes(30);
+    } else {
+        time.setHours(time.getHours() + 1);
+        time.setMinutes(0);
+    }
+    time.setSeconds(0);
+    time.setMilliseconds(0);
+
+    timer = setTimeout(() => {
+        timer = null;
+        updateStates();
+        startNextInterval();
+    }, time.getTime() - Date.now());
+}
+
+
+async function main() {
+    const profiles = adapter.config.profiles;
+    // collect all devices
+    for (let k = 0; k < profiles.length; k++) {
+        const profile = profiles[k];
+
+        if (profile && profile.type === 'profile' && profile.data.enabled) {
+            for (const m in profile.data.members) {
+                if (!devices[profile.data.members[m]]) {
+                    const obj = await adapter.getForeignObjectAsync(profile.data.members[m]);
+                    if (obj && obj.common) {
+                        devices[obj._id] = obj;
+                        delete obj.native;
+                    }
+                }
+            }
+
+        }
+    }
+
+    // subscribe on all used IDs
+    adapter.subscribeForeignObjects(Object.keys(devices));
+
     updateStates();
-    // setInterval(updateStates, 1000);
-    const job = new CronJob('0 0,30 * * * *', updateStates);
+    startNextInterval();
 }
 
 // If started as allInOne mode => return function to create instance

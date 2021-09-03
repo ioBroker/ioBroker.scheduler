@@ -15,7 +15,8 @@ import theme from './theme';
 window.adapterName = 'scheduler';
 let themeName = Utils.getThemeName();
 
-// console.log(`iobroker.${window.adapterName}@${version} using theme "${themeName}"`);
+console.log(`iobroker.${window.adapterName}@${version} using theme "${themeName}"`);
+// window.sentryDSN = 'https://5ad729dbed504d15aa8bde423cae9a8e@sentry.iobroker.net/57';
 
 function build() {
     return ReactDOM.render(
@@ -29,16 +30,6 @@ function build() {
         </MuiThemeProvider>,
         document.getElementById('root'),
     );
-}
-
-if (false && window.location.host !== 'localhost:3000') {
-    Sentry.init({
-        dsn: 'https://5ad729dbed504d15aa8bde423cae9a8e@sentry.iobroker.net/57',
-        release: `iobroker.${window.adapterName}@${version}`,
-        integrations: [
-            new SentryIntegrations.Dedupe(),
-        ],
-    });
 }
 
 build();
