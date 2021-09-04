@@ -303,8 +303,9 @@ class App extends GenericApp {
 
         this.state = {
             ...this.state,
-            isDrawOpen: true,
-            activeProfile: -1, // defaultOptions.menu[0].id,
+            isDrawOpen: window.localStorage.getItem('iobroker.scheduler.isDrawOpen') === null ? true
+                : JSON.parse(window.localStorage.getItem('iobroker.scheduler.isDrawOpen')),
+            activeProfile: window.localStorage.getItem('iobroker.scheduler.activeProfile') || -1,
             isExpert: true,
             leftOpen: 0,
             devicesCache: {},
@@ -334,6 +335,7 @@ class App extends GenericApp {
     }
 
     onDrawerHandler = () => {
+        window.localStorage.setItem('iobroker.scheduler.isDrawOpen', !this.state.isDrawOpen);
         this.setState({
             isDrawOpen: !this.state.isDrawOpen,
         });
@@ -407,6 +409,7 @@ class App extends GenericApp {
 
     onSelectProfile = active => {
         this.setState({ activeProfile: active, leftOpen: false });
+        window.localStorage.setItem('iobroker.scheduler.activeProfile', active);
     }
 
     changeProfiles = profiles => {

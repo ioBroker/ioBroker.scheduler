@@ -74,25 +74,52 @@
     "native": {
         "profiles": [
             {
-                "enabled": true,
-                "name": "basic",
-                "enableRules": {
-                    "type": "and",
-                    "rules": []
+                "id": "58f45953-9821-4746-8046-eaa5d69eaccd",
+                "title": "basic",
+                "parent": "",
+                "type": "profile",
+                "data": {
+                  "enabled": true,
+                  "members": [],
+                  "type": "temperature",
+                  "prio": 0,
+                  "dow": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                  ],
+                  "intervalDuration": 1,
+                  "intervals": [
+                    22,
+                    22,
+                    22,
+                    22,
+                    22,
+                    22,
+                    22,
+                    22,
+                    22,
+                    22,
+                    22,
+                    22,
+                    22,
+                    22,
+                    22,
+                    22,
+                    22,
+                    22,
+                    22,
+                    22,
+                    22,
+                    22,
+                    22,
+                    22
+                  ]
                 },
-                "disableRules": {
-                    "type": "and",
-                    "rules": []
-                },
-                "intervals": 360,
-                "settings": [20, 20, 20, 20],
-                "type": "temperature",
-                "min": 12,
-                "max": 30,
-                "members": [],
-                "dow": [1, 1, 1, 1, 1, 0, 0],
-                "priority": 2
-            }
+                "isOpen": true
+              }
         ]
     },
     "objects": [],

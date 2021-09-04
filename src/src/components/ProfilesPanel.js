@@ -25,6 +25,7 @@ import {
 
 import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 import CreateNewFolderIcon from '@material-ui/icons/CreateNewFolder';
 import SearchIcon from '@material-ui/icons/Search';
 import ScheduleIcon from '@material-ui/icons/Schedule';
@@ -39,14 +40,13 @@ import FolderOpenIcon from '@iobroker/adapter-react/icons/IconOpen';
 import I18n from '@iobroker/adapter-react/i18n';
 
 const defaultProfileData = {
-    enabled: false,
-    name: 'Basic',
-    members: ['id1', 'id2'],
+    enabled: true,
+    members: [],
     type: 'temperature',
     prio: 0, // 0 normal, 1 - high, 2 - highest
     dow: [1, 2, 3, 4, 5], // 0 - sunday, 1 - monday
-    intervalDuration: 0.5, // in hours
-    intervals: [3, 14, 6, 22, 18, 3, 14, 6, 22, 18, 3, 14, 6, 22, 18, 3, 14, 6, 22, 18, 3, 14, 6, 22, 22],
+    intervalDuration: 1, // in hours
+    intervals: Array(24).fill(22),
 };
 
 const DndPreview = () => {
@@ -246,7 +246,6 @@ class ProfilesPanel extends Component {
             {
                 isDialogOpen: true,
                 dialogElementTitle: element.title,
-                dialogOriginalElementTitle: element.title,
                 dialogElementId: element.id,
                 dialogElementParent: element.parent,
                 isNew: false,
@@ -265,6 +264,11 @@ class ProfilesPanel extends Component {
                 data: defaultProfileData,
                 isOpen: true,
             });
+        } else if (this.state.duplicate) {
+            const newProfile = JSON.parse(JSON.stringify(newProfiles.find(foundProfile => foundProfile.id === this.state.duplicate)));
+            newProfile.id = this.state.dialogElementId;
+            newProfile.title = this.state.dialogElementTitle;
+            newProfiles.push(newProfile);
         } else {
             const profile = newProfiles.find(foundProfile => foundProfile.id === this.state.dialogElementId);
             profile.title = this.state.dialogElementTitle;
@@ -298,11 +302,24 @@ class ProfilesPanel extends Component {
             {
                 isDialogOpen: true,
                 dialogElementTitle: I18n.t(type),
-                dialogOriginalElementTitle: '',
                 dialogElementType: type,
                 dialogElementId: uuidv4(),
                 dialogElementParent: element.id,
                 isNew: true,
+            },
+        );
+    }
+
+    onDuplicate = source => {
+        this.setState(
+            {
+                isDialogOpen: true,
+                dialogElementTitle: `${source.title} ${I18n.t('copy')}`,
+                dialogElementType: source.type,
+                dialogElementId: uuidv4(),
+                dialogElementParent: source.parentId,
+                duplicate: source.id,
+                isNew: false,
             },
         );
     }
@@ -472,6 +489,16 @@ class ProfilesPanel extends Component {
                     >
                         <EditIcon />
                     </div>
+                    <div
+                        className={editButton}
+                        title={I18n.t('Duplicate')}
+                        onClick={e => {
+                            e.stopPropagation();
+                            this.onDuplicate(sub);
+                        }}
+                    >
+                        <FileCopyIcon />
+                    </div>
                 </div>
 
             </MenuItem>
@@ -582,7 +609,8 @@ class ProfilesPanel extends Component {
 
     renderEditDeleteDialog() {
         const { isDialogOpen } = this.state;
-        const canSubmit = this.state.dialogElementTitle && this.state.dialogElementTitle !== this.state.dialogOriginalElementTitle;
+        const canSubmit = this.state.dialogElementTitle
+        && !this.props.profiles.find(profile => profile.title === this.state.dialogElementTitle);
         return <Dialog
             onClose={this.onDialog}
             open={isDialogOpen}
@@ -601,7 +629,7 @@ class ProfilesPanel extends Component {
                 <CloseIcon />
             </IconButton>
             <DialogTitle>
-                {`${I18n.t(this.state.isNew ? 'Add' : 'Edit')} ${
+                {`${I18n.t(this.state.duplicate ? 'Duplicate' : this.state.isNew ? 'Add' : 'Edit')} ${
                     I18n.t(this.state.dialogElementType === 'folder' ? 'folder' : 'profile')}`}
             </DialogTitle>
             <DialogContent>

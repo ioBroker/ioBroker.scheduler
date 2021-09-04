@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import {
-    FormLabel, withStyles, IconButton, Chip, Tooltip,
+    FormLabel, withStyles, Chip, Tooltip, Fab,
 } from '@material-ui/core';
 import IconAdd from '@material-ui/icons/Add';
 
@@ -17,6 +17,20 @@ const styles = {
     },
     chip: {
         marginRight: 10,
+        marginTop: 5,
+        marginBottom: 5,
+    },
+    deviceId: {
+        fontSize: '80%',
+    },
+    deviceIcon: {
+        maxWidth: 32,
+        maxHeight: 32,
+        marginRight: 4,
+    },
+    deviceContainer: {
+        display: 'flex',
+        alignItems: 'center',
     },
 };
 
@@ -58,10 +72,11 @@ class DevicesPanel extends Component {
             return <DialogSelectID
                 key="tableSelect"
                 imagePrefix="../.."
+                // filterFunc={obj => checkObject(obj, this.props.type)}
                 dialogName={this.props.adapterName}
                 themeType={this.props.themeType}
                 socket={this.props.socket}
-                statesOnly
+                // statesOnly
                 onClose={() => this.setState({ showSelectId: false })}
                 onOk={selected => {
                     const id = selected;
@@ -112,11 +127,22 @@ class DevicesPanel extends Component {
                 <div>
                     {this.props.members.map(device => <span key={device}>
                         <Tooltip
-                            title={`${I18n.t('Errors')}: ${errors[device].join(', ')}`}
-                            style={errors[device].length ? null : { display: 'none' }}
+                            title={errors[device].length ? `${I18n.t('Errors')}: ${errors[device].join(', ')}` : ''}
                         >
                             <Chip
-                                label={device}
+                                label={<div className={this.props.classes.deviceContainer}>
+                                    {this.props.devicesCache[device] && this.props.devicesCache[device].common.icon
+                                        ? <img alt="" src={this.props.devicesCache[device].common.icon} className={this.props.classes.deviceIcon} />
+                                        : null}
+                                    <div>
+                                        {this.props.devicesCache[device] ? <div>
+                                            {typeof this.props.devicesCache[device].common.name === 'string'
+                                                ? this.props.devicesCache[device].common.name
+                                                : this.props.devicesCache[device].common.name[I18n.lang()]}
+                                        </div> : null}
+                                        <div className={this.props.classes.deviceId}>{device}</div>
+                                    </div>
+                                </div>}
                                 onDelete={this.props.isExpert ? () => this.deviceDelete(device) : null}
                                 style={errors[device].length ? { backgroundColor: 'red' } : null}
                                 className={this.props.classes.chip}
@@ -126,12 +152,13 @@ class DevicesPanel extends Component {
                     </span>)}
                 </div>
                 {this.props.isExpert
-                    ? <IconButton
+                    ? <Fab
                         size="small"
+                        color="primary"
                         onClick={() => this.setState({ showSelectId: true })}
                     >
                         <IconAdd />
-                    </IconButton>
+                    </Fab>
                     : null}
             </div>
         </>;
