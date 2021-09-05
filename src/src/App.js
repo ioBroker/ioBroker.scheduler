@@ -7,10 +7,12 @@ import Tab from '@material-ui/core/Tab';
 import GenericApp from '@iobroker/adapter-react/GenericApp';
 import Loader from '@iobroker/adapter-react/Components/Loader';
 import Fab from '@material-ui/core/Fab';
+import { Drawer, Grid, IconButton } from '@material-ui/core';
 
 import I18n from '@iobroker/adapter-react/i18n';
+import Utils from '@iobroker/adapter-react/Components/Utils';
+
 // import defaultOptions from './data/defaultOptions.json'
-import { Drawer, Grid, IconButton } from '@material-ui/core';
 
 import ClearIcon from '@material-ui/icons/Clear';
 import DehazeIcon from '@material-ui/icons/Dehaze';
@@ -310,6 +312,9 @@ class App extends GenericApp {
             leftOpen: 0,
             devicesCache: {},
         };
+
+        // icon cache
+        this.icons = {};
     }
 
     componentDidMount() {
@@ -544,6 +549,7 @@ class App extends GenericApp {
                 type={this.currentProfile().type}
                 prio={this.currentProfile().prio}
                 profiles={this.state.native.profiles}
+                icons={this.icons}
             />
         </div>;
     }
@@ -591,7 +597,79 @@ class App extends GenericApp {
         </Drawer>;
     }
 
-    loadDevices() {
+    static getParentId(id) {
+        const pos = id.lastIndexOf('.');
+        if (pos !== -1) {
+            return id.substring(0, pos);
+        }
+
+        return id;
+    }
+
+    async getObjectSafe(id) {
+        let obj;
+        try {
+            obj = (await this.socket.getObject(id)) || false;
+            if (obj && obj.native) {
+                delete obj.native;
+            }
+        } catch (e) {
+            // console.error('Cannot read object ' + id);
+        }
+        return obj;
+    }
+
+    async updateDevices(devices) {
+        const devicesCache = JSON.parse(JSON.stringify(this.state.devicesCache));
+
+        let changed = false;
+
+        for (let d = 0; d < devices.length; d++) {
+            const id = devices[d];
+            if (!this.state.devicesCache[id] && this.state.devicesCache[id] !== false) {
+                // eslint-disable-next-line
+                const obj = await this.getObjectSafe(id);
+
+                if (!devicesCache[id] || JSON.stringify(obj) !== JSON.stringify(devicesCache[id])) {
+                    devicesCache[id] = obj || false;
+                    changed = obj;
+
+                    // find icon
+                    let icon = Utils.getObjectIcon(id, devicesCache[id]);
+                    if (!icon) {
+                        let parentId = App.getParentId(id);
+                        if (!devicesCache[parentId] && devicesCache[parentId] !== false) {
+                            // eslint-disable-next-line
+                            devicesCache[parentId] = await this.getObjectSafe(parentId);
+                        }
+
+                        if (devicesCache[parentId] && devicesCache[parentId].type === 'channel') {
+                            icon = Utils.getObjectIcon(parentId, devicesCache[parentId]);
+                            if (!icon) {
+                                parentId = App.getParentId(parentId);
+                                if (!devicesCache[parentId] && devicesCache[parentId] !== false) {
+                                    // eslint-disable-next-line
+                                    devicesCache[parentId] = await this.getObjectSafe(parentId);
+                                }
+                                if (devicesCache[parentId] && devicesCache[parentId].type === 'device') {
+                                    icon = Utils.getObjectIcon(parentId, devicesCache[parentId]);
+                                }
+                            }
+                        }
+                    }
+                    if (icon) {
+                        this.icons[id] = icon;
+                    }
+                }
+            }
+        }
+
+        if (changed) {
+            this.setState({ devicesCache });
+        }
+    }
+
+    checkDevices() {
         const devices = [];
         this.state.native.profiles.forEach(profile => {
             if (profile.data && profile.data.members) {
@@ -602,40 +680,28 @@ class App extends GenericApp {
                 });
             }
         });
-        const devicesCache = JSON.parse(JSON.stringify(this.state.devicesCache));
-        let changed = false;
-        Promise.all(devices.map(device => {
-            if (!this.state.devicesCache[device] && this.state.devicesCache[device] !== false) {
-                return this.socket.getObject(device).then(object => {
-                    devicesCache[device] = object || false;
-                    changed = true;
-                });
-            }
-            return null;
-        })).then(() => {
-            if (changed) {
-                this.setState({ devicesCache });
-            }
-        });
+
+        devices.sort();
+        const newLastDevices = JSON.stringify(devices);
+        if (!this.lastDevices || newLastDevices !== this.lastDevices) {
+            this.lastDevices = newLastDevices;
+            setTimeout(() => this.updateDevices(devices), 300);
+        }
     }
 
     render() {
         if (!this.state.loaded || !this.state.native.profiles) {
-            return (
-                <MuiThemeProvider theme={this.state.theme}>
-                    <Loader theme={this.state.themeType} />
-                </MuiThemeProvider>
-            );
+            return <MuiThemeProvider theme={this.state.theme}>
+                <Loader theme={this.state.themeType} />
+            </MuiThemeProvider>;
         }
 
-        this.loadDevices();
+        this.checkDevices();
 
         const { classes } = this.props;
         const profile = this.currentProfile();
 
-        const profileGrid = <div
-            className={`${classes.tapperGrid} ${classes.paneling} h-100 m-0`}
-        >
+        const profileGrid = <div className={`${classes.tapperGrid} ${classes.paneling} h-100 m-0`}>
             {this.renderProfile()}
         </div>;
 
@@ -770,7 +836,6 @@ class App extends GenericApp {
                                     <div className={`${classes.tapperGrid} m-1 p-2 h-100`}>
                                         {this.state.windowWidth > 768 ? this.renderDow() : null}
                                     </div>
-
                                 </Grid>
 
                                 <div className={classes.labelMenuBottom} />
@@ -832,6 +897,7 @@ class App extends GenericApp {
                                 {I18n.t('Select or create profile in left menu')}
                             </div>
                     }
+
                     <div className="absolute-left p-1">
                         <IconButton
                             component="span"

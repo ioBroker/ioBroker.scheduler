@@ -8,6 +8,8 @@ import IconAdd from '@material-ui/icons/Add';
 
 import I18n from '@iobroker/adapter-react/i18n';
 import DialogSelectID from '@iobroker/adapter-react/Dialogs/SelectID';
+import Utils from '@iobroker/adapter-react/Components/Utils';
+import Icon from '@iobroker/adapter-react/Components/Icon';
 
 const styles = {
     tapperTitle: {
@@ -21,11 +23,12 @@ const styles = {
         marginBottom: 5,
     },
     deviceId: {
-        fontSize: '80%',
+        fontSize: 10,
+        fontStyle: 'italic',
     },
     deviceIcon: {
-        maxWidth: 32,
-        maxHeight: 32,
+        height: 26,
+        width: 26,
         marginRight: 4,
     },
     deviceContainer: {
@@ -34,15 +37,18 @@ const styles = {
     },
 };
 
-function checkObject(object, type) {
+function checkObject(obj, type) {
+    if (!obj || !obj.common) {
+        return false;
+    }
     if (type === 'percent') {
-        return object.common.unit === '%' || ('min' in object.common && 'max' in object.common);
+        return obj.common.unit === '%' || ('min' in obj.common && 'max' in obj.common);
     }
     if (type === 'temperature') {
-        return object.common.type === 'number';
+        return obj.common.type === 'number';
     }
     if (type === 'onoff') {
-        return object.common.type === 'boolean';
+        return obj.common.type === 'boolean';
     }
     return false;
 }
@@ -72,7 +78,7 @@ class DevicesPanel extends Component {
             return <DialogSelectID
                 key="tableSelect"
                 imagePrefix="../.."
-                // filterFunc={obj => checkObject(obj, this.props.type)}
+                filterFunc={obj => obj && checkObject(obj, this.props.type)}
                 dialogName={this.props.adapterName}
                 themeType={this.props.themeType}
                 socket={this.props.socket}
@@ -96,6 +102,7 @@ class DevicesPanel extends Component {
         this.props.members.forEach(device => {
             let duplicates = 0;
             errors[device] = [];
+
             for (const k in this.props.profiles) {
                 const profile = this.props.profiles[k];
                 if (profile.type === 'profile'
@@ -118,6 +125,8 @@ class DevicesPanel extends Component {
             }
         });
 
+        const lang = I18n.getLanguage();
+
         return <>
             {this.renderSelectIdDialog()}
             <FormLabel component="legend" className={this.props.classes.tapperTitle}>
@@ -125,26 +134,22 @@ class DevicesPanel extends Component {
             </FormLabel>
             <div style={{ display: 'flex' }}>
                 <div>
-                    {this.props.members.map(device => <span key={device}>
+                    {this.props.members.map(id => <span key={id}>
                         <Tooltip
-                            title={errors[device].length ? `${I18n.t('Errors')}: ${errors[device].join(', ')}` : ''}
+                            title={errors[id].length ? `${I18n.t('Errors')}: ${errors[id].join(', ')}` : ''}
                         >
                             <Chip
                                 label={<div className={this.props.classes.deviceContainer}>
-                                    {this.props.devicesCache[device] && this.props.devicesCache[device].common.icon
-                                        ? <img alt="" src={this.props.devicesCache[device].common.icon} className={this.props.classes.deviceIcon} />
-                                        : null}
+                                    <Icon src={this.props.icons[id]} className={this.props.classes.deviceIcon} />
                                     <div>
-                                        {this.props.devicesCache[device] ? <div>
-                                            {typeof this.props.devicesCache[device].common.name === 'string'
-                                                ? this.props.devicesCache[device].common.name
-                                                : this.props.devicesCache[device].common.name[I18n.lang()]}
+                                        {this.props.devicesCache[id] ? <div>
+                                            {Utils.getObjectNameFromObj(this.props.devicesCache[id], lang)}
                                         </div> : null}
-                                        <div className={this.props.classes.deviceId}>{device}</div>
+                                        <div className={this.props.classes.deviceId}>{id}</div>
                                     </div>
                                 </div>}
-                                onDelete={this.props.isExpert ? () => this.deviceDelete(device) : null}
-                                style={errors[device].length ? { backgroundColor: 'red' } : null}
+                                onDelete={this.props.isExpert ? () => this.deviceDelete(id) : null}
+                                style={errors[id].length ? { backgroundColor: 'red' } : null}
                                 className={this.props.classes.chip}
                                 disabled={!this.props.isExpert}
                             />
@@ -173,5 +178,6 @@ DevicesPanel.propTypes = {
     isExpert: PropTypes.bool,
     socket: PropTypes.object,
     devicesCache: PropTypes.object,
+    icons: PropTypes.object,
 };
 export default withStyles(styles)(DevicesPanel);
