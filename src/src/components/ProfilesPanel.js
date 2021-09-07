@@ -39,6 +39,8 @@ import FolderOpenIcon from '@iobroker/adapter-react/icons/IconOpen';
 
 import I18n from '@iobroker/adapter-react/i18n';
 
+import { FORBIDDEN_CHARS } from './Utils';
+
 const defaultProfileData = {
     enabled: true,
     members: [],
@@ -253,6 +255,10 @@ class ProfilesPanel extends Component {
         );
     }
 
+    getStateId(title) {
+        return `scheduler.${this.props.instance}.${title.replace(FORBIDDEN_CHARS).replace(/./g, '_')}`;
+    }
+
     onUpdateItem = () => {
         const newProfiles = JSON.parse(JSON.stringify(this.props.profiles));
         if (this.state.isNew) {
@@ -261,21 +267,21 @@ class ProfilesPanel extends Component {
                 title: this.state.dialogElementTitle,
                 parent: this.state.dialogElementParent,
                 type: this.state.dialogElementType,
-                data: { state: `scheduler.0.${this.state.dialogElementTitle}`, ...defaultProfileData },
+                data: { state: this.getStateId(this.state.dialogElementTitle), ...defaultProfileData },
                 isOpen: true,
             });
         } else if (this.state.duplicate) {
             const newProfile = JSON.parse(JSON.stringify(newProfiles.find(foundProfile => foundProfile.id === this.state.duplicate)));
             newProfile.id = this.state.dialogElementId;
-            newProfile.data.state = newProfile.data.state === `scheduler.0.${newProfile.title}`
-                ? `scheduler.0.${this.state.dialogElementTitle}`
+            newProfile.data.state = newProfile.data.state === this.getStateId(newProfile.title)
+                ? this.getStateId(this.state.dialogElementTitle)
                 : newProfile.data.state;
             newProfile.title = this.state.dialogElementTitle;
             newProfiles.push(newProfile);
         } else {
             const profile = newProfiles.find(foundProfile => foundProfile.id === this.state.dialogElementId);
-            profile.data.state = profile.data.state === `scheduler.0.${profile.title}`
-                ? `scheduler.0.${this.state.dialogElementTitle}`
+            profile.data.state = profile.data.state === this.getStateId(profile.title)
+                ? this.getStateId(this.state.dialogElementTitle)
                 : profile.data.state;
             profile.title = this.state.dialogElementTitle;
         }
@@ -472,7 +478,7 @@ class ProfilesPanel extends Component {
                     <Tooltip title={sub.data.enabled ? I18n.t('Enabled') : I18n.t('Disabled')}>
                         <Checkbox
                             color="default"
-                            disabled={sub.data.state !== `scheduler.0.${sub.title}`}
+                            disabled={sub.data.state !== this.getStateId(sub.title)}
                             style={{ padding: 0 }}
                             size="small"
                             onClick={() => this.onSetEnabled(sub.id)}
@@ -718,5 +724,6 @@ ProfilesPanel.propTypes = {
     onSelectProfile: PropTypes.func,
     onChangeProfiles: PropTypes.func,
     classes: PropTypes.object,
+    instance: PropTypes.number,
 };
 export default withStyles(styles)(ProfilesPanel);

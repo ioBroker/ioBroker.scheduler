@@ -32,6 +32,7 @@ import PriorityPanel from './components/PriorityPanel';
 import TypePanel from './components/TypePanel';
 import ProfilesPanel from './components/ProfilesPanel';
 import StatePanel from './components/StatePanel';
+import { FORBIDDEN_CHARS } from './components/Utils';
 
 const styles = theme => {
     const mobilePanel = {
@@ -499,6 +500,7 @@ class App extends GenericApp {
             onSelectProfile={this.onSelectProfile}
             onChangeProfiles={this.changeProfiles}
             theme={this.props.theme}
+            instance={this.instance}
         />;
     }
 
@@ -727,7 +729,7 @@ class App extends GenericApp {
     }
 
     getStateId(title) {
-        return `scheduler.${this.instance}.${title.replace(Utils.FORBIDDEN_CHARS).replace(/./g, '_')}`;
+        return `scheduler.${this.instance}.${title.replace(FORBIDDEN_CHARS).replace(/./g, '_')}`;
     }
 
     onSave(isClose) {

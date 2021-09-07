@@ -8,7 +8,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 
 import I18n from '@iobroker/adapter-react/i18n';
 import DialogSelectID from '@iobroker/adapter-react/Dialogs/SelectID';
-import Utils from '@iobroker/adapter-react/Components/Utils';
+import { FORBIDDEN_CHARS } from './Utils';
 
 const styles = {
     tapperTitle: {
@@ -52,7 +52,7 @@ class StatePanel extends Component {
     }
 
     getStateId() {
-        return `scheduler.${this.props.instance}.${this.props.profileTitle.replace(Utils.FORBIDDEN_CHARS).replace(/./g, '_')}`;
+        return `scheduler.${this.props.instance}.${this.props.profileTitle.replace(FORBIDDEN_CHARS).replace(/./g, '_')}`;
     }
 
     render() {
