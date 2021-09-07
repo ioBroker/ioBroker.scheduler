@@ -38,8 +38,7 @@ import FolderIcon from '@iobroker/adapter-react/icons/IconClosed';
 import FolderOpenIcon from '@iobroker/adapter-react/icons/IconOpen';
 
 import I18n from '@iobroker/adapter-react/i18n';
-
-import { FORBIDDEN_CHARS } from './Utils';
+import Utils from '@iobroker/adapter-react/Components/Utils';
 
 const defaultProfileData = {
     enabled: true,
@@ -256,7 +255,7 @@ class ProfilesPanel extends Component {
     }
 
     getStateId(title) {
-        return `scheduler.${this.props.instance}.${title.replace(FORBIDDEN_CHARS).replace(/./g, '_')}`;
+        return `scheduler.${this.props.instance}.${title.replace(Utils.FORBIDDEN_CHARS, '_').replace(/\./g, '_')}`;
     }
 
     onUpdateItem = () => {
@@ -384,74 +383,67 @@ class ProfilesPanel extends Component {
             : profiles
                 .filter(sub => sub.parent === fld.id)
                 .map(sub => (fld.isOpen
-                    ? (
-                        <div key={sub.id}>
-                            {
-                                sub.type === 'profile'
-                                    ? this.profile(sub, level + 1)
-                                    : this.folder(sub, level + 1)
-                            }
-                        </div>
-                    )
+                    ? <div key={sub.id}>
+                        {
+                            sub.type === 'profile'
+                                ? this.profile(sub, level + 1)
+                                : this.folder(sub, level + 1)
+                        }
+                    </div>
                     : null));
 
         const folderSample = fld.isOpen
-            ? (
-                <FolderOpenIcon
-                    className="pr-1"
-                    onClick={e => {
-                        this.onOpen(fld.id, false);
-                        e.stopPropagation();
-                    }}
-                />
-            )
-            : (
-                <FolderIcon
-                    className="pr-1"
-                    onClick={e => {
-                        this.onOpen(fld.id, true);
-                        e.stopPropagation();
-                    }}
-                />
-            );
-        const result = (
-            <MenuItem
-                className={`${flowMenuItem} flow-menu-item ${active === fld.id ? ' active ' : ''}`}
-                style={{ marginLeft: (level * 12) }}
-                disableRipple
-            >
-                <Typography variant="inherit" className="pl-1 w-100">
-                    {folderSample}
-                    {' '}
-                    {fld.title}
-                </Typography>
+            ? <FolderOpenIcon
+                className="pr-1"
+                onClick={e => {
+                    this.onOpen(fld.id, false);
+                    e.stopPropagation();
+                }}
+            />
+            : <FolderIcon
+                className="pr-1"
+                onClick={e => {
+                    this.onOpen(fld.id, true);
+                    e.stopPropagation();
+                }}
+            />;
 
-                <div className="absolute-right">
-                    <div
-                        className={editButton}
-                        title={I18n.t('Add new child profile')}
-                        onClick={() => this.onAddChild(fld, 'profile')}
-                    >
-                        <AddIcon />
-                    </div>
-                    <div
-                        className={editButton}
-                        title={I18n.t('Add new child folder')}
-                        onClick={() => this.onAddChild(fld, 'folder')}
-                    >
-                        <CreateNewFolderIcon />
-                    </div>
-                    <div
-                        className={editButton}
-                        title={I18n.t('Edit')}
-                        onClick={() => this.onEditDialog(fld)}
-                    >
-                        <EditIcon />
-                    </div>
+        const result = <MenuItem
+            className={`${flowMenuItem} flow-menu-item ${active === fld.id ? ' active ' : ''}`}
+            style={{ marginLeft: (level * 12) }}
+            disableRipple
+        >
+            <Typography variant="inherit" className="pl-1 w-100">
+                {folderSample}
+                {' '}
+                {fld.title}
+            </Typography>
+
+            <div className="absolute-right">
+                <div
+                    className={editButton}
+                    title={I18n.t('Add new child profile')}
+                    onClick={() => this.onAddChild(fld, 'profile')}
+                >
+                    <AddIcon />
                 </div>
+                <div
+                    className={editButton}
+                    title={I18n.t('Add new child folder')}
+                    onClick={() => this.onAddChild(fld, 'folder')}
+                >
+                    <CreateNewFolderIcon />
+                </div>
+                <div
+                    className={editButton}
+                    title={I18n.t('Edit')}
+                    onClick={() => this.onEditDialog(fld)}
+                >
+                    <EditIcon />
+                </div>
+            </div>
 
-            </MenuItem>
-        );
+        </MenuItem>;
 
         return <div key={fld.id}>
             <FolderDrop folderData={fld} profiles={this.props.profiles} classes={this.props.classes}>
@@ -466,56 +458,56 @@ class ProfilesPanel extends Component {
     profile = (sub, level) => {
         const { active } = this.props;
         const { flowMenuItem, editButton } = this.props.classes;
-        const result = (
-            <MenuItem
-                className={`${flowMenuItem} flow-menu-item sub ${active === sub.id ? ' active ' : ''}`}
-                style={{ marginLeft: (level * 12) }}
-                onClick={() => this.onActive(sub.id)}
-                disableRipple
-            >
-                <Typography variant="inherit" className="pl-1 w-100">
-                    <ScheduleIcon className="pr-1" />
-                    <Tooltip title={sub.data.enabled ? I18n.t('Enabled') : I18n.t('Disabled')}>
-                        <Checkbox
-                            color="default"
-                            disabled={sub.data.state !== this.getStateId(sub.title)}
-                            style={{ padding: 0 }}
-                            size="small"
-                            onClick={() => this.onSetEnabled(sub.id)}
-                            checked={sub.data.enabled}
-                        />
-                    </Tooltip>
-                    {sub.title}
-                    {' '}
-                    {sub.data.prio === 1 ? <Tooltip title={I18n.t('High priority')}><span>&#8593;</span></Tooltip> : ''}
-                    {sub.data.prio === 2 ? <Tooltip title={I18n.t('Highest priority')}><span>&#8593;&#8593;</span></Tooltip> : ''}
-                </Typography>
 
-                <div className="absolute-right">
-                    <div
-                        className={editButton}
-                        title={I18n.t('Edit')}
-                        onClick={e => {
-                            e.stopPropagation();
-                            this.onEditDialog(sub);
-                        }}
-                    >
-                        <EditIcon />
-                    </div>
-                    <div
-                        className={editButton}
-                        title={I18n.t('Duplicate')}
-                        onClick={e => {
-                            e.stopPropagation();
-                            this.onDuplicate(sub);
-                        }}
-                    >
-                        <FileCopyIcon />
-                    </div>
+        const stateID = this.getStateId(sub.title);
+
+        const result = <MenuItem
+            className={`${flowMenuItem} flow-menu-item sub ${active === sub.id ? ' active ' : ''}`}
+            style={{ marginLeft: (level * 12) }}
+            onClick={() => this.onActive(sub.id)}
+            disableRipple
+        >
+            <Typography variant="inherit" className="pl-1 w-100">
+                <ScheduleIcon className="pr-1" />
+                <Tooltip title={sub.data.enabled ? I18n.t('Enabled') : I18n.t('Disabled')}>
+                    <Checkbox
+                        color="default"
+                        disabled={sub.data.state !== stateID}
+                        style={{ padding: 0 }}
+                        size="small"
+                        onClick={() => this.onSetEnabled(sub.id)}
+                        checked={sub.data.enabled}
+                    />
+                </Tooltip>
+                {sub.title}
+                {' '}
+                {sub.data.prio === 1 ? <Tooltip title={I18n.t('High priority')}><span>&#8593;</span></Tooltip> : ''}
+                {sub.data.prio === 2 ? <Tooltip title={I18n.t('Highest priority')}><span>&#8593;&#8593;</span></Tooltip> : ''}
+            </Typography>
+
+            <div className="absolute-right">
+                <div
+                    className={editButton}
+                    title={I18n.t('Edit')}
+                    onClick={e => {
+                        e.stopPropagation();
+                        this.onEditDialog(sub);
+                    }}
+                >
+                    <EditIcon />
                 </div>
-
-            </MenuItem>
-        );
+                <div
+                    className={editButton}
+                    title={I18n.t('Duplicate')}
+                    onClick={e => {
+                        e.stopPropagation();
+                        this.onDuplicate(sub);
+                    }}
+                >
+                    <FileCopyIcon />
+                </div>
+            </div>
+        </MenuItem>;
 
         return <ProfileDrag key={sub.id} onMoveItem={this.onMoveItem} profileData={sub}>{result}</ProfileDrag>;
     }
@@ -532,88 +524,76 @@ class ProfilesPanel extends Component {
     head = () => {
         const { profiles } = this.props;
         const result = this.state.isSearch
-            ? (
-                <>
-                    <TextField
-                        className="ml-1 w-100"
-                        placeholder={I18n.t('search text')}
-                        onChange={this.onSearchedText}
-                        InputProps={{
-                            endAdornment:
-                            <IconButton
+            ? <>
+                <TextField
+                    className="ml-1 w-100"
+                    placeholder={I18n.t('search text')}
+                    onChange={this.onSearchedText}
+                    InputProps={{
+                        endAdornment:
+                        <IconButton
+                            component="span"
+                            size="small"
+                            title={I18n.t('finish searching')}
+                            onClick={this.onSearch}
+                        >
+                            <CloseIcon />
+                        </IconButton>,
+                    }}
+                />
+            </>
+            : <>
+                <IconButton
+                    component="span"
+                    size="small"
+                    title={I18n.t('Add profile')}
+                    onClick={
+                        () => this.onAddChild({ id: '' }, 'profile')
+                    }
+                >
+                    <AddIcon />
+                </IconButton>
+                <IconButton
+                    component="span"
+                    size="small"
+                    title={I18n.t('Add folder')}
+                    onClick={
+                        () => this.onAddChild({ id: '' }, 'folder')
+                    }
+                >
+                    <CreateNewFolderIcon />
+                </IconButton>
+                {
+                    profiles.length ? (
+                        profiles.filter(e => e.type === 'folder' && e.isOpen).length > 0
+                            ? <IconButton
                                 component="span"
                                 size="small"
-                                title={I18n.t('finish searching')}
-                                onClick={this.onSearch}
+                                title={I18n.t('Close all')}
+                                onClick={this.onCloseAll}
                             >
-                                <CloseIcon />
-                            </IconButton>,
-                        }}
-                    />
-                </>
-            )
-            : (
-                <>
-                    <IconButton
-                        component="span"
-                        size="small"
-                        title={I18n.t('Add profile')}
-                        onClick={
-                            () => {
-                                this.onAddChild({ id: '' }, 'profile');
-                            }
-                        }
-                    >
-                        <AddIcon />
-                    </IconButton>
-                    <IconButton
-                        component="span"
-                        size="small"
-                        title={I18n.t('Add folder')}
-                        onClick={
-                            () => {
-                                this.onAddChild({ id: '' }, 'folder');
-                            }
-                        }
-                    >
-                        <CreateNewFolderIcon />
-                    </IconButton>
-                    {
-                        profiles.length ? (
-                            profiles.filter(e => e.type === 'folder' && e.isOpen).length > 0
-                                ? (
-                                    <IconButton
-                                        component="span"
-                                        size="small"
-                                        title={I18n.t('Close all')}
-                                        onClick={this.onCloseAll}
-                                    >
-                                        <UnfoldLessIcon />
-                                    </IconButton>
-                                )
-                                : (
-                                    <IconButton
-                                        component="span"
-                                        size="small"
-                                        title={I18n.t('Open all')}
-                                        onClick={this.onOpenAll}
-                                    >
-                                        <UnfoldMoreIcon />
-                                    </IconButton>
-                                )
-                        ) : null
-                    }
-                    <IconButton
-                        component="span"
-                        size="small"
-                        className={this.props.classes.searchIcon}
-                        title={I18n.t('Search')}
-                        onClick={this.onSearch}
-                    >
-                        <SearchIcon />
-                    </IconButton>
-                </>
-            );
+                                <UnfoldLessIcon />
+                            </IconButton>
+                            : <IconButton
+                                component="span"
+                                size="small"
+                                title={I18n.t('Open all')}
+                                onClick={this.onOpenAll}
+                            >
+                                <UnfoldMoreIcon />
+                            </IconButton>
+                    ) : null
+                }
+                <IconButton
+                    component="span"
+                    size="small"
+                    className={this.props.classes.searchIcon}
+                    title={I18n.t('Search')}
+                    onClick={this.onSearch}
+                >
+                    <SearchIcon />
+                </IconButton>
+            </>;
 
         return <FolderDrop folderData={{ id: '' }} profiles={this.props.profiles} classes={this.props.classes}>
             {result}
@@ -698,23 +678,20 @@ class ProfilesPanel extends Component {
                 .filter(e => e.parent === '')
                 .map(e => (e.type === 'folder' ? this.folder(e, 0) : this.profile(e, 0)));
 
-        return (
+        return <DndProvider backend={isTouchDevice() ? TouchBackend : HTML5Backend}>
+            <DndPreview />
+            <div className={this.props.classes.scrolledAuto}>
+                <Paper className={this.props.classes.head}>
+                    {this.head()}
+                </Paper>
+                <Divider />
+                <MenuList>
+                    {items}
+                </MenuList>
 
-            <DndProvider backend={isTouchDevice() ? TouchBackend : HTML5Backend}>
-                <DndPreview />
-                <div className={this.props.classes.scrolledAuto}>
-                    <Paper className={this.props.classes.head}>
-                        {this.head()}
-                    </Paper>
-                    <Divider />
-                    <MenuList>
-                        {items}
-                    </MenuList>
-
-                    {this.renderEditDeleteDialog()}
-                </div>
-            </DndProvider>
-        );
+                {this.renderEditDeleteDialog()}
+            </div>
+        </DndProvider>;
     }
 }
 
