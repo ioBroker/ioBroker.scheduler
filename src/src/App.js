@@ -407,13 +407,14 @@ class App extends GenericApp {
         this.changeProfile(profile);
     }
 
-    onState = state => {
+    onState = async state => {
         const profile = JSON.parse(JSON.stringify(this.currentProfile()));
         profile.state = state;
         if (profile.state !== this.getStateId(this.state.native.profiles.find(
             foundProfile => foundProfile.id === this.state.activeProfile,
         ).title)) {
-            profile.enabled = true;
+            profile.enabled = await this.socket.getState(state).val;
+            console.log(profile.enabled);
         }
         this.changeProfile(profile);
     }
@@ -482,7 +483,7 @@ class App extends GenericApp {
     async loadStates() {
         const native = JSON.parse(JSON.stringify(this.state.native));
         await Promise.all(native.profiles.map(async profile => {
-            if (profile.type === 'profile' && profile.data.state === this.getStateId(profile.title)) {
+            if (profile.type === 'profile') {
                 profile.data.enabled = await this.socket.getState(profile.data.state);
             }
             return null;

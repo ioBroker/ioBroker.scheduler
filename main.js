@@ -80,7 +80,7 @@ const updateStates = async () => {
     for (const k in profiles) {
         const profile = profiles[k];
 
-        const profileState = profile.type === 'profile' && profile.data.state && await adapter.getForeignStateAsync(profile.data.state);
+        const profileState = profile.type === 'profile' && profile.data.state && (await adapter.getForeignStateAsync(profile.data.state)).val;
 
         if (profile.type === 'profile'
             && profile.data.dow.includes(now.getDay())
