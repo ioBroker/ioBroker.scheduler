@@ -80,10 +80,9 @@ const updateStates = async () => {
     for (const k in profiles) {
         const profile = profiles[k];
 
-        const profileState = profile.data.state && await adapter.getForeignStateAsync(profile.data.state);
+        const profileState = profile.type === 'profile' && profile.data.state && await adapter.getForeignStateAsync(profile.data.state);
 
         if (profile.type === 'profile'
-            && profile.data.enabled
             && profile.data.dow.includes(now.getDay())
             && profileState
         ) {
@@ -153,7 +152,7 @@ async function main() {
     for (let k = 0; k < profiles.length; k++) {
         const profile = profiles[k];
 
-        if (profile && profile.type === 'profile' && profile.data.enabled) {
+        if (profile && profile.type === 'profile') {
             for (const m in profile.data.members) {
                 if (!devices[profile.data.members[m]]) {
                     const obj = await adapter.getForeignObjectAsync(profile.data.members[m]);

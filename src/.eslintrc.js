@@ -54,6 +54,8 @@ module.exports = {
         'guard-for-in': 'off',
         // 'linebreak-style': ["error", "windows"],
         'linebreak-style': ['off'],
+        'no-param-reassign': 'off',
+        'no-await-in-loop': 'off',
         radix: 'off',
         indent: ['error', 4],
     },

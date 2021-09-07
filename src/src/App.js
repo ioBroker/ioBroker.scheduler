@@ -479,6 +479,18 @@ class App extends GenericApp {
         this.onLeftOpen(this.state.leftOpen);
     }
 
+    async loadStates() {
+        const native = JSON.parse(JSON.stringify(this.state.native));
+        await Promise.all(native.profiles.map(async profile => {
+            if (profile.type === 'profile' && profile.data.state === this.getStateId(profile.title)) {
+                profile.data.enabled = await this.socket.getState(profile.data.state);
+            }
+            return null;
+        }));
+        this.setState({ native });
+        this.savedNative = native;
+    }
+
     onConnectionReady() {
         if (!this.state.native.profiles) {
             const native = {
@@ -486,6 +498,8 @@ class App extends GenericApp {
             };
             this.setState({ native });
             this.savedNative = native;
+        } else {
+            this.loadStates();
         }
     }
 
@@ -746,7 +760,12 @@ class App extends GenericApp {
                             name: profile.title,
                         },
                         type: 'state',
-                    });
+                    }).then(
+                        () => this.socket.setState(profile.data.state, profile.data.enabled),
+                    );
+                }
+                if (originalProfile && profile.data.state === this.getStateId(profile.title)) {
+                    this.socket.setState(profile.data.state, profile.data.enabled);
                 }
             }
         });
