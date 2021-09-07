@@ -22,7 +22,8 @@ import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import CallSplitIcon from '@material-ui/icons/CallSplit';
 import ViewListIcon from '@material-ui/icons/ViewList';
-import ScheduleIcon from '@material-ui/icons/Schedule';
+// import ScheduleIcon from '@material-ui/icons/Schedule';
+import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import minmax from './data/minmax.json';
 import DevicesPanel from './components/DevicesPanel';
 import DayOfWeekPanel from './components/DayOfWeekPanel';
@@ -30,6 +31,7 @@ import IntervalsContainer from './components/IntervalsContainer';
 import PriorityPanel from './components/PriorityPanel';
 import TypePanel from './components/TypePanel';
 import ProfilesPanel from './components/ProfilesPanel';
+import StatePanel from './components/StatePanel';
 
 const styles = theme => {
     const mobilePanel = {
@@ -149,8 +151,8 @@ const styles = theme => {
             '@media (max-width:570px)':
             {
                 ...leftRSM,
-                bottom: 61,
                 top: 'auto',
+                bottom: 60,
             },
         },
         labelRightSm3:
@@ -188,7 +190,7 @@ const styles = theme => {
             {
                 ...leftRSM,
                 top: 'auto',
-                bottom: 110,
+                bottom: 10,
             },
         },
         labelRightSm7:
@@ -198,7 +200,16 @@ const styles = theme => {
             {
                 ...leftRSM,
                 top: 'auto',
-                bottom: 160,
+                bottom: 60,
+            },
+        },
+        labelRightSm8:
+        {
+            display: 'none',
+            '@media (max-width:570px)':
+            {
+                ...leftRSM,
+                top: 160,
             },
         },
         labelMenu:
@@ -396,6 +407,17 @@ class App extends GenericApp {
         this.changeProfile(profile);
     }
 
+    onState = state => {
+        const profile = JSON.parse(JSON.stringify(this.currentProfile()));
+        profile.state = state;
+        if (profile.state !== `scheduler.0.${this.state.native.profiles.find(
+            foundProfile => foundProfile.id === this.state.activeProfile,
+        ).title}`) {
+            profile.enabled = true;
+        }
+        this.changeProfile(profile);
+    }
+
     onDow = (day, enabled) => {
         const profile = JSON.parse(JSON.stringify(this.currentProfile()));
         if (enabled && !profile.dow.includes(day)) {
@@ -554,6 +576,19 @@ class App extends GenericApp {
         </div>;
     }
 
+    renderState() {
+        return <div className="mt-sm-auto mb-sm-auto wc-100">
+            <StatePanel
+                value={this.currentProfile().state}
+                profileTitle={this.state.native.profiles.find(
+                    profile => profile.id === this.state.activeProfile,
+                ).title}
+                onChange={this.onState}
+                socket={this.socket}
+            />
+        </div>;
+    }
+
     renderDrawer() {
         if (this.state.windowWidth >= 768) {
             return null;
@@ -571,6 +606,8 @@ class App extends GenericApp {
             content = this.renderDevices();
         } else if (this.state.leftOpen === 7) {
             content = this.renderRange();
+        } else if (this.state.leftOpen === 8) {
+            content = this.renderState();
         }
 
         return <Drawer
@@ -689,6 +726,41 @@ class App extends GenericApp {
         }
     }
 
+    onSave(isClose) {
+        this.state.native.profiles.forEach(profile => {
+            if (profile.type === 'profile') {
+                const originalProfile = this.savedNative.profiles.find(foundProfile => foundProfile.id === profile.id);
+                if (!originalProfile && profile.data.state === `scheduler.0.${profile.title}`) {
+                    this.socket.setObject(profile.data.state, {
+                        common: { type: 'boolean' },
+                        type: 'state',
+                    });
+                }
+            }
+        });
+        this.savedNative.profiles.forEach(profile => {
+            if (profile.type === 'profile') {
+                const changedProfile = this.state.native.profiles.find(foundProfile => foundProfile.id === profile.id);
+                if (!changedProfile && profile.data.state === `scheduler.0.${profile.title}`) {
+                    this.socket.delObject(profile.data.state);
+                }
+                if (changedProfile
+                    && profile.data.state === `scheduler.0.${profile.title}`
+                    && changedProfile.data.state === `scheduler.0.${changedProfile.title}`
+                    && profile.title !== changedProfile.title
+                ) {
+                    this.socket.getObject(profile.data.state).then(
+                        state => this.socket.setObject(changedProfile.data.state, state),
+                    ).then(
+                        () => this.socket.delObject(profile.data.state),
+                    );
+                }
+            }
+        });
+
+        super.onSave(isClose);
+    }
+
     render() {
         if (!this.state.loaded || !this.state.native.profiles) {
             return <MuiThemeProvider theme={this.state.theme}>
@@ -782,22 +854,6 @@ class App extends GenericApp {
                                         container
                                         spacing={0}
                                     >
-                                        {
-                                            this.state.isExpert
-                                                ? <Grid
-                                                    item
-                                                    xs={12}
-                                                    lg={3}
-                                                    className="h-100 expert sm-hidden"
-                                                >
-                                                    <div
-                                                        className={`${classes.tapperGrid} h-100 m-1 p-2`}
-                                                    >
-                                                        {this.state.windowWidth > 768 ? this.renderType() : null}
-                                                    </div>
-                                                </Grid>
-                                                : null
-                                        }
                                         <Grid
                                             item
                                             xs={12}
@@ -813,16 +869,42 @@ class App extends GenericApp {
                                         </Grid>
                                         {
                                             this.state.isExpert
-                                                ? <Grid
-                                                    item
-                                                    xs={12}
-                                                    lg={3}
-                                                    className="h-100 expert sm-hidden"
-                                                >
-                                                    <div className={`${classes.tapperGrid} h-100 m-1 p-2`}>
-                                                        {this.state.windowWidth > 768 ? this.renderPriority() : null}
-                                                    </div>
-                                                </Grid>
+                                                ? <>
+                                                    <Grid
+                                                        item
+                                                        xs={12}
+                                                        lg={1}
+                                                        className="h-100 expert sm-hidden"
+                                                    >
+                                                        <div className={`${classes.tapperGrid} h-100 m-1 p-2`}>
+                                                            {this.state.windowWidth > 768 ? this.renderPriority() : null}
+                                                        </div>
+                                                    </Grid>
+                                                    <Grid
+                                                        item
+                                                        xs={12}
+                                                        lg={2}
+                                                        className="h-100 expert sm-hidden"
+                                                    >
+                                                        <div
+                                                            className={`${classes.tapperGrid} h-100 m-1 p-2`}
+                                                        >
+                                                            {this.state.windowWidth > 768 ? this.renderType() : null}
+                                                        </div>
+                                                    </Grid>
+                                                    <Grid
+                                                        item
+                                                        xs={12}
+                                                        lg={3}
+                                                        className="h-100 expert sm-hidden"
+                                                    >
+                                                        <div
+                                                            className={`${classes.tapperGrid} h-100 m-1 p-2`}
+                                                        >
+                                                            {this.state.windowWidth > 768 ? this.renderState() : null}
+                                                        </div>
+                                                    </Grid>
+                                                </>
                                                 : null
                                         }
                                     </Grid>
@@ -880,13 +962,22 @@ class App extends GenericApp {
                                                     <ViewListIcon />
                                                 </Fab>
                                             </div>
-                                            <div className={`${classes.labelRightSm4} ${this.state.leftOpen === 7 ? 'active' : ''}`} onClick={() => this.onLeftOpen(7)}>
+                                            {/* <div className={`${classes.labelRightSm4} ${this.state.leftOpen === 7 ? 'active' : ''}`} onClick={() => this.onLeftOpen(7)}>
                                                 <Fab
                                                     size="small"
                                                     color={this.state.leftOpen === 7 ? 'secondary' : 'primary'}
                                                     aria-label="scheduler"
                                                 >
                                                     <ScheduleIcon />
+                                                </Fab>
+                                            </div> */}
+                                            <div className={`${classes.labelRightSm8} ${this.state.leftOpen === 8 ? 'active' : ''}`} onClick={() => this.onLeftOpen(8)}>
+                                                <Fab
+                                                    size="small"
+                                                    color={this.state.leftOpen === 8 ? 'secondary' : 'primary'}
+                                                    aria-label="scheduler"
+                                                >
+                                                    <AccountTreeIcon />
                                                 </Fab>
                                             </div>
                                         </>

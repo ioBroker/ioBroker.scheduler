@@ -80,9 +80,12 @@ const updateStates = async () => {
     for (const k in profiles) {
         const profile = profiles[k];
 
+        const profileState = profile.data.state && await adapter.getForeignStateAsync(profile.data.state);
+
         if (profile.type === 'profile'
             && profile.data.enabled
             && profile.data.dow.includes(now.getDay())
+            && profileState
         ) {
             const index = Math.floor((now.getHours() + now.getMinutes() / 60) / profile.data.intervalDuration);
             const value = profile.data.intervals[index];

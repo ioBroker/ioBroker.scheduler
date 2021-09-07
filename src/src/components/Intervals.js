@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import DayNightSwitcher from './DayNightSwitcher';
 import Interval from './Interval';
 
-const styles = {
+const styles = theme => ({
     swiperContent: {
         width: '100%',
         height: '100%',
@@ -24,8 +24,21 @@ const styles = {
         marginTop: 15,
         position: 'relative',
     },
-};
+    timeLineContainer: { position: 'absolute', height: '100%' },
+    timeLine:
+    {
+        zIndex: 100,
+        borderWidth: 1,
+        borderColor: theme.palette.text.primary,
+        borderLeftStyle: 'dashed',
+        width: 4,
+        height: 'calc(100% - 20px)',
+        position: 'relative',
+    },
+});
 class Intervals extends Component {
+    timeInterval = null;
+
     constructor(props) {
         super(props);
         // console.log(props.intervalsWidth)
@@ -34,7 +47,16 @@ class Intervals extends Component {
             selected: [],
             intervalsWidth: props.intervalsWidth,
             key: parseInt(Date.now() + Math.random() * 1000),
+            currentTime: new Date(),
         };
+    }
+
+    componentDidMount() {
+        setInterval(() => this.setState({ currentTime: new Date() }), 1000 * 60);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timeInterval);
     }
 
     componentDidUpdate(nextProps) {
@@ -152,7 +174,7 @@ class Intervals extends Component {
             intervalsWidth, slideId, selected, key,
         } = this.state;
         const {
-            type, theme, range, data,
+            type, theme, range, data, classes,
         } = this.props;
         const count = this.getCountByRange(range);
 
@@ -173,7 +195,19 @@ class Intervals extends Component {
                 />,
             );
         }
-        return sliders;
+
+        const leftOffset = Math.round(
+            (((this.state.currentTime.getHours() + this.state.currentTime.getMinutes() / 60) / range - count * slideId) / count) * intervalsWidth,
+        );
+        return <>
+            <div className={classes.timeLineContainer}>
+                <div
+                    className={classes.timeLine}
+                    style={{ left: leftOffset }}
+                ></div>
+            </div>
+            {sliders}
+        </>;
     }
 
     onSwipeLeftListener = () => {

@@ -261,16 +261,22 @@ class ProfilesPanel extends Component {
                 title: this.state.dialogElementTitle,
                 parent: this.state.dialogElementParent,
                 type: this.state.dialogElementType,
-                data: defaultProfileData,
+                data: { state: `scheduler.0.${this.state.dialogElementTitle}`, ...defaultProfileData },
                 isOpen: true,
             });
         } else if (this.state.duplicate) {
             const newProfile = JSON.parse(JSON.stringify(newProfiles.find(foundProfile => foundProfile.id === this.state.duplicate)));
             newProfile.id = this.state.dialogElementId;
+            newProfile.data.state = newProfile.data.state === `scheduler.0.${newProfile.title}`
+                ? `scheduler.0.${this.state.dialogElementTitle}`
+                : newProfile.data.state;
             newProfile.title = this.state.dialogElementTitle;
             newProfiles.push(newProfile);
         } else {
             const profile = newProfiles.find(foundProfile => foundProfile.id === this.state.dialogElementId);
+            profile.data.state = profile.data.state === `scheduler.0.${profile.title}`
+                ? `scheduler.0.${this.state.dialogElementTitle}`
+                : profile.data.state;
             profile.title = this.state.dialogElementTitle;
         }
 
@@ -411,7 +417,7 @@ class ProfilesPanel extends Component {
                 <Typography variant="inherit" className="pl-1 w-100">
                     {folderSample}
                     {' '}
-                    {I18n.t(fld.title)}
+                    {fld.title}
                 </Typography>
 
                 <div className="absolute-right">
@@ -466,13 +472,14 @@ class ProfilesPanel extends Component {
                     <Tooltip title={sub.data.enabled ? I18n.t('Enabled') : I18n.t('Disabled')}>
                         <Checkbox
                             color="default"
+                            disabled={sub.data.state !== `scheduler.0.${sub.title}`}
                             style={{ padding: 0 }}
                             size="small"
                             onClick={() => this.onSetEnabled(sub.id)}
                             checked={sub.data.enabled}
                         />
                     </Tooltip>
-                    {I18n.t(sub.title)}
+                    {sub.title}
                     {' '}
                     {sub.data.prio === 1 ? <Tooltip title={I18n.t('High priority')}><span>&#8593;</span></Tooltip> : ''}
                     {sub.data.prio === 2 ? <Tooltip title={I18n.t('Highest priority')}><span>&#8593;&#8593;</span></Tooltip> : ''}
@@ -662,7 +669,7 @@ class ProfilesPanel extends Component {
                 >
                     {
                         I18n.t(
-                            this.state.isNew
+                            this.state.isNew || this.state.duplicate
                                 ? 'Create'
                                 : 'Update',
                         )
