@@ -414,7 +414,6 @@ class App extends GenericApp {
             foundProfile => foundProfile.id === this.state.activeProfile,
         ).title)) {
             profile.enabled = await this.socket.getState(state).val;
-            console.log(profile.enabled);
         }
         this.changeProfile(profile);
     }
