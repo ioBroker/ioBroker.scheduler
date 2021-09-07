@@ -37,9 +37,11 @@ class PriorityPanel extends Component {
                         {I18n.t('Normal')}
                     </MenuItem>
                     <MenuItem value={1}>
+                        &#8593;
                         {I18n.t('High')}
                     </MenuItem>
                     <MenuItem value={2}>
+                        &#8593;&#8593;
                         {I18n.t('Highest eg. Holiday')}
                     </MenuItem>
                 </Select>

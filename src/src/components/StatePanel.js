@@ -8,6 +8,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 
 import I18n from '@iobroker/adapter-react/i18n';
 import DialogSelectID from '@iobroker/adapter-react/Dialogs/SelectID';
+import Utils from '@iobroker/adapter-react/Components/Utils';
 
 const styles = {
     tapperTitle: {
@@ -17,7 +18,7 @@ const styles = {
     },
 };
 
-class StatesPanel extends Component {
+class StatePanel extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -34,7 +35,7 @@ class StatesPanel extends Component {
             return <DialogSelectID
                 key="tableSelect"
                 imagePrefix="../.."
-                filterFunc={obj => (obj && obj.common && obj.common.type === 'boolean')}
+                filterFunc={obj => obj?.common?.type === 'boolean'}
                 dialogName={this.props.adapterName}
                 themeType={this.props.themeType}
                 socket={this.props.socket}
@@ -50,21 +51,26 @@ class StatesPanel extends Component {
         return null;
     }
 
+    getStateId() {
+        return `scheduler.${this.props.instance}.${this.props.profileTitle.replace(Utils.FORBIDDEN_CHARS).replace(/./g, '_')}`;
+    }
+
     render() {
-        const title = this.props.title ? this.props.title : 'State';
+        const title = this.props.title ? this.props.title : 'Activation state';
 
         return <>
             {this.renderSelectIdDialog()}
             <FormLabel component="legend" className={this.props.classes.tapperTitle}>
                 {I18n.t(title)}
             </FormLabel>
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <div style={{ display: 'flex', flexDirection: 'row' }} title={I18n.t('You can provide here the state that controls the enability of this profile')}>
                 <TextField
                     style={{ flex: 1 }}
                     value={typeof this.props.value === 'undefined' ? '' : this.props.value}
                     onClick={() => this.setState({ showSelectId: true })}
+                    helperText={`(${I18n.t('optional')})`}
                 />
-                {this.props.value !== `scheduler.0.${this.props.profileTitle}` ? <IconButton onClick={() => this.stateChange(`scheduler.0.${this.props.profileTitle}`)}>
+                {this.props.value !== this.getStateId() ? <IconButton onClick={() => this.getStateId()}>
                     <ClearIcon />
                 </IconButton> : null}
             </div>
@@ -72,11 +78,12 @@ class StatesPanel extends Component {
     }
 }
 
-StatesPanel.propTypes = {
+StatePanel.propTypes = {
     value: PropTypes.string,
     profileTitle: PropTypes.string,
     onChange: PropTypes.func,
     title: PropTypes.string,
     socket: PropTypes.object,
+    instance: PropTypes.number,
 };
-export default withStyles(styles)(StatesPanel);
+export default withStyles(styles)(StatePanel);

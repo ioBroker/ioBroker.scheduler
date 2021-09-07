@@ -78,7 +78,7 @@ class DevicesPanel extends Component {
             return <DialogSelectID
                 key="tableSelect"
                 imagePrefix="../.."
-                filterFunc={obj => obj && checkObject(obj, this.props.type)}
+                filterFunc={obj => checkObject(obj, this.props.type)}
                 dialogName={this.props.adapterName}
                 themeType={this.props.themeType}
                 socket={this.props.socket}

@@ -57,14 +57,6 @@
         "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.scheduler/master/admin/scheduler.png",
         "type": "logic",
         "messagebox": true,
-        "dependencies": [
-            {
-                "admin": ">=4.0.1"
-            },
-            {
-                "js-controller": ">=2.0.0"
-            }
-        ],
         "plugins1": {
             "sentry": {
                 "dsn": "https://20987eaf91ef49de821771499fdb4e1a@sentry.iobroker.net/40"
@@ -75,7 +67,7 @@
         "profiles": [
             {
                 "id": "58f45953-9821-4746-8046-eaa5d69eaccd",
-                "title": "basic",
+                "title": "Basic",
                 "parent": "",
                 "type": "profile",
                 "data": {

@@ -410,9 +410,9 @@ class App extends GenericApp {
     onState = state => {
         const profile = JSON.parse(JSON.stringify(this.currentProfile()));
         profile.state = state;
-        if (profile.state !== `scheduler.0.${this.state.native.profiles.find(
+        if (profile.state !== this.getStateId(this.state.native.profiles.find(
             foundProfile => foundProfile.id === this.state.activeProfile,
-        ).title}`) {
+        ).title)) {
             profile.enabled = true;
         }
         this.changeProfile(profile);
@@ -562,7 +562,7 @@ class App extends GenericApp {
             <DevicesPanel
                 members={this.currentProfile().members}
                 onChange={this.onDevices}
-                title={I18n.t('Devices')}
+                title="Devices"
                 isExpert={this.state.isExpert}
                 rows={1}
                 socket={this.socket}
@@ -580,9 +580,9 @@ class App extends GenericApp {
         return <div className="mt-sm-auto mb-sm-auto wc-100">
             <StatePanel
                 value={this.currentProfile().state}
-                profileTitle={this.state.native.profiles.find(
-                    profile => profile.id === this.state.activeProfile,
-                ).title}
+                instance={this.instance}
+                profileTitle={this.state.native.profiles
+                    .find(profile => profile.id === this.state.activeProfile).title}
                 onChange={this.onState}
                 socket={this.socket}
             />
@@ -726,34 +726,44 @@ class App extends GenericApp {
         }
     }
 
+    getStateId(title) {
+        return `scheduler.${this.instance}.${title.replace(Utils.FORBIDDEN_CHARS).replace(/./g, '_')}`;
+    }
+
     onSave(isClose) {
         this.state.native.profiles.forEach(profile => {
             if (profile.type === 'profile') {
                 const originalProfile = this.savedNative.profiles.find(foundProfile => foundProfile.id === profile.id);
-                if (!originalProfile && profile.data.state === `scheduler.0.${profile.title}`) {
+                if (!originalProfile && profile.data.state === this.getStateId(profile.title)) {
                     this.socket.setObject(profile.data.state, {
-                        common: { type: 'boolean' },
+                        common: {
+                            type: 'boolean',
+                            read: true,
+                            write: true,
+                            role: 'switch',
+                            def: true,
+                            name: profile.title,
+                        },
                         type: 'state',
                     });
                 }
             }
         });
+
         this.savedNative.profiles.forEach(profile => {
             if (profile.type === 'profile') {
                 const changedProfile = this.state.native.profiles.find(foundProfile => foundProfile.id === profile.id);
-                if (!changedProfile && profile.data.state === `scheduler.0.${profile.title}`) {
+                if (!changedProfile && profile.data.state === this.getStateId(profile.title)) {
                     this.socket.delObject(profile.data.state);
                 }
                 if (changedProfile
-                    && profile.data.state === `scheduler.0.${profile.title}`
-                    && changedProfile.data.state === `scheduler.0.${changedProfile.title}`
+                    && profile.data.state === this.getStateId(profile.title)
+                    && changedProfile.data.state === this.getStateId(changedProfile.title)
                     && profile.title !== changedProfile.title
                 ) {
-                    this.socket.getObject(profile.data.state).then(
-                        state => this.socket.setObject(changedProfile.data.state, state),
-                    ).then(
-                        () => this.socket.delObject(profile.data.state),
-                    );
+                    this.socket.getObject(profile.data.state)
+                        .then(state => this.socket.setObject(changedProfile.data.state, state))
+                        .then(() => this.socket.delObject(profile.data.state));
                 }
             }
         });
