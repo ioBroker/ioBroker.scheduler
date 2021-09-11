@@ -321,7 +321,7 @@ class ProfilesPanel extends Component {
         // check name
         if (newProfiles
             .filter(item => item !== profile)
-            .filter(item => ((!newParentId && !item.parent) || profile.parent === item.parent))
+            .filter(item => ((!profile.parent && !item.parent) || profile.parent === item.parent))
             .find(item => item.title === profile.title)) {
             profile.title += ` (${I18n.t('copy')})`;
         }
