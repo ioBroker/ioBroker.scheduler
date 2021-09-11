@@ -37,11 +37,12 @@
   "Create": "Create",
   "copy": "copy",
   "search text": "Search text",
-  "You can provide here the state that controls the enability of this profile": "You can provide here the state that controls the enability of this profile",
+  "You can provide here the state that controls the activation of this profile": "You can provide here the state that controls the activation of this profile",
   "Activation state": "Activation state",
   "optional": "optional",
   "Add new child profile": "Add new child profile",
   "Add new child folder": "Add new child folder",
   "Disabled": "Disabled",
-  "Close all": "Collapse all"
+  "Close all": "Collapse all",
+  "Copy": "Copy"
 }

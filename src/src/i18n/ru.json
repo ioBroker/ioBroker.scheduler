@@ -37,11 +37,12 @@
   "Create": "Создать",
   "copy": "Копия",
   "search text": "Текст поиска",
-  "You can provide here the state that controls the enability of this profile": "Вы можете указать здесь состояние, которое контролирует включение этого профиля",
+  "You can provide here the state that controls the activation of this profile": "Вы можете указать здесь состояние, которое контролирует включение этого профиля",
   "Activation state": "Состояние активации",
   "optional": "по желанию",
   "Add new child profile": "Добавить новый дочерний профиль",
   "Add new child folder": "Добавить новую дочернюю папку",
   "Disabled": "Отключено",
-  "Close all": "Свернуть все"
+  "Close all": "Свернуть все",
+  "Copy": "Копировать"
 }

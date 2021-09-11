@@ -359,10 +359,8 @@ class App extends GenericApp {
     }
 
     currentProfile = () => {
-        const findedProfile = this.state.native.profiles.find(
-            profile => profile.id === this.state.activeProfile,
-        );
-        return findedProfile ? findedProfile.type === 'profile' && findedProfile.data : null;
+        const foundProfile = this.state.native.profiles.find(profile => profile.id === this.state.activeProfile);
+        return foundProfile ? foundProfile.type === 'profile' && foundProfile.data : null;
     }
 
     changeProfile = newData => {
@@ -408,14 +406,146 @@ class App extends GenericApp {
     }
 
     onState = async state => {
-        const profile = JSON.parse(JSON.stringify(this.currentProfile()));
-        profile.state = state;
-        if (profile.state !== this.getStateId(this.state.native.profiles.find(
-            foundProfile => foundProfile.id === this.state.activeProfile,
-        ).title)) {
-            profile.enabled = await this.socket.getState(state).val;
+        const currentProfile = JSON.parse(JSON.stringify(this.currentProfile()));
+        currentProfile.state = state;
+
+        if (currentProfile.state !== true) {
+            currentProfile.enabled = await this.socket.getState(state).val;
         }
-        this.changeProfile(profile);
+
+        this.changeProfile(currentProfile);
+    }
+
+    async processTasks(tasks) {
+        for (let t = 0; t < tasks.length; t++) {
+            const task = tasks[t];
+
+            if (task.method === 'setObject') {
+                const obj = await this.socket.getObject(task.id, task.obj);
+                if (!obj) {
+                    await this.socket.setObject(task.id, task.obj);
+                }
+                const state = await this.socket.getState(task.id);
+                if (!state || state.val !== task.val) {
+                    await this.socket.setState(task.id, task.val);
+                }
+            } else if (task.method === 'setState') {
+                const state = await this.socket.getState(task.id);
+                if (!state || state.val !== task.val) {
+                    await this.socket.setState(task.id, task.val);
+                }
+            } else if (task.method === 'delObject') {
+                await this.socket.delObject(task.id);
+            } else if (task.method === 'rename') {
+                const obj = await this.socket.getObject(task.id);
+                await this.socket.setObject(task.newId, obj);
+                await this.socket.setState(task.newId, task.val);
+                await this.socket.delObject(task.id);
+            }
+        }
+    }
+
+    onPrepareSave(settings) {
+        const tasks = [];
+        settings.profiles.forEach(profile => {
+            if (profile.type === 'profile') {
+                const originalProfile = this.savedNative.profiles.find(foundProfile => foundProfile.id === profile.id);
+
+                // if new profile
+                if (!originalProfile && profile.data.state === true) {
+                    tasks.push({
+                        method: 'setObject',
+                        id: this.getStateId(profile, settings.profiles),
+                        val: profile.data.enabled,
+                        obj: {
+                            common: {
+                                type: 'boolean',
+                                read: true,
+                                write: true,
+                                role: 'switch',
+                                def: true,
+                                name: profile.title,
+                            },
+                            type: 'state',
+                        },
+                    });
+                }
+            }
+        });
+
+        this.savedNative.profiles.forEach(profile => {
+            if (profile.type === 'profile') {
+                const newProfile = settings.profiles.find(p => p.id === profile.id);
+
+                // If deleted
+                if (!newProfile && profile.data.state === true) {
+                    tasks.push({
+                        method: 'delObject',
+                        id: this.getStateId(profile, this.savedNative.profiles),
+                    });
+                } else
+                if (newProfile) {
+                    const isOldNormalId = profile.data.state === true;
+                    const isNewNormalId = newProfile.data.state === true;
+
+                    if (isOldNormalId !== isNewNormalId) {
+                        // If new has other state (old exists, new does not)
+                        if (isOldNormalId) {
+                            // delete old one
+                            tasks.push({
+                                method: 'delObject',
+                                id: this.getStateId(profile, this.savedNative.profiles),
+                            });
+                        } else {
+                            // If new has other state (old does no exist, new does)
+                            tasks.push({
+                                method: 'setObject',
+                                id: this.getStateId(newProfile, settings.profiles),
+                                val: newProfile.data.enabled,
+                                obj: {
+                                    common: {
+                                        type: 'boolean',
+                                        read: true,
+                                        write: true,
+                                        role: 'switch',
+                                        def: true,
+                                        name: newProfile.title,
+                                    },
+                                    type: 'state',
+                                },
+                            });
+                        }
+                    } else if (isOldNormalId) {
+                        const oldStateId = this.getStateId(profile, this.savedNative.profiles);
+                        const newStateId = this.getStateId(newProfile, settings.profiles);
+
+                        if (oldStateId !== newStateId) {
+                            tasks.push({
+                                method: 'rename',
+                                id: oldStateId,
+                                newId: newStateId,
+                                val: newProfile.data.enabled,
+                            });
+                        } else {
+                            tasks.push({
+                                method: 'setState',
+                                id: newStateId,
+                                val: newProfile.data.enabled,
+                            });
+                        }
+                    }
+                }
+            }
+        });
+
+        this.processTasks(tasks)
+            .then(() => {
+                // eslint-disable-next-line
+                console.log('States updated');
+                return this.loadStates();
+            });
+
+        settings.profiles.forEach(profile => delete profile.data.enabled);
     }
 
     onDow = (day, enabled) => {
@@ -481,14 +611,31 @@ class App extends GenericApp {
 
     async loadStates() {
         const native = JSON.parse(JSON.stringify(this.state.native));
-        await Promise.all(native.profiles.map(async profile => {
+        for (let p = 0; p < native.profiles.length; p++) {
+            const profile = native.profiles[p];
             if (profile.type === 'profile') {
-                profile.data.enabled = await this.socket.getState(profile.data.state);
+                if (profile.data.state === true) {
+                    const state = await this.socket.getState(this.getStateId(profile, native.profiles));
+
+                    if (state) {
+                        profile.data.enabled = state.val;
+                    } else {
+                        profile.data.enabled = false;
+                    }
+                } else if (!profile.data.state) {
+                    profile.data.enabled = false;
+                } else {
+                    const state = await this.socket.getState(profile.data.state);
+                    if (state) {
+                        profile.data.enabled = state.val;
+                    } else {
+                        profile.data.enabled = false;
+                    }
+                }
             }
-            return null;
-        }));
+        }
         this.setState({ native });
-        this.savedNative = native;
+        this.savedNative = JSON.parse(JSON.stringify(native));
     }
 
     onConnectionReady() {
@@ -592,12 +739,12 @@ class App extends GenericApp {
     }
 
     renderState() {
+        const activeProfile = this.state.native.profiles.find(item => item.id === this.state.activeProfile);
+
         return <div className="mt-sm-auto mb-sm-auto wc-100">
             <StatePanel
-                value={this.currentProfile().state}
-                instance={this.instance}
-                profileTitle={this.state.native.profiles
-                    .find(profile => profile.id === this.state.activeProfile).title}
+                value={activeProfile.data.state}
+                possibleStateId={this.getStateId(activeProfile, this.state.native.profiles)}
                 onChange={this.onState}
                 socket={this.socket}
             />
@@ -741,54 +888,21 @@ class App extends GenericApp {
         }
     }
 
-    getStateId(title) {
-        return `scheduler.${this.instance}.${title.replace(Utils.FORBIDDEN_CHARS, '_').replace(/\./g, '_')}`;
-    }
-
-    onSave(isClose) {
-        this.state.native.profiles.forEach(profile => {
-            if (profile.type === 'profile') {
-                const originalProfile = this.savedNative.profiles.find(foundProfile => foundProfile.id === profile.id);
-                if (!originalProfile && profile.data.state === this.getStateId(profile.title)) {
-                    this.socket.setObject(profile.data.state, {
-                        common: {
-                            type: 'boolean',
-                            read: true,
-                            write: true,
-                            role: 'switch',
-                            def: true,
-                            name: profile.title,
-                        },
-                        type: 'state',
-                    }).then(
-                        () => this.socket.setState(profile.data.state, profile.data.enabled),
-                    );
-                }
-                if (originalProfile && profile.data.state === this.getStateId(profile.title)) {
-                    this.socket.setState(profile.data.state, profile.data.enabled);
-                }
+    getStateId(profile, profiles, _list) {
+        _list = _list || [];
+        _list.unshift(profile.title.replace(Utils.FORBIDDEN_CHARS, '_').replace(/\./g, '_'));
+        if (profile.parent) {
+            // find parent profile
+            const parentProfile = profiles.find(item => item.id === profile.parent);
+            if (parentProfile) {
+                return this.getStateId(parentProfile, profiles, _list);
             }
-        });
+            // eslint-disable-next-line
+            console.error('Cannot find parent ' + profile.parent);
+            return null;
+        }
 
-        this.savedNative.profiles.forEach(profile => {
-            if (profile.type === 'profile') {
-                const changedProfile = this.state.native.profiles.find(foundProfile => foundProfile.id === profile.id);
-                if (!changedProfile && profile.data.state === this.getStateId(profile.title)) {
-                    this.socket.delObject(profile.data.state);
-                }
-                if (changedProfile
-                    && profile.data.state === this.getStateId(profile.title)
-                    && changedProfile.data.state === this.getStateId(changedProfile.title)
-                    && profile.title !== changedProfile.title
-                ) {
-                    this.socket.getObject(profile.data.state)
-                        .then(state => this.socket.setObject(changedProfile.data.state, state))
-                        .then(() => this.socket.delObject(profile.data.state));
-                }
-            }
-        });
-
-        super.onSave(isClose);
+        return `scheduler.${this.instance}.${_list.join('.')}`;
     }
 
     render() {

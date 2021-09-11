@@ -37,11 +37,12 @@
   "Create": "Crio",
   "copy": "cópia",
   "search text": "Texto de pesquisa",
-  "You can provide here the state that controls the enability of this profile": "Você pode fornecer aqui o estado que controla a habilitação deste perfil",
+  "You can provide here the state that controls the activation of this profile": "Você pode fornecer aqui o estado que controla a habilitação deste perfil",
   "Activation state": "Estado de ativação",
   "optional": "opcional",
   "Add new child profile": "Adicionar novo perfil de criança",
   "Add new child folder": "Adicionar nova pasta filha",
   "Disabled": "Desabilitado",
-  "Close all": "Recolher todos"
+  "Close all": "Recolher todos",
+  "Copy": "cópia de"
 }

@@ -80,7 +80,11 @@ const updateStates = async () => {
     for (const k in profiles) {
         const profile = profiles[k];
 
-        const profileState = profile.type === 'profile' && profile.data.state && (await adapter.getForeignStateAsync(profile.data.state)).val;
+        let profileState = profile.type === 'profile' && profile.data.state && (await adapter.getForeignStateAsync(profile.data.state));
+
+        if (profileState && typeof profileState === 'object') {
+            profileState = profileState.val;
+        }
 
         if (profile.type === 'profile'
             && profile.data.dow.includes(now.getDay())
@@ -145,14 +149,38 @@ function startNextInterval() {
     }, time.getTime() - Date.now());
 }
 
+const FORBIDDEN_CHARS = /[^._\-/ :!#$%&()+=@^{}|~\p{Ll}\p{Lu}\p{Nd}]+/gu;
+
+function getStateId(profile, profiles, _list) {
+    _list = _list || [];
+    _list.unshift(profile.title.replace(FORBIDDEN_CHARS, '_').replace(/\./g, '_'));
+
+    if (profile.parent) {
+        // find parent profile
+        const parentProfile = profiles.find(item => item.id === profile.parent);
+        if (parentProfile) {
+            return getStateId(parentProfile, profiles, _list);
+        }
+        // eslint-disable-next-line
+        console.error('Cannot find parent ' + profile.parent);
+        return null;
+    }
+
+    return `${adapter.namespace}.${_list.join('.')}`;
+}
 
 async function main() {
     const profiles = adapter.config.profiles;
+
     // collect all devices
     for (let k = 0; k < profiles.length; k++) {
         const profile = profiles[k];
 
         if (profile && profile.type === 'profile') {
+            if (profile.data.state === true) {
+                profile.data.state = getStateId(profile, profiles);
+            }
+
             for (const m in profile.data.members) {
                 if (!devices[profile.data.members[m]]) {
                     const obj = await adapter.getForeignObjectAsync(profile.data.members[m]);

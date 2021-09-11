@@ -38,7 +38,6 @@ import FolderIcon from '@iobroker/adapter-react/icons/IconClosed';
 import FolderOpenIcon from '@iobroker/adapter-react/icons/IconOpen';
 
 import I18n from '@iobroker/adapter-react/i18n';
-import Utils from '@iobroker/adapter-react/Components/Utils';
 
 const defaultProfileData = {
     enabled: true,
@@ -238,8 +237,15 @@ class ProfilesPanel extends Component {
         this.props.onSelectProfile(id);
     }
 
-    onDialog = () => {
-        this.setState({ isDialogOpen: !this.state.isDialogOpen });
+    onDialogClose = () => {
+        this.setState({
+            isDialogOpen: false,
+            dialogElementTitle: '',
+            dialogElementId: '',
+            dialogElementParent: null,
+            duplicate: false,
+            isNew: false,
+        });
     }
 
     onEditDialog = element => {
@@ -254,10 +260,6 @@ class ProfilesPanel extends Component {
         );
     }
 
-    getStateId(title) {
-        return `scheduler.${this.props.instance}.${title.replace(Utils.FORBIDDEN_CHARS, '_').replace(/\./g, '_')}`;
-    }
-
     onUpdateItem = () => {
         const newProfiles = JSON.parse(JSON.stringify(this.props.profiles));
         if (this.state.isNew) {
@@ -266,22 +268,16 @@ class ProfilesPanel extends Component {
                 title: this.state.dialogElementTitle,
                 parent: this.state.dialogElementParent,
                 type: this.state.dialogElementType,
-                data: { state: this.getStateId(this.state.dialogElementTitle), ...defaultProfileData },
+                data: { state: true, ...defaultProfileData },
                 isOpen: true,
             });
         } else if (this.state.duplicate) {
             const newProfile = JSON.parse(JSON.stringify(newProfiles.find(foundProfile => foundProfile.id === this.state.duplicate)));
             newProfile.id = this.state.dialogElementId;
-            newProfile.data.state = newProfile.data.state === this.getStateId(newProfile.title)
-                ? this.getStateId(this.state.dialogElementTitle)
-                : newProfile.data.state;
             newProfile.title = this.state.dialogElementTitle;
             newProfiles.push(newProfile);
         } else {
             const profile = newProfiles.find(foundProfile => foundProfile.id === this.state.dialogElementId);
-            profile.data.state = profile.data.state === this.getStateId(profile.title)
-                ? this.getStateId(this.state.dialogElementTitle)
-                : profile.data.state;
             profile.title = this.state.dialogElementTitle;
         }
 
@@ -289,14 +285,31 @@ class ProfilesPanel extends Component {
         this.props.onChangeProfiles(newProfiles);
     }
 
-    onDeleteItem = () => {
-        const profiles = [...this.props.profiles];
-        const newProfiles = [];
+    removeItem(profiles, id) {
         profiles.forEach(e => {
-            if (e.id !== this.state.dialogElementId) {
+            if (e.id === id) {
+                e.toDelete = true;
+                // remove all kids
+                profiles.forEach(ee => {
+                    if (e.id === ee.parent) {
+                        this.removeItem(profiles, ee.id);
+                    }
+                });
+            }
+        });
+    }
+
+    onDeleteItem = () => {
+        const profiles = JSON.parse(JSON.stringify(this.props.profiles));
+        this.removeItem(profiles, this.state.dialogElementId);
+        const newProfiles = [];
+
+        profiles.forEach(e => {
+            if (!e.toDelete) {
                 newProfiles.push(e);
             }
         });
+
         this.setState({ isDialogOpen: false, isNew: false });
         this.props.onChangeProfiles(newProfiles);
     }
@@ -305,6 +318,14 @@ class ProfilesPanel extends Component {
         const newProfiles = JSON.parse(JSON.stringify(this.props.profiles));
         const profile = newProfiles.find(foundProfile => foundProfile.id === profileId);
         profile.parent = newParentId;
+        // check name
+        if (newProfiles
+            .filter(item => item !== profile)
+            .filter(item => ((!newParentId && !item.parent) || profile.parent === item.parent))
+            .find(item => item.title === profile.title)) {
+            profile.title += ` (${I18n.t('copy')})`;
+        }
+
         this.props.onChangeProfiles(newProfiles);
     }
 
@@ -328,7 +349,7 @@ class ProfilesPanel extends Component {
                 dialogElementTitle: `${source.title} ${I18n.t('copy')}`,
                 dialogElementType: source.type,
                 dialogElementId: uuidv4(),
-                dialogElementParent: source.parentId,
+                dialogElementParent: source.parent,
                 duplicate: source.id,
                 isNew: false,
             },
@@ -375,22 +396,22 @@ class ProfilesPanel extends Component {
         this.props.onChangeProfiles(newProfiles);
     }
 
-    folder = (fld, level) => {
+    folder = (fld, level, searchText) => {
         const { profiles, active } = this.props;
         const { flowMenuItem, editButton } = this.props.classes;
-        const subProfiles = this.state.isSearch && this.state.searchText
-            ? null
-            : profiles
-                .filter(sub => sub.parent === fld.id)
-                .map(sub => (fld.isOpen
-                    ? <div key={sub.id}>
-                        {
-                            sub.type === 'profile'
-                                ? this.profile(sub, level + 1)
-                                : this.folder(sub, level + 1)
-                        }
-                    </div>
-                    : null));
+
+        const subProfiles = searchText ? null : profiles
+            .filter(e => e.parent === fld.id)
+            .sort((a, b) => (a.title > b.title ? 1 : (a.title < b.title ? -1 : 0)))
+            .map(sub => (fld.isOpen
+                ? <div key={sub.id}>
+                    {
+                        sub.type === 'profile'
+                            ? this.profile(sub, level + 1, searchText)
+                            : this.folder(sub, level + 1, searchText)
+                    }
+                </div>
+                : null));
 
         const folderSample = fld.isOpen
             ? <FolderOpenIcon
@@ -455,34 +476,32 @@ class ProfilesPanel extends Component {
         </div>;
     }
 
-    profile = (sub, level) => {
+    profile = (profile, level, searchText) => {
         const { active } = this.props;
         const { flowMenuItem, editButton } = this.props.classes;
 
-        const stateID = this.getStateId(sub.title);
-
         const result = <MenuItem
-            className={`${flowMenuItem} flow-menu-item sub ${active === sub.id ? ' active ' : ''}`}
+            className={`${flowMenuItem} flow-menu-item sub ${active === profile.id ? ' active ' : ''}`}
             style={{ marginLeft: (level * 12) }}
-            onClick={() => this.onActive(sub.id)}
+            onClick={() => this.onActive(profile.id)}
             disableRipple
         >
             <Typography variant="inherit" className="pl-1 w-100">
                 <ScheduleIcon className="pr-1" />
-                <Tooltip title={sub.data.enabled ? I18n.t('Enabled') : I18n.t('Disabled')}>
+                <Tooltip title={profile.data.enabled ? I18n.t('Enabled') : I18n.t('Disabled')}>
                     <Checkbox
                         color="default"
-                        disabled={sub.data.state !== stateID}
+                        disabled={profile.data.state !== true}
                         style={{ padding: 0 }}
                         size="small"
-                        onClick={() => this.onSetEnabled(sub.id)}
-                        checked={sub.data.enabled}
+                        onClick={() => this.onSetEnabled(profile.id)}
+                        checked={!!profile.data.enabled}
                     />
                 </Tooltip>
-                {sub.title}
-                {' '}
-                {sub.data.prio === 1 ? <Tooltip title={I18n.t('High priority')}><span>&#8593;</span></Tooltip> : ''}
-                {sub.data.prio === 2 ? <Tooltip title={I18n.t('Highest priority')}><span>&#8593;&#8593;</span></Tooltip> : ''}
+                {profile.title}
+                {profile.parent && searchText ? ` [${this.props.profiles.find(i => i.id === profile.parent).title}]` : ''}
+                {profile.data.prio === 1 ? <Tooltip title={I18n.t('High priority')}><span>&#8593;</span></Tooltip> : ''}
+                {profile.data.prio === 2 ? <Tooltip title={I18n.t('Highest priority')}><span>&#8593;&#8593;</span></Tooltip> : ''}
             </Typography>
 
             <div className="absolute-right">
@@ -491,7 +510,7 @@ class ProfilesPanel extends Component {
                     title={I18n.t('Edit')}
                     onClick={e => {
                         e.stopPropagation();
-                        this.onEditDialog(sub);
+                        this.onEditDialog(profile);
                     }}
                 >
                     <EditIcon />
@@ -501,7 +520,7 @@ class ProfilesPanel extends Component {
                     title={I18n.t('Duplicate')}
                     onClick={e => {
                         e.stopPropagation();
-                        this.onDuplicate(sub);
+                        this.onDuplicate(profile);
                     }}
                 >
                     <FileCopyIcon />
@@ -509,7 +528,7 @@ class ProfilesPanel extends Component {
             </div>
         </MenuItem>;
 
-        return <ProfileDrag key={sub.id} onMoveItem={this.onMoveItem} profileData={sub}>{result}</ProfileDrag>;
+        return <ProfileDrag key={profile.id} onMoveItem={this.onMoveItem} profileData={profile}>{result}</ProfileDrag>;
     }
 
     onSearch = () => {
@@ -602,10 +621,13 @@ class ProfilesPanel extends Component {
 
     renderEditDeleteDialog() {
         const { isDialogOpen } = this.state;
+        const folderItems = this.props.profiles.filter(profile => (!this.state.dialogElementParent && !profile.parent) || (this.state.dialogElementParent === profile.parent));
+
         const canSubmit = this.state.dialogElementTitle
-        && !this.props.profiles.find(profile => profile.title === this.state.dialogElementTitle);
+            && !folderItems.find(profile => profile.title === this.state.dialogElementTitle);
+
         return <Dialog
-            onClose={this.onDialog}
+            onClose={() => this.onDialogClose()}
             open={isDialogOpen}
             onKeyDown={e => {
                 if (e.keyCode === 13 && canSubmit) {
@@ -616,7 +638,7 @@ class ProfilesPanel extends Component {
             fullWidth
         >
             <IconButton
-                onClick={this.onDialog}
+                onClick={() => this.onDialogClose()}
                 className={this.props.classes.closeButton}
             >
                 <CloseIcon />
@@ -654,11 +676,7 @@ class ProfilesPanel extends Component {
                     startIcon={<CheckIcon />}
                 >
                     {
-                        I18n.t(
-                            this.state.isNew || this.state.duplicate
-                                ? 'Create'
-                                : 'Update',
-                        )
+                        I18n.t(this.state.isNew ? 'Create' : (this.state.duplicate ? 'Copy' : 'Update'))
                     }
                 </Button>
             </DialogActions>
@@ -667,16 +685,14 @@ class ProfilesPanel extends Component {
 
     render() {
         const { profiles } = this.props;
-        const items = this.state.isSearch && this.state.searchText
-            ? profiles
-                .map(e => (e.title && e.title.toLowerCase().indexOf(this.state.searchText.toLowerCase()) > -1
-                    ? e.type === 'folder'
-                        ? this.folder(e, 0)
-                        : this.profile(e, 0)
-                    : null))
-            : profiles
-                .filter(e => e.parent === '')
-                .map(e => (e.type === 'folder' ? this.folder(e, 0) : this.profile(e, 0)));
+        const searchText = ((this.state.isSearch && this.state.searchText) || '').toLowerCase();
+
+        const items = (
+            searchText ? profiles.filter(e => !searchText || (e.title && e.title.toLowerCase().includes(searchText)))
+                : profiles.filter(e => e.parent === '')
+        )
+            .sort((a, b) => (a.title > b.title ? 1 : (a.title < b.title ? -1 : 0)))
+            .map(e => (e.type === 'folder' ? this.folder(e, 0, searchText) : this.profile(e, 0, searchText)));
 
         return <DndProvider backend={isTouchDevice() ? TouchBackend : HTML5Backend}>
             <DndPreview />
@@ -701,6 +717,6 @@ ProfilesPanel.propTypes = {
     onSelectProfile: PropTypes.func,
     onChangeProfiles: PropTypes.func,
     classes: PropTypes.object,
-    instance: PropTypes.number,
 };
+
 export default withStyles(styles)(ProfilesPanel);

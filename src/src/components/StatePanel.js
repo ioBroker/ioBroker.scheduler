@@ -8,7 +8,6 @@ import ClearIcon from '@material-ui/icons/Clear';
 
 import I18n from '@iobroker/adapter-react/i18n';
 import DialogSelectID from '@iobroker/adapter-react/Dialogs/SelectID';
-import Utils from '@iobroker/adapter-react/Components/Utils';
 
 const styles = {
     tapperTitle: {
@@ -27,7 +26,11 @@ class StatePanel extends Component {
     }
 
     stateChange = state => {
-        this.props.onChange(state);
+        if (state === this.props.possibleStateId) {
+            this.props.onChange(true);
+        } else {
+            this.props.onChange(state);
+        }
     }
 
     renderSelectIdDialog() {
@@ -51,10 +54,6 @@ class StatePanel extends Component {
         return null;
     }
 
-    getStateId() {
-        return `scheduler.${this.props.instance}.${this.props.profileTitle.replace(Utils.FORBIDDEN_CHARS, '_').replace(/\./g, '_')}`;
-    }
-
     render() {
         const title = this.props.title ? this.props.title : 'Activation state';
 
@@ -63,14 +62,18 @@ class StatePanel extends Component {
             <FormLabel component="legend" className={this.props.classes.tapperTitle}>
                 {I18n.t(title)}
             </FormLabel>
-            <div style={{ display: 'flex', flexDirection: 'row' }} title={I18n.t('You can provide here the state that controls the enability of this profile')}>
+            <div
+                style={{ display: 'flex', flexDirection: 'row' }}
+                title={I18n.t('You can provide here the state that controls the activation of this profile')}
+            >
                 <TextField
                     style={{ flex: 1 }}
-                    value={typeof this.props.value === 'undefined' ? '' : this.props.value}
+                    readOnly
+                    value={this.props.value === true ? this.props.possibleStateId : this.props.value || ''}
                     onClick={() => this.setState({ showSelectId: true })}
                     helperText={`(${I18n.t('optional')})`}
                 />
-                {this.props.value !== this.getStateId() ? <IconButton onClick={() => this.getStateId()}>
+                {this.props.value !== true ? <IconButton onClick={() => this.stateChange(true)}>
                     <ClearIcon />
                 </IconButton> : null}
             </div>
@@ -79,11 +82,10 @@ class StatePanel extends Component {
 }
 
 StatePanel.propTypes = {
-    value: PropTypes.string,
-    profileTitle: PropTypes.string,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     onChange: PropTypes.func,
     title: PropTypes.string,
     socket: PropTypes.object,
-    instance: PropTypes.number,
+    possibleStateId: PropTypes.string,
 };
 export default withStyles(styles)(StatePanel);

@@ -37,11 +37,12 @@
   "Create": "Erzeugen",
   "copy": "Kopie",
   "search text": "Suchtext",
-  "You can provide here the state that controls the enability of this profile": "Sie können hier den Status angeben, der die Aktivierung dieses Profils steuert",
+  "You can provide here the state that controls the activation of this profile": "Sie können hier den Status angeben, der die Aktivierung dieses Profils steuert",
   "Activation state": "Aktivierungsstatus",
   "optional": "Optional",
   "Add new child profile": "Neues Kinderprofil hinzufügen",
   "Add new child folder": "Neuen untergeordneten Ordner hinzufügen",
   "Disabled": "Behinderte",
-  "Close all": "Alles ausblenden"
+  "Close all": "Alles ausblenden",
+  "Copy": "Kopieren"
 }

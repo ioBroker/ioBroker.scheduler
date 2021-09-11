@@ -37,11 +37,12 @@
   "Create": "Tworzyć",
   "copy": "Kopia",
   "search text": "Wyszukaj tekst",
-  "You can provide here the state that controls the enability of this profile": "Możesz tutaj podać stan, który kontroluje włączenie tego profilu",
+  "You can provide here the state that controls the activation of this profile": "Możesz tutaj podać stan, który kontroluje włączenie tego profilu",
   "Activation state": "Stan aktywacji",
   "optional": "opcjonalny",
   "Add new child profile": "Dodaj nowy profil dziecka",
   "Add new child folder": "Dodaj nowy folder podrzędny",
   "Disabled": "Wyłączone",
-  "Close all": "Zwinąć wszystkie"
+  "Close all": "Zwinąć wszystkie",
+  "Copy": "Kopiuj"
 }

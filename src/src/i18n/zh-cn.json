@@ -37,11 +37,12 @@
   "Create": "创建",
   "copy": "副本",
   "search text": "搜索文字",
-  "You can provide here the state that controls the enability of this profile": "您可以在此处提供控制此配置文件启用的状态",
+  "You can provide here the state that controls the activation of this profile": "您可以在此处提供控制此配置文件启用的状态",
   "Activation state": "激活状态",
   "optional": "可选的",
   "Add new child profile": "添加新的子配置文件",
   "Add new child folder": "添加新的子文件夹",
   "Disabled": "已禁用",
-  "Close all": "全部收缩"
+  "Close all": "全部收缩",
+  "Copy": "复制"
 }
