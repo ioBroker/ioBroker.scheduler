@@ -3,8 +3,6 @@
   "finish searching": "поиск завершен",
   "Enabled": "Включено",
   "Basic": "Базовый",
-  "Edit": "Редактировать",
-  "Duplicate": "Дубликат",
   "Weekend": "выходные",
   "High priority": "Высокий приоритет",
   "Add profile": "Добавить профиль",
@@ -44,5 +42,11 @@
   "Add new child folder": "Добавить новую дочернюю папку",
   "Disabled": "Отключено",
   "Close all": "Свернуть все",
-  "Copy": "Копировать"
+  "Copy": "Копировать",
+  "Cancel": "Отмена",
+  "Duplicate folder": "Копировать папку",
+  "Duplicate profile": "Копировать профиль",
+  "Edit profile": "Редактировать профиль",
+  "Edit folder": "Редактировать папку",
+  "Name is not unique": "Имя не уникальное"
 }

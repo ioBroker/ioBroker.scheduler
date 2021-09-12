@@ -10,11 +10,9 @@ const styles = theme => ({
         height: '100%',
         display: 'flex',
         justifyContent: 'space-between',
-        '@media (max-width:570px)':
-        {
+        '@media (max-width:570px)': {
             justifyContent: 'center',
         },
-
     },
     swiper: {
         width: '100%',
@@ -24,9 +22,11 @@ const styles = theme => ({
         marginTop: 15,
         position: 'relative',
     },
-    timeLineContainer: { position: 'absolute', height: '100%' },
-    timeLine:
-    {
+    timeLineContainer: {
+        position: 'absolute',
+        height: '100%',
+    },
+    timeLine: {
         zIndex: 100,
         borderWidth: 1,
         borderColor: theme.palette.text.primary,
@@ -36,12 +36,13 @@ const styles = theme => ({
         position: 'relative',
     },
 });
+
 class Intervals extends Component {
     timeInterval = null;
 
     constructor(props) {
         super(props);
-        // console.log(props.intervalsWidth)
+
         this.state = {
             slideId: 0,
             selected: [],
@@ -52,11 +53,12 @@ class Intervals extends Component {
     }
 
     componentDidMount() {
-        setInterval(() => this.setState({ currentTime: new Date() }), 1000 * 60);
+        this.timeInterval = setInterval(() => this.setState({ currentTime: new Date() }), 1000 * 120);
     }
 
     componentWillUnmount() {
         clearInterval(this.timeInterval);
+        this.timeInterval = null;
     }
 
     componentDidUpdate(nextProps) {
@@ -199,12 +201,13 @@ class Intervals extends Component {
         const leftOffset = Math.round(
             (((this.state.currentTime.getHours() + this.state.currentTime.getMinutes() / 60) / range - count * slideId) / count) * intervalsWidth,
         );
+
         return <>
             <div className={classes.timeLineContainer}>
                 <div
                     className={classes.timeLine}
                     style={{ left: leftOffset }}
-                ></div>
+                />
             </div>
             {sliders}
         </>;

@@ -58,9 +58,9 @@ const DndPreview = () => {
 };
 
 function isTouchDevice() {
-    return (('ontouchstart' in window)
-        || (navigator.maxTouchPoints > 0)
-        || (navigator.msMaxTouchPoints > 0));
+    return 'ontouchstart' in window
+        // || (navigator.maxTouchPoints > 0)
+        || navigator.msMaxTouchPoints;
 }
 
 const styles = theme => ({
@@ -150,9 +150,17 @@ const styles = theme => ({
         marginRight: 20,
         marginTop: 8,
     },
-    searchIcon:
-    {
+    searchIcon: {
         marginLeft: 'auto',
+    },
+    folderIcon: {
+        paddingRight: 4,
+    },
+    scheduleIcon: {
+        paddingRight: 4,
+        width: 16,
+        height: 16,
+        marginTop: 4,
     },
 });
 
@@ -204,6 +212,19 @@ const ProfileDrag = props => {
     </div>;
 };
 
+function sortItems(a, b) {
+    // folders first
+    if (a.type === 'folder' && b.type !== 'folder') {
+        return -1;
+    }
+
+    if (a.type !== 'folder' && b.type === 'folder') {
+        return 1;
+    }
+
+    return a.title > b.title ? 1 : (a.title < b.title ? -1 : 0);
+}
+
 const FolderDrop = props => {
     const [{ isOver, CanDrop }, drop] = useDrop(() => ({
         accept: 'profile',
@@ -226,11 +247,21 @@ const FolderDrop = props => {
 class ProfilesPanel extends Component {
     constructor(props) {
         super(props);
+        let collapsed = window.localStorage.getItem('scheduler.collapsed') || '[]';
+        try {
+            collapsed = JSON.parse(collapsed);
+        } catch (e) {
+            collapsed = [];
+        }
+
         this.state = {
             isDialogOpen: false,
             isSearch: false,
             searchText: '',
+            collapsed,
         };
+
+        this.isTouchDevice = isTouchDevice();
     }
 
     onActive = id => {
@@ -255,6 +286,7 @@ class ProfilesPanel extends Component {
                 dialogElementTitle: element.title,
                 dialogElementId: element.id,
                 dialogElementParent: element.parent,
+                dialogElementType: element.type,
                 isNew: false,
             },
         );
@@ -269,7 +301,6 @@ class ProfilesPanel extends Component {
                 parent: this.state.dialogElementParent,
                 type: this.state.dialogElementType,
                 data: { state: true, ...defaultProfileData },
-                isOpen: true,
             });
         } else if (this.state.duplicate) {
             const newProfile = JSON.parse(JSON.stringify(newProfiles.find(foundProfile => foundProfile.id === this.state.duplicate)));
@@ -356,37 +387,28 @@ class ProfilesPanel extends Component {
         );
     }
 
-    onOpen = (id, isOpen) => {
-        const newProfiles = JSON.parse(JSON.stringify(this.props.profiles));
-        newProfiles.forEach(e => {
-            if (e.id === id) {
-                e.isOpen = isOpen;
-            }
-            return e;
-        });
-        this.props.onChangeProfiles(newProfiles);
+    onOpen = id => {
+        const collapsed = [...this.state.collapsed];
+        const pos = collapsed.indexOf(id);
+        if (pos === -1) {
+            collapsed.push(id);
+            collapsed.sort();
+        } else {
+            collapsed.splice(pos, 1);
+        }
+        window.localStorage.setItem('scheduler.collapsed', JSON.stringify(collapsed));
+        this.setState({ collapsed });
     }
 
     onCloseAll = () => {
-        const newProfiles = JSON.parse(JSON.stringify(this.props.profiles));
-        newProfiles.forEach(e => {
-            if (e.type === 'folder') {
-                e.isOpen = false;
-            }
-            return e;
-        });
-        this.props.onChangeProfiles(newProfiles);
+        const collapsed = this.props.profiles.filter(item => item.type === 'folder').map(item => item.id);
+        window.localStorage.setItem('scheduler.collapsed', JSON.stringify(collapsed));
+        this.setState({ collapsed });
     }
 
     onOpenAll = () => {
-        const newProfiles = JSON.parse(JSON.stringify(this.props.profiles));
-        newProfiles.forEach(e => {
-            if (e.type === 'folder') {
-                e.isOpen = true;
-            }
-            return e;
-        });
-        this.props.onChangeProfiles(newProfiles);
+        window.localStorage.removeItem('scheduler.collapsed');
+        this.setState({ collapsed: [] });
     }
 
     onSetEnabled = profileId => {
@@ -396,14 +418,16 @@ class ProfilesPanel extends Component {
         this.props.onChangeProfiles(newProfiles);
     }
 
-    folder = (fld, level, searchText) => {
+    folder = (folderItem, level, searchText) => {
         const { profiles, active } = this.props;
         const { flowMenuItem, editButton } = this.props.classes;
 
+        const isOpen = !this.state.collapsed.includes(folderItem.id);
+
         const subProfiles = searchText ? null : profiles
-            .filter(e => e.parent === fld.id)
-            .sort((a, b) => (a.title > b.title ? 1 : (a.title < b.title ? -1 : 0)))
-            .map(sub => (fld.isOpen
+            .filter(e => e.parent === folderItem.id)
+            .sort(sortItems)
+            .map(sub => (isOpen
                 ? <div key={sub.id}>
                     {
                         sub.type === 'profile'
@@ -413,52 +437,52 @@ class ProfilesPanel extends Component {
                 </div>
                 : null));
 
-        const folderSample = fld.isOpen
+        const folderSample = isOpen
             ? <FolderOpenIcon
-                className="pr-1"
+                className={this.props.classes.folderIcon}
                 onClick={e => {
-                    this.onOpen(fld.id, false);
+                    this.onOpen(folderItem.id, false);
                     e.stopPropagation();
                 }}
             />
             : <FolderIcon
-                className="pr-1"
+                className={this.props.classes.folderIcon}
                 onClick={e => {
-                    this.onOpen(fld.id, true);
+                    this.onOpen(folderItem.id, true);
                     e.stopPropagation();
                 }}
             />;
 
         const result = <MenuItem
-            className={`${flowMenuItem} flow-menu-item ${active === fld.id ? ' active ' : ''}`}
+            className={`${flowMenuItem} flow-menu-item ${active === folderItem.id ? ' active ' : ''}`}
             style={{ marginLeft: (level * 12) }}
             disableRipple
         >
             <Typography variant="inherit" className="pl-1 w-100">
                 {folderSample}
                 {' '}
-                {fld.title}
+                {folderItem.title}
             </Typography>
 
             <div className="absolute-right">
                 <div
                     className={editButton}
                     title={I18n.t('Add new child profile')}
-                    onClick={() => this.onAddChild(fld, 'profile')}
+                    onClick={() => this.onAddChild(folderItem, 'profile')}
                 >
                     <AddIcon />
                 </div>
                 <div
                     className={editButton}
                     title={I18n.t('Add new child folder')}
-                    onClick={() => this.onAddChild(fld, 'folder')}
+                    onClick={() => this.onAddChild(folderItem, 'folder')}
                 >
                     <CreateNewFolderIcon />
                 </div>
                 <div
                     className={editButton}
                     title={I18n.t('Edit')}
-                    onClick={() => this.onEditDialog(fld)}
+                    onClick={() => this.onEditDialog(folderItem)}
                 >
                     <EditIcon />
                 </div>
@@ -466,9 +490,9 @@ class ProfilesPanel extends Component {
 
         </MenuItem>;
 
-        return <div key={fld.id}>
-            <FolderDrop folderData={fld} profiles={this.props.profiles} classes={this.props.classes}>
-                <ProfileDrag onMoveItem={this.onMoveItem} profileData={fld}>
+        return <div key={folderItem.id}>
+            <FolderDrop folderData={folderItem} profiles={this.props.profiles} classes={this.props.classes}>
+                <ProfileDrag onMoveItem={this.onMoveItem} profileData={folderItem}>
                     {result}
                 </ProfileDrag>
             </FolderDrop>
@@ -487,7 +511,7 @@ class ProfilesPanel extends Component {
             disableRipple
         >
             <Typography variant="inherit" className="pl-1 w-100">
-                <ScheduleIcon className="pr-1" />
+                <ScheduleIcon className={this.props.classes.scheduleIcon} />
                 <Tooltip title={profile.data.enabled ? I18n.t('Enabled') : I18n.t('Disabled')}>
                     <Checkbox
                         color="default"
@@ -584,7 +608,7 @@ class ProfilesPanel extends Component {
                 </IconButton>
                 {
                     profiles.length ? (
-                        profiles.filter(e => e.type === 'folder' && e.isOpen).length > 0
+                        profiles.filter(e => e.type === 'folder' && !this.state.collapsed.includes(e.id)).length
                             ? <IconButton
                                 component="span"
                                 size="small"
@@ -644,13 +668,14 @@ class ProfilesPanel extends Component {
                 <CloseIcon />
             </IconButton>
             <DialogTitle>
-                {`${I18n.t(this.state.duplicate ? 'Duplicate' : this.state.isNew ? 'Add' : 'Edit')} ${
-                    I18n.t(this.state.dialogElementType === 'folder' ? 'folder' : 'profile')}`}
+                {I18n.t(`${this.state.duplicate ? 'Duplicate' : (this.state.isNew ? 'Add' : 'Edit')} ${this.state.dialogElementType === 'folder' ? 'folder' : 'profile'}`)}
             </DialogTitle>
             <DialogContent>
                 <TextField
                     autoFocus
                     fullWidth
+                    error={!canSubmit}
+                    helperText={canSubmit ? '' : I18n.t('Name is not unique')}
                     label={I18n.t('Name')}
                     value={this.state.dialogElementTitle}
                     onChange={evt => this.setState({ dialogElementTitle: evt.target.value })}
@@ -664,7 +689,7 @@ class ProfilesPanel extends Component {
             </DialogContent>
             <DialogActions>
                 {
-                    !this.state.isNew && <Button onClick={this.onDeleteItem} variant="outlined" startIcon={<DeleteIcon />}>
+                    !this.state.isNew && <Button style={{ color: '#FF8080' }} onClick={this.onDeleteItem} variant="outlined" startIcon={<DeleteIcon />}>
                         {I18n.t('Delete')}
                     </Button>
                 }
@@ -679,6 +704,13 @@ class ProfilesPanel extends Component {
                         I18n.t(this.state.isNew ? 'Create' : (this.state.duplicate ? 'Copy' : 'Update'))
                     }
                 </Button>
+                <Button
+                    onClick={() => this.onDialogClose()}
+                    variant="contained"
+                    startIcon={<CloseIcon />}
+                >
+                    {I18n.t('Cancel')}
+                </Button>
             </DialogActions>
         </Dialog>;
     }
@@ -691,10 +723,10 @@ class ProfilesPanel extends Component {
             searchText ? profiles.filter(e => !searchText || (e.title && e.title.toLowerCase().includes(searchText)))
                 : profiles.filter(e => e.parent === '')
         )
-            .sort((a, b) => (a.title > b.title ? 1 : (a.title < b.title ? -1 : 0)))
+            .sort(sortItems)
             .map(e => (e.type === 'folder' ? this.folder(e, 0, searchText) : this.profile(e, 0, searchText)));
 
-        return <DndProvider backend={isTouchDevice() ? TouchBackend : HTML5Backend}>
+        return <DndProvider backend={this.isTouchDevice ? TouchBackend : HTML5Backend}>
             <DndPreview />
             <div className={this.props.classes.scrolledAuto}>
                 <Paper className={this.props.classes.head}>

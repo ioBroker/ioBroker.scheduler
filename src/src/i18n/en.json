@@ -3,8 +3,6 @@
   "finish searching": "searching finished",
   "Enabled": "Enabled",
   "Basic": "Basic",
-  "Edit": "Edit",
-  "Duplicate": "Duplicate",
   "Weekend": "Weekend",
   "High priority": "High priority",
   "Add profile": "Add profile",
@@ -44,5 +42,11 @@
   "Add new child folder": "Add new child folder",
   "Disabled": "Disabled",
   "Close all": "Collapse all",
-  "Copy": "Copy"
+  "Copy": "Copy",
+  "Cancel": "Cancel",
+  "Duplicate folder": "Duplicate folder",
+  "Duplicate profile": "Duplicate the profile",
+  "Edit profile": "Edit profile",
+  "Edit folder": "Edit folder",
+  "Name is not unique": "Name is not unique"
 }

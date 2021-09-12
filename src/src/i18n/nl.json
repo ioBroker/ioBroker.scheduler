@@ -3,8 +3,6 @@
   "finish searching": "zoeken klaar",
   "Enabled": "Ingeschakeld",
   "Basic": "Basis",
-  "Edit": "Bewerking",
-  "Duplicate": "Duplicaat",
   "Weekend": "Weekend",
   "High priority": "Hoge prioriteit",
   "Add profile": "Profiel toevoegen",
@@ -44,5 +42,11 @@
   "Add new child folder": "Nieuwe onderliggende map toevoegen",
   "Disabled": "Gehandicapt",
   "Close all": "Alles inklappen",
-  "Copy": "Kopiëren"
+  "Copy": "Kopiëren",
+  "Cancel": "Annuleren",
+  "Duplicate folder": "Dupliceer de map",
+  "Duplicate profile": "Dupliceer het profiel",
+  "Edit profile": "Bewerk profiel",
+  "Edit folder": "Map bewerken",
+  "Name is not unique": "Naam is niet uniek"
 }

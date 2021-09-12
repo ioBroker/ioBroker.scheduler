@@ -777,7 +777,7 @@ class App extends GenericApp {
             PaperProps={{
                 style: { width: '100%' },
             }}
-            open={!!content && this.state.leftOpen}
+            open={!!content && !!this.state.leftOpen}
         >
             <div
                 className={

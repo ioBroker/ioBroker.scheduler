@@ -3,8 +3,6 @@
   "finish searching": "搜索完成",
   "Enabled": "启用",
   "Basic": "基本的",
-  "Edit": "编辑",
-  "Duplicate": "复制",
   "Weekend": "周末",
   "High priority": "高优先级",
   "Add profile": "添加个人资料",
@@ -44,5 +42,11 @@
   "Add new child folder": "添加新的子文件夹",
   "Disabled": "已禁用",
   "Close all": "全部收缩",
-  "Copy": "复制"
+  "Copy": "复制",
+  "Cancel": "取消",
+  "Duplicate folder": "复制文件夹",
+  "Duplicate profile": "复制配置文件",
+  "Edit profile": "编辑个人资料",
+  "Edit folder": "编辑文件夹",
+  "Name is not unique": "名称不是唯一的"
 }

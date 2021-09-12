@@ -3,8 +3,6 @@
   "finish searching": "ricerca finita",
   "Enabled": "Abilitato",
   "Basic": "Di base",
-  "Edit": "Modificare",
-  "Duplicate": "Duplicare",
   "Weekend": "Fine settimana",
   "High priority": "Priorità alta",
   "Add profile": "Aggiungi profilo",
@@ -44,5 +42,11 @@
   "Add new child folder": "Aggiungi nuova cartella figlio",
   "Disabled": "Disabilitato",
   "Close all": "Comprimi tutto",
-  "Copy": "copia"
+  "Copy": "copia",
+  "Cancel": "Annulla",
+  "Duplicate folder": "Duplica la cartella",
+  "Duplicate profile": "Duplica il profilo",
+  "Edit profile": "Modifica Profilo",
+  "Edit folder": "Modifica cartella",
+  "Name is not unique": "Il nome non è univoco"
 }
