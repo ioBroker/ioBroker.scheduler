@@ -14,7 +14,9 @@ const daysOfWeek = [
     'Sa',
 ];
 
-const dowOrder = [1, 2, 3, 4, 5, 6, 0];
+const dowOrderMonday = [1, 2, 3, 4, 5, 6, 0];
+const dowOrderSunday = [0, 1, 2, 3, 4, 5, 6];
+
 const styles = () => ({
     flow: {
         width: 26,
@@ -32,33 +34,33 @@ const styles = () => ({
         color: props => props.theme.palette.text.primary,
     },
 });
+
 class DayOfWeekPanel extends Component {
     render() {
         const { flow, label } = this.props.classes;
-        return (
-            <FormControl component="fieldset">
-                {dowOrder.map(index => (
-                    <FormControlLabel
-                        key={index}
-                        control={(
-                            <Checkbox
-                                checked={this.props.dow.includes(index)}
-                                color="primary"
-                                className={flow}
-                                onChange={e => this.props.onChange(index, e.target.checked)}
-                            />
-                        )}
-                        label={I18n.t(daysOfWeek[index])}
-                        className={label}
+        const dowOrder = this.props.firstDayOfWeek === 'monday' ? dowOrderMonday : dowOrderSunday;
+
+        return <FormControl component="fieldset">
+            {dowOrder.map(index => <FormControlLabel
+                key={index}
+                control={(
+                    <Checkbox
+                        checked={this.props.dow.includes(index)}
+                        color="primary"
+                        className={flow}
+                        onChange={e => this.props.onChange(index, e.target.checked)}
                     />
-                ))}
-            </FormControl>
-        );
+                )}
+                label={I18n.t(daysOfWeek[index])}
+                className={label}
+            />)}
+        </FormControl>;
     }
 }
 
 DayOfWeekPanel.propTypes = {
     dow: PropTypes.array,
     onChange: PropTypes.func,
+    firstDayOfWeek: PropTypes.string,
 };
 export default withStyles(styles)(DayOfWeekPanel);

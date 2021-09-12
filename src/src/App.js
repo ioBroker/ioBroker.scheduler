@@ -699,6 +699,7 @@ class App extends GenericApp {
     renderDow() {
         return <div className="mt-sm-auto mb-sm-auto">
             <DayOfWeekPanel
+                firstDayOfWeek={this.socket.systemConfig.common.firstDayOfWeek || 'monday'}
                 dow={this.currentProfile().dow}
                 onChange={this.onDow}
                 theme={this.state.theme}
