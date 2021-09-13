@@ -152,10 +152,12 @@ class Interval extends Component {
         switch (this.props.type) {
         case 'temperature':
             return `${value.toString()}º`;
+
         case 'onoff':
             return value
                 ? <span style={this.props.theme.palette.text.success}>on</span>
                 : <span style={this.props.theme.palette.text.danger}>off</span>;
+
         case 'percent':
         default:
             return `${value.toString()}%`;
@@ -190,42 +192,40 @@ class Interval extends Component {
         const val = !value ? 0 : value;
         const vl = type === 'onoff' ? this.getPostfix(val || 0) : '';
         const v2 = type !== 'onoff' ? this.getPostfix(val || 0) : '';
-        return (
-            <span className={pretto}>
-                <span className={prettoLabel}>
-                    {vl}
-                </span>
-                <PrettoSlider
-                    key={i}
-                    theme={theme}
-                    intervalsWidth={intervalsWidth}
-                    type={type}
-                    orientation="vertical"
-                    aria-label="pretto slider"
-                    value={val}
-                    valueLabelFormat={v2}
-                    min={min}
-                    max={max}
-                    selected={selected}
-                    onChange={this.handleSliderChange}
-                    valueLabelDisplay="on"
-                />
-                <div
-                    className={
-                        `${prettoTime} ${
-                            selected ? active : ''}`
-                    }
-                    i={i}
-                    onClick={this.handleSelected}
-                >
-                    <span style={{ color: this.props.theme.palette.text.primary }}>{label[0]}</span>
-                    <span className={prettoSecs}>
-                        {label[1]}
-                    </span>
 
-                </div>
+        return <span className={pretto}>
+            <span className={prettoLabel}>
+                {vl}
             </span>
-        );
+            <PrettoSlider
+                key={i}
+                theme={theme}
+                intervalsWidth={intervalsWidth}
+                type={type}
+                orientation="vertical"
+                aria-label="pretto slider"
+                value={val}
+                valueLabelFormat={v2}
+                min={min}
+                max={max}
+                selected={selected}
+                onChange={this.handleSliderChange}
+                valueLabelDisplay="on"
+            />
+            <div
+                className={
+                    `${prettoTime} ${
+                        selected ? active : ''}`
+                }
+                onClick={this.handleSelected}
+            >
+                <span style={{ color: this.props.theme.palette.text.primary }}>{label[0]}</span>
+                <span className={prettoSecs}>
+                    {label[1]}
+                </span>
+
+            </div>
+        </span>;
     }
 }
 
@@ -237,6 +237,6 @@ Interval.propTypes = {
     step: PropTypes.number,
     theme: PropTypes.object,
     type: PropTypes.string,
-    value: PropTypes.number,
+    value: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
 };
 export default withStyles(styles)(Interval);

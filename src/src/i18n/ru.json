@@ -48,5 +48,14 @@
   "Duplicate profile": "Копировать профиль",
   "Edit profile": "Редактировать профиль",
   "Edit folder": "Редактировать папку",
-  "Name is not unique": "Имя не уникальное"
+  "Name is not unique": "Имя не уникальное",
+  "Duplicate": "Копировать",
+  "Edit": "Редактировать",
+  "Set": "Установить",
+  "Set all periods to one value": "Установите для всех периодов одно значение",
+  "Reset all intervals to following value:": "Сбросьте все интервалы до следующего значения:",
+  "ON": "ВКЛ",
+  "OFF": "ВЫКЛ",
+  "15 m.": "15 м.",
+  "30 m.": "30 м."
 }

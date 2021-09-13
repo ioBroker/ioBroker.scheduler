@@ -24,6 +24,7 @@ import CallSplitIcon from '@material-ui/icons/CallSplit';
 import ViewListIcon from '@material-ui/icons/ViewList';
 // import ScheduleIcon from '@material-ui/icons/Schedule';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
+
 import minmax from './data/minmax.json';
 import DevicesPanel from './components/DevicesPanel';
 import DayOfWeekPanel from './components/DayOfWeekPanel';
@@ -32,6 +33,7 @@ import PriorityPanel from './components/PriorityPanel';
 import TypePanel from './components/TypePanel';
 import ProfilesPanel from './components/ProfilesPanel';
 import StatePanel from './components/StatePanel';
+import ResetAllValues from './components/ResetAllValues';
 
 const styles = theme => {
     const mobilePanel = {
@@ -374,9 +376,11 @@ class App extends GenericApp {
 
     onType = type => {
         const profile = JSON.parse(JSON.stringify(this.currentProfile()));
+        const currentProfileType = profile.type;
         profile.type = type;
-        if (type !== this.currentProfile().type) {
-            const oldMax = minmax[this.currentProfile().type].max;
+
+        if (type !== currentProfileType) {
+            const oldMax = minmax[currentProfileType].max;
             const newMax = minmax[type].max;
 
             profile.intervals = profile.intervals.map(interval => {
@@ -569,35 +573,43 @@ class App extends GenericApp {
         window.localStorage.setItem('iobroker.scheduler.activeProfile', active);
     }
 
-    changeProfiles = profiles => {
-        this.fullUpdateNativeValue('profiles', profiles);
+    changeProfiles = (profiles, activeProfile, cb) => {
+        this.fullUpdateNativeValue('profiles', profiles, () => {
+            if (activeProfile) {
+                this.setState({ activeProfile }, () => cb && cb());
+            } else if (cb) {
+                cb();
+            }
+        });
     }
 
-    fullUpdateNativeValue(attr, value) {
+    fullUpdateNativeValue(attr, value, cb) {
         const native = JSON.parse(JSON.stringify(this.state.native));
         native[attr] = value;
         const changed = this.getIsChanged(native);
-        this.setState({ native, changed });
+        this.setState({ native, changed }, () => cb && cb());
     }
 
     onRange = (event, intervalDuration) => {
         const profile = JSON.parse(JSON.stringify(this.currentProfile()));
         profile.intervalDuration = intervalDuration;
-        if (this.currentProfile().intervalDuration < intervalDuration) {
-            const relation = intervalDuration / this.currentProfile().intervalDuration;
+        const currentProfile = this.currentProfile();
+
+        if (currentProfile.intervalDuration < intervalDuration) {
+            const relation = intervalDuration / currentProfile.intervalDuration;
             const newIntervals = [];
-            for (let i = 0; i < this.currentProfile().intervals.length; i += relation) {
-                newIntervals.push(this.currentProfile().intervals.slice(i, i + relation));
+            for (let i = 0; i < currentProfile.intervals.length; i += relation) {
+                newIntervals.push(currentProfile.intervals.slice(i, i + relation));
             }
             profile.intervals = newIntervals.map(
                 chunk => Math.round(chunk.reduce((a, b) => a + b, 0) / relation),
             );
         }
-        if (this.currentProfile().intervalDuration > intervalDuration) {
-            const relation = this.currentProfile().intervalDuration / intervalDuration;
+        if (currentProfile.intervalDuration > intervalDuration) {
+            const relation = currentProfile.intervalDuration / intervalDuration;
             const newIntervals = [];
             let newIndex = 0;
-            this.currentProfile().intervals.forEach(interval => {
+            currentProfile.intervals.forEach(interval => {
                 for (let shift = 0; shift < relation; shift++) {
                     newIntervals[newIndex] = interval;
                     newIndex++;
@@ -664,12 +676,10 @@ class App extends GenericApp {
         />;
     }
 
-    renderRange() {
-        const profile = this.currentProfile();
-
+    renderRange(currentProfile) {
         return <div className="mt-sm-auto mb-sm-auto w-100">
             <AntTabs
-                value={profile.intervalDuration}
+                value={currentProfile.intervalDuration}
                 onChange={this.onRange}
                 orientation={this.state.windowWidth < 768 ? 'vertical' : 'horizontal'}
                 indicatorColor="primary"
@@ -677,53 +687,67 @@ class App extends GenericApp {
                 centered
             >
                 {
-                    [0.5, 1, 2, 3, 4].map(
-                        duration => <AntTab key={duration} value={duration} label={`${duration} ${I18n.t('hr')}`} />,
+                    [0.25, 0.5, 1, 2, 3, 4].map(
+                        duration => <AntTab key={duration} value={duration} label={duration === 0.25 ? I18n.t('15 m.') : (duration === 0.5 ? I18n.t('30 m.') : `${duration} ${I18n.t('hr')}`)} />,
                     )
                 }
             </AntTabs>
         </div>;
     }
 
-    renderType() {
+    renderType(currentProfile) {
         return <div className="mt-sm-auto mb-sm-auto">
             <div>
                 <TypePanel
                     onChange={this.onType}
-                    type={this.currentProfile().type}
+                    type={currentProfile.type}
                 />
             </div>
         </div>;
     }
 
-    renderDow() {
+    renderDow(currentProfile) {
         return <div className="mt-sm-auto mb-sm-auto">
             <DayOfWeekPanel
                 firstDayOfWeek={this.socket.systemConfig.common.firstDayOfWeek || 'monday'}
-                dow={this.currentProfile().dow}
+                dow={currentProfile.dow}
                 onChange={this.onDow}
                 theme={this.state.theme}
             />
         </div>;
     }
 
-    renderPriority() {
+    renderResetHours(currentProfile) {
+        return <div className="mt-sm-auto mb-sm-auto">
+            <ResetAllValues
+                firstDayOfWeek={this.socket.systemConfig.common.firstDayOfWeek || 'monday'}
+                type={currentProfile.type}
+                onChange={value => {
+                    const profile = JSON.parse(JSON.stringify(this.currentProfile()));
+                    profile.intervals = profile.intervals.map(() => value);
+                    this.changeProfile(profile);
+                }}
+            />
+        </div>;
+    }
+
+    renderPriority(currentProfile) {
         return <div className="mt-sm-auto mb-sm-auto">
             <div>
                 <PriorityPanel
-                    profile={this.currentProfile()}
+                    profile={currentProfile}
                     onChange={this.onPriority}
-                    priority={this.currentProfile().prio}
+                    priority={currentProfile.prio}
                     windowWidth={this.state.windowWidth}
                 />
             </div>
         </div>;
     }
 
-    renderDevices() {
+    renderDevices(currentProfile) {
         return <div className="mt-sm-auto mb-sm-auto wc-100">
             <DevicesPanel
-                members={this.currentProfile().members}
+                members={currentProfile.members}
                 onChange={this.onDevices}
                 title="Devices"
                 isExpert={this.state.isExpert}
@@ -731,8 +755,8 @@ class App extends GenericApp {
                 socket={this.socket}
                 windowWidth={this.state.windowWidth}
                 devicesCache={this.state.devicesCache}
-                type={this.currentProfile().type}
-                prio={this.currentProfile().prio}
+                type={currentProfile.type}
+                prio={currentProfile.prio}
                 profiles={this.state.native.profiles}
                 icons={this.icons}
             />
@@ -954,6 +978,8 @@ class App extends GenericApp {
                 </div>
             </Drawer>;
 
+        const currentProfile = this.currentProfile();
+
         return <MuiThemeProvider theme={this.state.theme}>
             <div className={classes.app}>
                 {profilePanel}
@@ -977,12 +1003,12 @@ class App extends GenericApp {
                     className={classes.mobileScrolled}
                 >
                     {
-                        this.currentProfile()
+                        currentProfile
                             ? <>
                                 <Grid item xs={12} lg={11} className={this.props.classes.slidersContainer}>
                                     <IntervalsContainer
-                                        type={this.currentProfile().type}
-                                        intervals={this.currentProfile().intervals}
+                                        type={currentProfile.type}
+                                        intervals={currentProfile.intervals}
                                         onChange={this.onIntervals}
                                         theme={this.state.theme}
                                         range={profile.intervalDuration}
@@ -991,7 +1017,7 @@ class App extends GenericApp {
                                     {
                                         this.state.isExpert
                                             ? <div className={`${classes.tapperGrid} m-1 mt-1`}>
-                                                {this.state.windowWidth > 768 ? this.renderRange() : null}
+                                                {this.state.windowWidth > 768 ? this.renderRange(currentProfile) : null}
                                             </div>
                                             : null
                                     }
@@ -1009,7 +1035,7 @@ class App extends GenericApp {
                                                 className={`${classes.tapperGrid} m-1 p-2 mt-1`}
                                                 style={{ flexGrow: 100 }}
                                             >
-                                                {this.state.windowWidth > 768 ? this.renderDevices() : null}
+                                                {this.state.windowWidth > 768 ? this.renderDevices(currentProfile) : null}
                                             </div>
                                         </Grid>
                                         {
@@ -1022,7 +1048,7 @@ class App extends GenericApp {
                                                         className="h-100 expert sm-hidden"
                                                     >
                                                         <div className={`${classes.tapperGrid} h-100 m-1 p-2`}>
-                                                            {this.state.windowWidth > 768 ? this.renderPriority() : null}
+                                                            {this.state.windowWidth > 768 ? this.renderPriority(currentProfile) : null}
                                                         </div>
                                                     </Grid>
                                                     <Grid
@@ -1034,7 +1060,7 @@ class App extends GenericApp {
                                                         <div
                                                             className={`${classes.tapperGrid} h-100 m-1 p-2`}
                                                         >
-                                                            {this.state.windowWidth > 768 ? this.renderType() : null}
+                                                            {this.state.windowWidth > 768 ? this.renderType(currentProfile) : null}
                                                         </div>
                                                     </Grid>
                                                     <Grid
@@ -1046,7 +1072,7 @@ class App extends GenericApp {
                                                         <div
                                                             className={`${classes.tapperGrid} h-100 m-1 p-2`}
                                                         >
-                                                            {this.state.windowWidth > 768 ? this.renderState() : null}
+                                                            {this.state.windowWidth > 768 ? this.renderState(currentProfile) : null}
                                                         </div>
                                                     </Grid>
                                                 </>
@@ -1061,7 +1087,8 @@ class App extends GenericApp {
                                     className="h-100  sm-hidden"
                                 >
                                     <div className={`${classes.tapperGrid} m-1 p-2 h-100`}>
-                                        {this.state.windowWidth > 768 ? this.renderDow() : null}
+                                        {this.state.windowWidth > 768 ? this.renderDow(currentProfile) : null}
+                                        {this.state.windowWidth > 768 ? this.renderResetHours(currentProfile) : null}
                                     </div>
                                 </Grid>
 

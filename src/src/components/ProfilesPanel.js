@@ -294,6 +294,7 @@ class ProfilesPanel extends Component {
 
     onUpdateItem = () => {
         const newProfiles = JSON.parse(JSON.stringify(this.props.profiles));
+        const activeProfile = this.state.dialogElementId;
         if (this.state.isNew) {
             newProfiles.push({
                 id: this.state.dialogElementId,
@@ -313,7 +314,7 @@ class ProfilesPanel extends Component {
         }
 
         this.setState({ isDialogOpen: false, isNew: false });
-        this.props.onChangeProfiles(newProfiles);
+        this.props.onChangeProfiles(newProfiles, activeProfile);
     }
 
     removeItem(profiles, id) {

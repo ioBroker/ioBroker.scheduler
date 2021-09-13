@@ -5,6 +5,16 @@
 [![Downloads](https://img.shields.io/npm/dm/iobroker.scheduler.svg)](https://www.npmjs.com/package/iobroker.scheduler)
 [![NPM](https://nodei.co/npm/iobroker.scheduler.png?downloads=true)](https://nodei.co/npm/iobroker.scheduler/)
 
+This adapter is designed to control devices on a schedule. For example, heating or watering control.
+
+You can create the profiles with different priority: normal (e.g. workdays), high (e.g. weekends) and highest (e.g. for holidays).
+The profile with higher priority overloads other profiles.
+
+For every profile the active variable will be created. But the user can select own activation variable e.g. to control holidays. 
+
+The user should add devices to profile and all devices in profile will be set to the same value.
+
+![Screenshot](img/scheduler.png)
 
 <!--
 	Placeholder for the next version (at the beginning of the line):
@@ -12,8 +22,10 @@
 -->
 
 ## Changelog
+### 0.1.1 (2021-09-13)
+* (bluefox) Initial release
 
-### 0.0.1 (2021-05-19)
+### 0.1.0 (2021-05-19)
 * (bluefox) Initial commit
 
 ## License

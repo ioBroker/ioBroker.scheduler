@@ -91,31 +91,29 @@ class DayNightSwitcher extends Component {
         } = this.props.classes;
         const height = sections === 1 ? 0 : 78;
         const region = 100 / sections;
-        const quortes = Array(sections).fill().map((_, i) => (
-            <div
-                key={i}
-                className={dayNightQoute}
-                onClick={() => this.onSlide(i)}
-            />
-        ));
-        return (
-            <div className={dayNightCont} style={{ height }}>
-                <div>
-                    <img src={dayNight} alt="day-night" id="day-night" />
-                    <div className={dn}>
-                        {quortes}
-                        <div
-                            className={dayNightSlide}
-                            style={{
-                                maxWidth: `${region}%`,
-                                width: `${region}%`,
-                                left: `calc(${this.props.quorteId * region}% - 5px)`,
-                            }}
-                        />
-                    </div>
+
+        const quortes = Array(sections).fill().map((_, i) => <div
+            key={i}
+            className={dayNightQoute}
+            onClick={() => this.onSlide(i)}
+        />);
+
+        return <div className={dayNightCont} style={{ height }}>
+            <div>
+                <img src={dayNight} alt="day-night" id="day-night" />
+                <div className={dn}>
+                    {quortes}
+                    <div
+                        className={dayNightSlide}
+                        style={{
+                            maxWidth: `${region}%`,
+                            width: `${region}%`,
+                            left: `calc(${this.props.quorteId * region}% - 5px)`,
+                        }}
+                    />
                 </div>
             </div>
-        );
+        </div>;
     }
 }
 

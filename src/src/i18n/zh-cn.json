@@ -48,5 +48,14 @@
   "Duplicate profile": "复制配置文件",
   "Edit profile": "编辑个人资料",
   "Edit folder": "编辑文件夹",
-  "Name is not unique": "名称不是唯一的"
+  "Name is not unique": "名称不是唯一的",
+  "Duplicate": "复制",
+  "Edit": "编辑",
+  "Set": "放",
+  "Set all periods to one value": "将所有期间设置为一个值",
+  "Reset all intervals to following value:": "将所有间隔重置为以下值：",
+  "ON": "在",
+  "OFF": "离开",
+  "15 m.": "15分钟",
+  "30 m.": "30分钟"
 }

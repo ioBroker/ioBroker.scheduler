@@ -63,9 +63,7 @@ class Intervals extends Component {
 
     componentDidUpdate(nextProps) {
         if (nextProps.range !== this.props.range) {
-            this.setState({
-                slideId: 0,
-            });
+            this.setState({ slideId: 0 });
         }
         if (this.props.intervalsWidth && nextProps.intervalsWidth !== this.props.intervalsWidth) {
             // console.log(nextProps.intervalsWidth, this.props.intervalsWidth)
@@ -80,9 +78,14 @@ class Intervals extends Component {
 
     getSectionByRange = range => {
         if (this.props.intervalsWidth >= 720) {
+            if (range === 0.25) {
+                return 4;
+            }
             return range === 0.5 ? 2 : 1;
         }
         switch (range) {
+        case 0.25:
+            return 16;
         case 0.5:
             return 8;
         case 1:
@@ -99,9 +102,11 @@ class Intervals extends Component {
 
     getCountByRange = range => {
         if (this.state.intervalsWidth >= 720) {
-            return range === 0.5 ? 24 : this.getMaxByRange(range);
+            return range === 0.5 || range === 0.25 ? 24 : this.getMaxByRange(range);
         }
         switch (range) {
+        case 0.25:
+            return 6;
         case 0.5:
             return 6;
         case 1:
@@ -121,15 +126,21 @@ class Intervals extends Component {
     prev = () => {
         const { slideId } = this.state;
         const { range } = this.props;
-        if (slideId > 0) this.setSlideId(slideId - 1);
-        else this.setSlideId(this.getSectionByRange(range) - 1);
+        if (slideId > 0) {
+            this.setSlideId(slideId - 1);
+        } else {
+            this.setSlideId(this.getSectionByRange(range) - 1);
+        }
     }
 
     next = () => {
         const { slideId } = this.state;
         const { range } = this.props;
-        if (slideId < this.getSectionByRange(range) - 1) this.setSlideId(slideId + 1);
-        else this.setSlideId(0);
+        if (slideId < this.getSectionByRange(range) - 1) {
+            this.setSlideId(slideId + 1);
+        } else {
+            this.setSlideId(0);
+        }
     }
 
     selectAll = () => {
@@ -151,7 +162,7 @@ class Intervals extends Component {
         if (field === 'selected') {
             state[field][i] = value;
             this.setState(state);
-        }
+        } else
         if (field === 'data') {
             const data = JSON.parse(JSON.stringify(this.props.data));
             const inSelected = selected[i];

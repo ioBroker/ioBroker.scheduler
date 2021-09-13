@@ -48,5 +48,14 @@
   "Duplicate profile": "Dupliceer het profiel",
   "Edit profile": "Bewerk profiel",
   "Edit folder": "Map bewerken",
-  "Name is not unique": "Naam is niet uniek"
+  "Name is not unique": "Naam is niet uniek",
+  "Duplicate": "Duplicaat",
+  "Edit": "Bewerking",
+  "Set": "Set",
+  "Set all periods to one value": "Zet alle perioden op één waarde",
+  "Reset all intervals to following value:": "Reset alle intervallen naar de volgende waarde:",
+  "ON": "ON",
+  "OFF": "OFF",
+  "15 m.": "15 m.",
+  "30 m.": "30 m."
 }

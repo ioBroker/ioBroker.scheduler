@@ -48,5 +48,14 @@
   "Duplicate profile": "Profil kopieren",
   "Edit profile": "Profil bearbeiten",
   "Edit folder": "Ordner bearbeiten",
-  "Name is not unique": "Name ist nicht eindeutig"
+  "Name is not unique": "Name ist nicht eindeutig",
+  "Duplicate": "Kopieren",
+  "Edit": "Bearbeiten",
+  "Set": "Setzen",
+  "Set all periods to one value": "Alle Zeiträume auf einen Wert setzen",
+  "Reset all intervals to following value:": "Alle Intervalle auf folgenden Wert zurücksetzen:",
+  "ON": "AN",
+  "OFF": "AUS",
+  "15 m.": "15 M.",
+  "30 m.": "30 M."
 }
