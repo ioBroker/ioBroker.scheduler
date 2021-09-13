@@ -19,11 +19,7 @@
     "url": "https://github.com/ioBroker/ioBroker.scheduler"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^2.5.1",
-    "cron": "^1.8.2",
-    "node-web-console": "git+https://github.com/ChrisCindy/node-web-console.git",
-    "webssh2": "^0.2.1",
-    "xterm": "^4.14.0"
+    "@iobroker/adapter-core": "^2.5.1"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^2.2.1",
