@@ -43,14 +43,14 @@ class DayOfWeekPanel extends Component {
         return <FormControl component="fieldset">
             {dowOrder.map(index => <FormControlLabel
                 key={index}
-                control={(
+                control={
                     <Checkbox
                         checked={this.props.dow.includes(index)}
                         color="primary"
                         className={flow}
                         onChange={e => this.props.onChange(index, e.target.checked)}
                     />
-                )}
+                }
                 label={I18n.t(daysOfWeek[index])}
                 className={label}
             />)}
@@ -63,4 +63,5 @@ DayOfWeekPanel.propTypes = {
     onChange: PropTypes.func,
     firstDayOfWeek: PropTypes.string,
 };
+
 export default withStyles(styles)(DayOfWeekPanel);
