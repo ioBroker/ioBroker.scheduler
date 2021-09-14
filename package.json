@@ -1,6 +1,6 @@
 {
   "name": "iobroker.scheduler",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "This adapter allows to communicate Amazon Alexa and Google Home with ioBroker.",
   "author": {
     "name": "bluefox",
@@ -39,7 +39,9 @@
     "test": "mocha --exit",
     "prepublishOnly": "gulp",
     "build": "gulp",
-    "release": "release-script"
+    "release": "release-script",
+    "release-minor": "release-script minor",
+    "release-major": "release-script major"
   },
   "license": "MIT",
   "readmeFilename": "README.md"

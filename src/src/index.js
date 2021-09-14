@@ -16,7 +16,7 @@ window.adapterName = 'scheduler';
 let themeName = Utils.getThemeName();
 
 console.log(`iobroker.${window.adapterName}@${version} using theme "${themeName}"`);
-// window.sentryDSN = 'https://5ad729dbed504d15aa8bde423cae9a8e@sentry.iobroker.net/57';
+window.sentryDSN = 'https://6ccbeba86d86457b82ded80109fa7aba@sentry.iobroker.net/144';
 
 function build() {
     return ReactDOM.render(
