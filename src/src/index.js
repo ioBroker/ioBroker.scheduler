@@ -1,33 +1,32 @@
 /* eslint-disable */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import * as Sentry from '@sentry/browser';
-import * as SentryIntegrations from '@sentry/integrations';
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import './index.css';
-// import theme from '@iobroker/adapter-react/Theme';
-import Utils from '@iobroker/adapter-react/Components/Utils';
+import Utils from '@iobroker/adapter-react-v5/Components/Utils';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { version } from '../package.json';
+import pack from '../package.json';
 import theme from './theme';
 
 window.adapterName = 'scheduler';
 let themeName = Utils.getThemeName();
 
-console.log(`iobroker.${window.adapterName}@${version} using theme "${themeName}"`);
+console.log(`iobroker.${window.adapterName}@${pack.version} using theme "${themeName}"`);
 window.sentryDSN = 'https://6ccbeba86d86457b82ded80109fa7aba@sentry.iobroker.net/144';
 
 function build() {
     return ReactDOM.render(
-        <MuiThemeProvider theme={theme(themeName)}>
-            <App
-                onThemeChange={(_theme) => {
-                    themeName = _theme;
-                    build();
-                }}
-            />
-        </MuiThemeProvider>,
+        <StyledEngineProvider injectFirst>
+                <ThemeProvider theme={theme(themeName)}>
+                <App
+                    onThemeChange={(_theme) => {
+                        themeName = _theme;
+                        build();
+                    }}
+                />
+            </ThemeProvider>
+        </StyledEngineProvider>,
         document.getElementById('root'),
     );
 }

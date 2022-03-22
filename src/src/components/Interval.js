@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
-import Slider from '@material-ui/core/Slider';
+import { withStyles, makeStyles } from '@mui/styles';
+import Slider from '@mui/material/Slider';
 import minmax from '../data/minmax.json';
 
 const styles = () => ({
@@ -47,6 +47,7 @@ const styles = () => ({
         color: props => props.theme.palette.text.primary,
     },
 });
+
 const usePrettoSliderStyles = makeStyles({
     root: props => ({
         color: props.theme.palette.primary.light,
@@ -60,7 +61,7 @@ const usePrettoSliderStyles = makeStyles({
         },
     }),
     thumb: props => ({
-        left: `calc( 50% + ${10}px)`,
+        left: `calc(50% + 10px)`,
         width: 0,
         height: 0,
         display: props.type === 'onoff' ? 'none' : 'flex',
@@ -71,7 +72,8 @@ const usePrettoSliderStyles = makeStyles({
         height: 0,
     },
     valueLabel: props => ({
-        left: -20,
+        left: -35,
+        background: 'transparent',
         '& *': {
             background: 'transparent',
             fontWeight: 100,
@@ -80,17 +82,21 @@ const usePrettoSliderStyles = makeStyles({
             transition: 'all 100ms ease-out',
         },
     }),
+    valueLabelCircle: {
+        background: 'transparent'
+    },
     track: {
         transition: 'all 100ms ease-out',
         borderRadius: 4,
         '&&': {
-            width: 'calc(100% - 5px)',
+            width: 'calc(100% - 8px)',
         },
     },
     rail: props => ({
         transition: 'all 100ms ease-out',
         borderRadius: 4,
-        height: 'calc(100% + 90px)',
+        height: 'calc(100% + 5px)',
+        marginTop: -5,
         backgroundColor: props.theme.palette.primary.light,
         '&&': {
             width: 'calc(100% - 5px)',
@@ -107,19 +113,19 @@ const PrettoSlider = props => {
     delete componentProps.intervalsWidth;
     delete componentProps.type;
     delete componentProps.theme;
-    return (
-        <Slider
-            classes={
-                usePrettoSliderStyles({
-                    intervalsWidth: props.intervalsWidth,
-                    type: props.type,
-                    theme: props.theme,
-                })
-            }
-            {...componentProps}
-        />
-    );
+
+    return <Slider
+        classes={
+            usePrettoSliderStyles({
+                intervalsWidth: props.intervalsWidth,
+                type: props.type,
+                theme: props.theme,
+            })
+        }
+        {...componentProps}
+    />;
 };
+
 class Interval extends Component {
     constructor(props) {
         super(props);

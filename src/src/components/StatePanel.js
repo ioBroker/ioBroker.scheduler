@@ -1,13 +1,14 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
+import { withStyles } from '@mui/styles';
 import {
-    TextField, withStyles, FormLabel, IconButton,
-} from '@material-ui/core';
-import ClearIcon from '@material-ui/icons/Clear';
+    TextField, FormLabel, IconButton,
+} from '@mui/material';
+import ClearIcon from '@mui/icons-material/Clear';
 
-import I18n from '@iobroker/adapter-react/i18n';
-import DialogSelectID from '@iobroker/adapter-react/Dialogs/SelectID';
+import I18n from '@iobroker/adapter-react-v5/i18n';
+import DialogSelectID from '@iobroker/adapter-react-v5/Dialogs/SelectID';
 
 const styles = {
     tapperTitle: {
@@ -67,15 +68,22 @@ class StatePanel extends Component {
                 title={I18n.t('You can provide here the state that controls the activation of this profile')}
             >
                 <TextField
+                    variant="standard"
                     style={{ flex: 1 }}
-                    readOnly
                     value={this.props.value === true ? this.props.possibleStateId : this.props.value || ''}
                     onClick={() => this.setState({ showSelectId: true })}
                     helperText={`(${I18n.t('optional')})`}
+                    InputProps={{
+                        readOnly: true,
+                        endAdornment:
+                            this.props.value !== true ? <IconButton onClick={e => {
+                                e.stopPropagation();
+                                this.stateChange(true);
+                            }}>
+                                <ClearIcon />
+                            </IconButton> : null
+                    }}
                 />
-                {this.props.value !== true ? <IconButton onClick={() => this.stateChange(true)}>
-                    <ClearIcon />
-                </IconButton> : null}
             </div>
         </>;
     }

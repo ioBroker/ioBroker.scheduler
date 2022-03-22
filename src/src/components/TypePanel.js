@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { withStyles } from '@mui/styles';
 import {
-    FormControl, FormLabel, MenuItem, Select, withStyles,
-} from '@material-ui/core';
-import I18n from '@iobroker/adapter-react/i18n';
+    FormControl, FormLabel, MenuItem, Select,
+} from '@mui/material';
+import I18n from '@iobroker/adapter-react-v5/i18n';
 
 const styles = () => ({
     tapperInside: {
@@ -30,30 +31,29 @@ class TypePanel extends Component {
 
     render() {
         const { type } = this.props;
-        return (
-            <FormControl component="fieldset" className="w-100">
-                <FormLabel component="legend" className={this.props.classes.tapperTitle}>
-                    {I18n.t('Type')}
-                </FormLabel>
-                <Select
-                    labelId="type-select-label"
-                    id="type-select"
-                    className="w-100"
-                    value={type}
-                    onChange={this.on}
-                >
-                    <MenuItem value="percent">
-                        {I18n.t('Percent')}
-                    </MenuItem>
-                    <MenuItem value="temperature">
-                        {I18n.t('Temperature')}
-                    </MenuItem>
-                    <MenuItem value="onoff">
-                        {I18n.t('On/Off')}
-                    </MenuItem>
-                </Select>
-            </FormControl>
-        );
+        return <FormControl component="fieldset" className="w-100">
+            <FormLabel component="legend" className={this.props.classes.tapperTitle}>
+                {I18n.t('Type')}
+            </FormLabel>
+            <Select
+                variant="standard"
+                labelId="type-select-label"
+                id="type-select"
+                className="w-100"
+                value={type}
+                onChange={this.on}
+            >
+                <MenuItem value="percent">
+                    {I18n.t('Percent')}
+                </MenuItem>
+                <MenuItem value="temperature">
+                    {I18n.t('Temperature')}
+                </MenuItem>
+                <MenuItem value="onoff">
+                    {I18n.t('On/Off')}
+                </MenuItem>
+            </Select>
+        </FormControl>;
     }
 }
 

@@ -1,4 +1,4 @@
-import { withStyles } from '@material-ui/core';
+import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 import dayNight from '../assets/img/day-night.jpg';

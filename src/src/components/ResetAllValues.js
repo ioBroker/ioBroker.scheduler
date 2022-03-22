@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-
 import PropTypes from 'prop-types';
+
+import { withStyles } from '@mui/styles';
 import {
-    Fab, Dialog, DialogTitle, DialogContent, DialogActions, Button, Switch, FormControlLabel, TextField, withStyles,
-} from '@material-ui/core';
+    Fab, Dialog, DialogTitle, DialogContent, DialogActions, Button, Switch, FormControlLabel, TextField,
+} from '@mui/material';
 
-import EditAllIcon from '@material-ui/icons/Filter9Plus';
-import IconClose from '@material-ui/icons/Close';
-import IconCheck from '@material-ui/icons/Check';
+import EditAllIcon from '@mui/icons-material/Filter9Plus';
+import IconClose from '@mui/icons-material/Close';
+import IconCheck from '@mui/icons-material/Check';
 
-import I18n from '@iobroker/adapter-react/i18n';
+import I18n from '@iobroker/adapter-react-v5/i18n';
 
 const styles = () => ({
 
@@ -52,29 +53,34 @@ class ResetAllValues extends Component {
                     >
                         <DialogTitle>{I18n.t('Reset all intervals to following value:')}</DialogTitle>
                         <DialogContent>
-                            {this.props.type !== 'onoff' ? <TextField
-                                fullWidth
-                                autoFocus
-                                value={this.state.value}
-                                type="number"
-                                onKeyUp={e => e.keyCode === 13 && this.onSetValue()}
-                                inputProps={{
-                                    min: this.props.type === 'temperature' ? 12 : 0,
-                                    max: this.props.type === 'temperature' ? 36 : 100,
-                                }}
-                                onChange={e => this.setState({ value: e.target.value })}
-                                label={this.props.type === 'temperature' ? 'Temperature for all intervals' : 'Percent value for all intervals'}
-                            /> : <FormControlLabel
-                                control={
-                                    <Switch
-                                        autoFocus
-                                        checked={!!this.state.value}
-                                        onChange={e => this.setState({ value: e.target.checked })}
-                                        color="primary"
-                                    />
-                                }
-                                label={this.state.value ? I18n.t('ON') : I18n.t('OFF')}
-                            /> }
+                            {this.props.type !== 'onoff' ?
+                                <TextField
+                                    variant="standard"
+                                    fullWidth
+                                    autoFocus
+                                    value={this.state.value}
+                                    type="number"
+                                    onKeyUp={e => e.keyCode === 13 && this.onSetValue()}
+                                    inputProps={{
+                                        min: this.props.type === 'temperature' ? 12 : 0,
+                                        max: this.props.type === 'temperature' ? 36 : 100,
+                                    }}
+                                    onChange={e => this.setState({ value: e.target.value })}
+                                    label={this.props.type === 'temperature' ? 'Temperature for all intervals' : 'Percent value for all intervals'}
+                                />
+                                :
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            autoFocus
+                                            checked={!!this.state.value}
+                                            onChange={e => this.setState({ value: e.target.checked })}
+                                            color="primary"
+                                        />
+                                    }
+                                    label={this.state.value ? I18n.t('ON') : I18n.t('OFF')}
+                                />
+                            }
                         </DialogContent>
                         <DialogActions>
                             <Button
@@ -88,6 +94,7 @@ class ResetAllValues extends Component {
                             <Button
                                 onClick={() => this.setState({ showDialog: false })}
                                 variant="contained"
+                                color="grey"
                                 startIcon={<IconClose />}
                             >
                                 {I18n.t('Cancel')}

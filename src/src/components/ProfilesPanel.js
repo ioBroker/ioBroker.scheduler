@@ -1,6 +1,6 @@
 import React, { Component, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@mui/styles';
 import { v4 as uuidv4 } from 'uuid';
 
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
@@ -20,24 +20,26 @@ import {
     Typography,
     TextField,
     Paper,
+    AppBar,
+    Toolbar,
     DialogContent, DialogActions, Checkbox, Tooltip,
-} from '@material-ui/core';
+} from '@mui/material';
 
-import EditIcon from '@material-ui/icons/Edit';
-import AddIcon from '@material-ui/icons/Add';
-import FileCopyIcon from '@material-ui/icons/FileCopy';
-import CreateNewFolderIcon from '@material-ui/icons/CreateNewFolder';
-import SearchIcon from '@material-ui/icons/Search';
-import ScheduleIcon from '@material-ui/icons/Schedule';
-import UnfoldLessIcon from '@material-ui/icons/UnfoldLess';
-import UnfoldMoreIcon from '@material-ui/icons/UnfoldMore';
-import CloseIcon from '@material-ui/icons/Close';
-import DeleteIcon from '@material-ui/icons/Delete';
-import CheckIcon from '@material-ui/icons/Check';
-import FolderIcon from '@iobroker/adapter-react/icons/IconClosed';
-import FolderOpenIcon from '@iobroker/adapter-react/icons/IconOpen';
+import EditIcon from '@mui/icons-material/Edit';
+import AddIcon from '@mui/icons-material/Add';
+import FileCopyIcon from '@mui/icons-material/FileCopy';
+import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
+import SearchIcon from '@mui/icons-material/Search';
+import ScheduleIcon from '@mui/icons-material/Schedule';
+import UnfoldLessIcon from '@mui/icons-material/UnfoldLess';
+import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
+import CloseIcon from '@mui/icons-material/Close';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CheckIcon from '@mui/icons-material/Check';
+import FolderIcon from '@iobroker/adapter-react-v5/icons/IconClosed';
+import FolderOpenIcon from '@iobroker/adapter-react-v5/icons/IconOpen';
 
-import I18n from '@iobroker/adapter-react/i18n';
+import I18n from '@iobroker/adapter-react-v5/i18n';
 
 const defaultProfileData = {
     enabled: true,
@@ -74,7 +76,8 @@ const styles = theme => ({
         overflowX: 'hidden',
         overflowY: 'auto',
         flexGrow: 1000,
-        width: 'calc(100% - 30px)',
+        width: '100%',
+        padding: '0 10px',
         margin: 0,
     },
     tapperTitle: {
@@ -82,36 +85,30 @@ const styles = theme => ({
         textTransform: 'uppercase',
         paddingBottom: '1rem',
     },
-    editButton:
-    {
+    editButton: {
         width: 30,
         height: 30,
         display: 'none',
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 2,
-        '&:active':
-        {
+        '&:active': {
             color: '#EEE',
         },
-        '&>svg':
-        {
+        '&>svg': {
             fontSize: '1.2rem',
         },
-        '.flow-menu-item:hover &':
-        {
+        '.flow-menu-item:hover &': {
             display: 'flex',
         },
-        '.flow-menu-item.active &':
-        {
+        '.flow-menu-item.active &': {
             display: 'flex',
         },
     },
-    dndHover:
-        {
-            backgroundColor: () => theme.palette.primary.dark,
-            color: theme.palette.grey[200],
-        },
+    dndHover: {
+        backgroundColor: () => theme.palette.primary.dark,
+        color: theme.palette.grey[200],
+    },
     flowMenuItem: {
         height: 28,
         maxHeight: 28,
@@ -122,18 +119,15 @@ const styles = theme => ({
         alignItems: 'center',
         cursor: 'pointer',
         position: 'relative',
-        '&.active':
-        {
+        '&.active': {
             backgroundColor: () => theme.palette.primary.light,
             color: '#FFF',
         },
-        '&:hover':
-        {
+        '&:hover': {
             backgroundColor: () => theme.palette.primary.dark,
             color: theme.palette.grey[200],
         },
-        '&::before':
-        {
+        '&::before': {
             width: 20,
             height: 20,
         },
@@ -162,7 +156,7 @@ const styles = theme => ({
         width: 16,
         height: 16,
         marginTop: 4,
-    },
+    }
 });
 
 function canDrop(childId, parentId, profiles) {
@@ -572,19 +566,20 @@ class ProfilesPanel extends Component {
         const { profiles } = this.props;
         const result = this.state.isSearch
             ? <TextField
+                variant="standard"
                 className="ml-1 w-100"
                 placeholder={I18n.t('search text')}
                 onChange={this.onSearchedText}
                 InputProps={{
                     endAdornment:
-                    <IconButton
-                        component="span"
-                        size="small"
-                        title={I18n.t('finish searching')}
-                        onClick={this.onSearch}
-                    >
-                        <CloseIcon />
-                    </IconButton>,
+                        <IconButton
+                            component="span"
+                            size="small"
+                            title={I18n.t('finish searching')}
+                            onClick={this.onSearch}
+                        >
+                            <CloseIcon />
+                        </IconButton>,
                 }}
             />
             : <>
@@ -655,11 +650,7 @@ class ProfilesPanel extends Component {
         return <Dialog
             onClose={() => this.onDialogClose()}
             open={isDialogOpen}
-            onKeyDown={e => {
-                if (e.keyCode === 13 && canSubmit) {
-                    this.onUpdateItem();
-                }
-            }}
+            onKeyDown={e => e.keyCode === 13 && canSubmit && this.onUpdateItem()}
             maxWidth="sm"
             fullWidth
         >
@@ -674,6 +665,7 @@ class ProfilesPanel extends Component {
             </DialogTitle>
             <DialogContent>
                 <TextField
+                    variant="standard"
                     autoFocus
                     fullWidth
                     error={!canSubmit}
@@ -709,6 +701,7 @@ class ProfilesPanel extends Component {
                 <Button
                     onClick={() => this.onDialogClose()}
                     variant="contained"
+                    color="grey"
                     startIcon={<CloseIcon />}
                 >
                     {I18n.t('Cancel')}
@@ -731,9 +724,9 @@ class ProfilesPanel extends Component {
         return <DndProvider backend={this.isTouchDevice ? TouchBackend : HTML5Backend}>
             <DndPreview />
             <div className={this.props.classes.scrolledAuto}>
-                <Paper className={this.props.classes.head}>
+                <Toolbar variant="dense" disableGutters>
                     {this.head()}
-                </Paper>
+                </Toolbar>
                 <Divider />
                 <MenuList>
                     {items}

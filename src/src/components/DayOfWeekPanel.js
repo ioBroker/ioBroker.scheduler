@@ -1,8 +1,9 @@
-import PropTypes from 'prop-types';
-import { FormControl, FormControlLabel, withStyles } from '@material-ui/core';
-import Checkbox from '@material-ui/core/Checkbox';
 import React, { Component } from 'react';
-import I18n from '@iobroker/adapter-react/i18n';
+import PropTypes from 'prop-types';
+import { withStyles } from '@mui/styles';
+import { FormControl, FormControlLabel} from '@mui/material';
+import Checkbox from '@mui/material/Checkbox';
+import I18n from '@iobroker/adapter-react-v5/i18n';
 
 const daysOfWeek = [
     'Su',

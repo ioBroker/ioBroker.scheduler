@@ -1,15 +1,16 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { withStyles } from '@mui/styles';
 
 import {
-    FormLabel, withStyles, Chip, Tooltip, Fab,
-} from '@material-ui/core';
-import IconAdd from '@material-ui/icons/Add';
+    FormLabel, Chip, Tooltip, Fab,
+} from '@mui/material';
+import IconAdd from '@mui/icons-material/Add';
 
-import I18n from '@iobroker/adapter-react/i18n';
-import DialogSelectID from '@iobroker/adapter-react/Dialogs/SelectID';
-import Utils from '@iobroker/adapter-react/Components/Utils';
-import Icon from '@iobroker/adapter-react/Components/Icon';
+import I18n from '@iobroker/adapter-react-v5/i18n';
+import DialogSelectID from '@iobroker/adapter-react-v5/Dialogs/SelectID';
+import Utils from '@iobroker/adapter-react-v5/Components/Utils';
+import Icon from '@iobroker/adapter-react-v5/Components/Icon';
 
 const styles = {
     tapperTitle: {

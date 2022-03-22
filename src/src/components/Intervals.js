@@ -1,4 +1,4 @@
-import { withStyles } from '@material-ui/core';
+import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import DayNightSwitcher from './DayNightSwitcher';
