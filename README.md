@@ -22,7 +22,7 @@ The user should add devices to profile and all devices in profile will be set to
 -->
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 1.0.0 (2022-03-22)
 * (bluefox) GUI migrated to material@5
 
 ### 0.1.3 (2022-03-22)
