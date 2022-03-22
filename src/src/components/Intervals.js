@@ -123,6 +123,7 @@ class Intervals extends Component {
 
     getMaxByRange = range => 24 / range
 
+    /*
     prev = () => {
         const { slideId } = this.state;
         const { range } = this.props;
@@ -151,6 +152,7 @@ class Intervals extends Component {
     selectNone = () => {
         this.setState({ selected: [] });
     }
+    */
 
     setSlideId = slideId => {
         this.setState({ slideId: parseInt(slideId) });
@@ -224,6 +226,7 @@ class Intervals extends Component {
         </>;
     }
 
+    /*
     onSwipeLeftListener = () => {
         this.prev();
     }
@@ -231,6 +234,7 @@ class Intervals extends Component {
     onSwipeRightListener = () => {
         this.next();
     }
+    */
 
     render() {
         if (!this.state.intervalsWidth) {

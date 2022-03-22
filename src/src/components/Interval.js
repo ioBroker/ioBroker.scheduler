@@ -100,6 +100,8 @@ const usePrettoSliderStyles = makeStyles({
     }),
 });
 
+// react/function-component-definition
+// eslint-disable-next-line
 const PrettoSlider = props => {
     const componentProps = { ...props };
     delete componentProps.intervalsWidth;

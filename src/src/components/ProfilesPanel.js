@@ -49,6 +49,7 @@ const defaultProfileData = {
     intervals: Array(24).fill(22),
 };
 
+// eslint-disable-next-line
 const DndPreview = () => {
     const { display/* , itemType */, item, style } = usePreview();
     if (!display) {
@@ -186,6 +187,7 @@ function canDrop(childId, parentId, profiles) {
     return true;
 }
 
+// eslint-disable-next-line
 const ProfileDrag = props => {
     const [, dragRef, preview] = useDrag(
         {
@@ -225,6 +227,7 @@ function sortItems(a, b) {
     return a.title > b.title ? 1 : (a.title < b.title ? -1 : 0);
 }
 
+// eslint-disable-next-line
 const FolderDrop = props => {
     const [{ isOver, CanDrop }, drop] = useDrop(() => ({
         accept: 'profile',
@@ -568,24 +571,22 @@ class ProfilesPanel extends Component {
     head = () => {
         const { profiles } = this.props;
         const result = this.state.isSearch
-            ? <>
-                <TextField
-                    className="ml-1 w-100"
-                    placeholder={I18n.t('search text')}
-                    onChange={this.onSearchedText}
-                    InputProps={{
-                        endAdornment:
-                        <IconButton
-                            component="span"
-                            size="small"
-                            title={I18n.t('finish searching')}
-                            onClick={this.onSearch}
-                        >
-                            <CloseIcon />
-                        </IconButton>,
-                    }}
-                />
-            </>
+            ? <TextField
+                className="ml-1 w-100"
+                placeholder={I18n.t('search text')}
+                onChange={this.onSearchedText}
+                InputProps={{
+                    endAdornment:
+                    <IconButton
+                        component="span"
+                        size="small"
+                        title={I18n.t('finish searching')}
+                        onClick={this.onSearch}
+                    >
+                        <CloseIcon />
+                    </IconButton>,
+                }}
+            />
             : <>
                 <IconButton
                     component="span"
