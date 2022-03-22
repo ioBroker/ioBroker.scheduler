@@ -22,6 +22,9 @@ The user should add devices to profile and all devices in profile will be set to
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (bluefox) Just the packages were updated
+
 ### 0.1.2 (2021-09-14)
 * (bluefox) "Sentry" was added
  
