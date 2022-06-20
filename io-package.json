@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "scheduler",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "news": {
+      "1.0.1": {
+        "en": "Allowed to work behind reverse proxy",
+        "de": "Erlaubt, hinter der Reverse Proxy zu arbeiten",
+        "ru": "Разрешено работать за обратным прокси",
+        "pt": "Permitido trabalhar atrás do proxy reverso",
+        "nl": "Genoemd om achteruit te werken",
+        "fr": "Permet de travailler derrière le proxy inverse",
+        "it": "Permesso di lavorare dietro proxy inverso",
+        "es": "Permitido trabajar detrás del proxy inverso",
+        "pl": "Wszystko, by pracować za odwrotnym proxym",
+        "zh-cn": "允许在反倾销后工作"
+      },
       "1.0.0": {
         "en": "GUI migrated to material@5",
         "de": "GUI auf material@5 migriert",
