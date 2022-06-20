@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import './index.css';
 import Utils from '@iobroker/adapter-react-v5/Components/Utils';
@@ -16,9 +16,11 @@ console.log(`iobroker.${window.adapterName}@${pack.version} using theme "${theme
 window.sentryDSN = 'https://6ccbeba86d86457b82ded80109fa7aba@sentry.iobroker.net/144';
 
 function build() {
-    return ReactDOM.render(
+    const container = document.getElementById('root');
+    const root = createRoot(container);
+    return root.render(
         <StyledEngineProvider injectFirst>
-                <ThemeProvider theme={theme(themeName)}>
+            <ThemeProvider theme={theme(themeName)}>
                 <App
                     onThemeChange={(_theme) => {
                         themeName = _theme;
@@ -26,8 +28,7 @@ function build() {
                     }}
                 />
             </ThemeProvider>
-        </StyledEngineProvider>,
-        document.getElementById('root'),
+        </StyledEngineProvider>
     );
 }
 
