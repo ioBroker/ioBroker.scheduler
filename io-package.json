@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "scheduler",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "news": {
+      "1.0.2": {
+        "en": "Corrected the problem with `socket.io`",
+        "de": "Hat das Problem mit der Steckdose korrigiert. io",
+        "ru": "Исправлена проблема с розеткой. io",
+        "pt": "Corrigido o problema com a tomada. I",
+        "nl": "Het probleem met de soket gecorrigeerd. io",
+        "fr": "Correction du problème avec la socket. io",
+        "it": "Corretto il problema con la presa. I",
+        "es": "Corregido el problema con el socket. io",
+        "pl": "Poprawiono problem z gniazdem. i",
+        "zh-cn": "把问题与袖手旁观。 0%"
+      },
       "1.0.1": {
         "en": "Allowed to work behind reverse proxy",
         "de": "Erlaubt, hinter der Reverse Proxy zu arbeiten",

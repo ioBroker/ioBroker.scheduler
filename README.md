@@ -22,7 +22,7 @@ The user should add devices to profile and all devices in profile will be set to
 -->
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 1.0.2 (2022-06-20)
 * (bluefox) Corrected the problem with `socket.io`
 
 ### 1.0.1 (2022-06-20)
