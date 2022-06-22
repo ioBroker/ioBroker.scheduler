@@ -22,7 +22,7 @@ The user should add devices to profile and all devices in profile will be set to
 -->
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 1.0.3 (2022-06-22)
 * (bluefox) Made it work with ioBroker cloud
 
 ### 1.0.2 (2022-06-20)
