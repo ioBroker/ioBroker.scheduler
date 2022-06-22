@@ -22,6 +22,9 @@ The user should add devices to profile and all devices in profile will be set to
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (bluefox) Made it work with ioBroker cloud
+
 ### 1.0.2 (2022-06-20)
 * (bluefox) Corrected the problem with `socket.io`
 
