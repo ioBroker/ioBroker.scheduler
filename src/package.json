@@ -8,7 +8,7 @@
         "@mui/icons-material": "^5.8.4",
         "@mui/styles": "^5.9.2",
         "@sentry/browser": "^7.8.0",
-        "@sentry/integrations": "^7.8.0",
+        "@sentry/integrations": "^7.12.0",
         "chroma-js": "^2.4.2",
         "clsx": "^1.2.1",
         "babel-eslint": "^10.1.0",
