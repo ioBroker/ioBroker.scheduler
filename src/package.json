@@ -7,7 +7,7 @@
         "@mui/material": "^5.10.3",
         "@mui/icons-material": "^5.10.3",
         "@mui/styles": "^5.10.3",
-        "@sentry/browser": "^7.12.1",
+        "@sentry/browser": "^7.14.0",
         "@sentry/integrations": "^7.12.1",
         "chroma-js": "^2.4.2",
         "clsx": "^1.2.1",
