@@ -119,7 +119,7 @@ const updateStates = async () => {
         const profile = active[id];
 
         if (!checkObject(devices[id], profile.type)) {
-            adapter.log.error(`${device} in ${profile.title} is not type ${profile.type}`);
+            adapter.log.error(`${id} in ${profile.title} is not type ${profile.type}`);
             continue;
         }
 
@@ -162,7 +162,7 @@ function getStateId(profile, profiles, _list) {
             return getStateId(parentProfile, profiles, _list);
         }
         // eslint-disable-next-line
-        console.error('Cannot find parent ' + profile.parent);
+        console.error(`Cannot find parent ${profile.parent}`);
         return null;
     }
 
@@ -190,14 +190,13 @@ async function main() {
                     }
                 }
             }
-
         }
     }
 
     // subscribe on all used IDs
     adapter.subscribeForeignObjects(Object.keys(devices));
 
-    updateStates();
+    await updateStates();
     startNextInterval();
 }
 
