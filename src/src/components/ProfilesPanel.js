@@ -19,8 +19,6 @@ import {
     MenuList,
     Typography,
     TextField,
-    Paper,
-    AppBar,
     Toolbar,
     DialogContent, DialogActions, Checkbox, Tooltip,
 } from '@mui/material';
