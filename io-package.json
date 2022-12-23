@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "scheduler",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "news": {
+      "1.0.4": {
+        "en": "Updated GUI packages",
+        "de": "Aktualisierte GUI-Pakete",
+        "ru": "Обновленные пакеты GUI",
+        "pt": "Pacotes de GUI atualizados",
+        "nl": "Update GUI pakketten",
+        "fr": "Paquets GUI mis à jour",
+        "it": "Pacchetti GUI aggiornati",
+        "es": "Paquetes GUI actualizados",
+        "pl": "Pakiet GUI",
+        "uk": "Оновлені пакети GUI",
+        "zh-cn": "A. 最新古伊一揽子计划"
+      },
       "1.0.3": {
         "en": "Made it work with ioBroker cloud",
         "de": "Es funktioniert mit ioBroker Cloud",
@@ -74,18 +87,6 @@
         "es": "Se agregó \"Sentry\"",
         "pl": "Dodano „Wartownik”",
         "zh-cn": "添加了“哨兵”"
-      },
-      "0.1.1": {
-        "en": "Initial release",
-        "de": "Erstveröffentlichung",
-        "ru": "Первый выпуск",
-        "pt": "lançamento inicial",
-        "nl": "Eerste uitgave",
-        "fr": "Première version",
-        "it": "Versione iniziale",
-        "es": "Versión inicial",
-        "pl": "Pierwsze wydanie",
-        "zh-cn": "初始发行"
       }
     },
     "title": "Schedule profiler",
