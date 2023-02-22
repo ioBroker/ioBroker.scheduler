@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, withTheme } from '@mui/styles';
-import { I18n } from '@iobroker/adapter-react-v5';
+
 import { MenuItem, Select } from '@mui/material';
+
+import { I18n } from '@iobroker/adapter-react-v5';
+
 import Generic from './Generic';
 import IntervalsContainer from './components/IntervalsContainer';
 import DayOfWeekPanel from './components/DayOfWeekPanel';
@@ -13,7 +16,7 @@ const styles = () => ({
 const ProfileSelector = props => {
     const [object, setObject] = useState(null);
     useEffect(() => {
-        props.socket.getObject('system.adapter.scheduler.0').then(_object => setObject(_object));
+        props.socket.getObject(`system.adapter.scheduler.${props.data.instance}`).then(_object => setObject(_object));
     }, []);
 
     if (!object) {
@@ -22,19 +25,19 @@ const ProfileSelector = props => {
 
     const profilesArray = [];
 
-    const profileRecoursive = (profiles, level) => {
+    const profileRecursive = (profiles, level) => {
         profiles.forEach(profile => {
             profilesArray.push({
                 profile,
                 level,
             });
             if (object.native.profiles.filter(p => p.parent === profile.id).length) {
-                profileRecoursive(object.native.profiles.filter(p => p.parent === profile.id), level + 1);
+                profileRecursive(object.native.profiles.filter(p => p.parent === profile.id), level + 1);
             }
         });
     };
 
-    profileRecoursive(object.native.profiles.filter(p => !p.parent), 0);
+    profileRecursive(object.native.profiles.filter(p => !p.parent), 0);
 
     console.log(profilesArray);
 
@@ -67,16 +70,25 @@ class Scheduler extends Generic {
     static getWidgetInfo() {
         return {
             id: 'tplScheduler',
-            visSet: 'vis-2-widgets-scheduler',
-            visWidgetLabel: 'vis_2_widgets_scheduler',  // Label of widget
-            visName: 'Battery gauge',
+            visSet: 'scheduler',
+            visWidgetLabel: 'scheduler',  // Label of widget
+            visSetLabel: 'set_label', // Label of widget set
+            visName: 'Scheduler',
             visAttrs: [{
                 name: 'common',
                 fields: [
                     {
+                        label: 'Instance',
+                        name: 'instance',
+                        type: 'instance',
+                        adapter: 'scheduler',
+                        isShort: true,
+                    },
+                    {
                         label: 'Scheduler',
                         name: 'profile',
                         type: 'custom',
+                        hidden: data => !data.instance && data.instance !== 0,
                         component: (field, data, setData, props) => <ProfileSelector
                             field={field}
                             data={data}
@@ -103,7 +115,7 @@ class Scheduler extends Generic {
                 height: 120,
                 position: 'relative',
             },
-            visPrev: 'widgets/vis-2-widgets-gauges/img/prev_battery_gauge.png',
+            visPrev: 'widgets/scheduler/img/prev_scheduler.png',
         };
     }
 
@@ -113,7 +125,7 @@ class Scheduler extends Generic {
     }
 
     async propertiesUpdate() {
-        const object = await this.props.socket.getObject('system.adapter.scheduler.0');
+        const object = await this.props.socket.getObject(`system.adapter.scheduler.${this.state.rxData.instance}`);
         this.setState({ object });
     }
 

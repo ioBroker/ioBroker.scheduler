@@ -143,7 +143,24 @@
       "sentry": {
         "dsn": "https://28777a2d4d4e4b3f9ec5e9b55b8fa62d@sentry.iobroker.net/145"
       }
-    }
+    },
+    "visWidgets": {
+      "i18n": "component",
+      "scheduler": {
+        "name": "scheduler",
+        "color": "#30de00",
+        "label": "scheduler_set_label",
+        "url": "scheduler/customWidgets.js",
+        "url1": "http://localhost:4173/customWidgets.js",
+        "components": [
+          "Scheduler"
+        ]
+      }
+    },
+    "restartAdapters": [
+      "vis",
+      "vis-2-beta"
+    ]
   },
   "native": {
     "profiles": [

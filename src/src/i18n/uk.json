@@ -57,5 +57,6 @@
   "hr": "год",
   "optional": "необов'язковий",
   "profile": "Профіль",
-  "search text": "Пошуковий текст"
+  "search text": "Пошуковий текст",
+  "You cannot enable or disable this profile as it controlled by %s state": "Ви не можете ввімкнути або вимкнути цей профіль, оскільки він контролюється станом %s"
 }

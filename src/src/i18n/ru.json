@@ -1,13 +1,13 @@
 {
   "Devices": "Устройства",
-  "finish searching": "поиск завершен",
+  "finish searching": "Завершить поиск",
   "Enabled": "Включено",
   "Basic": "Базовый",
-  "Weekend": "выходные",
+  "Weekend": "Выходные",
   "High priority": "Высокий приоритет",
   "Add profile": "Добавить профиль",
   "Add folder": "Добавить папку",
-  "Open all": "Расширить все",
+  "Open all": "Открыть все",
   "Search": "Поиск",
   "profile": "Профиль",
   "Name": "Имя",
@@ -30,7 +30,7 @@
   "Su": "Вс",
   "hr": "ч.",
   "Select or create profile in left menu": "Выберите или создайте профиль в левом меню",
-  "Add": "Добавлять",
+  "Add": "Добавить",
   "folder": "Папка",
   "Create": "Создать",
   "copy": "Копия",
@@ -57,5 +57,6 @@
   "ON": "ВКЛ",
   "OFF": "ВЫКЛ",
   "15 m.": "15 м.",
-  "30 m.": "30 м."
+  "30 m.": "30 м.",
+  "You cannot enable or disable this profile as it controlled by %s state": "Вы не можете включить или отключить этот профиль, так как он управляется состоянием \"%s\""
 }

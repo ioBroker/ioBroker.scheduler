@@ -1,7 +1,7 @@
 {
   "Devices": "Geräte",
   "finish searching": "Suche beendet",
-  "Enabled": "Ermöglicht",
+  "Enabled": "Aktiviert",
   "Basic": "Basic",
   "Weekend": "Wochenende",
   "High priority": "Hohe Priorität",
@@ -40,7 +40,7 @@
   "optional": "Optional",
   "Add new child profile": "Neues Kinderprofil hinzufügen",
   "Add new child folder": "Neuen untergeordneten Ordner hinzufügen",
-  "Disabled": "Behinderte",
+  "Disabled": "Deaktiviert",
   "Close all": "Alles ausblenden",
   "Copy": "Kopieren",
   "Cancel": "Abbrechen",
@@ -57,5 +57,6 @@
   "ON": "AN",
   "OFF": "AUS",
   "15 m.": "15 M.",
-  "30 m.": "30 M."
+  "30 m.": "30 M.",
+  "You cannot enable or disable this profile as it controlled by %s state": "Sie können dieses Profil nicht aktivieren oder deaktivieren, da es vom \"%s\" gesteuert wird"
 }

@@ -5,13 +5,12 @@ import { withStyles } from '@mui/styles';
 
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import GenericApp from '@iobroker/adapter-react-v5/GenericApp';
-import Loader from '@iobroker/adapter-react-v5/Components/Loader';
 import Fab from '@mui/material/Fab';
+
 import { Drawer, Grid, IconButton } from '@mui/material';
 
-import I18n from '@iobroker/adapter-react-v5/i18n';
-import Utils from '@iobroker/adapter-react-v5/Components/Utils';
+import GenericApp from '@iobroker/adapter-react-v5/GenericApp';
+import { I18n, Utils, Loader } from '@iobroker/adapter-react-v5';
 
 // import defaultOptions from './data/defaultOptions.json'
 
@@ -23,8 +22,8 @@ import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import CallSplitIcon from '@mui/icons-material/CallSplit';
 import ViewListIcon from '@mui/icons-material/ViewList';
-// import ScheduleIcon from '@mui/icons-material/Schedule';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
+// import ScheduleIcon from '@mui/icons-material/Schedule';
 
 import minmax from './data/minmax.json';
 import DevicesPanel from './components/DevicesPanel';
@@ -606,7 +605,12 @@ class App extends GenericApp {
                 } else if (!profile.data.state) {
                     profile.data.enabled = false;
                 } else {
-                    const state = await this.socket.getState(profile.data.state);
+                    let state;
+                    try {
+                        state = await this.socket.getState(profile.data.state);
+                    } catch (e) {
+                        console.error(`Cannot get state ${profile.data.state}: ${e}`);
+                    }
                     if (state) {
                         profile.data.enabled = state.val;
                     } else {
@@ -745,7 +749,7 @@ class App extends GenericApp {
         </div>;
     }
 
-    renderDrawer() {
+    renderMobileDrawer() {
         if (this.state.windowWidth >= 768) {
             return null;
         }
@@ -892,7 +896,7 @@ class App extends GenericApp {
                 return this.getStateId(parentProfile, profiles, _list);
             }
             // eslint-disable-next-line
-            console.error('Cannot find parent ' + profile.parent);
+            console.error(`Cannot find parent ${profile.parent}`);
             return null;
         }
 
@@ -917,7 +921,7 @@ class App extends GenericApp {
             {this.renderProfile()}
         </div>;
 
-        const profilePanel = this.state.windowWidth < 768
+        const desktopProfilePanel = this.state.windowWidth < 768
             ? null
             : <Drawer
                 variant="persistent"
@@ -929,7 +933,7 @@ class App extends GenericApp {
                 }}
             >
                 <div className={this.state.isDrawOpen ? classes.drGrid : classes.drGridClose}>
-                    <div className="absolute-right p-1">
+                    <div className="absolute-right p-1" style={{ zIndex: 1 }}>
                         <IconButton
                             component="span"
                             size="small"
@@ -952,7 +956,7 @@ class App extends GenericApp {
         return <StyledEngineProvider injectFirst>
             <ThemeProvider theme={this.state.theme}>
                 <div className={classes.app}>
-                    {profilePanel}
+                    {desktopProfilePanel}
                     <div
                         className={`${classes.labelLeftSm1} ${this.state.leftOpen === 1 ? 'active' : ''}`}
                         onClick={() => this.onLeftOpen(1)}
@@ -965,7 +969,7 @@ class App extends GenericApp {
                             <DehazeIcon />
                         </Fab>
                     </div>
-                    {this.renderDrawer()}
+                    {this.renderMobileDrawer()}
                     <Grid
                         container
                         spacing={0}

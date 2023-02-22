@@ -57,5 +57,6 @@
   "ON": "ON",
   "OFF": "OFF",
   "15 m.": "15 m.",
-  "30 m.": "30 m."
+  "30 m.": "30 m.",
+  "You cannot enable or disable this profile as it controlled by %s state": "Você não pode ativar ou desativar este perfil, pois ele é controlado pelo estado %s"
 }

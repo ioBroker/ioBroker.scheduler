@@ -23,21 +23,25 @@ import {
     DialogContent, DialogActions, Checkbox, Tooltip,
 } from '@mui/material';
 
-import EditIcon from '@mui/icons-material/Edit';
-import AddIcon from '@mui/icons-material/Add';
-import FileCopyIcon from '@mui/icons-material/FileCopy';
-import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
-import SearchIcon from '@mui/icons-material/Search';
-import ScheduleIcon from '@mui/icons-material/Schedule';
-import UnfoldLessIcon from '@mui/icons-material/UnfoldLess';
-import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
-import CloseIcon from '@mui/icons-material/Close';
-import DeleteIcon from '@mui/icons-material/Delete';
-import CheckIcon from '@mui/icons-material/Check';
-import FolderIcon from '@iobroker/adapter-react-v5/icons/IconClosed';
-import FolderOpenIcon from '@iobroker/adapter-react-v5/icons/IconOpen';
+import {
+    Edit as EditIcon,
+    Add as AddIcon,
+    FileCopy as FileCopyIcon,
+    CreateNewFolder as CreateNewFolderIcon,
+    Search as SearchIcon,
+    Schedule as ScheduleIcon,
+    UnfoldLess as UnfoldLessIcon,
+    UnfoldMore as UnfoldMoreIcon,
+    Close as CloseIcon,
+    Delete as DeleteIcon,
+    Check as CheckIcon,
+} from '@mui/icons-material';
 
-import I18n from '@iobroker/adapter-react-v5/i18n';
+import {
+    I18n,
+    IconClosed as FolderIcon,
+    IconOpen as FolderOpenIcon,
+} from '@iobroker/adapter-react-v5';
 
 const defaultProfileData = {
     enabled: true,
@@ -502,22 +506,29 @@ class ProfilesPanel extends Component {
 
         const result = <MenuItem
             className={`${flowMenuItem} flow-menu-item sub ${active === profile.id ? ' active ' : ''}`}
-            style={{ marginLeft: (level * 12) }}
+            style={{ marginLeft: level * 12 }}
             onClick={() => this.onActive(profile.id)}
             disableRipple
         >
             <Typography variant="inherit" className="pl-1 w-100">
                 <ScheduleIcon className={this.props.classes.scheduleIcon} />
-                <Tooltip title={profile.data.enabled ? I18n.t('Enabled') : I18n.t('Disabled')}>
+                <span
+                    title={typeof profile.data.state === 'boolean' ?
+                        (profile.data.enabled ? I18n.t('Enabled') : I18n.t('Disabled')) :
+                        I18n.t('You cannot enable or disable this profile as it controlled by %s state', profile.data.state)}
+                >
                     <Checkbox
                         color="default"
-                        disabled={profile.data.state !== true}
-                        style={{ padding: 0 }}
+                        disabled={profile.data.state !== true && profile.data.state !== false}
+                        style={{ padding: 0, opacity: typeof profile.data.state === 'boolean' ? 1 : 0.3 }}
                         size="small"
-                        onClick={() => this.onSetEnabled(profile.id)}
+                        onMouseDown={e => {
+                            e.stopPropagation();
+                            this.onSetEnabled(profile.id);
+                        }}
                         checked={!!profile.data.enabled}
                     />
-                </Tooltip>
+                </span>
                 {profile.title}
                 {profile.parent && searchText ? ` [${this.props.profiles.find(i => i.id === profile.parent).title}]` : ''}
                 {profile.data.prio === 1 ? <Tooltip title={I18n.t('High priority')}><span>&#8593;</span></Tooltip> : ''}
@@ -560,7 +571,7 @@ class ProfilesPanel extends Component {
         this.setState({ searchText: text });
     }
 
-    head = () => {
+    renderHead = () => {
         const { profiles } = this.props;
         const result = this.state.isSearch
             ? <TextField
@@ -585,9 +596,7 @@ class ProfilesPanel extends Component {
                     component="span"
                     size="small"
                     title={I18n.t('Add profile')}
-                    onClick={
-                        () => this.onAddChild({ id: '' }, 'profile')
-                    }
+                    onClick={() => this.onAddChild({ id: '' }, 'profile')}
                 >
                     <AddIcon />
                 </IconButton>
@@ -595,9 +604,7 @@ class ProfilesPanel extends Component {
                     component="span"
                     size="small"
                     title={I18n.t('Add folder')}
-                    onClick={
-                        () => this.onAddChild({ id: '' }, 'folder')
-                    }
+                    onClick={() => this.onAddChild({ id: '' }, 'folder')}
                 >
                     <CreateNewFolderIcon />
                 </IconButton>
@@ -640,10 +647,13 @@ class ProfilesPanel extends Component {
 
     renderEditDeleteDialog() {
         const { isDialogOpen } = this.state;
-        const folderItems = this.props.profiles.filter(profile => (!this.state.dialogElementParent && !profile.parent) || (this.state.dialogElementParent === profile.parent));
+        const folderItems = this.props.profiles.filter(profile =>
+            (!this.state.dialogElementParent && !profile.parent) || this.state.dialogElementParent === profile.parent);
 
         const canSubmit = this.state.dialogElementTitle
             && !folderItems.find(profile => profile.title === this.state.dialogElementTitle);
+
+        const originalTitle = folderItems.find(p => p.id === this.state.dialogElementId)?.title;
 
         return <Dialog
             onClose={() => this.onDialogClose()}
@@ -666,11 +676,12 @@ class ProfilesPanel extends Component {
                     variant="standard"
                     autoFocus
                     fullWidth
-                    error={!canSubmit}
-                    helperText={canSubmit ? '' : I18n.t('Name is not unique')}
+                    error={!canSubmit && originalTitle !== this.state.dialogElementTitle}
+                    helperText={canSubmit && originalTitle !== this.state.dialogElementTitle ? '' : I18n.t('Name is not unique')}
                     label={I18n.t('Name')}
                     value={this.state.dialogElementTitle}
                     onChange={evt => this.setState({ dialogElementTitle: evt.target.value })}
+                    onKeyDown={e => e.keyCode === 13 && canSubmit && this.onUpdateItem()}
                     InputProps={{
                         startAdornment:
                             <InputAdornment position="start">
@@ -723,7 +734,7 @@ class ProfilesPanel extends Component {
             <DndPreview />
             <div className={this.props.classes.scrolledAuto}>
                 <Toolbar variant="dense" disableGutters>
-                    {this.head()}
+                    {this.renderHead()}
                 </Toolbar>
                 <Divider />
                 <MenuList>

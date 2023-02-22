@@ -57,5 +57,6 @@
   "ON": "在",
   "OFF": "离开",
   "15 m.": "15分钟",
-  "30 m.": "30分钟"
+  "30 m.": "30分钟",
+  "You cannot enable or disable this profile as it controlled by %s state": "您不能启用或禁用此配置文件，因为它由 %s 状态控制"
 }
