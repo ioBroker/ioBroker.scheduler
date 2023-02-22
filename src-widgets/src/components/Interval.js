@@ -61,7 +61,7 @@ const usePrettoSliderStyles = makeStyles({
         },
     }),
     thumb: props => ({
-        left: `calc(50% + 10px)`,
+        left: 'calc(50% + 10px)',
         width: 0,
         height: 0,
         display: props.type === 'onoff' ? 'none' : 'flex',
@@ -83,7 +83,7 @@ const usePrettoSliderStyles = makeStyles({
         },
     }),
     valueLabelCircle: {
-        background: 'transparent'
+        background: 'transparent',
     },
     track: {
         transition: 'all 100ms ease-out',
@@ -142,33 +142,29 @@ class Interval extends Component {
         }
     }
 
-    handleSliderChange = (event, data) => {
-        this.on('data', data);
-    }
+    handleSliderChange = (event, data) => this.on('data', data);
 
-    handleSelected = () => {
-        this.on('selected', !this.props.selected);
-    }
+    handleSelected = () => this.on('selected', !this.props.selected);
 
     on = (field, value) => {
         if (this.props.on) {
             this.props.on(field, value, this.props.i);
         }
-    }
+    };
 
     getPostfix(value) {
         switch (this.props.type) {
-        case 'temperature':
-            return `${value.toString()}º`;
+            case 'temperature':
+                return `${value.toString()}º`;
 
-        case 'onoff':
-            return value
-                ? <span style={this.props.theme.palette.text.success}>on</span>
-                : <span style={this.props.theme.palette.text.danger}>off</span>;
+            case 'onoff':
+                return value
+                    ? <span style={this.props.theme.palette.text.success}>on</span>
+                    : <span style={this.props.theme.palette.text.danger}>off</span>;
 
-        case 'percent':
-        default:
-            return `${value.toString()}%`;
+            case 'percent':
+            default:
+                return `${value.toString()}%`;
         }
     }
 
@@ -182,7 +178,7 @@ class Interval extends Component {
         const hrs = parseInt(label);
         const secs = (`0${(label % 1) * 60}`).slice(-2);
         return [hrs, secs];
-    }
+    };
 
     render() {
         const {

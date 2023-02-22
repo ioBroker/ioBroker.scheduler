@@ -1,8 +1,10 @@
 {
-  "Instance": "实例",
-  "Profile not selected": "未选择配置文件",
-  "Read only": "只读",
-  "Scheduler": "调度程序",
-  "scheduler": "调度程序",
-  "set_label": "调度程序"
+  "hide_days_of_week": "隐藏星期几",
+  "instance": "实例",
+  "name": "姓名",
+  "profile_not_selected": "未选择配置文件",
+  "read_only": "只读",
+  "scheduler": "调度器",
+  "set_label": "调度器",
+  "used_only_with_relative": "仅用于相对位置"
 }

@@ -33,6 +33,8 @@ const styles = () => ({
     },
     label: {
         color: props => props.theme.palette.text.primary,
+        marginLeft: 0,
+        marginRight: 12,
     },
 });
 
@@ -41,8 +43,9 @@ class DayOfWeekPanel extends Component {
         const { flow, label } = this.props.classes;
         const dowOrder = this.props.firstDayOfWeek === 'monday' ? dowOrderMonday : dowOrderSunday;
 
-        return <FormControl component="fieldset">
+        return <FormControl component="fieldset" style={{ marginRight: 12 }}>
             {dowOrder.map(index => <FormControlLabel
+                style={{ marginLeft: 6 }}
                 key={index}
                 control={
                     <Checkbox

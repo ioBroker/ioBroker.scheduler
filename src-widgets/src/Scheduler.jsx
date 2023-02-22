@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, withTheme } from '@mui/styles';
 
-import { MenuItem, Select } from '@mui/material';
+import {
+    MenuItem,
+    Select,
+} from '@mui/material';
 
 import { I18n } from '@iobroker/adapter-react-v5';
+import { VisRxWidget } from '@iobroker/vis-2-widgets-react-dev';
 
-import Generic from './Generic';
 import IntervalsContainer from './components/IntervalsContainer';
 import DayOfWeekPanel from './components/DayOfWeekPanel';
 
@@ -42,8 +45,17 @@ const ProfileSelector = props => {
     console.log(profilesArray);
 
     return <Select
+        style={{ width: '100%' }}
         value={props.data[props.field.name]}
-        onChange={e => props.setData({ ...props.data, [props.field.name]: e.target.value })}
+        onChange={e => {
+            const data = { ...props.data, [props.field.name]: e.target.value };
+            const oldProfile = profilesArray.find(p => p.profile.id === props.data[props.field.name]);
+            const newProfile = profilesArray.find(p => p.profile.id === e.target.value);
+            if (newProfile && (!data.name || (oldProfile && props.data.name === oldProfile.profile.title))) {
+                data.name = newProfile.profile.title;
+            }
+            props.setData(data);
+        }}
         variant="standard"
         renderValue={value => {
             const profile = profilesArray.find(p => p.profile.id === value);
@@ -55,16 +67,14 @@ const ProfileSelector = props => {
                 key={profile.profile.id}
                 value={profile.profile.id}
             >
-                <div
-                    style={{
-                        paddingLeft: profile.level * 20,
-                    }}
-                >
+                <div style={{ paddingLeft: profile.level * 20 }}>
                     {profile.profile.title}
                 </div>
             </MenuItem>)}
     </Select>;
 };
+
+const Generic = window.visRxWidget || VisRxWidget;
 
 class Scheduler extends Generic {
     static getWidgetInfo() {
@@ -85,7 +95,7 @@ class Scheduler extends Generic {
                         isShort: true,
                     },
                     {
-                        label: 'Scheduler',
+                        label: 'scheduler',
                         name: 'profile',
                         type: 'custom',
                         hidden: data => !data.instance && data.instance !== 0,
@@ -103,10 +113,22 @@ class Scheduler extends Generic {
                         />,
                     },
                     {
-                        label: 'Read only',
+                        label: 'read_only',
                         name: 'readOnly',
                         type: 'checkbox',
                         default: false,
+                    },
+                    {
+                        label: 'hide_days_of_week',
+                        name: 'hideDow',
+                        type: 'checkbox',
+                        default: false,
+                    },
+                    {
+                        label: 'name',
+                        name: 'name',
+                        tooltip: 'used_only_with_relative',
+                        default: '',
                     },
                 ],
             }],
@@ -180,6 +202,10 @@ class Scheduler extends Generic {
     renderWidgetBody(props) {
         super.renderWidgetBody(props);
 
+        if (!this.state.rxData.instance) {
+            return <div>{I18n.t('Instance not selected')}</div>;
+        }
+
         if (!this.state.object) {
             return null;
         }
@@ -189,7 +215,7 @@ class Scheduler extends Generic {
         const profile  = this.currentProfile();
 
         if (!profile) {
-            return <div>{I18n.t('Profile not selected')}</div>;
+            return <div>{Generic.t('profile_not_selected')}</div>;
         }
 
         if (!this.widgetRef.current?.offsetWidth) {
@@ -217,15 +243,22 @@ class Scheduler extends Generic {
                 type={profile.type}
                 socket={this.props.socket}
                 windowWidth={width}
+                readOnly={this.state.rxData.readOnly}
                 intervalsWidth={width}
             />
-            <DayOfWeekPanel
-                firstDayOfWeek={this.props.socket.systemConfig.common.firstDayOfWeek || 'monday'}
-                dow={profile.dow}
-                onChange={this.onDow}
-                theme={this.props.theme}
-            />
+            {this.state.rxData.hideDow ? null :
+                <DayOfWeekPanel
+                    firstDayOfWeek={this.props.socket.systemConfig.common.firstDayOfWeek || 'monday'}
+                    readOnly={this.state.rxData.readOnly}
+                    dow={profile.dow}
+                    onChange={this.onDow}
+                    theme={this.props.theme}
+                />}
         </div>;
+
+        if (this.state.rxStyle.position === 'relative') {
+            return this.wrapContent(content, null, { height: 'calc(100% - 24px)', width: 'calc(100% - 24px)' });
+        }
 
         return content;
     }

@@ -1,8 +1,10 @@
 {
-  "scheduler": "Scheduler",
+  "scheduler": "scheduler",
   "set_label": "Scheduler",
-  "Instance": "Instance",
-  "Scheduler": "Scheduler",
-  "Read only": "Read only",
-  "Profile not selected": "Profile not selected"
+  "instance": "Instance",
+  "read_only": "Read only",
+  "hide_days_of_week": "Hide days of week",
+  "profile_not_selected": "Profile not selected",
+  "used_only_with_relative": "Used only with relative position",
+  "name": "Name"
 }

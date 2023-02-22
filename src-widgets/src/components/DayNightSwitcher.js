@@ -14,8 +14,7 @@ const styles = {
         '&>div': {
             position: 'relative',
         },
-        '&>div>.day_night':
-        {
+        '&>div>.day_night': {
             width: '100%',
             maxWidth: 550,
             maxHeight: 90,
@@ -61,7 +60,6 @@ const styles = {
             pointerEvents: 'none',
             background: 'linear-gradient(to right,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 99%,rgba(255,255,255,0) 100%)',
             filter: "progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 )",
-
         },
     },
 
@@ -82,7 +80,7 @@ class DayNightSwitcher extends Component {
         if (this.props.onChange) {
             this.props.onChange(quorteId);
         }
-    }
+    };
 
     render() {
         const { sections } = this.props;

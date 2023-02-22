@@ -84,44 +84,44 @@ class Intervals extends Component {
             return range === 0.5 ? 2 : 1;
         }
         switch (range) {
-        case 0.25:
-            return 16;
-        case 0.5:
-            return 8;
-        case 1:
-            return 4;
-        case 2:
-            return 3;
-        case 4:
-            return 1;
-        case 3:
-        default:
-            return 2;
+            case 0.25:
+                return 16;
+            case 0.5:
+                return 8;
+            case 1:
+                return 4;
+            case 2:
+                return 3;
+            case 4:
+                return 1;
+            case 3:
+            default:
+                return 2;
         }
-    }
+    };
 
     getCountByRange = range => {
         if (this.state.intervalsWidth >= 720) {
-            return range === 0.5 || range === 0.25 ? 24 : this.getMaxByRange(range);
+            return range === 0.5 || range === 0.25 ? 24 : Intervals.getMaxByRange(range);
         }
         switch (range) {
-        case 0.25:
-            return 6;
-        case 0.5:
-            return 6;
-        case 1:
-            return 6;
-        case 2:
-            return 4;
-        case 4:
-            return 6;
-        case 3:
-        default:
-            return 4;
+            case 0.25:
+                return 6;
+            case 0.5:
+                return 6;
+            case 1:
+                return 6;
+            case 2:
+                return 4;
+            case 4:
+                return 6;
+            case 3:
+            default:
+                return 4;
         }
-    }
+    };
 
-    getMaxByRange = range => 24 / range
+    static getMaxByRange = range => 24 / range;
 
     /*
     prev = () => {
@@ -156,7 +156,7 @@ class Intervals extends Component {
 
     setSlideId = slideId => {
         this.setState({ slideId: parseInt(slideId) });
-    }
+    };
 
     onChange = (field, value, i) => {
         const { selected } = this.state;
@@ -182,7 +182,7 @@ class Intervals extends Component {
             }
             this.props.onChange(data);
         }
-    }
+    };
 
     getSlide() {
         const {

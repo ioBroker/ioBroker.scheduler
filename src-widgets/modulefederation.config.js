@@ -1,7 +1,7 @@
 const makeFederation = require('@iobroker/vis-2-widgets-react-dev/modulefederation.config');
 
 module.exports = makeFederation(
-    'vis2schedulerWidgets',
+    'scheduler',
     {
         './Scheduler': './src/Scheduler',
         './translations': './src/translations',
