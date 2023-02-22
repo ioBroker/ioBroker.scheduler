@@ -48,7 +48,9 @@ class App extends WidgetDemoApp {
                 }}
                 systemConfig={this.state.systemConfig}
                 data={{
+                    instance: '0',
                     profile: 'af1b84fa-ee94-4cf8-959b-8896efd5c176',
+                    // profile: '58f45953-9821-4746-8046-eaa5d69eaccd',
                 }}
             />
         </div>;
