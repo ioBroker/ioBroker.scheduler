@@ -1,8 +1,10 @@
 {
-  "Instance": "Beispiel",
-  "Profile not selected": "Profil nicht ausgewählt",
-  "Read only": "Schreibgeschützt",
-  "Scheduler": "Planer",
+  "hide_days_of_week": "Wochentage ausblenden",
+  "instance": "Instanz",
+  "name": "Name",
+  "profile_not_selected": "Profil nicht ausgewählt",
+  "read_only": "Schreibgeschützt",
   "scheduler": "Planer",
-  "set_label": "Planer"
+  "set_label": "Planer",
+  "used_only_with_relative": "Wird nur mit relativer Position verwendet"
 }

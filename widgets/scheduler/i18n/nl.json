@@ -1,8 +1,10 @@
 {
-  "Instance": "Voorbeeld",
-  "Profile not selected": "Profiel niet geselecteerd",
-  "Read only": "Alleen lezen",
-  "Scheduler": "Planner",
-  "scheduler": "Planner",
-  "set_label": "Planner"
+  "hide_days_of_week": "Dagen van de week verbergen",
+  "instance": "Voorbeeld",
+  "name": "Naam",
+  "profile_not_selected": "Profiel niet geselecteerd",
+  "read_only": "Alleen lezen",
+  "scheduler": "planner",
+  "set_label": "Planner",
+  "used_only_with_relative": "Alleen gebruikt met relatieve positie"
 }

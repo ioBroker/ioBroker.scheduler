@@ -1,8 +1,10 @@
 {
-  "Instance": "Exemple",
-  "Profile not selected": "Profil non sélectionné",
-  "Read only": "Lecture seulement",
-  "Scheduler": "Planificateur",
-  "scheduler": "Planificateur",
-  "set_label": "Planificateur"
+  "hide_days_of_week": "Masquer les jours de la semaine",
+  "instance": "Exemple",
+  "name": "Nom",
+  "profile_not_selected": "Profil non sélectionné",
+  "read_only": "Lecture seulement",
+  "scheduler": "planificateur",
+  "set_label": "Planificateur",
+  "used_only_with_relative": "Utilisé uniquement avec la position relative"
 }

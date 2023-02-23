@@ -1,8 +1,10 @@
 {
-  "Instance": "Пример",
-  "Profile not selected": "Профиль не выбран",
-  "Read only": "Только чтение",
-  "Scheduler": "Планировщик",
+  "hide_days_of_week": "Скрыть дни недели",
+  "instance": "Экземпляр",
+  "name": "Имя",
+  "profile_not_selected": "Профиль не выбран",
+  "read_only": "Только чтение",
   "scheduler": "Планировщик",
-  "set_label": "Планировщик"
+  "set_label": "Планировщик",
+  "used_only_with_relative": "Используется только с относительным положением"
 }

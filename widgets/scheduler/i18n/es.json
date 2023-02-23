@@ -1,8 +1,10 @@
 {
-  "Instance": "Instancia",
-  "Profile not selected": "Perfil no seleccionado",
-  "Read only": "Solo lectura",
-  "Scheduler": "programador",
-  "scheduler": "programador",
-  "set_label": "Programador"
+  "hide_days_of_week": "Ocultar días de la semana",
+  "instance": "Instancia",
+  "name": "Nombre",
+  "profile_not_selected": "Perfil no seleccionado",
+  "read_only": "Solo lectura",
+  "scheduler": "planificador",
+  "set_label": "programador",
+  "used_only_with_relative": "Usado solo con posición relativa"
 }

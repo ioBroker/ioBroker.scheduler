@@ -1,8 +1,10 @@
 {
-  "Instance": "Instância",
-  "Profile not selected": "Perfil não selecionado",
-  "Read only": "Somente leitura",
-  "Scheduler": "Agendador",
+  "hide_days_of_week": "Ocultar dias da semana",
+  "instance": "Instância",
+  "name": "Nome",
+  "profile_not_selected": "Perfil não selecionado",
+  "read_only": "Somente leitura",
   "scheduler": "Agendador",
-  "set_label": "Agendador"
+  "set_label": "Agendador",
+  "used_only_with_relative": "Usado apenas com posição relativa"
 }

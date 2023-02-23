@@ -1,8 +1,10 @@
 {
-  "Instance": "Instancja",
-  "Profile not selected": "Nie wybrano profilu",
-  "Read only": "Tylko czytać",
-  "Scheduler": "Planista",
-  "scheduler": "Planista",
-  "set_label": "Planista"
+  "hide_days_of_week": "Ukryj dni tygodnia",
+  "instance": "Instancja",
+  "name": "Nazwa",
+  "profile_not_selected": "Nie wybrano profilu",
+  "read_only": "Tylko czytać",
+  "scheduler": "planista",
+  "set_label": "Planista",
+  "used_only_with_relative": "Używane tylko z pozycją względną"
 }

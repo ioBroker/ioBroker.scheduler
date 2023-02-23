@@ -88,7 +88,7 @@ class Scheduler extends Generic {
                 name: 'common',
                 fields: [
                     {
-                        label: 'Instance',
+                        label: 'instance',
                         name: 'instance',
                         type: 'instance',
                         adapter: 'scheduler',
