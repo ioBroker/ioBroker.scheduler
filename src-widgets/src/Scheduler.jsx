@@ -7,19 +7,33 @@ import {
     Select,
 } from '@mui/material';
 
-import { I18n } from '@iobroker/adapter-react-v5';
+import {
+    Schedule as ScheduleIcon,
+} from '@mui/icons-material';
+
+import {
+    IconClosed as FolderIcon,
+    I18n,
+} from '@iobroker/adapter-react-v5';
+
 import { VisRxWidget } from '@iobroker/vis-2-widgets-react-dev';
 
 import IntervalsContainer from './components/IntervalsContainer';
 import DayOfWeekPanel from './components/DayOfWeekPanel';
 
 const styles = () => ({
+    content: {
+        display: 'flex',
+        width: '100%',
+        height: '100%',
+    },
 });
 
 const ProfileSelector = props => {
     const [object, setObject] = useState(null);
     useEffect(() => {
         props.socket.getObject(`system.adapter.scheduler.${props.data.instance}`).then(_object => setObject(_object));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     if (!object) {
@@ -66,8 +80,12 @@ const ProfileSelector = props => {
             <MenuItem
                 key={profile.profile.id}
                 value={profile.profile.id}
+                disabled={profile.profile.type === 'folder'}
             >
-                <div style={{ paddingLeft: profile.level * 20 }}>
+                <div style={{ paddingLeft: profile.level * 20, display: 'flex' }}>
+                    <span style={{ paddingRight: 4 }}>
+                        {profile.profile.type === 'folder' ? <FolderIcon /> : <ScheduleIcon />}
+                    </span>
                     {profile.profile.title}
                 </div>
             </MenuItem>)}
@@ -222,17 +240,13 @@ class Scheduler extends Generic {
             this.forceUpdate();
         }
 
-        let width = (this.widgetRef.current?.offsetWidth || 0) - 80;
+        let width = (this.widgetRef.current?.offsetWidth || 0) - (this.state.rxData.hideDow ? 0 : 80);
         if (width < 0) {
             width = 0;
         }
 
         const content = <div
-            style={{
-                display: 'flex',
-                width: '100%',
-                height: '100%',
-            }}
+            className={this.props.classes.content}
             ref={this.widgetRef}
         >
             <IntervalsContainer
