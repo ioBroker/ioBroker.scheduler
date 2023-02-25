@@ -58,6 +58,20 @@ function npmInstall(src) {
     });
 }
 
+function sync2files(src, dst) {
+    const srcTxt = fs.readFileSync(src).toString('utf8');
+    const destTxt = fs.readFileSync(dst).toString('utf8');
+    if (srcTxt !== destTxt) {
+        const srcs = fs.statSync(src);
+        const dest = fs.statSync(dst);
+        if (srcs.mtime > dest.mtime) {
+            fs.writeFileSync(dst, srcTxt);
+        } else {
+            fs.writeFileSync(src, destTxt);
+        }
+    }
+}
+
 function buildWidgets() {
     const version = JSON.parse(fs.readFileSync(`${__dirname}/package.json`).toString('utf8')).version;
     const data    = JSON.parse(fs.readFileSync(`${__dirname}/src-widgets/package.json`).toString('utf8'));
@@ -68,11 +82,11 @@ function buildWidgets() {
 
 
     // sync src and src-widgets
-    fs.writeFileSync(`${__dirname}/src-widgets/src/components/DayNightSwitcher.js`, fs.readFileSync(`${__dirname}/src/src/components/DayNightSwitcher.js`));
-    fs.writeFileSync(`${__dirname}/src-widgets/src/components/DayOfWeekPanel.js`, fs.readFileSync(`${__dirname}/src/src/components/DayOfWeekPanel.js`));
-    fs.writeFileSync(`${__dirname}/src-widgets/src/components/Interval.js`, fs.readFileSync(`${__dirname}/src/src/components/Interval.js`));
-    fs.writeFileSync(`${__dirname}/src-widgets/src/components/Intervals.js`, fs.readFileSync(`${__dirname}/src/src/components/Intervals.js`));
-    fs.writeFileSync(`${__dirname}/src-widgets/src/components/IntervalsContainer.js`, fs.readFileSync(`${__dirname}/src/src/components/IntervalsContainer.js`));
+    sync2files(`${__dirname}/src-widgets/src/components/DayNightSwitcher.js`, `${__dirname}/src/src/components/DayNightSwitcher.js`);
+    sync2files(`${__dirname}/src-widgets/src/components/DayOfWeekPanel.js`, `${__dirname}/src/src/components/DayOfWeekPanel.js`);
+    sync2files(`${__dirname}/src-widgets/src/components/Interval.js`, `${__dirname}/src/src/components/Interval.js`);
+    sync2files(`${__dirname}/src-widgets/src/components/Intervals.js`, `${__dirname}/src/src/components/Intervals.js`);
+    sync2files(`${__dirname}/src-widgets/src/components/IntervalsContainer.js`, `${__dirname}/src/src/components/IntervalsContainer.js`);
 
     return new Promise((resolve, reject) => {
         const options = {
@@ -94,7 +108,7 @@ function buildWidgets() {
             child.stdout.on('data', data => console.log(data.toString()));
             child.stderr.on('data', data => console.log(data.toString()));
             child.on('close', code => {
-                console.log(`child process exited with code ${code}`);
+                console.log(`compile process exited with code ${code}`);
                 code ? reject(`Exit code: ${code}`) : resolve();
             });
         }

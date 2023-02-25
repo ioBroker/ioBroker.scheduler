@@ -56,14 +56,13 @@ class Intervals extends Component {
 
     componentDidMount() {
         this.setSlideOfTime();
-        this.timeInterval = setInterval(() => {
+        this.timeInterval = setInterval(() =>
             this.setState({
                 currentTime: new Date(),
-            });
-        }, 1000 * 120);
-        this.setSlideInterval = setInterval(() => {
-            this.setSlideOfTime();
-        }, 1000 * 120);
+            }), 1000 * 120);
+
+        this.setSlideInterval = setInterval(() =>
+            this.setSlideOfTime(), 1000 * 120);
     }
 
     componentWillUnmount() {
