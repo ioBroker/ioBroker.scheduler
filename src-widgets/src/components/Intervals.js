@@ -272,9 +272,9 @@ class Intervals extends Component {
             </div>
             <DayNightSwitcher
                 sections={sections}
-                quorteId={parseInt(slideId)}
-                onChange={quorteId => {
-                    this.setSlideId(quorteId);
+                quarterId={parseInt(slideId)}
+                onChange={quarterId => {
+                    this.setSlideId(quarterId);
                     clearInterval(this.setSlideInterval);
                     this.setSlideInterval = setInterval(() => {
                         this.setSlideOfTime();

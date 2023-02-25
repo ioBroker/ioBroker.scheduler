@@ -26,7 +26,7 @@ const styles = {
             maxHeight: 90,
         },
     },
-    dayNightQoute: {
+    dayNightQuarter: {
         display: 'flex',
         width: '100%',
     },
@@ -76,23 +76,23 @@ const styles = {
     },
 };
 class DayNightSwitcher extends Component {
-    onSlide = quorteId => {
+    onSlide = quarterId => {
         if (this.props.onChange) {
-            this.props.onChange(quorteId);
+            this.props.onChange(quarterId);
         }
     };
 
     render() {
         const { sections } = this.props;
         const {
-            dayNightCont, dayNightSlide, dayNightQoute, dn,
+            dayNightCont, dayNightSlide, dayNightQuarter, dn,
         } = this.props.classes;
         const height = sections === 1 ? 0 : 78;
         const region = 100 / sections;
 
-        const quortes = Array(sections).fill().map((_, i) => <div
+        const quarters = Array(sections).fill().map((_, i) => <div
             key={i}
-            className={dayNightQoute}
+            className={dayNightQuarter}
             onClick={() => this.onSlide(i)}
         />);
 
@@ -100,13 +100,13 @@ class DayNightSwitcher extends Component {
             <div>
                 <img src={dayNight} alt="day-night" id="day-night" />
                 <div className={dn}>
-                    {quortes}
+                    {quarters}
                     <div
                         className={dayNightSlide}
                         style={{
                             maxWidth: `${region}%`,
                             width: `${region}%`,
-                            left: `calc(${this.props.quorteId * region}% - 5px)`,
+                            left: `calc(${this.props.quarterId * region}% - 5px)`,
                         }}
                     />
                 </div>
@@ -117,7 +117,7 @@ class DayNightSwitcher extends Component {
 
 DayNightSwitcher.propTypes = {
     onChange: PropTypes.func,
-    quorteId: PropTypes.number,
+    quarterId: PropTypes.number,
     sections: PropTypes.number,
 };
 export default withStyles(styles)(DayNightSwitcher);
