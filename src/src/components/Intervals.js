@@ -40,6 +40,8 @@ const styles = theme => ({
 class Intervals extends Component {
     timeInterval = null;
 
+    setSlideInterval = null;
+
     constructor(props) {
         super(props);
 
@@ -53,17 +55,28 @@ class Intervals extends Component {
     }
 
     componentDidMount() {
-        this.timeInterval = setInterval(() => this.setState({ currentTime: new Date() }), 1000 * 120);
+        this.setSlideOfTime();
+        this.timeInterval = setInterval(() => {
+            this.setState({
+                currentTime: new Date(),
+            });
+        }, 1000 * 120);
+        this.setSlideInterval = setInterval(() => {
+            this.setSlideOfTime();
+        }, 1000 * 120);
     }
 
     componentWillUnmount() {
         clearInterval(this.timeInterval);
         this.timeInterval = null;
+        clearInterval(this.setSlideInterval);
+        this.setSlideInterval = null;
     }
 
     componentDidUpdate(nextProps) {
         if (nextProps.range !== this.props.range) {
             this.setState({ slideId: 0 });
+            this.setSlideOfTime();
         }
         if (this.props.intervalsWidth && nextProps.intervalsWidth !== this.props.intervalsWidth) {
             // console.log(nextProps.intervalsWidth, this.props.intervalsWidth)
@@ -84,44 +97,44 @@ class Intervals extends Component {
             return range === 0.5 ? 2 : 1;
         }
         switch (range) {
-        case 0.25:
-            return 16;
-        case 0.5:
-            return 8;
-        case 1:
-            return 4;
-        case 2:
-            return 3;
-        case 4:
-            return 1;
-        case 3:
-        default:
-            return 2;
+            case 0.25:
+                return 16;
+            case 0.5:
+                return 8;
+            case 1:
+                return 4;
+            case 2:
+                return 3;
+            case 4:
+                return 1;
+            case 3:
+            default:
+                return 2;
         }
-    }
+    };
 
     getCountByRange = range => {
         if (this.state.intervalsWidth >= 720) {
-            return range === 0.5 || range === 0.25 ? 24 : this.getMaxByRange(range);
+            return range === 0.5 || range === 0.25 ? 24 : Intervals.getMaxByRange(range);
         }
         switch (range) {
-        case 0.25:
-            return 6;
-        case 0.5:
-            return 6;
-        case 1:
-            return 6;
-        case 2:
-            return 4;
-        case 4:
-            return 6;
-        case 3:
-        default:
-            return 4;
+            case 0.25:
+                return 6;
+            case 0.5:
+                return 6;
+            case 1:
+                return 6;
+            case 2:
+                return 4;
+            case 4:
+                return 6;
+            case 3:
+            default:
+                return 4;
         }
-    }
+    };
 
-    getMaxByRange = range => 24 / range
+    static getMaxByRange = range => 24 / range;
 
     /*
     prev = () => {
@@ -156,7 +169,7 @@ class Intervals extends Component {
 
     setSlideId = slideId => {
         this.setState({ slideId: parseInt(slideId) });
-    }
+    };
 
     onChange = (field, value, i) => {
         const { selected } = this.state;
@@ -182,7 +195,7 @@ class Intervals extends Component {
             }
             this.props.onChange(data);
         }
-    }
+    };
 
     getSlide() {
         const {
@@ -236,6 +249,13 @@ class Intervals extends Component {
     }
     */
 
+    setSlideOfTime = () => {
+        const { range } = this.props;
+        const hour = new Date().getHours();
+        const part = this.getCountByRange(range) * range;
+        this.setState({ slideId: Math.floor(hour / part) });
+    };
+
     render() {
         if (!this.state.intervalsWidth) {
             return null;
@@ -253,7 +273,13 @@ class Intervals extends Component {
             <DayNightSwitcher
                 sections={sections}
                 quorteId={parseInt(slideId)}
-                onChange={quorteId => this.setSlideId(quorteId)}
+                onChange={quorteId => {
+                    this.setSlideId(quorteId);
+                    clearInterval(this.setSlideInterval);
+                    this.setSlideInterval = setInterval(() => {
+                        this.setSlideOfTime();
+                    }, 1000 * 120);
+                }}
             />
         </>;
     }

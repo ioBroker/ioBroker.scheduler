@@ -40,6 +40,8 @@ const styles = theme => ({
 class Intervals extends Component {
     timeInterval = null;
 
+    setSlideInterval = null;
+
     constructor(props) {
         super(props);
 
@@ -53,17 +55,28 @@ class Intervals extends Component {
     }
 
     componentDidMount() {
-        this.timeInterval = setInterval(() => this.setState({ currentTime: new Date() }), 1000 * 120);
+        this.setSlideOfTime();
+        this.timeInterval = setInterval(() => {
+            this.setState({
+                currentTime: new Date(),
+            });
+        }, 1000 * 120);
+        this.setSlideInterval = setInterval(() => {
+            this.setSlideOfTime();
+        }, 1000 * 120);
     }
 
     componentWillUnmount() {
         clearInterval(this.timeInterval);
         this.timeInterval = null;
+        clearInterval(this.setSlideInterval);
+        this.setSlideInterval = null;
     }
 
     componentDidUpdate(nextProps) {
         if (nextProps.range !== this.props.range) {
             this.setState({ slideId: 0 });
+            this.setSlideOfTime();
         }
         if (this.props.intervalsWidth && nextProps.intervalsWidth !== this.props.intervalsWidth) {
             // console.log(nextProps.intervalsWidth, this.props.intervalsWidth)
@@ -236,6 +249,13 @@ class Intervals extends Component {
     }
     */
 
+    setSlideOfTime = () => {
+        const { range } = this.props;
+        const hour = new Date().getHours();
+        const part = this.getCountByRange(range) * range;
+        this.setState({ slideId: Math.floor(hour / part) });
+    };
+
     render() {
         if (!this.state.intervalsWidth) {
             return null;
@@ -253,7 +273,13 @@ class Intervals extends Component {
             <DayNightSwitcher
                 sections={sections}
                 quorteId={parseInt(slideId)}
-                onChange={quorteId => this.setSlideId(quorteId)}
+                onChange={quorteId => {
+                    this.setSlideId(quorteId);
+                    clearInterval(this.setSlideInterval);
+                    this.setSlideInterval = setInterval(() => {
+                        this.setSlideOfTime();
+                    }, 1000 * 120);
+                }}
             />
         </>;
     }
