@@ -66,6 +66,14 @@ function buildWidgets() {
 
     fs.writeFileSync(`${__dirname}/src-widgets/package.json`, JSON.stringify(data, null, 4));
 
+
+    // sync src and src-widgets
+    fs.writeFileSync(`${__dirname}/src-widgets/src/components/DayNightSwitcher.js`, fs.readFileSync(`${__dirname}/src/src/components/DayNightSwitcher.js`));
+    fs.writeFileSync(`${__dirname}/src-widgets/src/components/DayOfWeekPanel.js`, fs.readFileSync(`${__dirname}/src/src/components/DayOfWeekPanel.js`));
+    fs.writeFileSync(`${__dirname}/src-widgets/src/components/Interval.js`, fs.readFileSync(`${__dirname}/src/src/components/Interval.js`));
+    fs.writeFileSync(`${__dirname}/src-widgets/src/components/Intervals.js`, fs.readFileSync(`${__dirname}/src/src/components/Intervals.js`));
+    fs.writeFileSync(`${__dirname}/src-widgets/src/components/IntervalsContainer.js`, fs.readFileSync(`${__dirname}/src/src/components/IntervalsContainer.js`));
+
     return new Promise((resolve, reject) => {
         const options = {
             stdio: 'pipe',

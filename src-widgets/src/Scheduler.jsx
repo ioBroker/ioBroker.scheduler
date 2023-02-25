@@ -152,7 +152,7 @@ class Scheduler extends Generic {
             }],
             visDefaultStyle: {
                 width: '100%',
-                height: 120,
+                height: 355,
                 position: 'relative',
             },
             visPrev: 'widgets/scheduler/img/prev_scheduler.png',
@@ -166,13 +166,44 @@ class Scheduler extends Generic {
 
     async propertiesUpdate() {
         const object = await this.props.socket.getObject(`system.adapter.scheduler.${this.state.rxData.instance}`);
-        this.setState({ object });
+        this.setState({ object }, () => {
+            if (this.subscribedId !== this.state.object._id) {
+                this.subscribedId && this.props.socket.unsubscribeObject(this.subscribedId, this.onProfileChanged);
+                if (this.state.object._id) {
+                    this.subscribedId = this.state.object._id;
+                    this.props.socket.subscribeObject(this.state.object._id, this.onProfileChanged);
+                } else {
+                    this.subscribedId = null;
+                }
+            }
+        });
     }
 
     componentDidMount() {
         super.componentDidMount();
         this.propertiesUpdate();
     }
+
+    componentWillUnmount() {
+        super.componentWillUnmount();
+        this.subscribedId && this.props.socket.unsubscribeObject(this.subscribedId, this.onProfileChanged);
+    }
+
+    onProfileChanged = (id, obj) => {
+        if (id === this.state.object._id) {
+            const profileOld = this.state.object.native.profiles.find(
+                profile => profile.id === this.state.rxData.profile,
+            );
+
+            const profileNew = obj.native?.profiles?.find(
+                profile => profile.id === this.state.rxData.profile,
+            );
+
+            if (JSON.stringify(profileOld) !== JSON.stringify(profileNew)) {
+                this.setState({ object: obj });
+            }
+        }
+    };
 
     onRxDataChanged() {
         this.propertiesUpdate();

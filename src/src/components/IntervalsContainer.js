@@ -60,7 +60,7 @@ class IntervalsContainer extends Component {
         this.setState({
             intervalsWidth: w || 30,
         });
-    }
+    };
 
     render() {
         const {
@@ -68,33 +68,29 @@ class IntervalsContainer extends Component {
         } = this.props;
         const { tapperGrid, tapperInside } = this.props.classes;
         // console.log(this.state.intervalsWidth);
-        return (
+        return <div
+            className={`${tapperGrid} m-1 h-100 `}
+            style={{ backgroundColor: theme.palette.background.default }}
+        >
             <div
-                className={`${tapperGrid} m-1 h-100 `}
+                className={tapperInside}
+                id="tapper-inside"
+                ref={this.tapperRef}
                 style={{
-                    backgroundColor: theme.palette.background.default,
+                    padding: 0,
+                    width: '100%',
                 }}
             >
-                <div
-                    className={tapperInside}
-                    id="tapper-inside"
-                    ref={this.tapperRef}
-                    style={{
-                        padding: 0,
-                        width: '100%',
-                    }}
-                >
-                    <Intervals
-                        data={intervals}
-                        onChange={this.props.onChange}
-                        theme={theme}
-                        type={type}
-                        range={range}
-                        intervalsWidth={this.props.intervalsWidth || this.state.intervalsWidth}
-                    />
-                </div>
+                <Intervals
+                    data={intervals}
+                    onChange={this.props.onChange}
+                    theme={theme}
+                    type={type}
+                    range={range}
+                    intervalsWidth={this.props.intervalsWidth || this.state.intervalsWidth}
+                />
             </div>
-        );
+        </div>;
     }
 }
 
