@@ -201,9 +201,10 @@ const ProfileDrag = props => {
             }),
         },
     );
+
     useEffect(() => {
         preview(getEmptyImage(), { captureDraggingState: true });
-    }, []);
+    }, [preview]);
 
     return <div ref={dragRef}>
         {props.children}
