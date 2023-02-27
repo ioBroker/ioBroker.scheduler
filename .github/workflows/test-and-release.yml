@@ -34,23 +34,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-
       - name: Install Dependencies
         run: npm install
 
       - name: Build
         run: npm run build
-
-      - name: Cache node modules
-        uses: actions/cache/save@v3
-        with:
-          key: build
-          path: |
-            node_modules/**/*
-            src/node_modules/**/*
-            src-widgets/node_modules/**/*
-            admin/**/*
-            widgets/**/*
 
 #      - name: Perform a type check
 #        run: npm run check:ts
@@ -82,14 +70,6 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
-
-      - name: Restore web files
-        uses: actions/cache/restore@v3
-        with:
-          key: build
-          path: |
-            admin/**/*
-            widgets/**/*
 
       - name: Run local tests
         run: npm test
@@ -125,16 +105,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Restore web files
-        uses: actions/cache/restore@v3
-        with:
-          key: build
-          path: |
-            node_modules/**/*
-            src/node_modules/**/*
-            src-widgets/node_modules/**/*
-            admin/**/*
-            widgets/**/*
+      - name: Install Dependencies
+        run: npm install
 
       - name: Extract the version and commit body from the tag
         id: extract_release
