@@ -72,26 +72,24 @@ describe(`Test ${adapterShortName} adapter`, function () {
     before(`Test ${adapterShortName} adapter: Start js-controller`, function (_done) {
         this.timeout(600000); // because of first install from npm
 
-        setup.setupController(() => {
-            const config = setup.getAdapterConfig();
+        setup.setupController(async () => {
+            const config = await setup.getAdapterConfig();
             // enable adapter
             config.common.enabled  = true;
             config.common.loglevel = 'debug';
 
             config.native.apikey   = 'test';
 
-            setup.setAdapterConfig(config.common, config.native);
+            await setup.setAdapterConfig(config.common, config.native);
 
-            setup.installAdapter('web', function () {
-                setup.startController(
-                    true,
-                    (id, obj) => {},
-                    (id, state) => onStateChanged && onStateChanged(id, state),
-                    (_objects, _states) => {
-                        objects = _objects;
-                        states  = _states;
-                        _done();
-                });
+            setup.startController(
+                true,
+                (/* id, obj */) => {},
+                (id, state) => onStateChanged && onStateChanged(id, state),
+                (_objects, _states) => {
+                    objects = _objects;
+                    states  = _states;
+                    _done();
             });
         });
     });
