@@ -83,6 +83,14 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Restore web files
+        uses: actions/cache/restore@v3
+        with:
+          key: build
+          path: |
+            admin/**/*
+            widgets/**/*
+
       - name: Run local tests
         run: npm test
 #      - name: Run unit tests
