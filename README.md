@@ -22,7 +22,7 @@ The user should add devices to profile and all devices in profile will be set to
 -->
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 1.1.1 (2023-02-27)
 * (bluefox) Added widget for vis-2
 
 ### 1.0.4 (2022-12-23)
