@@ -19,7 +19,7 @@ function checkConnectionOfAdapter(cb, counter) {
         return cb && cb('Cannot check connection');
     }
 
-    states.getState(`system.adapter.${adapterShortName}.0.alive`, function (err, state) {
+    states.getState(`system.adapter.${adapterShortName}.0.alive`, (err, state) => {
         if (err) console.error(err);
         if (state && state.val) {
             cb && cb();
@@ -35,7 +35,7 @@ function checkValueOfState(id, value, cb, counter) {
         return cb && cb(`Cannot check value Of State ${id}`);
     }
 
-    states.getState(id, function (err, state) {
+    states.getState(id, (err, state) => {
         err && console.error(err);
         if (value === null && !state) {
             cb && cb();
@@ -72,7 +72,7 @@ describe(`Test ${adapterShortName} adapter`, function () {
     before(`Test ${adapterShortName} adapter: Start js-controller`, function (_done) {
         this.timeout(600000); // because of first install from npm
 
-        setup.setupController(function () {
+        setup.setupController(() => {
             const config = setup.getAdapterConfig();
             // enable adapter
             config.common.enabled  = true;
