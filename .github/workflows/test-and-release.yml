@@ -46,6 +46,8 @@ jobs:
         with:
           key: build
           path: |
+            node_modules/**/*
+            src/node_modules/**/*
             admin/**/*
             widgets/**/*
 
@@ -119,6 +121,8 @@ jobs:
         with:
           key: build
           path: |
+            node_modules/**/*
+            src/node_modules/**/*
             admin/**/*
             widgets/**/*
 
