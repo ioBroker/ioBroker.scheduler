@@ -3,19 +3,6 @@
     "name": "scheduler",
     "version": "1.1.0",
     "news": {
-      "1.1.0": {
-        "en": "Added widget for vis-2",
-        "de": "Widget für vis-2 hinzugefügt",
-        "ru": "Добавлен виджет для vis-2",
-        "pt": "Adicionado widget para vis-2",
-        "nl": "Gevoegd widget voor vis 2",
-        "fr": "Ajouté widget pour vis-2",
-        "it": "Aggiunto widget per vis-2",
-        "es": "Widget añadido para vis-2",
-        "pl": "Widgetowanie wizy 2",
-        "uk": "Додано віджет для vis-2",
-        "zh-cn": "增加对-2目标"
-      },
       "1.0.4": {
         "en": "Updated GUI packages",
         "de": "Aktualisierte GUI-Pakete",
