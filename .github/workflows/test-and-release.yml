@@ -48,6 +48,7 @@ jobs:
           path: |
             node_modules/**/*
             src/node_modules/**/*
+            src-widgets/node_modules/**/*
             admin/**/*
             widgets/**/*
 
@@ -123,6 +124,7 @@ jobs:
           path: |
             node_modules/**/*
             src/node_modules/**/*
+            src-widgets/node_modules/**/*
             admin/**/*
             widgets/**/*
 
