@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@mui/styles';
 import { FormControl, FormControlLabel, Checkbox } from '@mui/material';
 
-import { I18n } from '@iobroker/adapter-react-v5';
-
 const daysOfWeek = [
     'Su',
     'Mo',
@@ -55,7 +53,7 @@ class DayOfWeekPanel extends Component {
                         onChange={e => this.props.onChange(index, e.target.checked)}
                     />
                 }
-                label={I18n.t(daysOfWeek[index])}
+                label={this.props.t(daysOfWeek[index])}
                 className={label}
             />)}
         </FormControl>;
@@ -66,6 +64,7 @@ DayOfWeekPanel.propTypes = {
     dow: PropTypes.array,
     onChange: PropTypes.func,
     firstDayOfWeek: PropTypes.string,
+    t: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(DayOfWeekPanel);

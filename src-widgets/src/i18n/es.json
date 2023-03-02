@@ -6,5 +6,13 @@
   "read_only": "Solo lectura",
   "scheduler": "planificador",
   "set_label": "programador",
-  "used_only_with_relative": "Usado solo con posición relativa"
+  "used_only_with_relative": "Usado solo con posición relativa",
+  "instance_not_selected": "Instancia no seleccionada",
+  "Mo": "Mes",
+  "Tu": "Tu",
+  "We": "Mi",
+  "Th": "Th",
+  "Fr": "Fr",
+  "Sa": "Sa",
+  "Su": "Su"
 }

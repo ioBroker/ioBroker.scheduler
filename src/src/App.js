@@ -686,6 +686,7 @@ class App extends GenericApp {
                 dow={currentProfile.dow}
                 onChange={this.onDow}
                 theme={this.state.theme}
+                t={I18n.t}
             />
         </div>;
     }

@@ -6,5 +6,13 @@
   "hide_days_of_week": "Hide days of week",
   "profile_not_selected": "Profile not selected",
   "used_only_with_relative": "Used only with relative position",
-  "name": "Name"
+  "name": "Name",
+  "instance_not_selected": "Instance not selected",
+  "Mo": "Mo",
+  "Tu": "Tu",
+  "We": "We",
+  "Th": "Th",
+  "Fr": "Fr",
+  "Sa": "Sa",
+  "Su": "Su"
 }

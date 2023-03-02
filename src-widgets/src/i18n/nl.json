@@ -6,5 +6,13 @@
   "read_only": "Alleen lezen",
   "scheduler": "planner",
   "set_label": "Planner",
-  "used_only_with_relative": "Alleen gebruikt met relatieve positie"
+  "used_only_with_relative": "Alleen gebruikt met relatieve positie",
+  "instance_not_selected": "Instantie niet geselecteerd",
+  "Mo": "Mo",
+  "Tu": "Tu",
+  "We": "Mi",
+  "Th": "Th",
+  "Fr": "Fr",
+  "Sa": "Sa",
+  "Su": "Su"
 }

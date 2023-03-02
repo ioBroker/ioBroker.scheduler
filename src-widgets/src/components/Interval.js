@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { withStyles, makeStyles } from '@mui/styles';
 import { Slider } from '@mui/material';
+
 import minmax from '../data/minmax.json';
 
 const styles = () => ({

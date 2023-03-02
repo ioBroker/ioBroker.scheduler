@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { withStyles } from '@mui/styles';
+
 import Intervals from './Intervals';
 
 const styles = () => ({
@@ -10,8 +11,7 @@ const styles = () => ({
         borderRadius: 0,
         alignItems: 'center',
         padding: 10,
-        '@media (max-width:570px)':
-        {
+        '@media (max-width:570px)': {
             margin: 0,
             boxShadow: 'none',
             borderRadius: 0,

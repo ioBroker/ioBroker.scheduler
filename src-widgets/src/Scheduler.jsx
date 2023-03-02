@@ -101,6 +101,7 @@ class Scheduler extends Generic {
             visSet: 'scheduler',
             visWidgetLabel: 'scheduler',  // Label of widget
             visSetLabel: 'set_label', // Label of widget set
+            visSetColor: '#70BBF7', // color of widget set
             visName: 'Scheduler',
             visAttrs: [{
                 name: 'common',
@@ -159,24 +160,39 @@ class Scheduler extends Generic {
         };
     }
 
+    static t(key, ...args) {
+        return I18n.t(`scheduler_${key}`, ...args);
+    }
+
     constructor(props) {
         super(props);
         this.widgetRef = React.createRef();
     }
 
     async propertiesUpdate() {
-        const object = await this.props.socket.getObject(`system.adapter.scheduler.${this.state.rxData.instance}`);
-        this.setState({ object }, () => {
-            if (this.subscribedId !== this.state.object._id) {
-                this.subscribedId && this.props.socket.unsubscribeObject(this.subscribedId, this.onProfileChanged);
-                if (this.state.object._id) {
-                    this.subscribedId = this.state.object._id;
-                    this.props.socket.subscribeObject(this.state.object._id, this.onProfileChanged);
-                } else {
-                    this.subscribedId = null;
+        // calculate current instance
+        const instanceId = this.state.rxData.instance || this.state.rxData.instance === 0 ? `system.adapter.scheduler.${this.state.rxData.instance}` : '';
+
+        // if instance changed
+        if (this.subscribedId !== instanceId) {
+            // unsubscribe from old instance
+            this.subscribedId && this.props.socket.unsubscribeObject(this.subscribedId, this.onProfileChanged);
+            this.subscribedId = null;
+        }
+        if (instanceId) {
+            // read new instance
+            const object = await this.props.socket.getObject(instanceId);
+            this.setState({ object }, () => {
+                if (!this.subscribedId && object) {
+                    if (instanceId) {
+                        this.subscribedId = instanceId;
+                        this.props.socket.subscribeObject(instanceId, this.onProfileChanged);
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            this.setState({ object: null });
+        }
     }
 
     componentDidMount() {
@@ -252,7 +268,7 @@ class Scheduler extends Generic {
         super.renderWidgetBody(props);
 
         if (!this.state.rxData.instance) {
-            return <div>{I18n.t('Instance not selected')}</div>;
+            return <div>{Scheduler.t('instance_not_selected')}</div>;
         }
 
         if (!this.state.object) {
@@ -264,7 +280,7 @@ class Scheduler extends Generic {
         const profile  = this.currentProfile();
 
         if (!profile) {
-            return <div>{Generic.t('profile_not_selected')}</div>;
+            return <div>{Scheduler.t('profile_not_selected')}</div>;
         }
 
         if (!this.widgetRef.current?.offsetWidth) {
@@ -298,6 +314,7 @@ class Scheduler extends Generic {
                     dow={profile.dow}
                     onChange={this.onDow}
                     theme={this.props.theme}
+                    t={Scheduler.t}
                 />}
         </div>;
 

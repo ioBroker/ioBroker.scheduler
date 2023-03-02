@@ -6,5 +6,13 @@
   "read_only": "Somente leitura",
   "scheduler": "Agendador",
   "set_label": "Agendador",
-  "used_only_with_relative": "Usado apenas com posição relativa"
+  "used_only_with_relative": "Usado apenas com posição relativa",
+  "instance_not_selected": "Instância não selecionada",
+  "Mo": "Mo",
+  "Tu": "Tu",
+  "We": "Mi",
+  "Th": "Th",
+  "Fr": "Fr",
+  "Sa": "Sá",
+  "Su": "Su"
 }

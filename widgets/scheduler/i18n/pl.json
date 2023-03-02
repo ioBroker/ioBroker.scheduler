@@ -6,5 +6,13 @@
   "read_only": "Tylko czytać",
   "scheduler": "planista",
   "set_label": "Planista",
-  "used_only_with_relative": "Używane tylko z pozycją względną"
+  "used_only_with_relative": "Używane tylko z pozycją względną",
+  "instance_not_selected": "Nie wybrano instancji",
+  "Mo": "Mo",
+  "Tu": "Tu",
+  "We": "Mi",
+  "Th": "Th",
+  "Fr": "Fr",
+  "Sa": "Sa",
+  "Su": "Su"
 }

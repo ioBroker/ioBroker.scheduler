@@ -1,6 +1,7 @@
 import { withStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+
 import DayNightSwitcher from './DayNightSwitcher';
 import Interval from './Interval';
 
