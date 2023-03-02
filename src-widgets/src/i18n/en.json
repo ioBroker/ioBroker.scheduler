@@ -2,6 +2,7 @@
   "scheduler": "scheduler",
   "set_label": "Scheduler",
   "instance": "Instance",
+  "profile": "Profile",
   "read_only": "Read only",
   "hide_days_of_week": "Hide days of week",
   "profile_not_selected": "Profile not selected",

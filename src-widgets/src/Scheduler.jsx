@@ -114,7 +114,7 @@ class Scheduler extends Generic {
                         isShort: true,
                     },
                     {
-                        label: 'scheduler',
+                        label: 'profile',
                         name: 'profile',
                         type: 'custom',
                         hidden: data => !data.instance && data.instance !== 0,
