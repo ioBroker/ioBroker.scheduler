@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "scheduler",
-    "version": "1.1.3",
+    "version": "1.1.4",
     "news": {
+      "1.1.4": {
+        "en": "Tried to fix vis-2 widget",
+        "de": "Versuche, vis-2 Widget zu reparieren",
+        "ru": "Попробовал исправить виджет vis-2",
+        "pt": "Tentei corrigir vis-2 widget",
+        "nl": "Probeerde vis-2 widget te repareren",
+        "fr": "Trié pour fixer vis-2 widget",
+        "it": "Provato a correggere il widget vis-2",
+        "es": "Traté de arreglar vis-2 widget",
+        "pl": "Próbować wizy-2",
+        "uk": "Перевірено для фіксації Vis-2 віджет",
+        "zh-cn": "九. 明示"
+      },
       "1.1.3": {
         "en": "Added widget for vis-2",
         "de": "Widget für vis-2 hinzugefügt",
@@ -78,18 +91,6 @@
         "es": "Corregido el problema con el socket. io",
         "pl": "Poprawiono problem z gniazdem. i",
         "zh-cn": "把问题与袖手旁观。 0%"
-      },
-      "1.0.1": {
-        "en": "Allowed to work behind reverse proxy",
-        "de": "Erlaubt, hinter der Reverse Proxy zu arbeiten",
-        "ru": "Разрешено работать за обратным прокси",
-        "pt": "Permitido trabalhar atrás do proxy reverso",
-        "nl": "Genoemd om achteruit te werken",
-        "fr": "Permet de travailler derrière le proxy inverse",
-        "it": "Permesso di lavorare dietro proxy inverso",
-        "es": "Permitido trabajar detrás del proxy inverso",
-        "pl": "Wszystko, by pracować za odwrotnym proxym",
-        "zh-cn": "允许在反倾销后工作"
       }
     },
     "title": "Schedule profiler",
