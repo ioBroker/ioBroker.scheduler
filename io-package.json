@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "scheduler",
-    "version": "1.1.2",
+    "version": "1.1.3",
     "news": {
+      "1.1.3": {
+        "en": "Added widget for vis-2",
+        "de": "Widget für vis-2 hinzugefügt",
+        "ru": "Добавлен виджет для vis-2",
+        "pt": "Adicionado widget para vis-2",
+        "nl": "Gevoegd widget voor vis 2",
+        "fr": "Ajouté widget pour vis-2",
+        "it": "Aggiunto widget per vis-2",
+        "es": "Widget añadido para vis-2",
+        "pl": "Widgetowanie wizy 2",
+        "uk": "Додано віджет для vis-2",
+        "zh-cn": "增加对-2目标"
+      },
       "1.1.2": {
         "en": "Added widget for vis-2",
         "de": "Widget für vis-2 hinzugefügt",
@@ -77,18 +90,6 @@
         "es": "Permitido trabajar detrás del proxy inverso",
         "pl": "Wszystko, by pracować za odwrotnym proxym",
         "zh-cn": "允许在反倾销后工作"
-      },
-      "1.0.0": {
-        "en": "GUI migrated to material@5",
-        "de": "GUI auf material@5 migriert",
-        "ru": "Графический интерфейс перенесен на material@5",
-        "pt": "GUI migrada para material@5",
-        "nl": "GUI gemigreerd naar material@5",
-        "fr": "Interface graphique migrée vers material@5",
-        "it": "La GUI è migrata a material@5",
-        "es": "GUI migrada a material@5",
-        "pl": "GUI migrowane do material@5",
-        "zh-cn": "GUI 迁移到 material@5"
       }
     },
     "title": "Schedule profiler",
