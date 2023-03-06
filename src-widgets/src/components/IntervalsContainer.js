@@ -100,5 +100,6 @@ IntervalsContainer.propTypes = {
     range: PropTypes.number,
     theme: PropTypes.object,
     type: PropTypes.string,
+    intervalsWidth: PropTypes.number,
 };
 export default withStyles(styles)(IntervalsContainer);

@@ -284,7 +284,7 @@ class Scheduler extends Generic {
         }
 
         if (!this.widgetRef.current?.offsetWidth) {
-            this.forceUpdate();
+            setTimeout(() => this.forceUpdate(), 100);
         }
 
         let width = (this.widgetRef.current?.offsetWidth || 0) - (this.state.rxData.hideDow ? 0 : 80);
@@ -307,7 +307,7 @@ class Scheduler extends Generic {
                 readOnly={this.state.rxData.readOnly}
                 intervalsWidth={width}
             />
-            {this.state.rxData.hideDow ? null :
+            {this.state.rxData.hideDow && width ? null :
                 <DayOfWeekPanel
                     firstDayOfWeek={this.props.socket.systemConfig.common.firstDayOfWeek || 'monday'}
                     readOnly={this.state.rxData.readOnly}
