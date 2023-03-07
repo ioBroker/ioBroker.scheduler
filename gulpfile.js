@@ -295,7 +295,8 @@ gulp.task('widget-3-copy', () => Promise.all([
         `!src-widgets/build/static/media/Windscreen.*.svg`,
         `!src-widgets/build/static/media/Workshop.*.svg`,
         `!src-widgets/build/static/media/Workspace.*.svg`,
-        'src-widgets/build/static/js/vendors-node_modules_iobroker_vis-2-widgets-react-dev_index_jsx*.*'
+        'src-widgets/build/static/js/vendors-node_modules_iobroker_vis-2-widgets-react-dev_index_jsx*.*',
+        'src-widgets/build/static/js/vendors-node_modules_babel_runtime_helpers_asyncToGenerator*.*',
     ]).pipe(gulp.dest(`widgets/${adapterName}/static`)),
     gulp.src([`src-widgets/src/i18n/*.json`]).pipe(gulp.dest(`widgets/${adapterName}/i18n`)),
     new Promise(resolve =>
