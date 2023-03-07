@@ -5,6 +5,8 @@ import { withStyles, withTheme } from '@mui/styles';
 import {
     MenuItem,
     Select,
+    Card,
+    CardContent,
 } from '@mui/material';
 
 import {
@@ -319,7 +321,7 @@ class Scheduler extends Generic {
         </div>;
 
         if (this.state.rxStyle.position === 'relative') {
-            return this.wrapContent(content, null, { height: 'calc(100% - 24px)', width: 'calc(100% - 24px)' });
+            return this.wrapContent(content, null, { height: 'calc(100% - 24px)', width: 'calc(100% - 24px)' }, null, null, { Card, CardContent });
         }
 
         return content;
