@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "scheduler",
-    "version": "1.1.4",
+    "version": "1.1.5",
     "news": {
+      "1.1.5": {
+        "en": "update packages",
+        "de": "update-pakete",
+        "ru": "обновление пакетов",
+        "pt": "pacotes de atualização",
+        "nl": "vertaling:",
+        "fr": "mettre à jour les paquets",
+        "it": "pacchetti di aggiornamento",
+        "es": "actualizar paquetes",
+        "pl": "pakiet aktualizacji",
+        "uk": "оновлення пакетів",
+        "zh-cn": "更新包"
+      },
       "1.1.4": {
         "en": "Tried to fix vis-2 widget",
         "de": "Versuche, vis-2 Widget zu reparieren",
@@ -79,18 +92,6 @@
         "es": "Lo hizo funcionar con la nube de yoBroker",
         "pl": "Uprawiała się w chmurze ioBrokera",
         "zh-cn": "马约恩岛与奥布罗克云合作"
-      },
-      "1.0.2": {
-        "en": "Corrected the problem with `socket.io`",
-        "de": "Hat das Problem mit der Steckdose korrigiert. io",
-        "ru": "Исправлена проблема с розеткой. io",
-        "pt": "Corrigido o problema com a tomada. I",
-        "nl": "Het probleem met de soket gecorrigeerd. io",
-        "fr": "Correction du problème avec la socket. io",
-        "it": "Corretto il problema con la presa. I",
-        "es": "Corregido el problema con el socket. io",
-        "pl": "Poprawiono problem z gniazdem. i",
-        "zh-cn": "把问题与袖手旁观。 0%"
       }
     },
     "title": "Schedule profiler",
