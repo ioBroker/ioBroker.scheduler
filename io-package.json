@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "scheduler",
-    "version": "1.1.5",
+    "version": "1.1.6",
     "news": {
+      "1.1.6": {
+        "en": "update packages",
+        "de": "update-pakete",
+        "ru": "обновление пакетов",
+        "pt": "pacotes de atualização",
+        "nl": "vertaling:",
+        "fr": "mettre à jour les paquets",
+        "it": "pacchetti di aggiornamento",
+        "es": "actualizar paquetes",
+        "pl": "pakiet aktualizacji",
+        "uk": "оновлення пакетів",
+        "zh-cn": "更新包"
+      },
       "1.1.5": {
         "en": "update packages",
         "de": "update-pakete",
@@ -80,18 +93,6 @@
         "pl": "Pakiet GUI",
         "uk": "Оновлені пакети GUI",
         "zh-cn": "A. 最新古伊一揽子计划"
-      },
-      "1.0.3": {
-        "en": "Made it work with ioBroker cloud",
-        "de": "Es funktioniert mit ioBroker Cloud",
-        "ru": "Сделано в ioBroker cloud",
-        "pt": "Fez com que funcionasse com a nuvem ioBroker",
-        "nl": "Ik liet het werken met ioBrokerwolk",
-        "fr": "Il a fait fonctionner avec ioBroker cloud",
-        "it": "Ha fatto funzionare con ioBroker cloud",
-        "es": "Lo hizo funcionar con la nube de yoBroker",
-        "pl": "Uprawiała się w chmurze ioBrokera",
-        "zh-cn": "马约恩岛与奥布罗克云合作"
       }
     },
     "title": "Schedule profiler",
