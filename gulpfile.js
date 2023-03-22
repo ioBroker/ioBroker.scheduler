@@ -32,7 +32,7 @@ function buildWidgets() {
     sync2files(`${__dirname}/src-widgets/src/components/Intervals.js`, `${__dirname}/src/src/components/Intervals.js`);
     sync2files(`${__dirname}/src-widgets/src/components/IntervalsContainer.js`, `${__dirname}/src/src/components/IntervalsContainer.js`);
 
-    gulpHelper.buildWidgets(__dirname, `${__dirname}/src-widgets/`);
+    return gulpHelper.buildWidgets(__dirname, `${__dirname}/src-widgets/`);
 }
 
 function build() {
