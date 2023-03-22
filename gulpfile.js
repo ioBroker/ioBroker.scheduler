@@ -8,7 +8,7 @@ const gulp        = require('gulp');
 const fs          = require('fs');
 const cp          = require('child_process');
 const adapterName = require('./package.json').name.replace('iobroker.', '');
-const gulpHelper = require('@iobroker/vis-2-widgets-react-dev/gulpHelper');
+const gulpHelper  = require('@iobroker/vis-2-widgets-react-dev/gulpHelper');
 
 function sync2files(src, dst) {
     const srcTxt = fs.readFileSync(src).toString('utf8');
@@ -33,6 +33,39 @@ function buildWidgets() {
     sync2files(`${__dirname}/src-widgets/src/components/IntervalsContainer.js`, `${__dirname}/src/src/components/IntervalsContainer.js`);
 
     gulpHelper.buildWidgets(__dirname, `${__dirname}/src-widgets/`);
+}
+
+function build() {
+    return new Promise((resolve, reject) => {
+        const options = {
+            stdio: 'pipe',
+            cwd:   `${__dirname}/src/`
+        };
+
+        const version = JSON.parse(fs.readFileSync(`${__dirname}/package.json`).toString('utf8')).version;
+        const data = JSON.parse(fs.readFileSync(`${__dirname}/src/package.json`).toString('utf8'));
+        data.version = version;
+        fs.writeFileSync(`${__dirname}/src/package.json`, JSON.stringify(data, null, 4));
+
+        console.log(options.cwd);
+
+        let script = `${__dirname}/src/node_modules/react-scripts/scripts/build.js`;
+        if (!fs.existsSync(script)) {
+            script = `${__dirname}/node_modules/react-scripts/scripts/build.js`;
+        }
+        if (!fs.existsSync(script)) {
+            console.error(`Cannot find execution file: ${script}`);
+            reject(`Cannot find execution file: ${script}`);
+        } else {
+            const child = cp.fork(script, [], options);
+            child.stdout.on('data', data => console.log(data.toString()));
+            child.stderr.on('data', data => console.log(data.toString()));
+            child.on('close', code => {
+                console.log(`child process exited with code ${code}`);
+                code ? reject(`Exit code: ${code}`) : resolve();
+            });
+        }
+    });
 }
 
 // TASKS
@@ -87,7 +120,7 @@ gulp.task('2-npm', () => {
 
 gulp.task('2-npm-dep', gulp.series('clean', '2-npm'));
 
-gulp.task('3-build', () => gulpHelper.buildWidgets(__dirname, `${__dirname}/src/`));
+gulp.task('3-build', () => build());
 
 gulp.task('3-build-dep', gulp.series('2-npm-dep', '3-build'));
 
