@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "scheduler",
-    "version": "1.1.6",
+    "version": "1.1.7",
     "news": {
+      "1.1.7": {
+        "en": "Worked on build process",
+        "de": "Gearbeitet auf Bauprozess",
+        "ru": "Работал над процессом сборки",
+        "pt": "Trabalhou no processo de construção",
+        "nl": "Werkte aan bouwproces",
+        "fr": "Travaillé sur le processus de construction",
+        "it": "Lavorato sul processo di costruzione",
+        "es": "Trabajado en el proceso de construcción",
+        "pl": "Prace nad budową",
+        "uk": "Робота на будівельному процесі",
+        "zh-cn": "建设进程的工作"
+      },
       "1.1.6": {
         "en": "update packages",
         "de": "update-pakete",
@@ -80,19 +93,6 @@
         "pl": "Widgetowanie wizy 2",
         "uk": "Додано віджет для vis-2",
         "zh-cn": "增加对-2目标"
-      },
-      "1.0.4": {
-        "en": "Updated GUI packages",
-        "de": "Aktualisierte GUI-Pakete",
-        "ru": "Обновленные пакеты GUI",
-        "pt": "Pacotes de GUI atualizados",
-        "nl": "Update GUI pakketten",
-        "fr": "Paquets GUI mis à jour",
-        "it": "Pacchetti GUI aggiornati",
-        "es": "Paquetes GUI actualizados",
-        "pl": "Pakiet GUI",
-        "uk": "Оновлені пакети GUI",
-        "zh-cn": "A. 最新古伊一揽子计划"
       }
     },
     "title": "Schedule profiler",
