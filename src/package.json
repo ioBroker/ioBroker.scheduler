@@ -21,7 +21,7 @@
         "react-dnd-preview": "^8.0.0",
         "react-dnd-touch-backend": "^16.0.1",
         "react-dom": "^18.2.0",
-        "react-icons": "^4.8.0",
+        "react-icons": "^4.9.0",
         "react-scripts": "^5.0.1",
         "react-swipe-component": "^3.0.0",
         "sass-loader": "^13.2.2",
