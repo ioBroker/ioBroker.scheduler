@@ -30,23 +30,15 @@ class App extends WidgetDemoApp {
         this.socket.registerConnectionHandler(this.onConnectionChanged);
     }
 
-    onConnectionChanged = isConnected => {
-        if (isConnected) {
-            this.socket.getSystemConfig()
-                .then(systemConfig => this.setState({ systemConfig }));
-        }
-    };
-
     renderWidget() {
         return <div className={this.props.classes.app}>
             <Scheduler
-                socket={this.socket}
+                context={{ socket: this.socket }}
                 themeType={this.state.themeType}
                 style={{
                     width: 400,
                     height: 300,
                 }}
-                systemConfig={this.state.systemConfig}
                 data={{
                     instance: '0',
                     profile: 'af1b84fa-ee94-4cf8-959b-8896efd5c176',

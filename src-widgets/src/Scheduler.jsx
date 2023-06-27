@@ -34,7 +34,7 @@ const styles = () => ({
 const ProfileSelector = props => {
     const [object, setObject] = useState(null);
     useEffect(() => {
-        props.socket.getObject(`system.adapter.scheduler.${props.data.instance}`).then(_object => setObject(_object));
+        props.context.socket.getObject(`system.adapter.scheduler.${props.data.instance}`).then(_object => setObject(_object));
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -124,7 +124,7 @@ class Scheduler extends Generic {
                             field={field}
                             data={data}
                             setData={setData}
-                            socket={props.socket}
+                            socket={props.context.socket}
                             selectedWidgets={props.selectedWidgets}
                             selectedView={props.selectedView}
                             project={props.project}
@@ -178,17 +178,17 @@ class Scheduler extends Generic {
         // if instance changed
         if (this.subscribedId !== instanceId) {
             // unsubscribe from old instance
-            this.subscribedId && this.props.socket.unsubscribeObject(this.subscribedId, this.onProfileChanged);
+            this.subscribedId && this.props.context.socket.unsubscribeObject(this.subscribedId, this.onProfileChanged);
             this.subscribedId = null;
         }
         if (instanceId) {
             // read new instance
-            const object = await this.props.socket.getObject(instanceId);
+            const object = await this.props.context.socket.getObject(instanceId);
             this.setState({ object }, () => {
                 if (!this.subscribedId && object) {
                     if (instanceId) {
                         this.subscribedId = instanceId;
-                        this.props.socket.subscribeObject(instanceId, this.onProfileChanged);
+                        this.props.context.socket.subscribeObject(instanceId, this.onProfileChanged);
                     }
                 }
             });
@@ -204,7 +204,7 @@ class Scheduler extends Generic {
 
     componentWillUnmount() {
         super.componentWillUnmount();
-        this.subscribedId && this.props.socket.unsubscribeObject(this.subscribedId, this.onProfileChanged);
+        this.subscribedId && this.props.context.socket.unsubscribeObject(this.subscribedId, this.onProfileChanged);
     }
 
     onProfileChanged = (id, obj) => {
@@ -258,7 +258,7 @@ class Scheduler extends Generic {
         );
         object.native.profiles[profileIndex].data = newData;
         this.setState({ object });
-        this.props.socket.setObject(object._id, object);
+        this.props.context.socket.setObject(object._id, object);
     };
 
     currentProfile = () => {
@@ -304,14 +304,14 @@ class Scheduler extends Generic {
                 intervals={profile.intervals}
                 range={profile.intervalDuration}
                 type={profile.type}
-                socket={this.props.socket}
+                socket={this.props.context.socket}
                 windowWidth={width}
                 readOnly={this.state.rxData.readOnly}
                 intervalsWidth={width}
             />
             {this.state.rxData.hideDow && width ? null :
                 <DayOfWeekPanel
-                    firstDayOfWeek={this.props.socket.systemConfig.common.firstDayOfWeek || 'monday'}
+                    firstDayOfWeek={this.props.context.socket.systemConfig.common.firstDayOfWeek || 'monday'}
                     readOnly={this.state.rxData.readOnly}
                     dow={profile.dow}
                     onChange={this.onDow}
@@ -329,8 +329,7 @@ class Scheduler extends Generic {
 }
 
 Scheduler.propTypes = {
-    systemConfig: PropTypes.object,
-    socket: PropTypes.object,
+    context: PropTypes.object,
     themeType: PropTypes.string,
     style: PropTypes.object,
     data: PropTypes.object,
