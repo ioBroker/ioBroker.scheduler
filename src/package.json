@@ -1,6 +1,6 @@
 {
     "name": "scheduler-admin",
-    "version": "1.1.7",
+    "version": "1.1.8",
     "private": true,
     "dependencies": {
         "@iobroker/adapter-react-v5": "^4.1.2",
