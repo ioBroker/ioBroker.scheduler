@@ -34,7 +34,8 @@ const styles = () => ({
 const ProfileSelector = props => {
     const [object, setObject] = useState(null);
     useEffect(() => {
-        props.context.socket.getObject(`system.adapter.scheduler.${props.data.instance}`).then(_object => setObject(_object));
+        props.context.socket.getObject(`system.adapter.scheduler.${props.data.instance}`)
+            .then(_object => setObject(_object));
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -124,13 +125,9 @@ class Scheduler extends Generic {
                             field={field}
                             data={data}
                             setData={setData}
-                            socket={props.context.socket}
+                            context={props.context}
                             selectedWidgets={props.selectedWidgets}
                             selectedView={props.selectedView}
-                            project={props.project}
-                            projectName={props.projectName}
-                            instance={props.instance}
-                            adapterName={props.adapterName}
                         />,
                     },
                     {
@@ -300,7 +297,7 @@ class Scheduler extends Generic {
         >
             <IntervalsContainer
                 onChange={this.onIntervals}
-                theme={this.props.theme}
+                theme={this.props.theme} // ?? this.props.context.theme
                 intervals={profile.intervals}
                 range={profile.intervalDuration}
                 type={profile.type}
@@ -315,7 +312,7 @@ class Scheduler extends Generic {
                     readOnly={this.state.rxData.readOnly}
                     dow={profile.dow}
                     onChange={this.onDow}
-                    theme={this.props.theme}
+                    theme={this.props.theme} // ?? this.props.context.theme
                     t={Scheduler.t}
                 />}
         </div>;
