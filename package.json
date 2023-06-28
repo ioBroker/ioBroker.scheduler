@@ -25,7 +25,7 @@
     "@alcalzone/release-script": "^3.5.9",
     "@alcalzone/release-script-plugin-iobroker": "^3.5.9",
     "@alcalzone/release-script-plugin-license": "^3.5.9",
-    "@iobroker/vis-2-widgets-react-dev": "^0.4.0",
+    "@iobroker/vis-2-widgets-react-dev": "^0.4.2",
     "@iobroker/legacy-testing": "^0.3.6",
     "babel-eslint": "^10.1.0",
     "eslint": "^8.43.0",
