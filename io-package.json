@@ -151,8 +151,8 @@
       }
     },
     "visWidgets": {
-      "i18n": "component",
       "scheduler": {
+        "i18n": "component",
         "name": "scheduler",
         "url": "scheduler/customWidgets.js",
         "url1": "http://localhost:4173/customWidgets.js",
