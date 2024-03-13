@@ -1,11 +1,12 @@
 import React from 'react';
-import './App.scss';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import { withStyles } from '@mui/styles';
 
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Fab from '@mui/material/Fab';
+import {
+    Tabs,
+    Tab,
+    Fab,
+} from '@mui/material';
 
 import { Drawer, Grid, IconButton } from '@mui/material';
 
@@ -14,16 +15,17 @@ import { I18n, Utils, Loader } from '@iobroker/adapter-react-v5';
 
 // import defaultOptions from './data/defaultOptions.json'
 
-import ClearIcon from '@mui/icons-material/Clear';
-import DehazeIcon from '@mui/icons-material/Dehaze';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import CallSplitIcon from '@mui/icons-material/CallSplit';
-import ViewListIcon from '@mui/icons-material/ViewList';
-import AccountTreeIcon from '@mui/icons-material/AccountTree';
-// import ScheduleIcon from '@mui/icons-material/Schedule';
+import {
+    Clear as ClearIcon,
+    Dehaze as DehazeIcon,
+    ChevronLeft as ChevronLeftIcon,
+    ChevronRight as ChevronRightIcon,
+    AssignmentTurnedIn as AssignmentTurnedInIcon,
+    CalendarToday as CalendarTodayIcon,
+    CallSplit as CallSplitIcon,
+    ViewList as ViewListIcon,
+    AccountTree as AccountTreeIcon,
+} from '@mui/icons-material';
 
 import minmax from './data/minmax.json';
 import DevicesPanel from './components/DevicesPanel';

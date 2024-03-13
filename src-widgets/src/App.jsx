@@ -7,7 +7,7 @@ import { i18n as I18n } from '@iobroker/adapter-react-v5';
 import translations from './translations';
 
 import Scheduler from './Scheduler';
-import './App.scss';
+import './App.css';
 
 const styles = theme => ({
     app: {

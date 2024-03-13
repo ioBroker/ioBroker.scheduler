@@ -163,8 +163,12 @@
     },
     "restartAdapters": [
       "vis",
-      "vis-2-beta"
-    ]
+      "vis-2"
+    ],
+    "licenseInformation": {
+      "type": "free",
+      "link": "https://github.com/ioBroker/ioBroker.scheduler/blob/master/LICENSE"
+    }
   },
   "native": {
     "profiles": [
