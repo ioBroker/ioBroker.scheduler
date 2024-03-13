@@ -177,8 +177,7 @@ class Intervals extends Component {
         if (field === 'selected') {
             state[field][i] = value;
             this.setState(state);
-        } else
-        if (field === 'data') {
+        } else if (field === 'data') {
             const data = JSON.parse(JSON.stringify(this.props.data));
             const inSelected = selected[i];
             if (!inSelected) {
