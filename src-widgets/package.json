@@ -3,6 +3,7 @@
     "private": true,
     "version": "1.1.11",
     "dependencies": {
+        "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
         "@emotion/react": "^11.11.4",
         "@emotion/styled": "^11.11.0",
         "@iobroker/adapter-react-v5": "^4.10.1",

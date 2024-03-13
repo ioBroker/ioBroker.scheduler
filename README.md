@@ -25,7 +25,7 @@ This adapter has vis2 widget.
 -->
 
 ## Changelog
-### 1.1.11 (2024-03-13)
+### **WORK IN PROGRESS**
 * (bluefox) Packages updated
 
 ### 1.1.10 (2023-10-19)
@@ -56,7 +56,7 @@ This adapter has vis2 widget.
 * (bluefox) Corrected the problem with `socket.io`
 
 ### 1.0.1 (2022-06-20)
-* (bluefox) Allowed to work behind reverse proxy
+* (bluefox) Allowed working behind reverse proxy
 
 ### 1.0.0 (2022-03-22)
 * (bluefox) GUI migrated to material@5

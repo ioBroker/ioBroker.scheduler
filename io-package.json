@@ -3,19 +3,6 @@
     "name": "scheduler",
     "version": "1.1.11",
     "news": {
-      "1.1.11": {
-        "en": "Packages updated",
-        "de": "Pakete aktualisiert",
-        "ru": "Обновленные пакеты",
-        "pt": "Pacotes atualizados",
-        "nl": "Pakketten bijgewerkt",
-        "fr": "Mise à jour des paquets",
-        "it": "Pacchetti aggiornati",
-        "es": "Paquetes actualizados",
-        "pl": "Aktualizacja pakietów",
-        "uk": "Пакети оновлені",
-        "zh-cn": "更新软件包"
-      },
       "1.1.10": {
         "en": "Packages updated",
         "de": "Pakete aktualisiert",
