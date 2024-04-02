@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "scheduler",
-    "version": "1.1.12",
+    "version": "1.1.13",
     "news": {
+      "1.1.13": {
+        "en": "Corrected widget and profile",
+        "de": "Korrigiertes Widget und Profil",
+        "ru": "Исправленный виджет и профиль",
+        "pt": "Widget e perfil corretos",
+        "nl": "Gecorrigeerd widget en profiel",
+        "fr": "Widget et profil corrigés",
+        "it": "Widget e profilo corretti",
+        "es": "Widget corregido y perfil",
+        "pl": "Poprawiony widżet i profil",
+        "uk": "Виправлений віджет і профіль",
+        "zh-cn": "已更正的部件和配置文件"
+      },
       "1.1.12": {
         "en": "Packages updated",
         "de": "Pakete aktualisiert",
@@ -80,19 +93,6 @@
         "pl": "pakiet aktualizacji",
         "uk": "оновлення пакетів",
         "zh-cn": "更新包"
-      },
-      "1.1.4": {
-        "en": "Tried to fix vis-2 widget",
-        "de": "Versuche, vis-2 Widget zu reparieren",
-        "ru": "Попробовал исправить виджет vis-2",
-        "pt": "Tentei corrigir vis-2 widget",
-        "nl": "Probeerde vis-2 widget te repareren",
-        "fr": "Trié pour fixer vis-2 widget",
-        "it": "Provato a correggere il widget vis-2",
-        "es": "Traté de arreglar vis-2 widget",
-        "pl": "Próbować wizy-2",
-        "uk": "Перевірено для фіксації Vis-2 віджет",
-        "zh-cn": "九. 明示"
       }
     },
     "title": "Schedule profiler",
