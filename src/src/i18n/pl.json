@@ -58,5 +58,6 @@
   "OFF": "OFF",
   "15 m.": "15 m.",
   "30 m.": "30 m.",
-  "You cannot enable or disable this profile as it controlled by %s state": "Nie możesz włączyć ani wyłączyć tego profilu, ponieważ jest on kontrolowany przez stan %s"
+  "You cannot enable or disable this profile as it controlled by %s state": "Nie możesz włączyć ani wyłączyć tego profilu, ponieważ jest on kontrolowany przez stan %s",
+  "Press \"shift\" and move mouse to change more than one slider": "Naciśnij „shift” i poruszaj myszą, aby zmienić więcej niż jeden suwak"
 }

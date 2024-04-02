@@ -58,5 +58,6 @@
   "OFF": "OFF",
   "15 m.": "15 m.",
   "30 m.": "30 m.",
-  "You cannot enable or disable this profile as it controlled by %s state": "Non puoi abilitare o disabilitare questo profilo poiché è controllato dallo stato %s"
+  "You cannot enable or disable this profile as it controlled by %s state": "Non puoi abilitare o disabilitare questo profilo poiché è controllato dallo stato %s",
+  "Press \"shift\" and move mouse to change more than one slider": "Premi \"shift\" e muovi il mouse per cambiare più di un cursore"
 }

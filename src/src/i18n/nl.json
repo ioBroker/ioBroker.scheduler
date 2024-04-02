@@ -58,5 +58,6 @@
   "OFF": "OFF",
   "15 m.": "15 m.",
   "30 m.": "30 m.",
-  "You cannot enable or disable this profile as it controlled by %s state": "U kunt dit profiel niet in- of uitschakelen omdat het wordt beheerd door de status %s"
+  "You cannot enable or disable this profile as it controlled by %s state": "U kunt dit profiel niet in- of uitschakelen omdat het wordt beheerd door de status %s",
+  "Press \"shift\" and move mouse to change more than one slider": "Druk op \"shift\" en beweeg de muis om meer dan één schuifregelaar te wijzigen"
 }

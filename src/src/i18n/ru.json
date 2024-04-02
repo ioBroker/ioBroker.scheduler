@@ -58,5 +58,6 @@
   "OFF": "ВЫКЛ",
   "15 m.": "15 м.",
   "30 m.": "30 м.",
-  "You cannot enable or disable this profile as it controlled by %s state": "Вы не можете включить или отключить этот профиль, так как он управляется состоянием \"%s\""
+  "You cannot enable or disable this profile as it controlled by %s state": "Вы не можете включить или отключить этот профиль, так как он управляется состоянием \"%s\"",
+  "Press \"shift\" and move mouse to change more than one slider": "Нажмите «Shift» и переместите мышь, чтобы изменить более одного ползунка."
 }

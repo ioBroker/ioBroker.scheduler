@@ -58,5 +58,6 @@
   "OFF": "OFF",
   "15 m.": "15 m.",
   "30 m.": "30 m.",
-  "You cannot enable or disable this profile as it controlled by %s state": "You cannot enable or disable this profile as it controlled by \"%s\" state"
+  "You cannot enable or disable this profile as it controlled by %s state": "You cannot enable or disable this profile as it controlled by \"%s\" state",
+  "Press \"shift\" and move mouse to change more than one slider": "Press \"shift\" and move mouse to change more than one slider"
 }
