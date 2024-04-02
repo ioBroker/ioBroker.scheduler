@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "scheduler",
-    "version": "1.1.13",
+    "version": "1.1.14",
     "news": {
+      "1.1.14": {
+        "en": "Corrected widget and profile",
+        "de": "Korrigiertes Widget und Profil",
+        "ru": "Исправленный виджет и профиль",
+        "pt": "Widget e perfil corretos",
+        "nl": "Gecorrigeerd widget en profiel",
+        "fr": "Widget et profil corrigés",
+        "it": "Widget e profilo corretti",
+        "es": "Widget corregido y perfil",
+        "pl": "Poprawiony widżet i profil",
+        "uk": "Виправлений віджет і профіль",
+        "zh-cn": "已更正的部件和配置文件"
+      },
       "1.1.13": {
         "en": "Corrected widget and profile",
         "de": "Korrigiertes Widget und Profil",
@@ -69,19 +82,6 @@
         "zh-cn": "建设进程的工作"
       },
       "1.1.6": {
-        "en": "update packages",
-        "de": "update-pakete",
-        "ru": "обновление пакетов",
-        "pt": "pacotes de atualização",
-        "nl": "vertaling:",
-        "fr": "mettre à jour les paquets",
-        "it": "pacchetti di aggiornamento",
-        "es": "actualizar paquetes",
-        "pl": "pakiet aktualizacji",
-        "uk": "оновлення пакетів",
-        "zh-cn": "更新包"
-      },
-      "1.1.5": {
         "en": "update packages",
         "de": "update-pakete",
         "ru": "обновление пакетов",
