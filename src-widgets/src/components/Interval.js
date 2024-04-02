@@ -1,12 +1,14 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { withStyles, makeStyles } from '@mui/styles';
-import { Slider } from '@mui/material';
+import { Slider, Tooltip } from '@mui/material';
+
+import { I18n } from '@iobroker/adapter-react-v5';
 
 import minmax from '../data/minmax.json';
 
 const styles = () => ({
-    pretto: {
+    pretty: {
         position: 'relative',
         height: '100%',
         display: 'flex',
@@ -14,7 +16,7 @@ const styles = () => ({
         width: props => props.intervalsWidth,
         // padding:"0 3px"
     },
-    prettoLabel: {
+    prettyLabel: {
         color: '#6c7a93',
         fontWeight: 700,
         fontSize: '.9rem',
@@ -22,7 +24,7 @@ const styles = () => ({
         width: 'calc(100% - 5px)',
         textAlign: 'center',
     },
-    prettoTime: {
+    prettyTime: {
         position: 'absolute',
         fontSize: '0.9rem',
         fontWeight: 700,
@@ -36,20 +38,22 @@ const styles = () => ({
         justifyContent: 'center',
         alignItems: 'center',
         cursor: 'pointer',
-
     },
     active: {
         backgroundColor: props => props.theme.palette.primary.light,
         color: '#FFF',
     },
-    prettoSecs: {
+    prettySecs: {
         fontSize: '0.6rem',
         fontWeight: 100,
         color: props => props.theme.palette.text.primary,
     },
+    tooltip: {
+        pointerEvents: 'none',
+    },
 });
 
-const usePrettoSliderStyles = makeStyles({
+const usePrettySliderStyles = makeStyles({
     root: props => ({
         color: props.theme.palette.primary.light,
         borderRadius: 0,
@@ -109,15 +113,16 @@ const usePrettoSliderStyles = makeStyles({
 
 // react/function-component-definition
 // eslint-disable-next-line
-const PrettoSlider = props => {
+const PrettySlider = props => {
     const componentProps = { ...props };
     delete componentProps.intervalsWidth;
     delete componentProps.type;
     delete componentProps.theme;
 
     return <Slider
+        id={`slider_${props.idx}`}
         classes={
-            usePrettoSliderStyles({
+            usePrettySliderStyles({
                 intervalsWidth: props.intervalsWidth,
                 type: props.type,
                 theme: props.theme,
@@ -133,9 +138,61 @@ class Interval extends Component {
         this.state = {
             intervalsWidth: props.intervalsWidth,
         };
+        this.installed = false;
+    }
+
+    componentDidMount() {
+        this.installHandlers();
+    }
+
+    componentWillUnmount() {
+        const el = window.document.getElementById(`slider_${this.props.i}`);
+        if (el) {
+            el.onmousemove = null;
+        }
+    }
+
+    installHandlers() {
+        const el = window.document.getElementById(`slider_${this.props.i}`);
+        if (el && !this.installed) {
+            this.installed = true;
+            el._interval = this;
+            // eslint-disable-next-line
+            el.onmousemove = function (e) {
+                if (e.buttons && e.shiftKey) {
+                    const that = this._interval;
+                    const height = this.getBoundingClientRect().height;
+                    const pos = e.clientY - this.getBoundingClientRect().top;
+                    const { min, max } = that.getMinMax();
+                    let val;
+                    switch (that.props.type) {
+                        case 'temperature':
+                            val = pos / height;
+                            val = min + Math.round((max - min) * (1 - val) * 2) / 2;
+                            val = Math.min(max, Math.max(min, val));
+                            break;
+
+                        case 'onoff':
+                            val = Math.round((pos / height) * 100) < 50;
+                            break;
+
+                        case 'percent':
+                        default:
+                            val = Math.round((pos / height) * 100);
+                            val = 100 - val;
+                            val = Math.min(100, Math.max(0, val));
+                            break;
+                    }
+                    console.log('pos', pos, height, val);
+                    // calculate the value
+                    that.props.on('data', val, that.props.i);
+                }
+            };
+        }
     }
 
     componentDidUpdate(prevProps) {
+        this.installHandlers();
         if (prevProps.intervalsWidth !== this.props.intervalsWidth) {
             this.setState({
                 intervalsWidth: this.props.intervalsWidth,
@@ -143,7 +200,11 @@ class Interval extends Component {
         }
     }
 
-    handleSliderChange = (event, data) => this.on('data', data);
+    handleSliderChange = (event, data) => {
+        if (!event.shiftKey) {
+            this.on('data', data);
+        }
+    };
 
     handleSelected = () => this.on('selected', !this.props.selected);
 
@@ -187,49 +248,51 @@ class Interval extends Component {
         } = this.props;
         const { intervalsWidth } = this.state;
         const {
-            pretto, prettoLabel, prettoTime, active, prettoSecs,
+            pretty, prettyLabel, prettyTime, active, prettySecs,
         } = this.props.classes;
         if (i < 0) {
             return '';
         }
-        const { min, max } = this.getMinMax();
+        const { min, max, step } = this.getMinMax();
         const label = this.getLabel();
         const val = !value ? 0 : value;
         const vl = type === 'onoff' ? this.getPostfix(val || 0) : '';
         const v2 = type !== 'onoff' ? this.getPostfix(val || 0) : '';
 
-        return <span className={pretto}>
-            <span className={prettoLabel}>
-                {vl}
-            </span>
-            <PrettoSlider
-                key={i}
-                theme={theme}
-                intervalsWidth={intervalsWidth}
-                type={type}
-                orientation="vertical"
-                aria-label="pretto slider"
-                value={val}
-                valueLabelFormat={v2}
-                min={min}
-                max={max}
-                selected={selected}
-                onChange={this.handleSliderChange}
-                valueLabelDisplay="on"
-            />
-            <div
-                className={
-                    `${prettoTime} ${
-                        selected ? active : ''}`
-                }
-                onClick={this.handleSelected}
-            >
-                <span style={{ color: this.props.theme.palette.text.primary }}>{label[0]}</span>
-                <span className={prettoSecs}>
-                    {label[1]}
+        return <Tooltip title={I18n.t('Press "shift" and move mouse to change more than one slider')} classes={{ popper: this.props.tooltip }}>
+            <span className={pretty}>
+                <span className={prettyLabel}>
+                    {vl}
                 </span>
-            </div>
-        </span>;
+                <PrettySlider
+                    key={i}
+                    idx={i}
+                    ref={this.ref}
+                    theme={theme}
+                    intervalsWidth={intervalsWidth}
+                    type={type}
+                    orientation="vertical"
+                    aria-label="pretty slider"
+                    value={val}
+                    valueLabelFormat={v2}
+                    min={min}
+                    max={max}
+                    step={step || 1}
+                    selected={selected}
+                    onChange={this.handleSliderChange}
+                    valueLabelDisplay="on"
+                />
+                <div
+                    className={`${prettyTime} ${selected ? active : ''}`}
+                    onClick={this.handleSelected}
+                >
+                    <span style={{ color: this.props.theme.palette.text.primary }}>{label[0]}</span>
+                    <span className={prettySecs}>
+                        {label[1]}
+                    </span>
+                </div>
+            </span>
+        </Tooltip>;
     }
 }
 

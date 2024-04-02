@@ -157,6 +157,7 @@ class Interval extends Component {
         if (el && !this.installed) {
             this.installed = true;
             el._interval = this;
+            // eslint-disable-next-line
             el.onmousemove = function (e) {
                 if (e.buttons && e.shiftKey) {
                     const that = this._interval;
@@ -172,12 +173,12 @@ class Interval extends Component {
                             break;
 
                         case 'onoff':
-                            val = Math.round(pos / height * 100) < 50;
+                            val = Math.round((pos / height) * 100) < 50;
                             break;
 
                         case 'percent':
                         default:
-                            val = Math.round(pos / height * 100);
+                            val = Math.round((pos / height) * 100);
                             val = 100 - val;
                             val = Math.min(100, Math.max(0, val));
                             break;
@@ -186,7 +187,7 @@ class Interval extends Component {
                     // calculate the value
                     that.props.on('data', val, that.props.i);
                 }
-            }
+            };
         }
     }
 
@@ -203,7 +204,7 @@ class Interval extends Component {
         if (!event.shiftKey) {
             this.on('data', data);
         }
-    }
+    };
 
     handleSelected = () => this.on('selected', !this.props.selected);
 
@@ -257,7 +258,6 @@ class Interval extends Component {
         const val = !value ? 0 : value;
         const vl = type === 'onoff' ? this.getPostfix(val || 0) : '';
         const v2 = type !== 'onoff' ? this.getPostfix(val || 0) : '';
-
 
         return <Tooltip title={I18n.t('Press "shift" and move mouse to change more than one slider')} classes={{ popper: this.props.tooltip }}>
             <span className={pretty}>
