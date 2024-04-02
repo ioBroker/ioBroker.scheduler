@@ -29,7 +29,7 @@
     "@iobroker/legacy-testing": "^1.0.9",
     "babel-eslint": "^10.1.0",
     "eslint": "^8.57.0",
-    "@types/iobroker": "^4.0.5",
+    "@types/iobroker": "^5.0.6",
     "@types/node": "^20.12.2",
     "axios": "^1.6.8",
     "chai": "^5.1.0",
