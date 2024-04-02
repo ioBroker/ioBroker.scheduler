@@ -81,14 +81,14 @@ class IntervalsContainer extends Component {
                     width: '100%',
                 }}
             >
-                <Intervals
+                {this.props.intervalsWidth || this.state.intervalsWidth ? <Intervals
                     data={intervals}
                     onChange={this.props.onChange}
                     theme={theme}
                     type={type}
                     range={range}
                     intervalsWidth={this.props.intervalsWidth || this.state.intervalsWidth}
-                />
+                /> : null}
             </div>
         </div>;
     }

@@ -107,6 +107,9 @@ const styles = theme => ({
             display: 'flex',
         },
     },
+    tooltip: {
+        pointerEvents: 'none',
+    },
     dndHover: {
         backgroundColor: () => theme.palette.primary.dark,
         color: theme.palette.grey[200],
@@ -419,7 +422,7 @@ class ProfilesPanel extends Component {
         this.props.onChangeProfiles(newProfiles);
     }
 
-    folder = (folderItem, level, searchText) => {
+    renderFolder = (folderItem, level, searchText) => {
         const { profiles, active } = this.props;
         const { flowMenuItem, editButton } = this.props.classes;
 
@@ -428,18 +431,13 @@ class ProfilesPanel extends Component {
         const subProfiles = searchText ? null : profiles
             .filter(e => e.parent === folderItem.id)
             .sort(sortItems)
-            .map(sub => (isOpen
-                ? <div key={sub.id}>
-                    {
-                        sub.type === 'profile'
-                            ? this.profile(sub, level + 1, searchText)
-                            : this.folder(sub, level + 1, searchText)
-                    }
-                </div>
-                : null));
+            .map(sub => isOpen ? <div key={sub.id}>
+                {sub.type === 'profile'
+                    ? this.renderProfile(sub, level + 1, searchText)
+                    : this.renderFolder(sub, level + 1, searchText)}
+                </div> : null);
 
-        const folderSample = isOpen
-            ? <FolderOpenIcon
+        const folderSample = isOpen ? <FolderOpenIcon
                 className={this.props.classes.folderIcon}
                 onClick={e => {
                     this.onOpen(folderItem.id, false);
@@ -501,9 +499,9 @@ class ProfilesPanel extends Component {
         </div>;
     }
 
-    profile = (profile, level, searchText) => {
+    renderProfile = (profile, level, searchText) => {
         const { active } = this.props;
-        const { flowMenuItem, editButton } = this.props.classes;
+        const { flowMenuItem, editButton, tooltip } = this.props.classes;
 
         const result = <MenuItem
             className={`${flowMenuItem} flow-menu-item sub ${active === profile.id ? ' active ' : ''}`}
@@ -513,23 +511,26 @@ class ProfilesPanel extends Component {
         >
             <Typography variant="inherit" className="pl-1 w-100">
                 <ScheduleIcon className={this.props.classes.scheduleIcon} />
-                <span
+                <Tooltip
+                    classes={{ popper: tooltip }}
                     title={typeof profile.data.state === 'boolean' ?
                         (profile.data.enabled ? I18n.t('Enabled') : I18n.t('Disabled')) :
                         I18n.t('You cannot enable or disable this profile as it controlled by %s state', profile.data.state)}
                 >
-                    <Checkbox
-                        color="default"
-                        disabled={profile.data.state !== true && profile.data.state !== false}
-                        style={{ padding: 0, opacity: typeof profile.data.state === 'boolean' ? 1 : 0.3 }}
-                        size="small"
-                        onMouseDown={e => {
-                            e.stopPropagation();
-                            this.onSetEnabled(profile.id);
-                        }}
-                        checked={!!profile.data.enabled}
-                    />
-                </span>
+                    <span>
+                        <Checkbox
+                            color="default"
+                            disabled={profile.data.state !== true && profile.data.state !== false}
+                            style={{ padding: 0, opacity: typeof profile.data.state === 'boolean' ? 1 : 0.3 }}
+                            size="small"
+                            onMouseDown={e => {
+                                e.stopPropagation();
+                                this.onSetEnabled(profile.id);
+                            }}
+                            checked={!!profile.data.enabled}
+                        />
+                    </span>
+                </Tooltip>
                 {profile.title}
                 {profile.parent && searchText ? ` [${this.props.profiles.find(i => i.id === profile.parent).title}]` : ''}
                 {profile.data.prio === 1 ? <Tooltip title={I18n.t('High priority')}><span>&#8593;</span></Tooltip> : ''}
@@ -729,7 +730,7 @@ class ProfilesPanel extends Component {
                 : profiles.filter(e => e.parent === '')
         )
             .sort(sortItems)
-            .map(e => (e.type === 'folder' ? this.folder(e, 0, searchText) : this.profile(e, 0, searchText)));
+            .map(e => (e.type === 'folder' ? this.renderFolder(e, 0, searchText) : this.renderProfile(e, 0, searchText)));
 
         return <DndProvider backend={this.isTouchDevice ? TouchBackend : HTML5Backend}>
             <DndPreview />
@@ -741,7 +742,6 @@ class ProfilesPanel extends Component {
                 <MenuList>
                     {items}
                 </MenuList>
-
                 {this.renderEditDeleteDialog()}
             </div>
         </DndProvider>;

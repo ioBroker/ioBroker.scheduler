@@ -250,9 +250,11 @@ class Intervals extends Component {
 
     setSlideOfTime = () => {
         const { range } = this.props;
-        const hour = new Date().getHours();
-        const part = this.getCountByRange(range) * range;
-        this.setState({ slideId: Math.floor(hour / part) });
+        if (this.state.intervalsWidth) {
+            const hour = new Date().getHours();
+            const part = this.getCountByRange(range) * range;
+            this.setState({ slideId: Math.floor(hour / part) });
+        }
     };
 
     render() {
@@ -275,9 +277,7 @@ class Intervals extends Component {
                 onChange={quarterId => {
                     this.setSlideId(quarterId);
                     clearInterval(this.setSlideInterval);
-                    this.setSlideInterval = setInterval(() => {
-                        this.setSlideOfTime();
-                    }, 1000 * 120);
+                    this.setSlideInterval = setInterval(() => this.setSlideOfTime(), 1000 * 120);
                 }}
             />
         </>;

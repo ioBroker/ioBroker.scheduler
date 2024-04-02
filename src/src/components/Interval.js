@@ -228,7 +228,6 @@ class Interval extends Component {
                 <span className={prettoSecs}>
                     {label[1]}
                 </span>
-
             </div>
         </span>;
     }

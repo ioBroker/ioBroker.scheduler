@@ -748,6 +748,7 @@ class App extends GenericApp {
                 possibleStateId={this.getStateId(activeProfile, this.state.native.profiles)}
                 onChange={this.onState}
                 socket={this.socket}
+                themeType={this.state.themeType}
             />
         </div>;
     }
@@ -910,7 +911,7 @@ class App extends GenericApp {
         if (!this.state.loaded || !this.state.native.profiles) {
             return <StyledEngineProvider injectFirst>
                 <ThemeProvider theme={this.state.theme}>
-                    <Loader theme={this.state.themeType} />
+                    <Loader themeType={this.state.themeType} />
                 </ThemeProvider>
             </StyledEngineProvider>;
         }
@@ -1015,46 +1016,38 @@ class App extends GenericApp {
                                                     {this.state.windowWidth > 768 ? this.renderDevices(currentProfile) : null}
                                                 </div>
                                             </Grid>
-                                            {
-                                                this.state.isExpert
-                                                    ? <>
-                                                        <Grid
-                                                            item
-                                                            xs={12}
-                                                            lg={1}
-                                                            className="h-100 expert sm-hidden"
-                                                        >
-                                                            <div className={`${classes.tapperGrid} h-100 m-1 p-2`}>
-                                                                {this.state.windowWidth > 768 ? this.renderPriority(currentProfile) : null}
-                                                            </div>
-                                                        </Grid>
-                                                        <Grid
-                                                            item
-                                                            xs={12}
-                                                            lg={2}
-                                                            className="h-100 expert sm-hidden"
-                                                        >
-                                                            <div
-                                                                className={`${classes.tapperGrid} h-100 m-1 p-2`}
-                                                            >
-                                                                {this.state.windowWidth > 768 ? this.renderType(currentProfile) : null}
-                                                            </div>
-                                                        </Grid>
-                                                        <Grid
-                                                            item
-                                                            xs={12}
-                                                            lg={3}
-                                                            className="h-100 expert sm-hidden"
-                                                        >
-                                                            <div
-                                                                className={`${classes.tapperGrid} h-100 m-1 p-2`}
-                                                            >
-                                                                {this.state.windowWidth > 768 ? this.renderState(currentProfile) : null}
-                                                            </div>
-                                                        </Grid>
-                                                    </>
-                                                    : null
-                                            }
+                                            {this.state.isExpert ? <>
+                                                <Grid
+                                                    item
+                                                    xs={12}
+                                                    lg={1}
+                                                    className="h-100 expert sm-hidden"
+                                                >
+                                                    <div className={`${classes.tapperGrid} h-100 m-1 p-2`}>
+                                                        {this.state.windowWidth > 768 ? this.renderPriority(currentProfile) : null}
+                                                    </div>
+                                                </Grid>
+                                                <Grid
+                                                    item
+                                                    xs={12}
+                                                    lg={2}
+                                                    className="h-100 expert sm-hidden"
+                                                >
+                                                    <div className={`${classes.tapperGrid} h-100 m-1 p-2`}>
+                                                        {this.state.windowWidth > 768 ? this.renderType(currentProfile) : null}
+                                                    </div>
+                                                </Grid>
+                                                <Grid
+                                                    item
+                                                    xs={12}
+                                                    lg={3}
+                                                    className="h-100 expert sm-hidden"
+                                                >
+                                                    <div className={`${classes.tapperGrid} h-100 m-1 p-2`}>
+                                                        {this.state.windowWidth > 768 ? this.renderState(currentProfile) : null}
+                                                    </div>
+                                                </Grid>
+                                            </> : null}
                                         </Grid>
                                     </Grid>
                                     <Grid
@@ -1089,49 +1082,45 @@ class App extends GenericApp {
                                             <CalendarTodayIcon />
                                         </Fab>
                                     </div>
-                                    {
-                                        this.state.isExpert
-                                            ? <>
-                                                <div className={classes.labelMenuBottom} />
-                                                <div className={`${classes.labelLeftSm2} expert ${this.state.leftOpen === 2 ? 'active' : ''}`} onClick={() => this.onLeftOpen(2)}>
-                                                    <Fab
-                                                        size="small"
-                                                        color={this.state.leftOpen === 2 ? 'secondary' : 'primary'}
-                                                        aria-label="assignment"
-                                                    >
-                                                        <AssignmentTurnedInIcon />
-                                                    </Fab>
-                                                </div>
-                                                <div className={`${classes.labelRightSm6} ${this.state.leftOpen === 4 ? 'active' : ''}`} onClick={() => this.onLeftOpen(4)}>
-                                                    <Fab
-                                                        size="small"
-                                                        color={this.state.leftOpen === 4 ? 'secondary' : 'primary'}
-                                                        aria-label="view"
-                                                    >
-                                                        <ViewListIcon />
-                                                    </Fab>
-                                                </div>
-                                                {/* <div className={`${classes.labelRightSm4} ${this.state.leftOpen === 7 ? 'active' : ''}`} onClick={() => this.onLeftOpen(7)}>
-                                                    <Fab
-                                                        size="small"
-                                                        color={this.state.leftOpen === 7 ? 'secondary' : 'primary'}
-                                                        aria-label="scheduler"
-                                                    >
-                                                        <ScheduleIcon />
-                                                    </Fab>
-                                                </div> */}
-                                                <div className={`${classes.labelRightSm8} ${this.state.leftOpen === 8 ? 'active' : ''}`} onClick={() => this.onLeftOpen(8)}>
-                                                    <Fab
-                                                        size="small"
-                                                        color={this.state.leftOpen === 8 ? 'secondary' : 'primary'}
-                                                        aria-label="scheduler"
-                                                    >
-                                                        <AccountTreeIcon />
-                                                    </Fab>
-                                                </div>
-                                            </>
-                                            : null
-                                    }
+                                    {this.state.isExpert ? <>
+                                        <div className={classes.labelMenuBottom} />
+                                        <div className={`${classes.labelLeftSm2} expert ${this.state.leftOpen === 2 ? 'active' : ''}`} onClick={() => this.onLeftOpen(2)}>
+                                            <Fab
+                                                size="small"
+                                                color={this.state.leftOpen === 2 ? 'secondary' : 'primary'}
+                                                aria-label="assignment"
+                                            >
+                                                <AssignmentTurnedInIcon />
+                                            </Fab>
+                                        </div>
+                                        <div className={`${classes.labelRightSm6} ${this.state.leftOpen === 4 ? 'active' : ''}`} onClick={() => this.onLeftOpen(4)}>
+                                            <Fab
+                                                size="small"
+                                                color={this.state.leftOpen === 4 ? 'secondary' : 'primary'}
+                                                aria-label="view"
+                                            >
+                                                <ViewListIcon />
+                                            </Fab>
+                                        </div>
+                                        {/* <div className={`${classes.labelRightSm4} ${this.state.leftOpen === 7 ? 'active' : ''}`} onClick={() => this.onLeftOpen(7)}>
+                                            <Fab
+                                                size="small"
+                                                color={this.state.leftOpen === 7 ? 'secondary' : 'primary'}
+                                                aria-label="scheduler"
+                                            >
+                                                <ScheduleIcon />
+                                            </Fab>
+                                        </div> */}
+                                        <div className={`${classes.labelRightSm8} ${this.state.leftOpen === 8 ? 'active' : ''}`} onClick={() => this.onLeftOpen(8)}>
+                                            <Fab
+                                                size="small"
+                                                color={this.state.leftOpen === 8 ? 'secondary' : 'primary'}
+                                                aria-label="scheduler"
+                                            >
+                                                <AccountTreeIcon />
+                                            </Fab>
+                                        </div>
+                                    </> : null}
                                 </>
                                 : <div className={classes.emptyProfile}>
                                     {I18n.t('Select or create profile in left menu')}

@@ -7,10 +7,12 @@ import {
 } from '@mui/material';
 import IconAdd from '@mui/icons-material/Add';
 
-import I18n from '@iobroker/adapter-react-v5/i18n';
-import DialogSelectID from '@iobroker/adapter-react-v5/Dialogs/SelectID';
-import Utils from '@iobroker/adapter-react-v5/Components/Utils';
-import Icon from '@iobroker/adapter-react-v5/Components/Icon';
+import {
+    I18n,
+    SelectID as DialogSelectID,
+    Utils,
+    Icon,
+} from '@iobroker/adapter-react-v5';
 
 const styles = {
     tapperTitle: {

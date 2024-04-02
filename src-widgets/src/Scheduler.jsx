@@ -5,8 +5,6 @@ import { withStyles, withTheme } from '@mui/styles';
 import {
     MenuItem,
     Select,
-    Card,
-    CardContent,
 } from '@mui/material';
 
 import {
@@ -103,8 +101,8 @@ class Scheduler extends Generic {
             id: 'tplScheduler',
             visSet: 'scheduler',
             visWidgetLabel: 'scheduler',  // Label of widget
-            visSetLabel: 'set_label', // Label of widget set
-            visSetColor: '#70BBF7', // color of widget set
+            visSetLabel: 'set_label', // Label of the widget set
+            visSetColor: '#70BBF7', // color of the widget set
             visName: 'Scheduler',
             visAttrs: [{
                 name: 'common',
@@ -143,10 +141,15 @@ class Scheduler extends Generic {
                         default: false,
                     },
                     {
+                        name: 'noCard',
+                        label: 'without_card',
+                        type: 'checkbox',
+                        hidden: '!!data.externalDialog',
+                    },
+                    {
+                        name: 'widgetTitle',
                         label: 'name',
-                        name: 'name',
-                        tooltip: 'used_only_with_relative',
-                        default: '',
+                        hidden: '!!data.noCard',
                     },
                 ],
             }],
@@ -317,11 +320,11 @@ class Scheduler extends Generic {
                 />}
         </div>;
 
-        if (this.state.rxStyle.position === 'relative') {
-            return this.wrapContent(content, null, { height: 'calc(100% - 24px)', width: 'calc(100% - 24px)' }, null, null, { Card, CardContent });
+        if (this.state.rxData.noCard || props.widget.usedInWidget) {
+            return content;
         }
 
-        return content;
+        return this.wrapContent(content, null, { height: 'calc(100% - 24px)', width: 'calc(100% - 24px)' });
     }
 }
 
