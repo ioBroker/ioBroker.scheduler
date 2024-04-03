@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "scheduler",
-    "version": "1.1.14",
+    "version": "1.2.0",
     "news": {
+      "1.2.0": {
+        "en": "Corrected 15-minute intervals\nGUI improvements for mobile view",
+        "de": "Korrigierte 15-minütige Intervalle\nGUI Verbesserungen für mobile Ansicht",
+        "ru": "15-минутные интервалы\nУлучшения GUI для мобильного просмотра",
+        "pt": "Intervalos de 15 minutos corrigidos\nMelhorias de interface gráfica para visualização móvel",
+        "nl": "Gecorrigeerde intervallen van 15 minuten\nGUI verbeteringen voor mobiele weergave",
+        "fr": "Intervalles corrigés de 15 minutes\nAmélioration de l'interface graphique pour la vue mobile",
+        "it": "Intervalli corretti di 15 minuti\nMiglioramenti della GUI per la vista mobile",
+        "es": "Intervalos corregidos de 15 minutos\nMejoras de interfaz gráfica para la vista móvil",
+        "pl": "Poprawione 15-minutowe interwały\nUlepszenia interfejsu GUI dla mobilnego widoku",
+        "uk": "Виправлено 15 хвилин інтервали\nУдосконалення інтерфейсу для мобільного вигляду",
+        "zh-cn": "15分钟间隔\n移动视图的图形用户界面改进"
+      },
       "1.1.14": {
         "en": "Corrected widget and profile",
         "de": "Korrigiertes Widget und Profil",
@@ -80,19 +93,6 @@
         "pl": "Prace nad budową",
         "uk": "Робота на будівельному процесі",
         "zh-cn": "建设进程的工作"
-      },
-      "1.1.6": {
-        "en": "update packages",
-        "de": "update-pakete",
-        "ru": "обновление пакетов",
-        "pt": "pacotes de atualização",
-        "nl": "vertaling:",
-        "fr": "mettre à jour les paquets",
-        "it": "pacchetti di aggiornamento",
-        "es": "actualizar paquetes",
-        "pl": "pakiet aktualizacji",
-        "uk": "оновлення пакетів",
-        "zh-cn": "更新包"
       }
     },
     "title": "Schedule profiler",

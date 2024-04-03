@@ -25,7 +25,7 @@ This adapter has vis2 widget.
 -->
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 1.2.0 (2024-04-03)
 * (bluefox) Corrected 15-minute intervals
 * (bluefox) GUI improvements for mobile view
 
