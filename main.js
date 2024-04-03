@@ -143,6 +143,7 @@ const updateStates = async force => {
 function startNextInterval() {
     const time = new Date();
 
+    // get the next 15 minutes
     if (time.getMinutes() < 15) {
         time.setMinutes(15);
     } else if (time.getMinutes() < 30) {
