@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "scheduler",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "news": {
+      "1.2.1": {
+        "en": "Added two options: \"Ignore values if same as previous\" and \"Do not control if device already in desired state\"\nCorrected 15-minute intervals\nGUI improvements for mobile view",
+        "de": "Zwei Optionen hinzugefügt: \"Ignorieren von Werten, wenn dies wie früher ist\" und \"Nicht steuern, ob das Gerät bereits in gewünschtem Zustand ist\"\nKorrigierte 15-minütige Intervalle\nGUI Verbesserungen für mobile Ansicht",
+        "ru": "Добавлено два варианта: \"Не обращайте внимания на значения, если они совпадают с предыдущими\" и \"Не контролируйте, если устройство уже находится в желаемом состоянии\"\n15-минутные интервалы\nУлучшения GUI для мобильного просмотра",
+        "pt": "Adicionado duas opções: \"Ignore valores se o mesmo que anterior\" e \"Não controle se dispositivo já em estado desejado\"\nIntervalos de 15 minutos corrigidos\nMelhorias de interface gráfica para visualização móvel",
+        "nl": "Twee opties toegevoegd: \"Negeren waarden als hetzelfde als vorige\" en \"Niet besturen als apparaat al in de gewenste staat\"\nGecorrigeerde intervallen van 15 minuten\nGUI verbeteringen voor mobiele weergave",
+        "fr": "Ajout de deux options : \"Ignorer les valeurs si elles sont identiques à celles du précédent\" et \"Ne pas contrôler si le dispositif est déjà dans l'état souhaité\"\nIntervalles corrigés de 15 minutes\nAmélioration de l'interface graphique pour la vue mobile",
+        "it": "Aggiunto due opzioni: \"Ignora i valori se stesso come precedente\" e \"Non controllare se il dispositivo già nello stato desiderato\"\nIntervalli corretti di 15 minuti\nMiglioramenti della GUI per la vista mobile",
+        "es": "Añadido dos opciones: \"Ignorar valores si son iguales a los anteriores\" y \"No controlar si el dispositivo ya está en estado deseado\"\nIntervalos corregidos de 15 minutos\nMejoras de interfaz gráfica para la vista móvil",
+        "pl": "Dodano dwie opcje: \"Ignoruj wartości, jeśli są takie same jak poprzednio\" i \"Nie kontroluj, jeśli urządzenie jest już w pożądanym stanie\"\nPoprawione 15-minutowe interwały\nUlepszenia interfejsu GUI dla mobilnego widoku",
+        "uk": "Додано два варіанти: \"Не контролюйте, якщо пристрій вже в бажаному стані\"\nВиправлено 15 хвилин інтервали\nУдосконалення інтерфейсу для мобільного вигляду",
+        "zh-cn": "增加了两个选项: “如果与先前相同,则忽略数值”和“如果设备已经处于理想状态,则不要控制”\n15分钟间隔\n移动视图的图形用户界面改进"
+      },
       "1.2.0": {
         "en": "Corrected 15-minute intervals\nGUI improvements for mobile view",
         "de": "Korrigierte 15-minütige Intervalle\nGUI Verbesserungen für mobile Ansicht",
@@ -80,19 +93,6 @@
         "pl": "Pakiet",
         "uk": "Пакети оновлені",
         "zh-cn": "更新的包装"
-      },
-      "1.1.7": {
-        "en": "Worked on build process",
-        "de": "Gearbeitet auf Bauprozess",
-        "ru": "Работал над процессом сборки",
-        "pt": "Trabalhou no processo de construção",
-        "nl": "Werkte aan bouwproces",
-        "fr": "Travaillé sur le processus de construction",
-        "it": "Lavorato sul processo di costruzione",
-        "es": "Trabajado en el proceso de construcción",
-        "pl": "Prace nad budową",
-        "uk": "Робота на будівельному процесі",
-        "zh-cn": "建设进程的工作"
       }
     },
     "title": "Schedule profiler",
