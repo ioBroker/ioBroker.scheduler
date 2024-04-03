@@ -102,29 +102,39 @@ class DevicesPanel extends Component {
 
         const errors = {};
 
-        this.props.members.forEach(device => {
-            let duplicates = 0;
-            errors[device] = [];
+        this.props.members.forEach(deviceID => {
+            const duplicates = [];
+            errors[deviceID] = [];
 
             for (const k in this.props.profiles) {
                 const profile = this.props.profiles[k];
-                if (profile.type === 'profile'
-                    && profile.data.members.includes(device)
-                    && profile.data.prio === this.props.prio
+                if (profile.type === 'profile' &&
+                    profile.data.members.includes(deviceID) &&
+                    profile.data.prio === this.props.prio
                 ) {
-                    duplicates++;
+                    if (duplicates.length) {
+                        // check if profiles have same dows
+                        const dows1 = profile.data.dows;
+                        const dows2 = this.props.profiles[duplicates[0]].data.dows;
+                        if (dows1.find(d => dows2.includes(d)) || dows2.find(d => dows1.includes(d))) {
+                            duplicates.push(k);
+                            break;
+                        }
+                    } else {
+                        duplicates.push(k);
+                    }
                 }
             }
-            if (duplicates > 1) {
-                errors[device].push(I18n.t('duplicate'));
+            if (duplicates.length > 1) {
+                errors[deviceID].push(I18n.t('duplicate'));
             }
 
-            if (!this.props.devicesCache[device]) {
-                if (this.props.devicesCache[device] === false) {
-                    errors[device].push(I18n.t('not exists'));
+            if (!this.props.devicesCache[deviceID]) {
+                if (this.props.devicesCache[deviceID] === false) {
+                    errors[deviceID].push(I18n.t('not exists'));
                 }
-            } else if (!checkObject(this.props.devicesCache[device], this.props.type)) {
-                errors[device].push(I18n.t('wrong type'));
+            } else if (!checkObject(this.props.devicesCache[deviceID], this.props.type)) {
+                errors[deviceID].push(I18n.t('wrong type'));
             }
         });
 

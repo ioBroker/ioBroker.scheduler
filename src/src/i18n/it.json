@@ -59,5 +59,7 @@
   "15 m.": "15 m.",
   "30 m.": "30 m.",
   "You cannot enable or disable this profile as it controlled by %s state": "Non puoi abilitare o disabilitare questo profilo poiché è controllato dallo stato %s",
-  "Press \"shift\" and move mouse to change more than one slider": "Premi \"shift\" e muovi il mouse per cambiare più di un cursore"
+  "Press \"shift\" and move mouse to change more than one slider": "Premi \"shift\" e muovi il mouse per cambiare più di un cursore",
+  "Ignore values if same as previous": "Ignora i valori se uguali a quelli precedenti\n",
+  "Do not control if device already in desired state": "Non controllare se il dispositivo è già nello stato desiderato"
 }

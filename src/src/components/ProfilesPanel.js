@@ -47,10 +47,12 @@ const defaultProfileData = {
     enabled: true,
     members: [],
     type: 'temperature',
-    prio: 0, // 0 normal, 1 - high, 2 - highest
+    prio: 0, // 0 - normal, 1 - high, 2 - highest
     dow: [1, 2, 3, 4, 5], // 0 - sunday, 1 - monday
     intervalDuration: 1, // in hours
     intervals: Array(24).fill(22),
+    ignoreSameValues: false,
+    doNotWriteSameValue: false,
 };
 
 // eslint-disable-next-line

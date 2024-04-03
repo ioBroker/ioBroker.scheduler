@@ -6,7 +6,7 @@ import ReactSplit, { SplitDirection, GutterTheme } from '@devbookhq/splitter';
 import {
     Tabs,
     Tab,
-    Fab,
+    Fab, FormControlLabel, Checkbox,
 } from '@mui/material';
 
 import { Drawer, Grid, IconButton } from '@mui/material';
@@ -208,7 +208,10 @@ const styles = theme => {
             fontWeight: 'bold',
             marginLeft: 20,
             color: theme.palette.text.primary,
-        }
+        },
+        checkbox: {
+            color: theme.palette.text.primary,
+        },
     };
 };
 
@@ -691,7 +694,7 @@ class App extends GenericApp {
     }
 
     renderPriority(currentProfile) {
-        return <div className="mt-sm-auto mb-sm-auto">
+        return <div className="mt-sm-auto mb-sm-auto" key="prioprity">
             <div>
                 <PriorityPanel
                     profile={currentProfile}
@@ -736,6 +739,37 @@ class App extends GenericApp {
         </div>;
     }
 
+    renderOptions(currentProfile) {
+        return [
+            <FormControlLabel
+                key="ignoreSameValues"
+                className={this.props.classes.checkbox}
+                control={<Checkbox
+                    checked={currentProfile.ignoreSameValues}
+                    onChange={e => {
+                        const profile = JSON.parse(JSON.stringify(this.currentProfile()));
+                        profile.ignoreSameValues = !profile.ignoreSameValues;
+                        this.changeProfile(profile);
+                    }}
+                />}
+                label={I18n.t('Ignore values if same as previous')}
+            />,
+            <FormControlLabel
+                key="doNotWriteSameValue"
+                className={this.props.classes.checkbox}
+                control={<Checkbox
+                    checked={currentProfile.doNotWriteSameValue}
+                    onChange={e => {
+                        const profile = JSON.parse(JSON.stringify(this.currentProfile()));
+                        profile.doNotWriteSameValue = !profile.doNotWriteSameValue;
+                        this.changeProfile(profile);
+                    }}
+                />}
+                label={I18n.t('Do not control if device already in desired state')}
+            />,
+        ];
+    }
+
     renderMobileDrawer(isMobile, currentProfile) {
         if (!isMobile) {
             return null;
@@ -748,7 +782,10 @@ class App extends GenericApp {
         } else if (this.state.leftOpen === 3) {
             content = this.renderDow(currentProfile);
         } else if (this.state.leftOpen === 4) {
-            content = this.renderPriority(currentProfile);
+            content = [
+                this.renderPriority(currentProfile),
+                this.renderOptions(currentProfile),
+            ];
         } else if (this.state.leftOpen === 5) {
             content = this.renderDevices(currentProfile);
         } else if (this.state.leftOpen === 7) {
@@ -976,22 +1013,14 @@ class App extends GenericApp {
                         range={profile.intervalDuration}
                         windowWidth={this.state.windowWidth}
                     />
-                    {
-                        this.state.isExpert
-                            ? <div className={`${classes.tapperGrid} m-1 mt-1`}>
-                                {isMobile ? null : this.renderRange(currentProfile)}
-                            </div>
-                            : null
-                    }
+                    {this.state.isExpert ? <div className={`${classes.tapperGrid} m-1 mt-1`}>
+                        {isMobile ? null : this.renderRange(currentProfile)}
+                    </div> : null}
                     {isMobile ? null : <Grid
                         container
                         spacing={0}
                     >
-                        <Grid
-                            item
-                            xs={6}
-                            className="h-100 expert sm-hidden"
-                        >
+                        <Grid item xs={6} className="h-100 expert">
                             <div
                                 className={`${classes.tapperGrid} m-1 p-2 mt-1`}
                                 style={{ flexGrow: 100 }}
@@ -999,35 +1028,20 @@ class App extends GenericApp {
                                 {this.renderDevices(currentProfile)}
                             </div>
                         </Grid>
-                        {this.state.isExpert ? <>
-                            <Grid
-                                item
-                                xs={1}
-                                className="h-100 expert sm-hidden"
-                            >
-                                <div className={`${classes.tapperGrid} h-100 m-1 p-2`}>
+                        {this.state.isExpert ? <Grid item xs={6}>
+                            <div style={{ display: 'flex', gap: 10 }}>
+                                <div>
                                     {this.renderPriority(currentProfile)}
                                 </div>
-                            </Grid>
-                            <Grid
-                                item
-                                xs={2}
-                                className="h-100 expert sm-hidden"
-                            >
-                                <div className={`${classes.tapperGrid} h-100 m-1 p-2`}>
+                                <div>
                                     {this.renderType(currentProfile)}
                                 </div>
-                            </Grid>
-                            <Grid
-                                item
-                                xs={3}
-                                className="h-100 expert sm-hidden"
-                            >
-                                <div className={`${classes.tapperGrid} h-100 m-1 p-2`}>
+                                <div>
                                     {this.renderState(currentProfile)}
                                 </div>
-                            </Grid>
-                        </> : null}
+                            </div>
+                            {this.renderOptions(currentProfile)}
+                        </Grid> : null}
                     </Grid>}
                 </Grid>
                 {isMobile ? null : <Grid
@@ -1123,7 +1137,7 @@ class App extends GenericApp {
             </ReactSplit>
         </div> : <div className={classes.app}>
             {desktopProfilePanel}
-            <div
+            {isMobile ? <div
                 className={`${classes.labelLeftSm1} ${this.state.leftOpen === 1 ? 'active' : ''}`}
                 onClick={() => this.onLeftOpen(1)}
             >
@@ -1134,7 +1148,7 @@ class App extends GenericApp {
                 >
                     <DehazeIcon />
                 </Fab>
-            </div>
+            </div>: null}
             {this.renderMobileDrawer(isMobile, currentProfile)}
             {content}
         </div>;

@@ -72,6 +72,13 @@ function convertValue(obj, type, value) {
     return false;
 }
 
+function getPreviousValue(intervals, index) {
+    if (index === 0) {
+        return intervals[intervals.length - 1];
+    }
+    return intervals[index - 1];
+}
+
 const updateStates = async force => {
     const profiles = adapter.config.profiles;
     const now = new Date();
@@ -99,26 +106,28 @@ const updateStates = async force => {
                 const index = Math.floor((now.getHours() + now.getMinutes() / 60) / profile.data.intervalDuration);
                 const value = profile.data.intervals[index];
                 await adapter.setStateAsync(profile.data.activeState, true, true);
+                if (force || !profile.data.ignoreSameValues || getPreviousValue(profile.data.intervals, index) !== value) {
+                    profile.data.members.forEach(id => {
+                        if (!devices[id]) {
+                            adapter.log.warn(`Device ${id} used in schedule "${profile.title}", but object does not exist.`);
+                            // this object was deleted after adapter start
+                            return;
+                        }
 
-                profile.data.members.forEach(id => {
-                    if (!devices[id]) {
-                        adapter.log.warn(`Device ${id} used in schedule "${profile.title}", but object does not exist.`);
-                        // this object was deleted after adapter start
-                        return;
-                    }
-
-                    if (!active[id] || active[id].priority < profile.data.prio) {
-                        active[id] = {
-                            id: profile.id,
-                            title: profile.title,
-                            priority: profile.data.prio,
-                            type: profile.data.type,
-                            value,
-                        };
-                    } else if (active[id] && active[id].priority === profile.data.prio) {
-                        adapter.log.error(`"${id}" is in two or more profiles: "${profile.title}" and "${active[id].title}"(<-used for control)`);
-                    }
-                });
+                        if (!active[id] || active[id].priority < profile.data.prio) {
+                            active[id] = {
+                                id: profile.id,
+                                title: profile.title,
+                                priority: profile.data.prio,
+                                type: profile.data.type,
+                                value,
+                            };
+                        } else if (active[id] && active[id].priority === profile.data.prio) {
+                            // check if the days are different
+                            adapter.log.error(`"${id}" is in two or more profiles: "${profile.title}" and "${active[id].title}"(<-used for control)`);
+                        }
+                    });
+                }
             } else {
                 await adapter.setStateAsync(profile.data.activeState, false, true);
             }
@@ -132,8 +141,15 @@ const updateStates = async force => {
             adapter.log.error(`${id} in ${profile.title} is not type ${profile.type}`);
             continue;
         }
-
         const value = convertValue(devices[id], profile.type, profile.value);
+
+        if (profile.data.doNotWriteSameValue) {
+            const currentValue = await adapter.getForeignStateAsync(id);
+            if (currentValue && currentValue.val === value) {
+                continue;
+            }
+        }
+
         await adapter.setForeignStateChangedAsync(id, value);
 
         adapter.log.info(`${id} in ${profile.title} set to ${value}`);
