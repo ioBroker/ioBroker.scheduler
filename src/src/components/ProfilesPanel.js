@@ -124,6 +124,7 @@ const styles = theme => ({
         alignItems: 'center',
         cursor: 'pointer',
         position: 'relative',
+        color: theme.palette.text.primary,
         '&.active': {
             backgroundColor: () => theme.palette.primary.light,
             color: '#FFF',

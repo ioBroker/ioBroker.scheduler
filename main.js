@@ -72,7 +72,7 @@ function convertValue(obj, type, value) {
     return false;
 }
 
-const updateStates = async () => {
+const updateStates = async force => {
     const profiles = adapter.config.profiles;
     const now = new Date();
     const active = {};
@@ -85,33 +85,43 @@ const updateStates = async () => {
         if (profileState && typeof profileState === 'object') {
             profileState = profileState.val;
         }
+        const minutes = now.getMinutes();
+        // if not XX:00 or XX:30
+        if (!force && profile.data.intervalDuration === 0.5 && (minutes === 15 || minutes === 45)) {
+            continue;
+        }
+        // if not XX:00
+        if (!force && profile.data.intervalDuration >= 1 && minutes) {
+            continue;
+        }
+        if (profile.type === 'profile') {
+            if (profile.data.dow.includes(now.getDay()) && profileState) {
+                const index = Math.floor((now.getHours() + now.getMinutes() / 60) / profile.data.intervalDuration);
+                const value = profile.data.intervals[index];
+                await adapter.setStateAsync(profile.data.activeState, true, true);
 
-        if (profile.type === 'profile'
-            && profile.data.dow.includes(now.getDay())
-            && profileState
-        ) {
-            const index = Math.floor((now.getHours() + now.getMinutes() / 60) / profile.data.intervalDuration);
-            const value = profile.data.intervals[index];
+                profile.data.members.forEach(id => {
+                    if (!devices[id]) {
+                        adapter.log.warn(`Device ${id} used in schedule "${profile.title}", but object does not exist.`);
+                        // this object was deleted after adapter start
+                        return;
+                    }
 
-            profile.data.members.forEach(id => {
-                if (!devices[id]) {
-                    adapter.log.warn(`Device ${id} used in schedule "${profile.title}", but object does not exist.`);
-                    // this object was deleted after adapter start
-                    return;
-                }
-
-                if (!active[id] || active[id].priority < profile.data.prio) {
-                    active[id] = {
-                        id: profile.id,
-                        title: profile.title,
-                        priority: profile.data.prio,
-                        type: profile.data.type,
-                        value,
-                    };
-                } else if (active[id] && active[id].priority === profile.data.prio) {
-                    adapter.log.error(`"${id}" is in two or more profiles: "${profile.title}" and "${active[id].title}"(<-used for control)`);
-                }
-            });
+                    if (!active[id] || active[id].priority < profile.data.prio) {
+                        active[id] = {
+                            id: profile.id,
+                            title: profile.title,
+                            priority: profile.data.prio,
+                            type: profile.data.type,
+                            value,
+                        };
+                    } else if (active[id] && active[id].priority === profile.data.prio) {
+                        adapter.log.error(`"${id}" is in two or more profiles: "${profile.title}" and "${active[id].title}"(<-used for control)`);
+                    }
+                });
+            } else {
+                await adapter.setStateAsync(profile.data.activeState, false, true);
+            }
         }
     }
 
@@ -133,8 +143,12 @@ const updateStates = async () => {
 function startNextInterval() {
     const time = new Date();
 
-    if (time.getMinutes() < 30) {
+    if (time.getMinutes() < 15) {
+        time.setMinutes(15);
+    } else if (time.getMinutes() < 30) {
         time.setMinutes(30);
+    } else if (time.getMinutes() < 45) {
+        time.setMinutes(45);
     } else {
         time.setHours(time.getHours() + 1);
         time.setMinutes(0);
@@ -169,6 +183,25 @@ function getStateId(profile, profiles, _list) {
     return `${adapter.namespace}.${_list.join('.')}`;
 }
 
+async function createActiveState(id) {
+    const obj = await adapter.getForeignObjectAsync(id);
+    if (!obj) {
+        await adapter.setObjectAsync(id, {
+            type: 'state',
+            common: {
+                name: 'Active state of the profile',
+                type: 'boolean',
+                role: 'indicator',
+                read: true,
+                write: false,
+                def: false,
+            },
+            native: {}
+        });
+
+    }
+}
+
 async function main() {
     const profiles = adapter.config.profiles;
 
@@ -180,6 +213,8 @@ async function main() {
             if (profile.data.state === true) {
                 profile.data.state = getStateId(profile, profiles);
             }
+            profile.data.activeState = `${getStateId(profile, profiles)}_active`;
+            await createActiveState(profile.data.activeState);
 
             for (const m in profile.data.members) {
                 if (!devices[profile.data.members[m]]) {
@@ -196,7 +231,7 @@ async function main() {
     // subscribe on all used IDs
     adapter.subscribeForeignObjects(Object.keys(devices));
 
-    await updateStates();
+    await updateStates(true);
     startNextInterval();
 }
 

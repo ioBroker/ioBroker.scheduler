@@ -34,7 +34,9 @@ class IntervalsContainer extends Component {
     constructor(props) {
         super(props);
         this.tapperRef = React.createRef();
-        this.state = {};
+        this.state = {
+            intervalsWidth: 0,
+        };
     }
 
     componentDidMount() {
@@ -56,7 +58,7 @@ class IntervalsContainer extends Component {
     }
 
     updateWindowDimensions = () => {
-        const w = this.tapperRef.current.getBoundingClientRect().width;
+        const w = this.tapperRef.current?.getBoundingClientRect().width;
         this.setState({
             intervalsWidth: w || 30,
         });
@@ -67,9 +69,16 @@ class IntervalsContainer extends Component {
             type, theme, range, intervals,
         } = this.props;
         const { tapperGrid, tapperInside } = this.props.classes;
+        const intervalsWidth = this.tapperRef.current?.getBoundingClientRect().width;
+        if (intervalsWidth && intervalsWidth !== this.state.intervalsWidth) {
+            this.updateWidth = this.updateWidth || setTimeout(() => {
+                this.updateWidth = null;
+                this.updateWindowDimensions();
+            }, 100);
+        }
         // console.log(this.state.intervalsWidth);
         return <div
-            className={`${tapperGrid} m-1 h-100 `}
+            className={`${tapperGrid} m-1 h-100`}
             style={{ backgroundColor: theme.palette.background.default }}
         >
             <div

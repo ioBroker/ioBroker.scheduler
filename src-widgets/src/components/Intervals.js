@@ -207,24 +207,24 @@ class Intervals extends Component {
 
         const sliders = [];
         for (let i = slideId * count; i < (slideId + 1) * count; i++) {
-            sliders.push(
-                <Interval
-                    key={`${i}step${range}${key}`}
-                    value={data[i]}
-                    selected={selected[i]}
-                    label=""
-                    i={i}
-                    step={range}
-                    on={this.onChange}
-                    type={type}
-                    theme={theme}
-                    intervalsWidth={intervalsWidth / count}
-                />,
-            );
+            sliders.push(<Interval
+                key={`${i}step${range}${key}`}
+                value={data[i]}
+                selected={selected[i]}
+                label=""
+                i={i}
+                step={range}
+                on={this.onChange}
+                type={type}
+                theme={theme}
+                intervalsWidth={intervalsWidth / count}
+            />);
         }
 
+        const now = new Date(this.state.currentTime);
+
         const leftOffset = Math.round(
-            (((this.state.currentTime.getHours() + this.state.currentTime.getMinutes() / 60) / range - count * slideId) / count) * intervalsWidth,
+            (((now.getHours() + now.getMinutes() / 60) / range - count * slideId) / count) * intervalsWidth,
         );
 
         return <>

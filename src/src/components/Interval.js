@@ -159,10 +159,16 @@ class Interval extends Component {
             el._interval = this;
             // eslint-disable-next-line
             el.onmousemove = function (e) {
-                if (e.buttons && e.shiftKey) {
+                if ((e.buttons || e.touches?.length) && e.shiftKey) {
+                    console.log(e);
                     const that = this._interval;
                     const height = this.getBoundingClientRect().height;
-                    const pos = e.clientY - this.getBoundingClientRect().top;
+                    let pos;
+                    if (e.touches?.length) {
+                        pos = e.touches[0].clientY - this.getBoundingClientRect().top;
+                    } else {
+                        pos = e.clientY - this.getBoundingClientRect().top;
+                    }
                     const { min, max } = that.getMinMax();
                     let val;
                     switch (that.props.type) {
@@ -183,7 +189,7 @@ class Interval extends Component {
                             val = Math.min(100, Math.max(0, val));
                             break;
                     }
-                    console.log('pos', pos, height, val);
+                    console.log('pos', that.props.i, pos, height, val);
                     // calculate the value
                     that.props.on('data', val, that.props.i);
                 }
