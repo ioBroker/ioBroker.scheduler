@@ -78,19 +78,17 @@ class Intervals extends Component {
             this.setState({ slideId: 0 });
             this.setSlideOfTime();
         }
-        if (this.props.intervalsWidth && nextProps.intervalsWidth !== this.props.intervalsWidth) {
-            // console.log(nextProps.intervalsWidth, this.props.intervalsWidth)
-            // setTimeout(() => {
+        if (nextProps.intervalsWidth !== this.state.intervalsWidth) {
             this.setState({
-                intervalsWidth: this.props.intervalsWidth + Math.random(),
+                intervalsWidth: nextProps.intervalsWidth,
                 key: parseInt(Date.now() + Math.random() * 1000),
+                slideId: this.getSlideOfTime(nextProps.intervalsWidth),
             });
-            // }, 1)
         }
     }
 
-    getSectionByRange = range => {
-        if (this.props.intervalsWidth >= 720) {
+    getNumberOfSectionsByRange = range => {
+        if (this.state.intervalsWidth >= 720) {
             if (range === 0.25) {
                 return 4;
             }
@@ -113,8 +111,10 @@ class Intervals extends Component {
         }
     };
 
-    getCountByRange = range => {
-        if (this.state.intervalsWidth >= 720) {
+    getCountByRange = (range, intervalsWidth) => {
+        intervalsWidth = intervalsWidth || this.state.intervalsWidth;
+
+        if (intervalsWidth >= 720) {
             return range === 0.5 || range === 0.25 ? 24 : Intervals.getMaxByRange(range);
         }
         switch (range) {
@@ -143,14 +143,14 @@ class Intervals extends Component {
         if (slideId > 0) {
             this.setSlideId(slideId - 1);
         } else {
-            this.setSlideId(this.getSectionByRange(range) - 1);
+            this.setSlideId(this.getNumberOfSectionsByRange(range) - 1);
         }
     }
 
     next = () => {
         const { slideId } = this.state;
         const { range } = this.props;
-        if (slideId < this.getSectionByRange(range) - 1) {
+        if (slideId < this.getNumberOfSectionsByRange(range) - 1) {
             this.setSlideId(slideId + 1);
         } else {
             this.setSlideId(0);
@@ -204,6 +204,13 @@ class Intervals extends Component {
             type, theme, range, data, classes,
         } = this.props;
         const count = this.getCountByRange(range);
+        const max = Intervals.getMaxByRange(range);
+        if (slideId * count >= max) {
+            setTimeout(() => {
+                this.setSlideOfTime();
+            }, 50);
+            return null;
+        }
 
         const sliders = [];
         for (let i = slideId * count; i < (slideId + 1) * count; i++) {
@@ -248,14 +255,22 @@ class Intervals extends Component {
     }
     */
 
-    setSlideOfTime = () => {
+    getSlideOfTime(intervalsWidth) {
         const { range } = this.props;
-        if (this.state.intervalsWidth) {
+        intervalsWidth = intervalsWidth || this.state.intervalsWidth;
+        if (intervalsWidth) {
             const hour = new Date().getHours();
-            const part = this.getCountByRange(range) * range;
-            this.setState({ slideId: Math.floor(hour / part) });
+            const part = this.getCountByRange(range, intervalsWidth) * range;
+            return Math.floor(hour / part);
         }
-    };
+        return 0;
+    }
+
+    setSlideOfTime() {
+        if (this.state.intervalsWidth) {
+            this.setState({ slideId: this.getSlideOfTime() });
+        }
+    }
 
     render() {
         if (!this.state.intervalsWidth) {
@@ -264,7 +279,7 @@ class Intervals extends Component {
         const { slideId } = this.state;
         const { range } = this.props;
         const { swiperContent, swiper } = this.props.classes;
-        const sections = this.getSectionByRange(range);
+        const sections = this.getNumberOfSectionsByRange(range);
         return <>
             <div className={swiperContent}>
                 <div className={swiper}>
@@ -272,6 +287,7 @@ class Intervals extends Component {
                 </div>
             </div>
             <DayNightSwitcher
+                id={this.props.id}
                 sections={sections}
                 quarterId={parseInt(slideId)}
                 onChange={quarterId => {
@@ -291,5 +307,6 @@ Intervals.propTypes = {
     range: PropTypes.number,
     theme: PropTypes.object,
     type: PropTypes.string,
+    id: PropTypes.string.isRequired,
 };
 export default withStyles(styles)(Intervals);

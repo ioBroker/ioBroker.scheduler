@@ -121,6 +121,7 @@ const updateStates = async force => {
                                 priority: profile.data.prio,
                                 type: profile.data.type,
                                 value,
+                                doNotWriteSameValue: profile.data.doNotWriteSameValue,
                             };
                         } else if (active[id] && active[id].priority === profile.data.prio) {
                             // check if the days are different
@@ -143,7 +144,7 @@ const updateStates = async force => {
         }
         const value = convertValue(devices[id], profile.type, profile.value);
 
-        if (profile.data.doNotWriteSameValue) {
+        if (profile.doNotWriteSameValue) {
             const currentValue = await adapter.getForeignStateAsync(id);
             if (currentValue && currentValue.val === value) {
                 continue;

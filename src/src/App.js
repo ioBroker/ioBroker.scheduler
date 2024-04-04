@@ -1006,6 +1006,7 @@ class App extends GenericApp {
                 </div>}
                 <Grid className={this.props.classes.slidersContainer} item xs={11} >
                     <IntervalsContainer
+                        id="IntervalsContainer"
                         type={currentProfile.type}
                         intervals={currentProfile.intervals}
                         onChange={this.onIntervals}

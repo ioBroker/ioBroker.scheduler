@@ -25,6 +25,9 @@ This adapter has vis2 widget.
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (bluefox) Corrected widget errors
+
 ### 1.2.1 (2024-04-03)
 * (bluefox) Added two options: "Ignore values if same as previous" and "Do not control if device already in desired state"
 * (bluefox) Corrected 15-minute intervals

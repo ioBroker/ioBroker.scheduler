@@ -120,7 +120,7 @@ const PrettySlider = props => {
     delete componentProps.theme;
 
     return <Slider
-        id={`slider_${props.idx}`}
+        id={`slider_${props.idx}_${props.id}`}
         classes={
             usePrettySliderStyles({
                 intervalsWidth: props.intervalsWidth,
@@ -287,6 +287,7 @@ class Interval extends Component {
                     selected={selected}
                     onChange={this.handleSliderChange}
                     valueLabelDisplay="on"
+                    id={this.props.id}
                 />
                 <div
                     className={`${prettyTime} ${selected ? active : ''}`}
@@ -311,5 +312,6 @@ Interval.propTypes = {
     theme: PropTypes.object,
     type: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
+    id: PropTypes.string.isRequired,
 };
 export default withStyles(styles)(Interval);

@@ -98,7 +98,7 @@ class DayNightSwitcher extends Component {
 
         return <div className={dayNightCont} style={{ height }}>
             <div>
-                <img src={dayNight} alt="day-night" id="day-night" />
+                <img src={dayNight} alt="day-night" id={`${this.props.id}-day-night`} />
                 <div className={dn}>
                     {quarters}
                     <div
@@ -119,5 +119,6 @@ DayNightSwitcher.propTypes = {
     onChange: PropTypes.func,
     quarterId: PropTypes.number,
     sections: PropTypes.number,
+    id: PropTypes.string.isRequired,
 };
 export default withStyles(styles)(DayNightSwitcher);

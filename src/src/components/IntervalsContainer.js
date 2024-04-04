@@ -83,7 +83,7 @@ class IntervalsContainer extends Component {
         >
             <div
                 className={tapperInside}
-                id="tapper-inside"
+                id={`${this.props.id}-tapper-inside`}
                 ref={this.tapperRef}
                 style={{
                     padding: 0,
@@ -91,6 +91,7 @@ class IntervalsContainer extends Component {
                 }}
             >
                 {this.props.intervalsWidth || this.state.intervalsWidth ? <Intervals
+                    id={this.props.id}
                     data={intervals}
                     onChange={this.props.onChange}
                     theme={theme}
@@ -110,5 +111,6 @@ IntervalsContainer.propTypes = {
     theme: PropTypes.object,
     type: PropTypes.string,
     intervalsWidth: PropTypes.number,
+    id: PropTypes.string.isRequired,
 };
 export default withStyles(styles)(IntervalsContainer);

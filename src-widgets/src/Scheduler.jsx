@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles, withTheme } from '@mui/styles';
 
 import {
+    LinearProgress,
     MenuItem,
     Select,
 } from '@mui/material';
@@ -26,6 +27,7 @@ const styles = () => ({
         display: 'flex',
         width: '100%',
         height: '100%',
+        position: 'relative',
     },
 });
 
@@ -258,7 +260,16 @@ class Scheduler extends Generic {
         );
         object.native.profiles[profileIndex].data = newData;
         this.setState({ object });
-        this.props.context.socket.setObject(object._id, object);
+        if (this.writeTimeout) {
+            clearTimeout(this.writeTimeout);
+        } else {
+            this.setState({ writing: true });
+        }
+        this.writeTimeout = setTimeout(async _object => {
+            this.writeTimeout = null;
+            await this.props.context.socket.setObject(_object._id, _object);
+            this.setState({ writing: false });
+        }, 2000, object);
     };
 
     currentProfile = () => {
@@ -298,7 +309,17 @@ class Scheduler extends Generic {
             className={this.props.classes.content}
             ref={this.widgetRef}
         >
-            <IntervalsContainer
+            {this.state.writing ? <LinearProgress
+                style={{
+                    position: 'absolute',
+                    zIndex: 1,
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                }}
+            /> : null}
+            {width ? <IntervalsContainer
+                id={this.props.id}
                 onChange={this.onIntervals}
                 theme={this.props.theme} // ?? this.props.context.theme
                 intervals={profile.intervals}
@@ -308,7 +329,7 @@ class Scheduler extends Generic {
                 windowWidth={width}
                 readOnly={this.state.rxData.readOnly}
                 intervalsWidth={width}
-            />
+            /> : null}
             {this.state.rxData.hideDow && width ? null :
                 <DayOfWeekPanel
                     firstDayOfWeek={this.props.context.socket.systemConfig.common.firstDayOfWeek || 'monday'}
