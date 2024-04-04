@@ -61,5 +61,6 @@
   "You cannot enable or disable this profile as it controlled by %s state": "Vous ne pouvez pas activer ou désactiver ce profil car il est contrôlé par l'état %s",
   "Press \"shift\" and move mouse to change more than one slider": "Appuyez sur \"shift\" et déplacez la souris pour modifier plusieurs curseurs",
   "Ignore values if same as previous": "Ignorer les valeurs si elles sont identiques aux précédentes\n",
-  "Do not control if device already in desired state": "Ne contrôlez pas si l'appareil est déjà dans l'état souhaité"
+  "Do not control if device already in desired state": "Ne contrôlez pas si l'appareil est déjà dans l'état souhaité",
+  "Now": "Maintenant"
 }
