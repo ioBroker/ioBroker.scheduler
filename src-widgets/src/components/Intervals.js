@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 
 import DayNightSwitcher from './DayNightSwitcher';
 import Interval from './Interval';
+import {I18n} from "@iobroker/adapter-react-v5";
 
 const styles = theme => ({
     swiperContent: {
@@ -29,7 +30,7 @@ const styles = theme => ({
     },
     timeLine: {
         zIndex: 100,
-        borderWidth: 1,
+        borderWidth: 2,
         borderColor: theme.palette.text.primary,
         borderLeftStyle: 'dashed',
         width: 4,
@@ -78,9 +79,9 @@ class Intervals extends Component {
             this.setState({ slideId: 0 });
             this.setSlideOfTime();
         }
-        if (nextProps.intervalsWidth !== this.state.intervalsWidth) {
+        if (this.props.intervalsWidth && nextProps.intervalsWidth !== this.props.intervalsWidth) {
             this.setState({
-                intervalsWidth: nextProps.intervalsWidth,
+                intervalsWidth: this.props.intervalsWidth,
                 key: parseInt(Date.now() + Math.random() * 1000),
                 slideId: this.getSlideOfTime(nextProps.intervalsWidth),
             });
@@ -235,7 +236,7 @@ class Intervals extends Component {
         );
 
         return <>
-            <div className={classes.timeLineContainer}>
+            <div className={classes.timeLineContainer} title={I18n.t('Now')}>
                 <div
                     className={classes.timeLine}
                     style={{ left: leftOffset }}

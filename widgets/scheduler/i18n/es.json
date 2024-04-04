@@ -1,0 +1,21 @@
+{
+  "hide_days_of_week": "Ocultar días de la semana",
+  "instance": "Instancia",
+  "name": "Nombre",
+  "profile_not_selected": "Perfil no seleccionado",
+  "read_only": "Solo lectura",
+  "scheduler": "planificador",
+  "set_label": "programador",
+  "used_only_with_relative": "Usado solo con posición relativa",
+  "instance_not_selected": "Instancia no seleccionada",
+  "Mo": "Mes",
+  "Tu": "Tu",
+  "We": "Mi",
+  "Th": "Th",
+  "Fr": "Fr",
+  "Sa": "Sa",
+  "Su": "Su",
+  "profile": "Perfil",
+  "Press \"shift\" and move mouse to change more than one slider": "Presione \"shift\" y mueva el mouse para cambiar más de un control deslizante",
+  "Now": "Ahora"
+}

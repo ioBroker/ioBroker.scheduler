@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "scheduler",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "news": {
+      "1.2.2": {
+        "en": "Corrected widget errors",
+        "de": "Korrigierte Widget-Fehler",
+        "ru": "Исправленные ошибки виджета",
+        "pt": "Erros de widget corrigidos",
+        "nl": "Gecorrigeerde widget-fouten",
+        "fr": "Erreurs de widget corrigées",
+        "it": "Errori di widget corretti",
+        "es": "Errores de widget corregidos",
+        "pl": "Skorygowane błędy widget",
+        "uk": "Виправлені помилки віджету",
+        "zh-cn": "修正的部件错误"
+      },
       "1.2.1": {
         "en": "Added two options: \"Ignore values if same as previous\" and \"Do not control if device already in desired state\"\nCorrected 15-minute intervals\nGUI improvements for mobile view",
         "de": "Zwei Optionen hinzugefügt: \"Ignorieren von Werten, wenn dies wie früher ist\" und \"Nicht steuern, ob das Gerät bereits in gewünschtem Zustand ist\"\nKorrigierte 15-minütige Intervalle\nGUI Verbesserungen für mobile Ansicht",
@@ -69,19 +82,6 @@
         "zh-cn": "更新软件包"
       },
       "1.1.10": {
-        "en": "Packages updated",
-        "de": "Pakete aktualisiert",
-        "ru": "Пакеты обновлены",
-        "pt": "Pacotes atualizados",
-        "nl": "Verpakking geüpload",
-        "fr": "Packages updated",
-        "it": "Pacchetti aggiornati",
-        "es": "Paquetes actualizados",
-        "pl": "Pakiet",
-        "uk": "Пакети оновлені",
-        "zh-cn": "更新的包装"
-      },
-      "1.1.9": {
         "en": "Packages updated",
         "de": "Pakete aktualisiert",
         "ru": "Пакеты обновлены",
