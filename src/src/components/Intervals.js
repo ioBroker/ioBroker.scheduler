@@ -2,9 +2,10 @@ import { withStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
+import { I18n } from '@iobroker/adapter-react-v5';
+
 import DayNightSwitcher from './DayNightSwitcher';
 import Interval from './Interval';
-import {I18n} from "@iobroker/adapter-react-v5";
 
 const styles = theme => ({
     swiperContent: {
