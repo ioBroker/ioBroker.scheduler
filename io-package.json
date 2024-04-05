@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "scheduler",
-    "version": "1.3.5",
+    "version": "1.3.6",
     "news": {
+      "1.3.6": {
+        "en": "Corrected widget errors\nImplemented custom types\nAdded possibility to control devices on holidays",
+        "de": "Korrigierte Widget-Fehler\nImplementierte benutzerdefinierte Typen\nMöglichkeit zur Steuerung von Geräten an Feiertagen",
+        "ru": "Исправленные ошибки виджета\nРеализованные пользовательские типы\nДобавлена возможность управления устройствами в праздничные дни",
+        "pt": "Erros de widget corrigidos\nTipos personalizados implementados\nAdicionado possibilidade de controlar dispositivos em férias",
+        "nl": "Gecorrigeerde widget-fouten\nGeïmplementeerde aangepaste types\nToegevoegde mogelijkheid om apparaten op vakantie te bedienen",
+        "fr": "Erreurs de widget corrigées\nTypes personnalisés mis en œuvre\nAjout de la possibilité de contrôler les appareils pendant les vacances",
+        "it": "Errori di widget corretti\nTipi personalizzati implementati\nAggiunta possibilità di controllare i dispositivi durante le vacanze",
+        "es": "Errores de widget corregidos\nTipos de encargo implementados\nMayor posibilidad de controlar dispositivos en vacaciones",
+        "pl": "Skorygowane błędy widget\nWdrożone typy niestandardowe\nDodano możliwość sterowania urządzeniami w święta",
+        "uk": "Виправлені помилки віджету\nРеалізовані спеціальні типи\nДодана можливість управління пристроями на свята",
+        "zh-cn": "修正的部件错误\n已执行定制类型\n增加节假日控制设备的可能性"
+      },
       "1.3.1": {
         "en": "Corrected widget errors\nImplemented custom types",
         "de": "Korrigierte Widget-Fehler\nImplementierte benutzerdefinierte Typen",
