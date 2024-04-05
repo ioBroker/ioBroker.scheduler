@@ -41,8 +41,11 @@ const styles = {
 };
 
 function checkObject(obj, type) {
-    if (!obj || !obj.common) {
+    if (!obj?.common) {
         return false;
+    }
+    if (type === 'custom') {
+        return obj.common.type === 'number';
     }
     if (type === 'percent') {
         return obj.common.unit === '%' || ('min' in obj.common && 'max' in obj.common);

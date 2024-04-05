@@ -67,6 +67,7 @@ class IntervalsContainer extends Component {
     render() {
         const {
             type, theme, range, intervals,
+            minMax,
         } = this.props;
         const { tapperGrid, tapperInside } = this.props.classes;
         const intervalsWidth = this.tapperRef.current?.getBoundingClientRect().width;
@@ -98,6 +99,7 @@ class IntervalsContainer extends Component {
                     type={type}
                     range={range}
                     intervalsWidth={this.props.intervalsWidth || this.state.intervalsWidth}
+                    minMax={minMax}
                 /> : null}
             </div>
         </div>;
@@ -112,5 +114,6 @@ IntervalsContainer.propTypes = {
     type: PropTypes.string,
     intervalsWidth: PropTypes.number,
     id: PropTypes.string.isRequired,
+    minMax: PropTypes.object,
 };
 export default withStyles(styles)(IntervalsContainer);

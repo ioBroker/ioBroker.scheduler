@@ -52,6 +52,9 @@ class TypePanel extends Component {
                 <MenuItem value="onoff">
                     {I18n.t('On/Off')}
                 </MenuItem>
+                <MenuItem value="custom">
+                    {I18n.t('Custom')}
+                </MenuItem>
             </Select>
         </FormControl>;
     }

@@ -204,10 +204,11 @@ class Intervals extends Component {
         } = this.state;
         const {
             type, theme, range, data, classes,
+            minMax,
         } = this.props;
         const count = this.getCountByRange(range);
-        const max = Intervals.getMaxByRange(range);
-        if (slideId * count >= max) {
+        const maxSlide = Intervals.getMaxByRange(range);
+        if (slideId * count >= maxSlide) {
             setTimeout(() => {
                 this.setSlideOfTime();
             }, 50);
@@ -227,6 +228,7 @@ class Intervals extends Component {
                 type={type}
                 theme={theme}
                 intervalsWidth={intervalsWidth / count}
+                minMax={minMax}
             />);
         }
 
@@ -310,5 +312,6 @@ Intervals.propTypes = {
     theme: PropTypes.object,
     type: PropTypes.string,
     id: PropTypes.string.isRequired,
+    minMax: PropTypes.object,
 };
 export default withStyles(styles)(Intervals);

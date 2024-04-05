@@ -21,6 +21,7 @@ import { VisRxWidget } from '@iobroker/vis-2-widgets-react-dev';
 
 import IntervalsContainer from './components/IntervalsContainer';
 import DayOfWeekPanel from './components/DayOfWeekPanel';
+import minmax from './data/minmax.json';
 
 const styles = () => ({
     content: {
@@ -181,21 +182,46 @@ class Scheduler extends Generic {
         if (this.subscribedId !== instanceId) {
             // unsubscribe from old instance
             this.subscribedId && this.props.context.socket.unsubscribeObject(this.subscribedId, this.onProfileChanged);
-            this.subscribedId = null;
-        }
-        if (instanceId) {
-            // read new instance
-            const object = await this.props.context.socket.getObject(instanceId);
-            this.setState({ object }, () => {
-                if (!this.subscribedId && object) {
-                    if (instanceId) {
-                        this.subscribedId = instanceId;
-                        this.props.context.socket.subscribeObject(instanceId, this.onProfileChanged);
+            this.subscribedId = instanceId;
+
+            if (this.subscribedId) {
+                // read new instance
+                const object = await this.props.context.socket.getObject(this.subscribedId);
+                const profile = object.native.profiles.find(p => p.id === this.state.rxData.profile);
+                const newState = { object };
+                if (profile) {
+                    const minMaxObjectId = profile.data.type === 'custom' ? profile.data.members[0] : '';
+                    if (minMaxObjectId !== this.minMaxObjectId) {
+                        this.minMaxObjectId = minMaxObjectId;
+                        let minMaxObject;
+                        if (this.minMaxObjectId) {
+                            minMaxObject = await this.props.context.socket.getObject(this.minMaxObjectId);
+                        } else {
+                            minMaxObject = null;
+                        }
+                        newState.minMaxObject = minMaxObject;
                     }
                 }
-            });
-        } else {
-            this.setState({ object: null });
+
+                await this.props.context.socket.subscribeObject(this.subscribedId, this.onProfileChanged);
+
+                this.setState(newState);
+            } else {
+                this.setState({ object: null });
+            }
+        } else if (this.state.object && this.state.rxData.profile) {
+            const profile = this.state.object.native.profiles.find(p => p.id === this.state.rxData.profile);
+            const minMaxObjectId = profile.data.type === 'custom' ? profile.data.members[0] : '';
+            if (minMaxObjectId !== this.minMaxObjectId) {
+                this.minMaxObjectId = minMaxObjectId;
+                let minMaxObject;
+                if (this.minMaxObjectId) {
+                    minMaxObject = await this.props.context.socket.getObject(this.minMaxObjectId);
+                } else {
+                    minMaxObject = null;
+                }
+                this.setState({ minMaxObject });
+            }
         }
     }
 
@@ -277,6 +303,45 @@ class Scheduler extends Generic {
         return foundProfile ? foundProfile.type === 'profile' && foundProfile.data : null;
     };
 
+    getProfileMinMax(profile) {
+        if (profile.type === 'custom') {
+            const obj = this.state.minMaxObject;
+            if (obj?.common?.type === 'number') {
+                if (obj.common.states && !Array.isArray(obj.common.states)) {
+                    const keys = Object.keys(obj.common.states).map(i => parseFloat(i)).sort();
+                    return {
+                        min: keys[0],
+                        max: keys[keys.length - 1],
+                        unit: obj.common.unit,
+                        marks: obj.common.states,
+                    };
+                } else if (obj.common.min !== undefined || obj.common.max !== undefined) {
+                    return {
+                        min: obj.common.min !== undefined ? obj.common.min : 0,
+                        max: obj.common.max !== undefined ? obj.common.max : 100,
+                        unit: obj.common.unit,
+                        marks: null,
+                    };
+                }
+            }
+            return {
+                min: 0,
+                max: 100,
+                step: 1,
+                marks: null,
+                unit: obj?.common?.unit,
+            };
+        } else {
+            return {
+                min: minmax[profile.type].min,
+                max: minmax[profile.type].max,
+                step: minmax[profile.type].step,
+                marks: null,
+                unit: '',
+            };
+        }
+    }
+
     renderWidgetBody(props) {
         super.renderWidgetBody(props);
 
@@ -329,6 +394,7 @@ class Scheduler extends Generic {
                 windowWidth={width}
                 readOnly={this.state.rxData.readOnly}
                 intervalsWidth={width}
+                minMax={this.getProfileMinMax(profile)}
             /> : null}
             {this.state.rxData.hideDow && width ? null :
                 <DayOfWeekPanel

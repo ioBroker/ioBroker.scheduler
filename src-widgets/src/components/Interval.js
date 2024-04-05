@@ -229,6 +229,14 @@ class Interval extends Component {
                 return value
                     ? <span style={this.props.theme.palette.text.success}>on</span>
                     : <span style={this.props.theme.palette.text.danger}>off</span>;
+            case 'custom':
+                if (this.props.minMax.marks && this.props.minMax.marks[value] !== undefined) {
+                    return this.props.minMax.marks[value].toString();
+                }
+                if (this.props.minMax.unit) {
+                    return value.toString() + this.props.minMax.unit;
+                }
+                return value.toString();
 
             case 'percent':
             default:
@@ -237,6 +245,10 @@ class Interval extends Component {
     }
 
     getMinMax() {
+        if (this.props.type === 'custom') {
+            return this.props.minMax;
+        }
+
         return minmax[this.props.type];
     }
 
@@ -313,5 +325,6 @@ Interval.propTypes = {
     type: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
     id: PropTypes.string.isRequired,
+    minMax: PropTypes.object,
 };
 export default withStyles(styles)(Interval);

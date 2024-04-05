@@ -333,20 +333,24 @@ class App extends GenericApp {
         profile.type = type;
 
         if (type !== currentProfileType) {
-            const oldMax = minmax[currentProfileType].max;
-            const newMax = minmax[type].max;
+            const oldMax = this.getProfileMinMax(profile, currentProfileType).max;
+            const newMinMax = this.getProfileMinMax(profile, type);
+            const newMax = newMinMax.max;
 
-            profile.intervals = profile.intervals.map(interval => {
-                const normalizedInterval = Math.round((newMax / oldMax) * interval);
-                if (normalizedInterval < minmax[type].min) {
-                    return minmax[type].min;
-                }
-                if (normalizedInterval > minmax[type].max) {
-                    return minmax[type].max;
-                }
-                return normalizedInterval;
-            });
+            if (oldMax !== newMax) {
+                profile.intervals = profile.intervals.map(interval => {
+                    const normalizedInterval = Math.round((newMax / oldMax) * interval);
+                    if (normalizedInterval < newMinMax.min) {
+                        return newMinMax.min;
+                    }
+                    if (normalizedInterval > newMinMax.max) {
+                        return newMinMax.max;
+                    }
+                    return normalizedInterval;
+                });
+            }
         }
+
         this.changeProfile(profile);
     }
 
@@ -684,6 +688,7 @@ class App extends GenericApp {
             <ResetAllValues
                 firstDayOfWeek={this.socket.systemConfig.common.firstDayOfWeek || 'monday'}
                 type={currentProfile.type}
+                minMax={this.getProfileMinMax(currentProfile)}
                 onChange={value => {
                     const profile = JSON.parse(JSON.stringify(this.currentProfile()));
                     profile.intervals = profile.intervals.map(() => value);
@@ -848,6 +853,9 @@ class App extends GenericApp {
 
         let changed = false;
 
+        const currentProfile = this.currentProfile();
+        const oldMinMax = this.getProfileMinMax(currentProfile);
+
         for (let d = 0; d < devices.length; d++) {
             const id = devices[d];
             if (!this.state.devicesCache[id] && this.state.devicesCache[id] !== false) {
@@ -888,6 +896,22 @@ class App extends GenericApp {
             }
         }
 
+        const newMinMax = this.getProfileMinMax(currentProfile, null, devicesCache);
+        if (newMinMax.min !== oldMinMax.min || newMinMax.max !== oldMinMax.max) {
+            const profile = JSON.parse(JSON.stringify(currentProfile));
+            profile.intervals = profile.intervals.map(interval => {
+                const normalizedInterval = Math.round((newMinMax.max / oldMinMax.max) * interval);
+                if (normalizedInterval < newMinMax.min) {
+                    return newMinMax.min;
+                }
+                if (normalizedInterval > newMinMax.max) {
+                    return newMinMax.max;
+                }
+                return normalizedInterval;
+            });
+            this.changeProfile(profile);
+        }
+
         if (changed) {
             this.setState({ devicesCache });
         }
@@ -910,6 +934,47 @@ class App extends GenericApp {
         if (!this.lastDevices || newLastDevices !== this.lastDevices) {
             this.lastDevices = newLastDevices;
             setTimeout(() => this.updateDevices(devices), 300);
+        }
+    }
+
+    getProfileMinMax(profile, type, devicesCache) {
+        type = type || profile.type;
+        devicesCache = devicesCache || this.state.devicesCache;
+        if (type === 'custom') {
+            const obj = devicesCache[profile.members[0]];
+            if (obj?.common?.type === 'number') {
+                if (obj.common.states && !Array.isArray(obj.common.states)) {
+                    const keys = Object.keys(obj.common.states).map(i => parseFloat(i)).sort();
+                    return {
+                        min: keys[0],
+                        max: keys[keys.length - 1],
+                        unit: obj.common.unit,
+                        marks: obj.common.states,
+                    };
+                } else if (obj.common.min !== undefined || obj.common.max !== undefined) {
+                    return {
+                        min: obj.common.min !== undefined ? obj.common.min : 0,
+                        max: obj.common.max !== undefined ? obj.common.max : 100,
+                        unit: obj.common.unit,
+                        marks: null,
+                    };
+                }
+            }
+            return {
+                min: 0,
+                max: 100,
+                step: 1,
+                marks: null,
+                unit: obj?.common?.unit,
+            };
+        } else {
+            return {
+                min: minmax[type].min,
+                max: minmax[type].max,
+                step: minmax[type].step,
+                marks: null,
+                unit: '',
+            };
         }
     }
 
@@ -938,6 +1003,8 @@ class App extends GenericApp {
                 </ThemeProvider>
             </StyledEngineProvider>;
         }
+
+        const currentProfile = this.currentProfile();
 
         this.checkDevices();
 
@@ -971,8 +1038,6 @@ class App extends GenericApp {
                 </IconButton>
                 {profileGrid}
             </div> : null);
-
-        const currentProfile = this.currentProfile();
 
         const content = <Grid
             container
@@ -1013,6 +1078,7 @@ class App extends GenericApp {
                         theme={this.state.theme}
                         range={profile.intervalDuration}
                         windowWidth={this.state.windowWidth}
+                        minMax={this.getProfileMinMax(profile)}
                     />
                     {this.state.isExpert ? <div className={`${classes.tapperGrid} m-1 mt-1`}>
                         {isMobile ? null : this.renderRange(currentProfile)}
