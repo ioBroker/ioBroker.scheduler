@@ -272,7 +272,7 @@ class App extends GenericApp {
             ...this.state,
             isDrawOpen: window.localStorage.getItem('iobroker.scheduler.isDrawOpen') === null ? true
                 : JSON.parse(window.localStorage.getItem('iobroker.scheduler.isDrawOpen')),
-            activeProfile: window.localStorage.getItem('iobroker.scheduler.activeProfile') || -1,
+            activeProfile: window.localStorage.getItem('iobroker.scheduler.activeProfile') || '',
             isExpert: true,
             leftOpen: 0,
             devicesCache: {},
@@ -324,7 +324,7 @@ class App extends GenericApp {
             profile => profile.id === this.state.activeProfile,
         );
         profiles[profileIndex].data = newData;
-        this.fullUpdateNativeValue('profiles', profiles);
+        this.updateNativeValue('profiles', profiles);
     }
 
     onType = type => {
@@ -535,20 +535,13 @@ class App extends GenericApp {
     }
 
     changeProfiles = (profiles, activeProfile, cb) => {
-        this.fullUpdateNativeValue('profiles', profiles, () => {
+        this.updateNativeValue('profiles', profiles, () => {
             if (activeProfile) {
                 this.setState({ activeProfile }, () => cb && cb());
             } else if (cb) {
                 cb();
             }
         });
-    }
-
-    fullUpdateNativeValue(attr, value, cb) {
-        const native = JSON.parse(JSON.stringify(this.state.native));
-        native[attr] = value;
-        const changed = this.getIsChanged(native);
-        this.setState({ native, changed }, () => cb && cb());
     }
 
     onRange = (event, intervalDuration) => {
@@ -1012,13 +1005,19 @@ class App extends GenericApp {
                 </ThemeProvider>
             </StyledEngineProvider>;
         }
-
         const currentProfile = this.currentProfile();
 
         this.checkDevices();
 
+        if (!currentProfile && Object.keys(this.state.native.profiles).length) {
+            // try to select first profile
+            setTimeout(() => {
+                this.onSelectProfile(this.state.native.profiles[0].id);
+            }, 100);
+        }
+
+
         const { classes } = this.props;
-        const profile = this.currentProfile();
         const fullProfile = this.state.native.profiles.find(profile => profile.id === this.state.activeProfile);
 
         const profileGrid = <div className={`${classes.tapperGrid} ${classes.paneling} h-100 m-0`}>
@@ -1085,9 +1084,9 @@ class App extends GenericApp {
                         intervals={currentProfile.intervals}
                         onChange={this.onIntervals}
                         theme={this.state.theme}
-                        range={profile.intervalDuration}
+                        range={currentProfile.intervalDuration}
                         windowWidth={this.state.windowWidth}
-                        minMax={this.getProfileMinMax(profile)}
+                        minMax={this.getProfileMinMax(currentProfile)}
                     />
                     {this.state.isExpert ? <div className={`${classes.tapperGrid} m-1 mt-1`}>
                         {isMobile ? null : this.renderRange(currentProfile)}
