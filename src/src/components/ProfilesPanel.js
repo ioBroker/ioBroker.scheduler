@@ -260,13 +260,66 @@ class ProfilesPanel extends Component {
             isSearch: false,
             searchText: '',
             collapsed,
+            states: {},
         };
+
+        this.subscribedIDs = [];
 
         this.isTouchDevice = isTouchDevice();
     }
 
     onActive = id => {
         this.props.onSelectProfile(id);
+    }
+
+    componentWillUnmount() {
+        this.stateTimeout && clearTimeout(this.stateTimeout);
+        this.stateTimeout = null;
+        this.subscribedIDs.length && this.props.socket.unsubscribeState(this.subscribedIDs, this.onEnabled);
+    }
+
+    onEnabled = (id, state) => {
+        if (this.subscribedIDs.includes(id)) {
+            this.newStates = this.newStates || JSON.parse(JSON.stringify(this.state.states));
+            if (this.newStates[id] !== !!state?.val) {
+                this.newStates[id] = !!state?.val;
+                this.stateTimeout && clearTimeout(this.stateTimeout);
+                this.stateTimeout = setTimeout(() => {
+                    this.stateTimeout = null;
+                    const states = this.newStates;
+                    this.newStates = null;
+                    this.setState({ states });
+                }, 200);
+            }
+        }
+    }
+
+    getStatesToSubscribe() {
+        const states = [];
+        for (let i = 0; i < this.props.profiles.length; i++) {
+            const profile = this.props.profiles[i];
+            const id = profile.data.state === true ? this.props.getStateId(profile, this.props.profiles) : profile.data.state;
+            if (id) {
+                states.push(id);
+            }
+        }
+        states.sort();
+        return states;
+    }
+
+    updateStates() {
+        const newStates = this.getStatesToSubscribe();
+        if (JSON.stringify(newStates) !== JSON.stringify(this.subscribedIDs)) {
+            const toSubscribe = [];
+            newStates.forEach(id => !this.subscribedIDs.includes(id) && toSubscribe.push(id));
+            toSubscribe.length && this.props.socket.subscribeState(toSubscribe, this.onEnabled)
+                .catch(e => console.error('Cannot subscribe: ' + e));
+
+            const toUnsubscribe = [];
+            this.subscribedIDs.forEach(id => !newStates.includes(id) && toUnsubscribe.push(id));
+            toUnsubscribe.length && this.props.socket.unsubscribeState(toUnsubscribe, this.onEnabled);
+            this.subscribedIDs = newStates;
+        }
     }
 
     onDialogClose = () => {
@@ -413,13 +466,6 @@ class ProfilesPanel extends Component {
         this.setState({ collapsed: [] });
     }
 
-    onSetEnabled = profileId => {
-        const newProfiles = JSON.parse(JSON.stringify(this.props.profiles));
-        const profile = newProfiles.find(foundProfile => foundProfile.id === profileId);
-        profile.data.enabled = !profile.data.enabled;
-        this.props.onChangeProfiles(newProfiles);
-    }
-
     renderFolder = (folderItem, level, searchText) => {
         const { profiles, active } = this.props;
         const { flowMenuItem, editButton } = this.props.classes;
@@ -501,6 +547,8 @@ class ProfilesPanel extends Component {
         const { active } = this.props;
         const { flowMenuItem, editButton, tooltip } = this.props.classes;
 
+        const stateId = profile.data.state === true ? this.props.getStateId(profile, this.props.profiles) : profile.data.state;
+
         const result = <MenuItem
             className={`${flowMenuItem} flow-menu-item sub ${active === profile.id ? ' active ' : ''}`}
             style={{ marginLeft: level * 12 }}
@@ -518,14 +566,14 @@ class ProfilesPanel extends Component {
                     <span>
                         <Checkbox
                             color="default"
-                            disabled={profile.data.state !== true && profile.data.state !== false}
+                            disabled={!stateId || (profile.data.state !== true && profile.data.state !== false)}
                             style={{ padding: 0, opacity: typeof profile.data.state === 'boolean' ? 1 : 0.3 }}
                             size="small"
-                            onMouseDown={e => {
+                            onMouseDown={async e => {
                                 e.stopPropagation();
-                                this.onSetEnabled(profile.id);
+                                await this.props.socket.setState(stateId, !this.state.states[stateId]);
                             }}
-                            checked={!!profile.data.enabled}
+                            checked={!!this.state.states[stateId]}
                         />
                     </span>
                 </Tooltip>
@@ -723,6 +771,8 @@ class ProfilesPanel extends Component {
         const { profiles } = this.props;
         const searchText = ((this.state.isSearch && this.state.searchText) || '').toLowerCase();
 
+        this.updateStates();
+
         const items = (
             searchText ? profiles.filter(e => !searchText || (e.title && e.title.toLowerCase().includes(searchText)))
                 : profiles.filter(e => e.parent === '')
@@ -752,6 +802,8 @@ ProfilesPanel.propTypes = {
     onSelectProfile: PropTypes.func,
     onChangeProfiles: PropTypes.func,
     classes: PropTypes.object,
+    getStateId: PropTypes.func,
+    socket: PropTypes.object,
 };
 
 export default withStyles(styles)(ProfilesPanel);

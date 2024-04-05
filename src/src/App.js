@@ -282,6 +282,7 @@ class App extends GenericApp {
             splitSizes,
         };
 
+        this.subscribedIDs = [];
         // icon cache
         this.icons = {};
     }
@@ -293,6 +294,7 @@ class App extends GenericApp {
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.updateWindowDimensions);
+        this.subscribedIDs.length && this.socket.unsubscribeState(this.subscribedIDs, this.onEnabled);
     }
 
     updateWindowDimensions = () => {
@@ -372,11 +374,6 @@ class App extends GenericApp {
     onState = async state => {
         const currentProfile = JSON.parse(JSON.stringify(this.currentProfile()));
         currentProfile.state = state;
-
-        if (currentProfile.state !== true) {
-            currentProfile.enabled = await this.socket.getState(state).val;
-        }
-
         this.changeProfile(currentProfile);
     }
 
@@ -410,6 +407,7 @@ class App extends GenericApp {
     }
 
     onPrepareSave(settings) {
+        super.onPrepareSave(settings);
         const tasks = [];
         settings.profiles.forEach(profile => {
             if (profile.type === 'profile') {
@@ -420,7 +418,7 @@ class App extends GenericApp {
                     tasks.push({
                         method: 'setObject',
                         id: this.getStateId(profile, settings.profiles),
-                        val: profile.data.enabled,
+                        val: true,
                         obj: {
                             common: {
                                 type: 'boolean',
@@ -434,6 +432,20 @@ class App extends GenericApp {
                         },
                     });
                 }
+                tasks.push({
+                    method: 'setObject',
+                    id: `${this.getStateId(profile, settings.profiles)}_active`,
+                    obj: {
+                        common: {
+                            type: 'boolean',
+                            read: true,
+                            write: false,
+                            role: 'state',
+                            name: `Is ${profile.title} today active or not`,
+                        },
+                        type: 'state',
+                    },
+                });
             }
         });
 
@@ -442,11 +454,13 @@ class App extends GenericApp {
                 const newProfile = settings.profiles.find(p => p.id === profile.id);
 
                 // If deleted
-                if (!newProfile && profile.data.state === true) {
-                    tasks.push({
-                        method: 'delObject',
-                        id: this.getStateId(profile, this.savedNative.profiles),
-                    });
+                if (!newProfile) {
+                    if (profile.data.state === true) {
+                        tasks.push({
+                            method: 'delObject',
+                            id: this.getStateId(profile, this.savedNative.profiles),
+                        });
+                    }
                     tasks.push({
                         method: 'delObject',
                         id: `${this.getStateId(profile, this.savedNative.profiles)}_active`,
@@ -464,12 +478,16 @@ class App extends GenericApp {
                                 method: 'delObject',
                                 id: this.getStateId(profile, this.savedNative.profiles),
                             });
+                            tasks.push({
+                                method: 'delObject',
+                                id: `${this.getStateId(profile, this.savedNative.profiles)}_active`,
+                            });
                         } else {
                             // If new has other state (old does no exist, new does)
                             tasks.push({
                                 method: 'setObject',
                                 id: this.getStateId(newProfile, settings.profiles),
-                                val: newProfile.data.enabled,
+                                val: true,
                                 obj: {
                                     common: {
                                         type: 'boolean',
@@ -478,6 +496,21 @@ class App extends GenericApp {
                                         role: 'switch',
                                         def: true,
                                         name: newProfile.title,
+                                    },
+                                    type: 'state',
+                                },
+                            });
+                            tasks.push({
+                                method: 'setObject',
+                                id: `${this.getStateId(newProfile, settings.profiles)}_active`,
+                                obj: {
+                                    common: {
+                                        type: 'boolean',
+                                        read: true,
+                                        write: false,
+                                        role: 'state',
+                                        def: true,
+                                        name: `Is ${newProfile.title} today active or not`,
                                     },
                                     type: 'state',
                                 },
@@ -492,13 +525,12 @@ class App extends GenericApp {
                                 method: 'rename',
                                 id: oldStateId,
                                 newId: newStateId,
-                                val: newProfile.data.enabled,
+                                val: true,
                             });
-                        } else {
                             tasks.push({
-                                method: 'setState',
-                                id: newStateId,
-                                val: newProfile.data.enabled,
+                                method: 'rename',
+                                id: `${oldStateId}_active`,
+                                newId: `${newStateId}_active`,
                             });
                         }
                     }
@@ -510,10 +542,8 @@ class App extends GenericApp {
             .then(() => {
                 // eslint-disable-next-line
                 console.log('States updated');
-                return this.loadStates();
+                this.savedNative = JSON.parse(JSON.stringify(this.state.native));
             });
-
-        settings.profiles.forEach(profile => delete profile.data.enabled);
     }
 
     onDow = (day, enabled) => {
@@ -580,40 +610,6 @@ class App extends GenericApp {
         this.onLeftOpen(this.state.leftOpen);
     }
 
-    async loadStates() {
-        const native = JSON.parse(JSON.stringify(this.state.native));
-        for (let p = 0; p < native.profiles.length; p++) {
-            const profile = native.profiles[p];
-            if (profile.type === 'profile') {
-                if (profile.data.state === true) {
-                    const state = await this.socket.getState(this.getStateId(profile, native.profiles));
-
-                    if (state) {
-                        profile.data.enabled = state.val;
-                    } else {
-                        profile.data.enabled = false;
-                    }
-                } else if (!profile.data.state) {
-                    profile.data.enabled = false;
-                } else {
-                    let state;
-                    try {
-                        state = await this.socket.getState(profile.data.state);
-                    } catch (e) {
-                        console.error(`Cannot get state ${profile.data.state}: ${e}`);
-                    }
-                    if (state) {
-                        profile.data.enabled = state.val;
-                    } else {
-                        profile.data.enabled = false;
-                    }
-                }
-            }
-        }
-        this.setState({ native });
-        this.savedNative = JSON.parse(JSON.stringify(native));
-    }
-
     onConnectionReady() {
         if (!this.state.native.profiles) {
             const native = {
@@ -622,7 +618,7 @@ class App extends GenericApp {
             this.setState({ native });
             this.savedNative = native;
         } else {
-            this.loadStates();
+            this.savedNative = JSON.parse(JSON.stringify(this.state.native));
         }
     }
 
@@ -636,6 +632,8 @@ class App extends GenericApp {
             onSelectProfile={this.onSelectProfile}
             onChangeProfiles={this.changeProfiles}
             instance={this.instance}
+            socket={this.socket}
+            getStateId={this.getStateId}
         />;
     }
 
@@ -1090,7 +1088,7 @@ class App extends GenericApp {
         };
     }
 
-    getStateId(profile, profiles, _list) {
+    getStateId = (profile, profiles, _list) => {
         _list = _list || [];
         _list.unshift(profile.title.replace(Utils.FORBIDDEN_CHARS, '_').replace(/\./g, '_'));
         if (profile.parent) {
