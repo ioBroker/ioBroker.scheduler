@@ -813,31 +813,29 @@ class App extends GenericApp {
                             optionsDialog.holidayId = e.target.value;
                             this.setState({ optionsDialog });
                         }}
-                        endAdornment={
-                            this.state.optionsDialog.holidayId ? <InputAdornment position="end">
+                        InputProps={{
+                            endAdornment: this.state.optionsDialog.holidayId ? <InputAdornment position="end">
                                 <IconButton
                                     onClick={() => {
                                         const optionsDialog = JSON.parse(JSON.stringify(this.state.optionsDialog));
                                         optionsDialog.holidayId = '';
-                                        this.setState({ optionsDialog });
+                                        this.setState({optionsDialog});
                                     }}
                                     edge="end"
                                 >
-                                    <Close />
+                                    <Close/>
                                 </IconButton>
-                            </InputAdornment> : null
-                        }
-                        label="Password"
-                    />
+                            </InputAdornment> : null,
+                        }}
                         variant="standard"
                         label={I18n.t('Holiday ID')}
-                        style={{ width: 'calc(100% - 60px)' }}
+                        style={{ width: 'calc(100% - 76px)', marginRight: 16 }}
 
                     />
                     <Button
-                        style={{ minWidth: 48 }}
+                        style={{ minWidth: 48, marginTop: 12 }}
                         onClick={() => this.setState({ showSelectId: true })}
-                        variant="standard"
+                        variant="outlined"
                         color="primary"
                     >
                         ...
