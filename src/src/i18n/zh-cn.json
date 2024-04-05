@@ -64,5 +64,14 @@
   "Do not control if device already in desired state": "如果设备已处于所需状态则不进行控制",
   "Now": "现在",
   "on": "on",
-  "off": "离开"
+  "off": "离开",
+  "Custom": "可定制",
+  "Advanced settings": "高级设置",
+  "Holiday": "假期",
+  "Holiday ID": "假期编号",
+  "Apply": "申请",
+  "hide profiles": "隐藏个人资料",
+  "show profiles": "显示个人资料",
+  "wrong type": "错误类型",
+  "Errors": "错误"
 }

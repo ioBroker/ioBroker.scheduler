@@ -19,18 +19,16 @@ This adapter has vis2 widget.
 
 ![Screenshot](img/scheduler.png)
 
-## Todo
-- support holidays
-
 <!--
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
 
 ## Changelog
-### 1.3.1 (2024-04-05)
+### **WORK IN PROGRESS**
 * (bluefox) Corrected widget errors
 * (bluefox) Implemented custom types
+* (bluefox) Added possibility to control devices on holidays
 
 ### 1.2.1 (2024-04-03)
 * (bluefox) Added two options: "Ignore values if same as previous" and "Do not control if device already in desired state"

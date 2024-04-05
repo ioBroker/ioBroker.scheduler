@@ -36,7 +36,7 @@
   "copy": "Копия",
   "search text": "Текст поиска",
   "You can provide here the state that controls the activation of this profile": "Вы можете указать здесь состояние, которое контролирует включение этого профиля",
-  "Activation state": "Состояние активации",
+  "Activation state": "Состояние для активации",
   "optional": "по желанию",
   "Add new child profile": "Добавить новый дочерний профиль",
   "Add new child folder": "Добавить новую дочернюю папку",
@@ -64,5 +64,14 @@
   "Do not control if device already in desired state": "Не контролировать, если устройство уже находится в желаемом состоянии",
   "Now": "Сейчас",
   "on": "ВКЛ",
-  "off": "выкл"
+  "off": "выкл",
+  "Custom": "Настраиваемый",
+  "Advanced settings": "Расширенные настройки",
+  "Holiday": "Праздник",
+  "Holiday ID": "ID праздника",
+  "Apply": "Применять",
+  "hide profiles": "Скрыть профили",
+  "show profiles": "Показать профили",
+  "wrong type": "Неправильный тип",
+  "Errors": "Ошибки"
 }

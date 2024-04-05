@@ -64,5 +64,14 @@
   "Do not control if device already in desired state": "Controleer niet of het apparaat zich al in de gewenste staat bevindt",
   "Now": "Nu",
   "on": "on",
-  "off": "uit"
+  "off": "uit",
+  "Custom": "Aanpasbaar",
+  "Advanced settings": "Geavanceerde instellingen",
+  "Holiday": "Vakantie",
+  "Holiday ID": "Vakantie-ID",
+  "Apply": "Toepassen",
+  "hide profiles": "Profielen verbergen",
+  "show profiles": "Profielen tonen",
+  "wrong type": "verkeerde soort",
+  "Errors": "Fouten"
 }

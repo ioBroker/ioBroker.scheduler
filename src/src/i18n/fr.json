@@ -64,5 +64,14 @@
   "Do not control if device already in desired state": "Ne contrôlez pas si l'appareil est déjà dans l'état souhaité",
   "Now": "Maintenant",
   "on": "on",
-  "off": "désactivé"
+  "off": "désactivé",
+  "Custom": "Personnalisable",
+  "Advanced settings": "Réglages avancés",
+  "Holiday": "Vacances",
+  "Holiday ID": "ID de vacances",
+  "Apply": "Appliquer",
+  "hide profiles": "Masquer les profils",
+  "show profiles": "Afficher les profils",
+  "wrong type": "mauvais type",
+  "Errors": "les erreurs"
 }

@@ -64,5 +64,14 @@
   "Do not control if device already in desired state": "Не контролюйте, якщо пристрій уже в потрібному стані",
   "Now": "Зараз",
   "on": "ВКЛ",
-  "off": "вимк"
+  "off": "вимк",
+  "Custom": "Можливість налаштування",
+  "Advanced settings": "Розширені налаштування",
+  "Holiday": "Свято",
+  "Holiday ID": "Ідентифікатор свята",
+  "Apply": "Застосувати",
+  "hide profiles": "Приховати профілі",
+  "show profiles": "Показати профілі",
+  "wrong type": "неправильний тип",
+  "Errors": "Помилки"
 }

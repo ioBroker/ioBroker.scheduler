@@ -64,5 +64,14 @@
   "Do not control if device already in desired state": "Não controle se o dispositivo já está no estado desejado",
   "Now": "Agora",
   "on": "sobre",
-  "off": "desligado"
+  "off": "desligado",
+  "Custom": "Customizável",
+  "Advanced settings": "Configurações avançadas",
+  "Holiday": "Feriado",
+  "Holiday ID": "ID do feriado",
+  "Apply": "Aplicar",
+  "hide profiles": "Ocultar perfis",
+  "show profiles": "Mostrar perfis",
+  "wrong type": "tipo errado",
+  "Errors": "Erros"
 }

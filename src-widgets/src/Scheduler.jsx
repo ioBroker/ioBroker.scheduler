@@ -262,7 +262,9 @@ class Scheduler extends Generic {
 
     onDow = (day, enabled) => {
         const profile = JSON.parse(JSON.stringify(this.currentProfile()));
-        if (enabled && !profile.dow.includes(day)) {
+        if (day === 'holiday') {
+            profile.holiday = enabled;
+        } else if (enabled && !profile.dow.includes(day)) {
             profile.dow.push(day);
         } else if (!enabled && profile.dow.includes(day)) {
             profile.dow.splice(profile.dow.indexOf(day), 1);
@@ -412,6 +414,8 @@ class Scheduler extends Generic {
                     firstDayOfWeek={this.props.context.socket.systemConfig.common.firstDayOfWeek || 'monday'}
                     readOnly={this.state.rxData.readOnly}
                     dow={profile.dow}
+                    holiday={profile.holiday}
+                    holidayVisible={!!this.state.object.native.holidayId}
                     onChange={this.onDow}
                     theme={this.props.theme} // ?? this.props.context.theme
                     t={Scheduler.t}

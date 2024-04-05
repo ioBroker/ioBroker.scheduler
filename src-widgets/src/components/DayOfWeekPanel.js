@@ -56,12 +56,27 @@ class DayOfWeekPanel extends Component {
                 label={this.props.t(daysOfWeek[index])}
                 className={label}
             />)}
+            {this.props.holidayVisible ? <FormControlLabel
+                style={{ marginLeft: 6 }}
+                control={
+                    <Checkbox
+                        checked={!!this.props.holiday}
+                        color="primary"
+                        className={flow}
+                        onChange={e => this.props.onChange('holiday', e.target.checked)}
+                    />
+                }
+                label={this.props.t('Holiday')}
+                className={label}
+            /> : null}
         </FormControl>;
     }
 }
 
 DayOfWeekPanel.propTypes = {
     dow: PropTypes.array,
+    holiday: PropTypes.bool,
+    holidayVisible: PropTypes.bool,
     onChange: PropTypes.func,
     firstDayOfWeek: PropTypes.string,
     t: PropTypes.func.isRequired,

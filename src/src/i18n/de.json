@@ -36,7 +36,7 @@
   "copy": "Kopie",
   "search text": "Suchtext",
   "You can provide here the state that controls the activation of this profile": "Sie können hier den Status angeben, der die Aktivierung dieses Profils steuert",
-  "Activation state": "Aktivierungsstatus",
+  "Activation state": "Aktivierungszustand",
   "optional": "Optional",
   "Add new child profile": "Neues Kinderprofil hinzufügen",
   "Add new child folder": "Neuen untergeordneten Ordner hinzufügen",
@@ -64,5 +64,14 @@
   "Do not control if device already in desired state": "Nicht schreiben, falls das Gerät sich bereits im gewünschten Zustand befindet",
   "Now": "Jetzt",
   "on": "AN",
-  "off": "AUS"
+  "off": "AUS",
+  "Custom": "Anpassbar",
+  "Advanced settings": "Erweiterte Einstellungen",
+  "Holiday": "Feiertag",
+  "Holiday ID": "Feiertags-ID",
+  "Apply": "Anwenden",
+  "hide profiles": "Profile ausblenden",
+  "show profiles": "Profile anzeigen",
+  "wrong type": "Falscher Typ",
+  "Errors": "Fehler"
 }

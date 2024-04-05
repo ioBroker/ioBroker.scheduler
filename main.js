@@ -83,6 +83,15 @@ const updateStates = async force => {
     const profiles = adapter.config.profiles;
     const now = new Date();
     const active = {};
+    let isHoliday = false;
+    if (adapter.config.holidayId) {
+        try {
+            const state = await adapter.getForeignStateAsync(adapter.config.holidayId);
+            isHoliday = !!(state && state.val);
+        } catch (e) {
+            adapter.log.warn(`Cannot get is holiday: ${e}`);
+        }
+    }
 
     for (const k in profiles) {
         const profile = profiles[k];
@@ -102,7 +111,7 @@ const updateStates = async force => {
             continue;
         }
         if (profile.type === 'profile') {
-            if (profile.data.dow.includes(now.getDay()) && profileState) {
+            if ((profile.data.dow.includes(now.getDay()) || (profile.data.holiday && isHoliday)) && profileState) {
                 const index = Math.floor((now.getHours() + now.getMinutes() / 60) / profile.data.intervalDuration);
                 const value = profile.data.intervals[index];
                 await adapter.setStateAsync(profile.data.activeState, true, true);

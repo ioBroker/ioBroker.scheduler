@@ -7,14 +7,17 @@ import {
     Tabs,
     Tab,
     Fab, FormControlLabel, Checkbox,
+    Dialog, DialogTitle, DialogActions,
+    Button, DialogContent, TextField,
 } from '@mui/material';
 
 import { Drawer, Grid, IconButton } from '@mui/material';
 
 import GenericApp from '@iobroker/adapter-react-v5/GenericApp';
-import { I18n, Utils, Loader } from '@iobroker/adapter-react-v5';
-
-// import defaultOptions from './data/defaultOptions.json'
+import {
+    I18n, Utils, Loader,
+    SelectID as DialogSelectID,
+} from '@iobroker/adapter-react-v5';
 
 import {
     Clear as ClearIcon,
@@ -515,7 +518,9 @@ class App extends GenericApp {
 
     onDow = (day, enabled) => {
         const profile = JSON.parse(JSON.stringify(this.currentProfile()));
-        if (enabled && !profile.dow.includes(day)) {
+        if (day === 'holiday') {
+            profile.holiday = enabled;
+        } else if (enabled && !profile.dow.includes(day)) {
             profile.dow.push(day);
         } else if (!enabled && profile.dow.includes(day)) {
             profile.dow.splice(profile.dow.indexOf(day), 1);
@@ -673,6 +678,8 @@ class App extends GenericApp {
                 firstDayOfWeek={this.socket.systemConfig.common.firstDayOfWeek || 'monday'}
                 dow={currentProfile.dow}
                 onChange={this.onDow}
+                holidayVisible={!!this.state.native.holidayId}
+                holiday={currentProfile.holiday}
                 theme={this.state.theme}
                 t={I18n.t}
             />
@@ -740,35 +747,134 @@ class App extends GenericApp {
         </div>;
     }
 
-    renderOptions(currentProfile) {
-        return [
-            <FormControlLabel
-                key="ignoreSameValues"
-                className={this.props.classes.checkbox}
-                control={<Checkbox
-                    checked={currentProfile.ignoreSameValues}
-                    onChange={e => {
+    renderSelectIdDialog() {
+        if (this.state.showSelectId) {
+            return <DialogSelectID
+                imagePrefix="../.."
+                dialogName="holiday"
+                themeType={this.state.themeType}
+                socket={this.socket}
+                // statesOnly
+                onClose={() => this.setState({ showSelectId: false })}
+                onOk={selected => {
+                    const optionsDialog = JSON.parse(JSON.stringify(this.state.optionsDialog));
+                    optionsDialog.holidayId = selected;
+                    this.setState({ optionsDialog, showSelectId: false });
+                }}
+            />;
+        }
+
+        return null;
+    }
+
+    renderOptionsDialog() {
+        if (!this.state.optionsDialog) {
+            return null;
+        }
+        const currentProfile = this.currentProfile();
+
+        return <Dialog
+            open={!0}
+            maxWidth="md"
+            onClose={() => this.setState({ optionsDialog: false, originalOptions: '' })}
+        >
+            <DialogTitle>{I18n.t('Advanced profile options')}</DialogTitle>
+            <DialogContent>
+                <FormControlLabel
+                    key="ignoreSameValues"
+                    className={this.props.classes.checkbox}
+                    control={<Checkbox
+                        checked={currentProfile.ignoreSameValues}
+                        onChange={e => {
+                            const optionsDialog = JSON.parse(JSON.stringify(this.state.optionsDialog));
+                            optionsDialog.ignoreSameValues = !optionsDialog.ignoreSameValues;
+                            this.setState({ optionsDialog });
+                        }}
+                    />}
+                    label={I18n.t('Ignore values if same as previous')}
+                />
+                <FormControlLabel
+                    key="doNotWriteSameValue"
+                    className={this.props.classes.checkbox}
+                    control={<Checkbox
+                        checked={currentProfile.doNotWriteSameValue}
+                        onChange={e => {
+                            const optionsDialog = JSON.parse(JSON.stringify(this.state.optionsDialog));
+                            optionsDialog.doNotWriteSameValue = !optionsDialog.doNotWriteSameValue;
+                            this.setState({ optionsDialog });
+                        }}
+                    />}
+                    label={I18n.t('Do not control if device already in desired state')}
+                />
+                <div style={{ width: '100%' }}>
+                    <TextField
+                        value={this.state.optionsDialog.holidayId || ''}
+                        onChange={e => {
+                            const optionsDialog = JSON.parse(JSON.stringify(this.state.optionsDialog));
+                            optionsDialog.holidayId = e.target.value;
+                            this.setState({ optionsDialog });
+                        }}
+                        variant="standard"
+                        label={I18n.t('Holiday ID')}
+                        style={{ width: 'calc(100% - 60px)' }}
+                    />
+                    <Button
+                        style={{ minWidth: 48 }}
+                        onClick={() => this.setState({ showSelectId: true })}
+                        variant="standard"
+                        color="primary"
+                    >
+                        ...
+                    </Button>
+                </div>
+            </DialogContent>
+            <DialogActions>
+                <Button
+                    disabled={JSON.stringify(this.state.optionsDialog) === this.state.originalOptions}
+                    onClick={() => {
                         const profile = JSON.parse(JSON.stringify(this.currentProfile()));
-                        profile.ignoreSameValues = !profile.ignoreSameValues;
+                        profile.ignoreSameValues = this.state.optionsDialog.ignoreSameValues;
+                        profile.doNotWriteSameValue = this.state.optionsDialog.doNotWriteSameValue;
                         this.changeProfile(profile);
+                        this.updateNativeValue('holidayId', this.state.optionsDialog.holidayId);
+                        this.setState({ optionsDialog: null, originalOptions: '' });
                     }}
-                />}
-                label={I18n.t('Ignore values if same as previous')}
-            />,
-            <FormControlLabel
-                key="doNotWriteSameValue"
-                className={this.props.classes.checkbox}
-                control={<Checkbox
-                    checked={currentProfile.doNotWriteSameValue}
-                    onChange={e => {
-                        const profile = JSON.parse(JSON.stringify(this.currentProfile()));
-                        profile.doNotWriteSameValue = !profile.doNotWriteSameValue;
-                        this.changeProfile(profile);
-                    }}
-                />}
-                label={I18n.t('Do not control if device already in desired state')}
-            />,
-        ];
+                    variant="contained"
+                    color="primary"
+                >
+                    {I18n.t('Apply')}
+                </Button>
+                <Button
+                    onClick={() => this.setState({ optionsDialog: null, originalOptions: '' })}
+                    variant="contained"
+                    color="grey"
+                >
+                    {I18n.t('Cancel')}
+                </Button>
+            </DialogActions>
+        </Dialog>
+    }
+
+    renderOptions() {
+        return <Button
+            onClick={() => {
+                const currentProfile = this.currentProfile();
+                const optionsDialog = {
+                    ignoreSameValues: currentProfile.ignoreSameValues,
+                    doNotWriteSameValue: currentProfile.doNotWriteSameValue,
+                    holidayId: this.state.native.holidayId,
+                };
+
+                this.setState({
+                    optionsDialog,
+                    originalOptions: JSON.stringify(optionsDialog),
+                });
+            }}
+            variant="outlined"
+            color="grey"
+        >
+            {I18n.t('Advanced settings')}
+        </Button>;
     }
 
     renderMobileDrawer(isMobile, currentProfile) {
@@ -785,7 +891,7 @@ class App extends GenericApp {
         } else if (this.state.leftOpen === 4) {
             content = [
                 this.renderPriority(currentProfile),
-                this.renderOptions(currentProfile),
+                this.renderOptions(),
             ];
         } else if (this.state.leftOpen === 5) {
             content = this.renderDevices(currentProfile);
@@ -1117,8 +1223,10 @@ class App extends GenericApp {
                                 <div>
                                     {this.renderState(currentProfile)}
                                 </div>
+                                <div>
+                                    {this.renderOptions()}
+                                </div>
                             </div>
-                            {this.renderOptions(currentProfile)}
                         </Grid> : null}
                     </Grid>}
                 </Grid>
@@ -1234,6 +1342,8 @@ class App extends GenericApp {
         return <StyledEngineProvider injectFirst>
             <ThemeProvider theme={this.state.theme}>
                 {allContent}
+                {this.renderOptionsDialog()}
+                {this.renderSelectIdDialog()}
                 {this.renderSaveCloseButtons()}
             </ThemeProvider>
         </StyledEngineProvider>;

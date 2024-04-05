@@ -83,7 +83,9 @@ const usePrettySliderStyles = makeStyles({
         textAlign: 'center',
         transform: 'none !important',
         background: 'transparent',
+        userSelect: 'none',
         '& *': {
+            userSelect: 'none',
             background: 'transparent',
             fontWeight: 100,
             color: props.theme.palette.text.primary,
@@ -238,13 +240,13 @@ class Interval extends Component {
         }
     };
 
-    handleSelected = () => this.on('selected', !this.props.selected);
-
-    on = (field, value) => {
-        if (this.props.on) {
-            this.props.on(field, value, this.props.i);
+    handleSelected = event => {
+        if (!event.shiftKey) {
+            this.on('selected', !this.props.selected);
         }
-    };
+    }
+
+    on = (field, value) => this.props.on && this.props.on(field, value, this.props.i);
 
     getPostfix(value) {
         switch (this.props.type) {
@@ -296,6 +298,7 @@ class Interval extends Component {
         if (i < 0) {
             return '';
         }
+
         const { min, max, step } = this.getMinMax();
         const label = this.getLabel();
         const val = !value ? 0 : value;
@@ -328,6 +331,18 @@ class Interval extends Component {
                 <div
                     className={`${prettyTime} ${selected ? active : ''}`}
                     onClick={this.handleSelected}
+                    onMouseMove={event => {
+                        if (event.shiftKey && event.buttons) {
+                            this.on('selected', window.myselectMode);
+                        }
+                    }}
+                    onMouseDown={event => {
+                        if (event.shiftKey) {
+                            window.myselectMode = !this.props.selected;
+                            this.on('selected', !this.props.selected);
+                        }
+                    }}
+                    style={{ userSelect: 'none' }}
                 >
                     <span style={{ color: this.props.theme.palette.text.primary }}>{label[0]}</span>
                     <span className={prettySecs}>

@@ -100,41 +100,38 @@ class ResetAllValues extends Component {
             >
                 <EditAllIcon />
             </Fab>
-            {
-                this.state.showDialog
-                    ? <Dialog
-                        open={this.state.showDialog}
-                        onClose={() => this.setState({ showDialog: false })}
+            {this.state.showDialog ? <Dialog
+                open={this.state.showDialog}
+                onClose={() => this.setState({ showDialog: false })}
+            >
+                <DialogTitle>{I18n.t('Reset all intervals to following value:')}</DialogTitle>
+                <DialogContent>
+                    {this.props.type !== 'onoff' ? (
+                        this.props.type === 'custom' && this.props.minMax.marks ? this.renderSelect(this.props.minMax.marks) : this.renderText())
+                        :
+                        this.renderSwitch()
+                    }
+                </DialogContent>
+                <DialogActions>
+                    <Button
+                        disabled={this.props.type !== 'onoff' ? this.state.value > this.props.minMax.max || this.state.value < this.props.minMax.min : false}
+                        variant="contained"
+                        onClick={() => this.onSetValue()}
+                        color="primary"
+                        startIcon={<IconCheck />}
                     >
-                        <DialogTitle>{I18n.t('Reset all intervals to following value:')}</DialogTitle>
-                        <DialogContent>
-                            {this.props.type !== 'onoff' ? (
-                                this.props.type === 'custom' && this.props.minMax.marks ? this.renderSelect(this.props.minMax.marks) : this.renderText())
-                                :
-                                this.renderSwitch()
-                            }
-                        </DialogContent>
-                        <DialogActions>
-                            <Button
-                                variant="contained"
-                                onClick={() => this.onSetValue()}
-                                color="primary"
-                                startIcon={<IconCheck />}
-                            >
-                                {I18n.t('Set')}
-                            </Button>
-                            <Button
-                                onClick={() => this.setState({ showDialog: false })}
-                                variant="contained"
-                                color="grey"
-                                startIcon={<IconClose />}
-                            >
-                                {I18n.t('Cancel')}
-                            </Button>
-                        </DialogActions>
-                    </Dialog>
-                    : null
-            }
+                        {I18n.t('Set')}
+                    </Button>
+                    <Button
+                        onClick={() => this.setState({ showDialog: false })}
+                        variant="contained"
+                        color="grey"
+                        startIcon={<IconClose />}
+                    >
+                        {I18n.t('Cancel')}
+                    </Button>
+                </DialogActions>
+            </Dialog> : null}
         </>;
     }
 }
