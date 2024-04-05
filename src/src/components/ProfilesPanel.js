@@ -694,7 +694,9 @@ class ProfilesPanel extends Component {
     }
 
     renderEditDeleteDialog() {
-        const { isDialogOpen } = this.state;
+        if (!this.state.isDialogOpen) {
+            return null;
+        }
         const folderItems = this.props.profiles.filter(profile =>
             (!this.state.dialogElementParent && !profile.parent) || this.state.dialogElementParent === profile.parent);
 
@@ -705,8 +707,8 @@ class ProfilesPanel extends Component {
 
         return <Dialog
             onClose={() => this.onDialogClose()}
-            open={isDialogOpen}
-            onKeyDown={e => e.keyCode === 13 && canSubmit && this.onUpdateItem()}
+            open={!0}
+            onKeyDown={e => e.key === 'Enter' && canSubmit && this.onUpdateItem()}
             maxWidth="sm"
             fullWidth
         >
@@ -739,11 +741,9 @@ class ProfilesPanel extends Component {
                 />
             </DialogContent>
             <DialogActions>
-                {
-                    !this.state.isNew && <Button style={{ color: '#FF8080' }} onClick={this.onDeleteItem} variant="outlined" startIcon={<DeleteIcon />}>
-                        {I18n.t('Delete')}
-                    </Button>
-                }
+                {!this.state.isNew && <Button style={{ color: '#FF8080' }} onClick={this.onDeleteItem} variant="outlined" startIcon={<DeleteIcon />}>
+                    {I18n.t('Delete')}
+                </Button>}
                 <Button
                     disabled={!canSubmit}
                     onClick={this.onUpdateItem}
@@ -751,9 +751,7 @@ class ProfilesPanel extends Component {
                     color="primary"
                     startIcon={<CheckIcon />}
                 >
-                    {
-                        I18n.t(this.state.isNew ? 'Create' : (this.state.duplicate ? 'Copy' : 'Update'))
-                    }
+                    {I18n.t(this.state.isNew ? 'Create' : (this.state.duplicate ? 'Copy' : 'Update'))}
                 </Button>
                 <Button
                     onClick={() => this.onDialogClose()}
