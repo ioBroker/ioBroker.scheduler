@@ -31,6 +31,7 @@ function buildWidgets() {
     sync2files(`${__dirname}/src-widgets/src/components/Interval.js`, `${__dirname}/src/src/components/Interval.js`);
     sync2files(`${__dirname}/src-widgets/src/components/Intervals.js`, `${__dirname}/src/src/components/Intervals.js`);
     sync2files(`${__dirname}/src-widgets/src/components/IntervalsContainer.js`, `${__dirname}/src/src/components/IntervalsContainer.js`);
+    sync2files(`${__dirname}/src-widgets/src/data/minmax.json`, `${__dirname}/src/src/data/minmax.json`);
 
     return gulpHelper.buildWidgets(__dirname, `${__dirname}/src-widgets/`);
 }

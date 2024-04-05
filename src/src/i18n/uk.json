@@ -62,5 +62,7 @@
   "Press \"shift\" and move mouse to change more than one slider": "Натисніть «Shift» і перемістіть мишу, щоб змінити більше одного повзунка",
   "Ignore values if same as previous": "Ігнорувати значення, якщо такі ж, як попередні\n",
   "Do not control if device already in desired state": "Не контролюйте, якщо пристрій уже в потрібному стані",
-  "Now": "Зараз"
+  "Now": "Зараз",
+  "on": "ВКЛ",
+  "off": "вимк"
 }

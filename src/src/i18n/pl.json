@@ -62,5 +62,7 @@
   "Press \"shift\" and move mouse to change more than one slider": "Naciśnij „shift” i poruszaj myszą, aby zmienić więcej niż jeden suwak",
   "Ignore values if same as previous": "Ignoruj wartości, jeśli są takie same jak poprzednie\n",
   "Do not control if device already in desired state": "Nie kontroluj, jeśli urządzenie jest już w pożądanym stanie",
-  "Now": "Teraz"
+  "Now": "Teraz",
+  "on": "on",
+  "off": "wyłączony"
 }

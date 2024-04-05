@@ -62,5 +62,7 @@
   "Press \"shift\" and move mouse to change more than one slider": "Drücken Sie \"Shift\" und bewegen Sie die Maus, um mehr als einen Schieberegler zu ändern",
   "Ignore values if same as previous": "Die Werte, wenn sie mit den vorherigen identisch sind, ignorieren\n",
   "Do not control if device already in desired state": "Nicht schreiben, falls das Gerät sich bereits im gewünschten Zustand befindet",
-  "Now": "Jetzt"
+  "Now": "Jetzt",
+  "on": "AN",
+  "off": "AUS"
 }

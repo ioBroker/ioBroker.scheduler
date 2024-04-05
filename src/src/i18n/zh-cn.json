@@ -62,5 +62,7 @@
   "Press \"shift\" and move mouse to change more than one slider": "按下“shift”并移动鼠标即可更改多个滑块",
   "Ignore values if same as previous": "如果与之前相同则忽略值\n",
   "Do not control if device already in desired state": "如果设备已处于所需状态则不进行控制",
-  "Now": "现在"
+  "Now": "现在",
+  "on": "on",
+  "off": "离开"
 }

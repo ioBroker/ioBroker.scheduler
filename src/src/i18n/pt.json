@@ -62,5 +62,7 @@
   "Press \"shift\" and move mouse to change more than one slider": "Pressione \"shift\" e mova o mouse para alterar mais de um controle deslizante",
   "Ignore values if same as previous": "Ignore os valores se forem iguais aos anteriores\n",
   "Do not control if device already in desired state": "Não controle se o dispositivo já está no estado desejado",
-  "Now": "Agora"
+  "Now": "Agora",
+  "on": "sobre",
+  "off": "desligado"
 }

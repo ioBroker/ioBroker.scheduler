@@ -62,5 +62,7 @@
   "Press \"shift\" and move mouse to change more than one slider": "Press \"shift\" and move mouse to change more than one slider",
   "Ignore values if same as previous": "Ignore values if same as previous\n",
   "Do not control if device already in desired state": "Do not control if device already in desired state",
-  "Now": "Now"
+  "Now": "Now",
+  "on": "on",
+  "off": "off"
 }

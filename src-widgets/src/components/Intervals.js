@@ -55,6 +55,9 @@ class Intervals extends Component {
             key: parseInt(Date.now() + Math.random() * 1000),
             currentTime: new Date(),
         };
+
+        this.onText = I18n.t('on');
+        this.offText = I18n.t('off');
     }
 
     componentDidMount() {
@@ -223,12 +226,15 @@ class Intervals extends Component {
                 selected={selected[i]}
                 label=""
                 i={i}
+                id={this.props.id}
                 step={range}
                 on={this.onChange}
                 type={type}
                 theme={theme}
                 intervalsWidth={intervalsWidth / count}
                 minMax={minMax}
+                onText={this.onText}
+                offText={this.offText}
             />);
         }
 

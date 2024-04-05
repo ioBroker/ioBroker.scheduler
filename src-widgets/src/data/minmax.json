@@ -1,5 +1,5 @@
 {
-    "temperature": {"min": 0, "max": 25},
-    "percent": {"min": 0, "max": 100},
+    "temperature": {"min": 0, "max": 28, "step": 0.5, "unit": "°"},
+    "percent": {"min": 0, "max": 100, "unit":  "%"},
     "onoff": {"min": 0, "max": 1}
 }

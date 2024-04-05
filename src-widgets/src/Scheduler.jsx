@@ -211,7 +211,7 @@ class Scheduler extends Generic {
             }
         } else if (this.state.object && this.state.rxData.profile) {
             const profile = this.state.object.native.profiles.find(p => p.id === this.state.rxData.profile);
-            const minMaxObjectId = profile.data.type === 'custom' ? profile.data.members[0] : '';
+            const minMaxObjectId = profile.data.type === 'custom' || profile.data.type === 'temperature' ? profile.data.members[0] : '';
             if (minMaxObjectId !== this.minMaxObjectId) {
                 this.minMaxObjectId = minMaxObjectId;
                 let minMaxObject;
@@ -315,7 +315,8 @@ class Scheduler extends Generic {
                         unit: obj.common.unit,
                         marks: obj.common.states,
                     };
-                } else if (obj.common.min !== undefined || obj.common.max !== undefined) {
+                }
+                if (obj.common.min !== undefined || obj.common.max !== undefined) {
                     return {
                         min: obj.common.min !== undefined ? obj.common.min : 0,
                         max: obj.common.max !== undefined ? obj.common.max : 100,
@@ -327,19 +328,29 @@ class Scheduler extends Generic {
             return {
                 min: 0,
                 max: 100,
-                step: 1,
                 marks: null,
                 unit: obj?.common?.unit,
             };
-        } else {
-            return {
-                min: minmax[profile.type].min,
-                max: minmax[profile.type].max,
-                step: minmax[profile.type].step,
-                marks: null,
-                unit: '',
-            };
         }
+        if (profile.type === 'temperature') {
+            const obj = this.state.minMaxObject;
+            if (obj?.common && (obj.common.min !== undefined || obj.common.max !== undefined)) {
+                return {
+                    min: obj.common.min !== undefined ? obj.common.min : minmax.temperature.min,
+                    max: obj.common.max !== undefined ? obj.common.max : minmax.temperature.max,
+                    unit: obj.common.unit || minmax[profile.type].unit,
+                    marks: null,
+                };
+            }
+        }
+
+        return {
+            min: minmax[profile.type].min,
+            max: minmax[profile.type].max,
+            step: minmax[profile.type].step,
+            marks: null,
+            unit: minmax[profile.type].unit,
+        };
     }
 
     renderWidgetBody(props) {

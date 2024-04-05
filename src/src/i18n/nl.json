@@ -62,5 +62,7 @@
   "Press \"shift\" and move mouse to change more than one slider": "Druk op \"shift\" en beweeg de muis om meer dan één schuifregelaar te wijzigen",
   "Ignore values if same as previous": "Negeer waarden als deze hetzelfde zijn als de vorige\n",
   "Do not control if device already in desired state": "Controleer niet of het apparaat zich al in de gewenste staat bevindt",
-  "Now": "Nu"
+  "Now": "Nu",
+  "on": "on",
+  "off": "uit"
 }

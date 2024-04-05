@@ -967,15 +967,24 @@ class App extends GenericApp {
                 marks: null,
                 unit: obj?.common?.unit,
             };
-        } else {
-            return {
-                min: minmax[type].min,
-                max: minmax[type].max,
-                step: minmax[type].step,
-                marks: null,
-                unit: '',
-            };
+        } else if (type === 'temperature') {
+            const obj = devicesCache[profile.members[0]];
+            if (obj?.common && (obj.common.min !== undefined || obj.common.max !== undefined)) {
+                return {
+                    min: obj.common.min !== undefined ? obj.common.min : minmax.temperature.min,
+                    max: obj.common.max !== undefined ? obj.common.max : minmax.temperature.max,
+                    unit: obj.common.unit || minmax[type].unit,
+                    marks: null,
+                };
+            }
         }
+        return {
+            min: minmax[type].min,
+            max: minmax[type].max,
+            step: minmax[type].step,
+            marks: null,
+            unit: minmax[type].unit,
+        };
     }
 
     getStateId(profile, profiles, _list) {
