@@ -244,7 +244,7 @@ class Interval extends Component {
         if (!event.shiftKey) {
             this.on('selected', !this.props.selected);
         }
-    }
+    };
 
     on = (field, value) => this.props.on && this.props.on(field, value, this.props.i);
 
