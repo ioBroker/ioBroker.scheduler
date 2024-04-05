@@ -635,20 +635,23 @@ class App extends GenericApp {
     }
 
     renderRange(currentProfile) {
+        const isMobile = this.state.windowWidth < 768;
         return <div className="mt-sm-auto mb-sm-auto w-100">
             <AntTabs
                 value={currentProfile.intervalDuration}
                 onChange={this.onRange}
-                orientation={this.state.windowWidth < 768 ? 'vertical' : 'horizontal'}
+                orientation={isMobile ? 'vertical' : 'horizontal'}
                 indicatorColor="primary"
                 textColor="primary"
                 centered
             >
-                {
-                    [0.25, 0.5, 1, 2, 3, 4].map(
-                        duration => <AntTab key={duration} value={duration} label={duration === 0.25 ? I18n.t('15 m.') : (duration === 0.5 ? I18n.t('30 m.') : `${duration} ${I18n.t('hr')}`)} />,
-                    )
-                }
+                {[0.25, 0.5, 1, 2, 3, 4].map(duration =>
+                    <AntTab
+                        key={duration}
+                        value={duration}
+                        label={duration === 0.25 ? I18n.t('15 m.') : (duration === 0.5 ? I18n.t('30 m.') : `${duration} ${I18n.t('hr')}`)}
+                    />,
+                )}
             </AntTabs>
         </div>;
     }

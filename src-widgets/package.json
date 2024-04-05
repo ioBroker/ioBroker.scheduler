@@ -1,7 +1,7 @@
 {
     "name": "iobroker.vis-2-widgets-scheduler",
     "private": true,
-    "version": "1.2.3",
+    "version": "1.3.0",
     "dependencies": {
         "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
         "@emotion/react": "^11.11.4",
