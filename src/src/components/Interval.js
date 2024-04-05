@@ -248,10 +248,6 @@ class Interval extends Component {
 
     getPostfix(value) {
         switch (this.props.type) {
-            case 'percent':
-            case 'temperature':
-                return value.toString() + this.props.minMax.unit;
-
             case 'onoff':
                 return value
                     ? <span style={this.props.theme.palette.text.success}>{this.props.onText}</span>
@@ -265,6 +261,11 @@ class Interval extends Component {
                     return value.toString() + this.props.minMax.unit;
                 }
                 return value.toString();
+
+            case 'percent':
+            case 'temperature':
+            default:
+                return value.toString() + this.props.minMax.unit;
         }
     }
 

@@ -3,19 +3,6 @@
     "name": "scheduler",
     "version": "1.3.0",
     "news": {
-      "1.3.0": {
-        "en": "Corrected widget errors\nImplemented custom types\n",
-        "de": "Korrigierte Widget-Fehler\nImplementierte benutzerdefinierte Typen\n",
-        "ru": "Исправленные ошибки виджета\nРеализованные пользовательские типы\n",
-        "pt": "Erros de widget corrigidos\nTipos personalizados implementados\n",
-        "nl": "Gecorrigeerde widget-fouten\nGeïmplementeerde aangepaste types\n",
-        "fr": "Erreurs de widget corrigées\nTypes personnalisés mis en œuvre\n",
-        "it": "Errori di widget corretti\nTipi personalizzati implementati\n",
-        "es": "Errores de widget corregidos\nTipos de encargo implementados\n",
-        "pl": "Skorygowane błędy widget\nWdrożone typy niestandardowe\n",
-        "uk": "Виправлені помилки віджету\nРеалізовані спеціальні типи\n",
-        "zh-cn": "修正的部件错误\n已执行定制类型\n"
-      },
       "1.2.3": {
         "en": "Corrected widget errors",
         "de": "Korrigierte Widget-Fehler",
@@ -169,6 +156,7 @@
     }
   },
   "native": {
+    "holidayId": "feiertage.0.heute.boolean",
     "profiles": [
       {
         "id": "58f45953-9821-4746-8046-eaa5d69eaccd",

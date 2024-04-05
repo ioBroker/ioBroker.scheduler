@@ -19,13 +19,16 @@ This adapter has vis2 widget.
 
 ![Screenshot](img/scheduler.png)
 
+## Todo
+- support holidays
+
 <!--
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
 
 ## Changelog
-### 1.3.0 (2024-04-05)
+### **WORK IN PROGRESS**
 * (bluefox) Corrected widget errors
 * (bluefox) Implemented custom types
 
