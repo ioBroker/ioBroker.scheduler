@@ -9,9 +9,10 @@ import {
     Fab, FormControlLabel, Checkbox,
     Dialog, DialogTitle, DialogActions,
     Button, DialogContent, TextField,
+    Drawer, Grid, IconButton, InputAdornment,
 } from '@mui/material';
 
-import { Drawer, Grid, IconButton } from '@mui/material';
+import { Check, Close } from '@mui/icons-material';
 
 import GenericApp from '@iobroker/adapter-react-v5/GenericApp';
 import {
@@ -812,9 +813,26 @@ class App extends GenericApp {
                             optionsDialog.holidayId = e.target.value;
                             this.setState({ optionsDialog });
                         }}
+                        endAdornment={
+                            this.state.optionsDialog.holidayId ? <InputAdornment position="end">
+                                <IconButton
+                                    onClick={() => {
+                                        const optionsDialog = JSON.parse(JSON.stringify(this.state.optionsDialog));
+                                        optionsDialog.holidayId = '';
+                                        this.setState({ optionsDialog });
+                                    }}
+                                    edge="end"
+                                >
+                                    <Close />
+                                </IconButton>
+                            </InputAdornment> : null
+                        }
+                        label="Password"
+                    />
                         variant="standard"
                         label={I18n.t('Holiday ID')}
                         style={{ width: 'calc(100% - 60px)' }}
+
                     />
                     <Button
                         style={{ minWidth: 48 }}
@@ -837,6 +855,7 @@ class App extends GenericApp {
                         this.updateNativeValue('holidayId', this.state.optionsDialog.holidayId);
                         this.setState({ optionsDialog: null, originalOptions: '' });
                     }}
+                    startIcon={<Check />}
                     variant="contained"
                     color="primary"
                 >
@@ -845,6 +864,7 @@ class App extends GenericApp {
                 <Button
                     onClick={() => this.setState({ optionsDialog: null, originalOptions: '' })}
                     variant="contained"
+                    startIcon={<Close />}
                     color="grey"
                 >
                     {I18n.t('Cancel')}

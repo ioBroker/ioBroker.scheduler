@@ -64,7 +64,7 @@ class DevicesPanel extends Component {
 
     deviceAdd = device => {
         const devices = JSON.parse(JSON.stringify(this.props.members));
-        if (!devices.include(device)) {
+        if (!devices.includes(device)) {
             devices.push(device);
             this.props.onChange(devices);
         }
