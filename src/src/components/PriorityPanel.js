@@ -1,18 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
-    FormControl, FormLabel, MenuItem, Select,
+    FormControl, InputLabel,
+    MenuItem, Select,
 } from '@mui/material';
-import { withStyles } from '@mui/styles';
-import I18n from '@iobroker/adapter-react-v5/i18n';
+import { I18n } from '@iobroker/adapter-react-v5';
 
-const styles = {
-    tapperTitle: {
-        fontSize: '1.3rem',
-        textTransform: 'uppercase',
-        paddingBottom: '1rem',
-    },
-};
 class PriorityPanel extends Component {
     on = evt => {
         const priority = evt.target.value;
@@ -21,10 +14,8 @@ class PriorityPanel extends Component {
 
     render() {
         const { priority } = this.props;
-        return <FormControl component="fieldset" className="w-100">
-            <FormLabel component="legend" className={this.props.classes.tapperTitle}>
-                {I18n.t('Priority')}
-            </FormLabel>
+        return <FormControl fullWidth>
+            <InputLabel style={{ transform: 'translate(0px, -2px) scale(0.75)' }}>{I18n.t('Priority')}</InputLabel>
             <Select
                 variant="standard"
                 labelId="demo-simple-select-label"
@@ -53,4 +44,4 @@ PriorityPanel.propTypes = {
     onChange: PropTypes.func,
     priority: PropTypes.number,
 };
-export default withStyles(styles)(PriorityPanel);
+export default PriorityPanel;

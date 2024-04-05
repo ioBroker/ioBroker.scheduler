@@ -1,27 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { withStyles } from '@mui/styles';
 import {
-    FormControl, FormLabel, MenuItem, Select,
+    FormControl, InputLabel, MenuItem, Select,
 } from '@mui/material';
-import I18n from '@iobroker/adapter-react-v5/i18n';
-
-const styles = () => ({
-    tapperInside: {
-        overflow: 'hidden',
-        height: '100%',
-        flexGrow: 1,
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-    },
-    tapperTitle: {
-        fontSize: '1.3rem',
-        textTransform: 'uppercase',
-        paddingBottom: '1rem',
-    },
-});
+import { I18n } from '@iobroker/adapter-react-v5';
 
 class TypePanel extends Component {
     on = evt => {
@@ -31,10 +13,8 @@ class TypePanel extends Component {
 
     render() {
         const { type } = this.props;
-        return <FormControl component="fieldset" className="w-100">
-            <FormLabel component="legend" className={this.props.classes.tapperTitle}>
-                {I18n.t('Type')}
-            </FormLabel>
+        return <FormControl fullWidth>
+            <InputLabel style={{ transform: 'translate(0px, -2px) scale(0.75)' }}>{I18n.t('Type')}</InputLabel>
             <Select
                 variant="standard"
                 labelId="type-select-label"
@@ -64,4 +44,4 @@ TypePanel.propTypes = {
     onChange: PropTypes.func,
     type: PropTypes.string,
 };
-export default withStyles(styles)(TypePanel);
+export default TypePanel;

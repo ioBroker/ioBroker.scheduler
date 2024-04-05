@@ -15,11 +15,6 @@ import {
 } from '@iobroker/adapter-react-v5';
 
 const styles = {
-    tapperTitle: {
-        fontSize: '1.3rem',
-        textTransform: 'uppercase',
-        paddingBottom: '1rem',
-    },
     chip: {
         marginRight: 10,
         marginTop: 5,
@@ -69,8 +64,10 @@ class DevicesPanel extends Component {
 
     deviceAdd = device => {
         const devices = JSON.parse(JSON.stringify(this.props.members));
-        devices.push(device);
-        this.props.onChange(devices);
+        if (!devices.include(device)) {
+            devices.push(device);
+            this.props.onChange(devices);
+        }
     }
 
     deviceDelete = device => {
@@ -117,9 +114,9 @@ class DevicesPanel extends Component {
                 ) {
                     if (duplicates.length) {
                         // check if profiles have same dows
-                        const dows1 = profile.data.dows;
-                        const dows2 = this.props.profiles[duplicates[0]].data.dows;
-                        if (dows1.find(d => dows2.includes(d)) || dows2.find(d => dows1.includes(d))) {
+                        const dows1 = profile.data.dow;
+                        const dows2 = this.props.profiles[duplicates[0]].data.dow;
+                        if (dows1?.find(d => dows2.includes(d)) || dows2?.find(d => dows1.includes(d))) {
                             duplicates.push(k);
                             break;
                         }
@@ -145,7 +142,7 @@ class DevicesPanel extends Component {
 
         return <>
             {this.renderSelectIdDialog()}
-            <FormLabel component="legend" className={this.props.classes.tapperTitle}>
+            <FormLabel>
                 {I18n.t(title)}
             </FormLabel>
             <div style={{ display: 'flex' }}>

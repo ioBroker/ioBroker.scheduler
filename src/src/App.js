@@ -857,6 +857,7 @@ class App extends GenericApp {
 
     renderOptions() {
         return <Button
+            style={{ marginTop: 12 }}
             onClick={() => {
                 const currentProfile = this.currentProfile();
                 const optionsDialog = {

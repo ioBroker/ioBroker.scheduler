@@ -1,21 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import { withStyles } from '@mui/styles';
 import {
-    TextField, FormLabel, IconButton,
+    TextField, IconButton,
 } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 
 import { I18n, SelectID as DialogSelectID } from '@iobroker/adapter-react-v5';
-
-const styles = {
-    tapperTitle: {
-        fontSize: '1.3rem',
-        textTransform: 'uppercase',
-        paddingBottom: '1rem',
-    },
-};
 
 class StatePanel extends Component {
     constructor(props) {
@@ -59,31 +50,25 @@ class StatePanel extends Component {
 
         return <>
             {this.renderSelectIdDialog()}
-            <FormLabel component="legend" className={this.props.classes.tapperTitle}>
-                {I18n.t(title)}
-            </FormLabel>
-            <div
-                style={{ display: 'flex', flexDirection: 'row' }}
+            <TextField
                 title={I18n.t('You can provide here the state that controls the activation of this profile')}
-            >
-                <TextField
-                    variant="standard"
-                    style={{ flex: 1 }}
-                    value={this.props.value === true ? this.props.possibleStateId : this.props.value || ''}
-                    onClick={() => this.setState({ showSelectId: true })}
-                    helperText={`(${I18n.t('optional')})`}
-                    InputProps={{
-                        readOnly: true,
-                        endAdornment:
-                            this.props.value !== true ? <IconButton onClick={e => {
-                                e.stopPropagation();
-                                this.stateChange(true);
-                            }}>
-                                <ClearIcon />
-                            </IconButton> : null
-                    }}
-                />
-            </div>
+                variant="standard"
+                style={{ flex: 1 }}
+                label={I18n.t(title)}
+                value={this.props.value === true ? this.props.possibleStateId : this.props.value || ''}
+                onClick={() => this.setState({ showSelectId: true })}
+                helperText={`(${I18n.t('optional')})`}
+                InputProps={{
+                    readOnly: true,
+                    endAdornment:
+                        this.props.value !== true ? <IconButton onClick={e => {
+                            e.stopPropagation();
+                            this.stateChange(true);
+                        }}>
+                            <ClearIcon />
+                        </IconButton> : null
+                }}
+            />
         </>;
     }
 }
@@ -95,4 +80,4 @@ StatePanel.propTypes = {
     socket: PropTypes.object,
     possibleStateId: PropTypes.string,
 };
-export default withStyles(styles)(StatePanel);
+export default StatePanel;
