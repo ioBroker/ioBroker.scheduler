@@ -118,7 +118,7 @@ const usePrettySliderStyles = makeStyles({
 });
 
 function getTextWidth(text) {
-    // re-use canvas object for better performance
+    // re-use a canvas object for better performance
     const canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement('canvas'));
     const context = canvas.getContext('2d');
     context.font = 'normal 1rem Roboto, Helvetica, Arial, sans-serif';
@@ -138,7 +138,7 @@ const PrettySlider = props => {
     const textWidth = getTextWidth(props.valueLabelFormat);
     let fontSize;
     if (textWidth > intervalsWidth) {
-        fontSize = Math.floor((intervalsWidth / textWidth) * 14);
+        fontSize = Math.floor((intervalsWidth / textWidth) * 13);
     }
 
     return <Slider

@@ -29,6 +29,7 @@ class StatePanel extends Component {
             return <DialogSelectID
                 key="tableSelect"
                 imagePrefix="../.."
+                selected={this.props.value === true ? this.props.possibleStateId : this.props.value || ''}
                 filterFunc={obj => obj?.common?.type === 'boolean'}
                 dialogName={this.props.adapterName}
                 themeType={this.props.themeType}

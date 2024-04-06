@@ -12,7 +12,7 @@ import {
     Drawer, Grid, IconButton, InputAdornment,
 } from '@mui/material';
 
-import { Check, Close } from '@mui/icons-material';
+import {Check, Close, Settings} from '@mui/icons-material';
 
 import GenericApp from '@iobroker/adapter-react-v5/GenericApp';
 import {
@@ -770,7 +770,6 @@ class App extends GenericApp {
         if (!this.state.optionsDialog) {
             return null;
         }
-        const currentProfile = this.currentProfile();
 
         return <Dialog
             open={!0}
@@ -783,7 +782,7 @@ class App extends GenericApp {
                     key="ignoreSameValues"
                     className={this.props.classes.checkbox}
                     control={<Checkbox
-                        checked={currentProfile.ignoreSameValues}
+                        checked={this.state.optionsDialog.ignoreSameValues}
                         onChange={e => {
                             const optionsDialog = JSON.parse(JSON.stringify(this.state.optionsDialog));
                             optionsDialog.ignoreSameValues = !optionsDialog.ignoreSameValues;
@@ -796,7 +795,7 @@ class App extends GenericApp {
                     key="doNotWriteSameValue"
                     className={this.props.classes.checkbox}
                     control={<Checkbox
-                        checked={currentProfile.doNotWriteSameValue}
+                        checked={this.state.optionsDialog.doNotWriteSameValue}
                         onChange={e => {
                             const optionsDialog = JSON.parse(JSON.stringify(this.state.optionsDialog));
                             optionsDialog.doNotWriteSameValue = !optionsDialog.doNotWriteSameValue;
@@ -819,7 +818,7 @@ class App extends GenericApp {
                                     onClick={() => {
                                         const optionsDialog = JSON.parse(JSON.stringify(this.state.optionsDialog));
                                         optionsDialog.holidayId = '';
-                                        this.setState({optionsDialog});
+                                        this.setState({ optionsDialog });
                                     }}
                                     edge="end"
                                 >
@@ -830,7 +829,6 @@ class App extends GenericApp {
                         variant="standard"
                         label={I18n.t('Holiday ID')}
                         style={{ width: 'calc(100% - 76px)', marginRight: 16 }}
-
                     />
                     <Button
                         style={{ minWidth: 48, marginTop: 12 }}
@@ -871,27 +869,41 @@ class App extends GenericApp {
         </Dialog>
     }
 
-    renderOptions() {
-        return <Button
-            style={{ marginTop: 12 }}
-            onClick={() => {
-                const currentProfile = this.currentProfile();
-                const optionsDialog = {
-                    ignoreSameValues: currentProfile.ignoreSameValues,
-                    doNotWriteSameValue: currentProfile.doNotWriteSameValue,
-                    holidayId: this.state.native.holidayId,
-                };
+    onShowOptions() {
+        const currentProfile = this.currentProfile();
+        const optionsDialog = {
+            ignoreSameValues: currentProfile.ignoreSameValues,
+            doNotWriteSameValue: currentProfile.doNotWriteSameValue,
+            holidayId: this.state.native.holidayId,
+        };
 
-                this.setState({
-                    optionsDialog,
-                    originalOptions: JSON.stringify(optionsDialog),
-                });
-            }}
-            variant="outlined"
-            color="grey"
-        >
-            {I18n.t('Advanced settings')}
-        </Button>;
+        this.setState({
+            optionsDialog,
+            originalOptions: JSON.stringify(optionsDialog),
+        });
+    }
+
+    renderOptions() {
+        // if screen width less than 1600
+        if (this.state.windowWidth < 1600) {
+            return <IconButton
+                style={{ marginRight: 20 }}
+                title={I18n.t('Advanced settings')}
+                onClick={() => this.onShowOptions()}
+            >
+                <Settings />
+            </IconButton>;
+        } else {
+            return <Button
+                style={{ marginTop: 12 }}
+                onClick={() => this.onShowOptions()}
+                startIcon={<Settings />}
+                variant="outlined"
+                color="grey"
+            >
+                {I18n.t('Advanced settings')}
+            </Button>;
+        }
     }
 
     renderMobileDrawer(isMobile, currentProfile) {
@@ -1183,144 +1195,150 @@ class App extends GenericApp {
             }}
         >
             {currentProfile ? <>
-                {this.state.isDrawOpen && !isMobile ? null : <div
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        position: 'absolute',
-                        top: 8,
-                        left: 0,
-                        zIndex: 2,
-                    }}
-                >
-                    {isMobile ? <div style={{ width: 40 }} /> : <IconButton
-                        component="span"
-                        size="small"
-                        title={I18n.t('show profiles')}
-                        onClick={isMobile ? () => this.onLeftOpen(1): this.onDrawerHandler}
+                    {this.state.isDrawOpen && !isMobile ? null : <div
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            position: 'absolute',
+                            top: 8,
+                            left: 0,
+                            zIndex: 2,
+                        }}
                     >
-                        <DehazeIcon />
-                    </IconButton>}
-                    <div className={this.props.classes.title}>{fullProfile.title}</div>
-                </div>}
-                <Grid className={this.props.classes.slidersContainer} item xs={11} >
-                    <IntervalsContainer
-                        id="IntervalsContainer"
-                        type={currentProfile.type}
-                        intervals={currentProfile.intervals}
-                        onChange={this.onIntervals}
-                        theme={this.state.theme}
-                        range={currentProfile.intervalDuration}
-                        windowWidth={this.state.windowWidth}
-                        minMax={this.getProfileMinMax(currentProfile)}
-                    />
-                    {this.state.isExpert ? <div className={`${classes.tapperGrid} m-1 mt-1`}>
-                        {isMobile ? null : this.renderRange(currentProfile)}
-                    </div> : null}
-                    {isMobile ? null : <Grid
-                        container
-                        spacing={0}
-                    >
-                        <Grid item xs={6} className="h-100 expert">
-                            <div
-                                className={`${classes.tapperGrid} m-1 p-2 mt-1`}
-                                style={{ flexGrow: 100 }}
-                            >
-                                {this.renderDevices(currentProfile)}
-                            </div>
+                        {isMobile ? <div style={{width: 40}}/> : <IconButton
+                            component="span"
+                            size="small"
+                            title={I18n.t('show profiles')}
+                            onClick={isMobile ? () => this.onLeftOpen(1) : this.onDrawerHandler}
+                        >
+                            <DehazeIcon/>
+                        </IconButton>}
+                        <div className={this.props.classes.title}>{fullProfile.title}</div>
+                    </div>}
+                    <div style={{ height: 'calc(100% - 100px)', width: '100%', display: 'flex' }}>
+                        <Grid className={this.props.classes.slidersContainer} item xs={11}>
+                            <IntervalsContainer
+                                id="IntervalsContainer"
+                                type={currentProfile.type}
+                                intervals={currentProfile.intervals}
+                                onChange={this.onIntervals}
+                                theme={this.state.theme}
+                                range={currentProfile.intervalDuration}
+                                windowWidth={this.state.windowWidth}
+                                minMax={this.getProfileMinMax(currentProfile)}
+                            />
+                            {this.state.isExpert ? <div className={`${classes.tapperGrid} m-1 mt-1`}>
+                                {isMobile ? null : this.renderRange(currentProfile)}
+                            </div> : null}
                         </Grid>
-                        {this.state.isExpert ? <Grid item xs={6}>
-                            <div style={{ display: 'flex', gap: 10 }}>
-                                <div>
+                        {isMobile ? null : <Grid
+                            item
+                            xs={1}
+                            className="h-100  sm-hidden"
+                        >
+                            <div className={`${classes.tapperGrid} m-1 p-2 h-100`}>
+                                {this.renderDow(currentProfile)}
+                                {this.renderResetHours(currentProfile)}
+                            </div>
+                        </Grid>}
+                    </div>
+                    {isMobile ? null : <div style={{ width: '100%' }}>
+                        <Grid
+                            container
+                            spacing={0}
+                        >
+                            <Grid item xs={6} className="h-100 expert">
+                                <div
+                                    className={`${classes.tapperGrid} m-1 p-2 mt-1`}
+                                    style={{flexGrow: 100}}
+                                >
+                                    {this.renderDevices(currentProfile)}
+                                </div>
+                            </Grid>
+                            {this.state.isExpert ? <Grid item xs={6}>
+                                <div style={{display: 'flex', gap: 10}}>
                                     {this.renderPriority(currentProfile)}
-                                </div>
-                                <div>
                                     {this.renderType(currentProfile)}
-                                </div>
-                                <div>
                                     {this.renderState(currentProfile)}
-                                </div>
-                                <div>
                                     {this.renderOptions()}
                                 </div>
+                            </Grid> : null}
+                        </Grid>
+                    </div>}
+
+                    {isMobile ? <>
+                        <div className={classes.labelMenuBottom} />
+                        <div
+                            className={`${classes.labelRightSm5} ${this.state.leftOpen === 5 ? 'active' : ''}`}
+                            onClick={() => this.onLeftOpen(5)}
+                        >
+                            <Fab
+                                size="small"
+                                color={this.state.leftOpen === 5 ? 'secondary' : 'primary'}
+                                aria-label="split"
+                            >
+                                <CallSplitIcon/>
+                            </Fab>
+                        </div>
+                        <div
+                            className={`${classes.labelRightSm3} ${this.state.leftOpen === 3 ? 'active' : ''}`}
+                            onClick={() => this.onLeftOpen(3)}
+                        >
+                            <Fab
+                                size="small"
+                                color={this.state.leftOpen === 3 ? 'secondary' : 'primary'}
+                                aria-label="calendar"
+                            >
+                                <CalendarTodayIcon/>
+                            </Fab>
+                        </div>
+                        {this.state.isExpert ? <>
+                            <div className={classes.labelMenuBottom}/>
+                            <div className={`${classes.labelLeftSm2} expert ${this.state.leftOpen === 2 ? 'active' : ''}`}
+                                 onClick={() => this.onLeftOpen(2)}>
+                                <Fab
+                                    size="small"
+                                    color={this.state.leftOpen === 2 ? 'secondary' : 'primary'}
+                                    aria-label="assignment"
+                                >
+                                    <AssignmentTurnedInIcon/>
+                                </Fab>
                             </div>
-                        </Grid> : null}
-                    </Grid>}
-                </Grid>
-                {isMobile ? null : <Grid
-                    item
-                    xs={1}
-                    className="h-100  sm-hidden"
-                >
-                    <div className={`${classes.tapperGrid} m-1 p-2 h-100`}>
-                        {this.renderDow(currentProfile)}
-                        {this.renderResetHours(currentProfile)}
-                    </div>
-                </Grid>}
-
-                {isMobile ? <div className={classes.labelMenuBottom} /> : null}
-
-                {isMobile ? <div className={`${classes.labelRightSm5} ${this.state.leftOpen === 5 ? 'active' : ''}`} onClick={() => this.onLeftOpen(5)}>
-                    <Fab
-                        size="small"
-                        color={this.state.leftOpen === 5 ? 'secondary' : 'primary'}
-                        aria-label="split"
-                    >
-                        <CallSplitIcon />
-                    </Fab>
-                </div> : null}
-                {isMobile ? <div className={`${classes.labelRightSm3} ${this.state.leftOpen === 3 ? 'active' : ''}`} onClick={() => this.onLeftOpen(3)}>
-                    <Fab
-                        size="small"
-                        color={this.state.leftOpen === 3 ? 'secondary' : 'primary'}
-                        aria-label="calendar"
-                    >
-                        <CalendarTodayIcon />
-                    </Fab>
-                </div> : null}
-                {isMobile && this.state.isExpert ? <>
-                    <div className={classes.labelMenuBottom} />
-                    <div className={`${classes.labelLeftSm2} expert ${this.state.leftOpen === 2 ? 'active' : ''}`} onClick={() => this.onLeftOpen(2)}>
-                        <Fab
-                            size="small"
-                            color={this.state.leftOpen === 2 ? 'secondary' : 'primary'}
-                            aria-label="assignment"
-                        >
-                            <AssignmentTurnedInIcon />
-                        </Fab>
-                    </div>
-                    <div className={`${classes.labelRightSm6} ${this.state.leftOpen === 4 ? 'active' : ''}`} onClick={() => this.onLeftOpen(4)}>
-                        <Fab
-                            size="small"
-                            color={this.state.leftOpen === 4 ? 'secondary' : 'primary'}
-                            aria-label="view"
-                        >
-                            <ViewListIcon />
-                        </Fab>
-                    </div>
-                    {/* <div className={`${classes.labelRightSm4} ${this.state.leftOpen === 7 ? 'active' : ''}`} onClick={() => this.onLeftOpen(7)}>
-                                    <Fab
-                                        size="small"
-                                        color={this.state.leftOpen === 7 ? 'secondary' : 'primary'}
-                                        aria-label="scheduler"
-                                    >
-                                        <ScheduleIcon />
-                                    </Fab>
-                                </div> */}
-                    <div className={`${classes.labelRightSm8} ${this.state.leftOpen === 8 ? 'active' : ''}`} onClick={() => this.onLeftOpen(8)}>
-                        <Fab
-                            size="small"
-                            color={this.state.leftOpen === 8 ? 'secondary' : 'primary'}
-                            aria-label="scheduler"
-                        >
-                            <AccountTreeIcon />
-                        </Fab>
-                    </div>
-                </> : null}
-            </>
-            : <div className={classes.emptyProfile}>
-                {I18n.t('Select or create profile in left menu')}
-            </div>}
+                            <div className={`${classes.labelRightSm6} ${this.state.leftOpen === 4 ? 'active' : ''}`}
+                                 onClick={() => this.onLeftOpen(4)}>
+                                <Fab
+                                    size="small"
+                                    color={this.state.leftOpen === 4 ? 'secondary' : 'primary'}
+                                    aria-label="view"
+                                >
+                                    <ViewListIcon/>
+                                </Fab>
+                            </div>
+                            {/* <div className={`${classes.labelRightSm4} ${this.state.leftOpen === 7 ? 'active' : ''}`} onClick={() => this.onLeftOpen(7)}>
+                                        <Fab
+                                            size="small"
+                                            color={this.state.leftOpen === 7 ? 'secondary' : 'primary'}
+                                            aria-label="scheduler"
+                                        >
+                                            <ScheduleIcon />
+                                        </Fab>
+                                    </div> */}
+                            <div className={`${classes.labelRightSm8} ${this.state.leftOpen === 8 ? 'active' : ''}`}
+                                 onClick={() => this.onLeftOpen(8)}>
+                                <Fab
+                                    size="small"
+                                    color={this.state.leftOpen === 8 ? 'secondary' : 'primary'}
+                                    aria-label="scheduler"
+                                >
+                                    <AccountTreeIcon/>
+                                </Fab>
+                            </div>
+                        </> : null}
+                    </> : null}
+                </>
+                : <div className={classes.emptyProfile}>
+                    {I18n.t('Select or create profile in left menu')}
+                </div>}
         </Grid>;
 
         const allContent = !isMobile && this.state.isDrawOpen ? <div className={classes.app}>
@@ -1329,7 +1347,7 @@ class App extends GenericApp {
                 initialSizes={this.state.splitSizes}
                 minWidths={[200, 240]}
                 onResizeFinished={(gutterIdx, splitSizes) => {
-                    this.setState({ splitSizes });
+                    this.setState({splitSizes});
                     window.localStorage.setItem('Scheduler.splitSizes', JSON.stringify(splitSizes));
                 }}
                 theme={this.state.themeName === 'dark' ? GutterTheme.Dark : GutterTheme.Light}
@@ -1349,7 +1367,7 @@ class App extends GenericApp {
                     color={this.state.leftOpen === 1 ? 'secondary' : 'primary'}
                     aria-label="add"
                 >
-                    <DehazeIcon />
+                <DehazeIcon />
                 </Fab>
             </div>: null}
             {this.renderMobileDrawer(isMobile, currentProfile)}
