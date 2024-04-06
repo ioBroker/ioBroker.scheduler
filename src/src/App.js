@@ -895,7 +895,7 @@ class App extends GenericApp {
             </IconButton>;
         } else {
             return <Button
-                style={{ marginTop: 12 }}
+                style={{ marginTop: 12, marginRight: 16  }}
                 onClick={() => this.onShowOptions()}
                 startIcon={<Settings />}
                 variant="outlined"
