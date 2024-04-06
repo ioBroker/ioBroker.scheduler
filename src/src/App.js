@@ -826,6 +826,7 @@ class App extends GenericApp {
                                 </IconButton>
                             </InputAdornment> : null,
                         }}
+                        helperText={I18n.t('Applied for all profiles')}
                         variant="standard"
                         label={I18n.t('Holiday ID')}
                         style={{ width: 'calc(100% - 76px)', marginRight: 16 }}
