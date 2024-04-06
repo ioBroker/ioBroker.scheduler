@@ -85,11 +85,23 @@ class DevicesPanel extends Component {
                 dialogName={this.props.adapterName}
                 themeType={this.props.themeType}
                 socket={this.props.socket}
+                multiSelect
                 // statesOnly
                 onClose={() => this.setState({ showSelectId: false })}
                 onOk={selected => {
-                    const id = selected;
-                    this.setState({ showSelectId: false }, () => this.deviceAdd(id));
+                    this.setState({ showSelectId: false }, () => {
+                        if (Array.isArray(selected)) {
+                            const devices = JSON.parse(JSON.stringify(this.props.members));
+                            for (const id of selected) {
+                                if (!devices.includes(id)) {
+                                    devices.push(id);
+                                }
+                            }
+                            this.props.onChange(devices);
+                        } else if (selected) {
+                            this.deviceAdd(selected);
+                        }
+                    });
                 }}
             />;
         }
