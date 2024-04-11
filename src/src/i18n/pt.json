@@ -60,7 +60,7 @@
   "30 m.": "30 m.",
   "You cannot enable or disable this profile as it controlled by %s state": "Você não pode ativar ou desativar este perfil, pois ele é controlado pelo estado %s",
   "Press \"shift\" and move mouse to change more than one slider": "Pressione \"shift\" e mova o mouse para alterar mais de um controle deslizante",
-  "Ignore values if same as previous": "Ignore os valores se forem iguais aos anteriores\n",
+  "Ignore values if same as previous": "Ignore os valores se forem iguais aos anteriores",
   "Do not control if device already in desired state": "Não controle se o dispositivo já está no estado desejado",
   "Now": "Agora",
   "on": "sobre",

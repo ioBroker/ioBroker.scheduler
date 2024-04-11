@@ -742,6 +742,7 @@ class App extends GenericApp {
                 onChange={this.onState}
                 socket={this.socket}
                 themeType={this.state.themeType}
+                profile={activeProfile}
             />
         </div>;
     }
@@ -888,7 +889,7 @@ class App extends GenericApp {
         // if screen width less than 1600
         if (this.state.windowWidth < 1600) {
             return <IconButton
-                style={{ marginRight: 20 }}
+                style={{ marginRight: 20, height: 40, marginTop: 8 }}
                 title={I18n.t('Advanced settings')}
                 onClick={() => this.onShowOptions()}
             >
@@ -896,7 +897,7 @@ class App extends GenericApp {
             </IconButton>;
         } else {
             return <Button
-                style={{ marginTop: 12, marginRight: 16  }}
+                style={{ marginTop: 8, marginRight: 16, minWidth: 130, height: 40 }}
                 onClick={() => this.onShowOptions()}
                 startIcon={<Settings />}
                 variant="outlined"

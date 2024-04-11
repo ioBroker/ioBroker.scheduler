@@ -60,7 +60,7 @@
   "search text": "Пошуковий текст",
   "You cannot enable or disable this profile as it controlled by %s state": "Ви не можете ввімкнути або вимкнути цей профіль, оскільки він контролюється станом %s",
   "Press \"shift\" and move mouse to change more than one slider": "Натисніть «Shift» і перемістіть мишу, щоб змінити більше одного повзунка",
-  "Ignore values if same as previous": "Ігнорувати значення, якщо такі ж, як попередні\n",
+  "Ignore values if same as previous": "Ігнорувати значення, якщо такі ж, як попередні",
   "Do not control if device already in desired state": "Не контролюйте, якщо пристрій уже в потрібному стані",
   "Now": "Зараз",
   "on": "ВКЛ",

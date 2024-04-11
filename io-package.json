@@ -169,7 +169,7 @@
     }
   },
   "native": {
-    "holidayId": "feiertage.0.heute.boolean",
+    "holidayId": "",
     "profiles": [
       {
         "id": "58f45953-9821-4746-8046-eaa5d69eaccd",

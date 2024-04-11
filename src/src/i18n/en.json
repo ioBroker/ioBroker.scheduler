@@ -60,7 +60,7 @@
   "30 m.": "30 m.",
   "You cannot enable or disable this profile as it controlled by %s state": "You cannot enable or disable this profile as it controlled by \"%s\" state",
   "Press \"shift\" and move mouse to change more than one slider": "Press \"shift\" and move mouse to change more than one slider",
-  "Ignore values if same as previous": "Ignore values if same as previous\n",
+  "Ignore values if same as previous": "Ignore values if same as previous",
   "Do not control if device already in desired state": "Do not control if device already in desired state",
   "Now": "Now",
   "on": "on",
