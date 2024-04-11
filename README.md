@@ -25,7 +25,7 @@ This adapter has vis2 widget.
 -->
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 1.3.8 (2024-04-11)
 * (bluefox) Small GUI changes done
 
 ### 1.3.7 (2024-04-06)
