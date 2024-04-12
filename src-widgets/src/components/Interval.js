@@ -138,6 +138,7 @@ const PrettySlider = props => {
     if (textWidth > intervalsWidth) {
         fontSize = Math.floor((intervalsWidth / textWidth) * 13);
     }
+    console.log('id: ' + props.id + ' val: ' + props.value);
 
     return <Slider
         id={props.id}
@@ -298,6 +299,7 @@ class Interval extends Component {
         }
 
         const { min, max, step } = this.getMinMax();
+        console.log('min', min, 'max', max, 'step', step);
         const label = this.getLabel();
         const val = !value ? 0 : value;
         const vl = type === 'onoff' ? this.getPostfix(val || 0) : '';

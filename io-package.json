@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "scheduler",
-    "version": "1.3.8",
+    "version": "1.3.9",
     "news": {
+      "1.3.9": {
+        "en": "Corrected widget",
+        "de": "Korrigiertes Widget",
+        "ru": "Исправленный виджет",
+        "pt": "Widget corrigido",
+        "nl": "Gecorrigeerd widget",
+        "fr": "Widget corrigé",
+        "it": "Widget corretti",
+        "es": "Widget corregido",
+        "pl": "Poprawiony widżet",
+        "uk": "Виправлений віджет",
+        "zh-cn": "修正的部件"
+      },
       "1.3.8": {
         "en": "Small GUI changes done",
         "de": "Kleine GUI Änderungen erledigt",
@@ -80,19 +93,6 @@
         "pl": "Poprawione 15-minutowe interwały\nUlepszenia interfejsu GUI dla mobilnego widoku",
         "uk": "Виправлено 15 хвилин інтервали\nУдосконалення інтерфейсу для мобільного вигляду",
         "zh-cn": "15分钟间隔\n移动视图的图形用户界面改进"
-      },
-      "1.1.14": {
-        "en": "Corrected widget and profile",
-        "de": "Korrigiertes Widget und Profil",
-        "ru": "Исправленный виджет и профиль",
-        "pt": "Widget e perfil corretos",
-        "nl": "Gecorrigeerd widget en profiel",
-        "fr": "Widget et profil corrigés",
-        "it": "Widget e profilo corretti",
-        "es": "Widget corregido y perfil",
-        "pl": "Poprawiony widżet i profil",
-        "uk": "Виправлений віджет і профіль",
-        "zh-cn": "已更正的部件和配置文件"
       }
     },
     "title": "Schedule profiler",
