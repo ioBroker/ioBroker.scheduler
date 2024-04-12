@@ -1030,7 +1030,7 @@ class App extends GenericApp {
         }
 
         const newMinMax = this.getProfileMinMax(currentProfile, null, devicesCache);
-        if (newMinMax.min !== oldMinMax.min || newMinMax.max !== oldMinMax.max) {
+        if ((newMinMax.min !== oldMinMax.min || newMinMax.max !== oldMinMax.max) && !oldMinMax.simulated && !newMinMax.simulated) {
             const profile = JSON.parse(JSON.stringify(currentProfile));
             profile.intervals = profile.intervals.map(interval => {
                 const normalizedInterval = Math.round((newMinMax.max / oldMinMax.max) * interval);
@@ -1099,6 +1099,7 @@ class App extends GenericApp {
                 step: 1,
                 marks: null,
                 unit: obj?.common?.unit,
+                simulated: true,
             };
         } else if (type === 'temperature') {
             const obj = devicesCache[profile.members[0]];

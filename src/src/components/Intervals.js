@@ -233,6 +233,7 @@ class Intervals extends Component {
                 minMax={minMax}
                 onText={this.onText}
                 offText={this.offText}
+                t={this.props.t}
             />);
         }
 
