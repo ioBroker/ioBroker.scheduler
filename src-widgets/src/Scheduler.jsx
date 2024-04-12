@@ -408,6 +408,7 @@ class Scheduler extends Generic {
                 readOnly={this.state.rxData.readOnly}
                 intervalsWidth={width}
                 minMax={this.getProfileMinMax(profile)}
+                t={Scheduler.t}
             /> : null}
             {this.state.rxData.hideDow && width ? null :
                 <DayOfWeekPanel
@@ -426,7 +427,7 @@ class Scheduler extends Generic {
             return content;
         }
 
-        return this.wrapContent(content, null, { height: 'calc(100% - 24px)', width: 'calc(100% - 24px)' });
+        return this.wrapContent(content, null, { height: 'calc(100% - 24px)', width: 'calc(100% - 50px)' });
     }
 }
 

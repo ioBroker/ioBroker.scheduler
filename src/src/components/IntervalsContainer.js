@@ -100,6 +100,7 @@ class IntervalsContainer extends Component {
                     range={range}
                     intervalsWidth={this.props.intervalsWidth || this.state.intervalsWidth}
                     minMax={minMax}
+                    t={this.props.t}
                 /> : null}
             </div>
         </div>;
@@ -115,5 +116,6 @@ IntervalsContainer.propTypes = {
     intervalsWidth: PropTypes.number,
     id: PropTypes.string.isRequired,
     minMax: PropTypes.object,
+    t: PropTypes.func.isRequired,
 };
 export default withStyles(styles)(IntervalsContainer);

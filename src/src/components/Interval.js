@@ -3,8 +3,6 @@ import { Component } from 'react';
 import { withStyles, makeStyles } from '@mui/styles';
 import { Slider, Tooltip } from '@mui/material';
 
-import { I18n } from '@iobroker/adapter-react-v5';
-
 import minmax from '../data/minmax.json';
 
 const styles = () => ({
@@ -305,7 +303,7 @@ class Interval extends Component {
         const vl = type === 'onoff' ? this.getPostfix(val || 0) : '';
         const v2 = type !== 'onoff' ? this.getPostfix(val || 0) : '';
 
-        return <Tooltip title={I18n.t('Press "shift" and move mouse to change more than one slider')} classes={{ popper: this.props.tooltip }}>
+        return <Tooltip title={this.props.t('Press "shift" and move mouse to change more than one slider')} classes={{ popper: this.props.tooltip }}>
             <span className={pretty}>
                 <span className={prettyLabel}>
                     {vl}
@@ -367,5 +365,6 @@ Interval.propTypes = {
     minMax: PropTypes.object,
     offText: PropTypes.string,
     onText: PropTypes.string,
+    t: PropTypes.func.isRequired,
 };
 export default withStyles(styles)(Interval);

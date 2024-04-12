@@ -1228,6 +1228,7 @@ class App extends GenericApp {
                                 range={currentProfile.intervalDuration}
                                 windowWidth={this.state.windowWidth}
                                 minMax={this.getProfileMinMax(currentProfile)}
+                                t={I18n.t}
                             />
                             {this.state.isExpert ? <div className={`${classes.tapperGrid} m-1 mt-1`}>
                                 {isMobile ? null : this.renderRange(currentProfile)}

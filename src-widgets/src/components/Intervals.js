@@ -2,8 +2,6 @@ import { withStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import { I18n } from '@iobroker/adapter-react-v5';
-
 import DayNightSwitcher from './DayNightSwitcher';
 import Interval from './Interval';
 
@@ -56,8 +54,8 @@ class Intervals extends Component {
             currentTime: new Date(),
         };
 
-        this.onText = I18n.t('on');
-        this.offText = I18n.t('off');
+        this.onText = props.t('on');
+        this.offText = props.t('off');
     }
 
     componentDidMount() {
@@ -235,6 +233,7 @@ class Intervals extends Component {
                 minMax={minMax}
                 onText={this.onText}
                 offText={this.offText}
+                t={this.props.t}
             />);
         }
 
@@ -245,7 +244,7 @@ class Intervals extends Component {
         );
 
         return <>
-            <div className={classes.timeLineContainer} title={I18n.t('Now')}>
+            <div className={classes.timeLineContainer} title={this.props.t('Now')}>
                 <div
                     className={classes.timeLine}
                     style={{ left: leftOffset }}
@@ -319,5 +318,6 @@ Intervals.propTypes = {
     type: PropTypes.string,
     id: PropTypes.string.isRequired,
     minMax: PropTypes.object,
+    t: PropTypes.func.isRequired,
 };
 export default withStyles(styles)(Intervals);
