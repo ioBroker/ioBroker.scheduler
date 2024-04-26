@@ -138,7 +138,6 @@ const PrettySlider = props => {
     if (textWidth > intervalsWidth) {
         fontSize = Math.floor((intervalsWidth / textWidth) * 13);
     }
-    console.log('id: ' + props.id + ' val: ' + props.value);
 
     return <Slider
         id={props.id}

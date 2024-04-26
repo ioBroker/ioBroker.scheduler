@@ -1157,7 +1157,6 @@ class App extends GenericApp {
             }, 100);
         }
 
-
         const { classes } = this.props;
         const fullProfile = this.state.native.profiles.find(profile => profile.id === this.state.activeProfile);
 
