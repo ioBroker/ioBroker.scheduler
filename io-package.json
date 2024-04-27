@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "scheduler",
-    "version": "1.3.10",
+    "version": "1.3.11",
     "news": {
+      "1.3.11": {
+        "en": "Corrected widget",
+        "de": "Korrigiertes Widget",
+        "ru": "Исправленный виджет",
+        "pt": "Widget corrigido",
+        "nl": "Gecorrigeerd widget",
+        "fr": "Widget corrigé",
+        "it": "Widget corretti",
+        "es": "Widget corregido",
+        "pl": "Poprawiony widżet",
+        "uk": "Виправлений віджет",
+        "zh-cn": "修正的部件"
+      },
       "1.3.8": {
         "en": "Small GUI changes done",
         "de": "Kleine GUI Änderungen erledigt",
