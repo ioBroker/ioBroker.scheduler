@@ -31,7 +31,7 @@
     "@iobroker/vis-2-widgets-react-dev": "^1.0.6",
     "@iobroker/legacy-testing": "^1.0.12",
     "babel-eslint": "^10.1.0",
-    "eslint": "^8.57.0",
+    "eslint": "^9.1.1",
     "@types/iobroker": "^5.0.6",
     "@types/node": "^20.12.7",
     "axios": "^1.6.8",
