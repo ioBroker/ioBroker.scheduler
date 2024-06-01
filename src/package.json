@@ -11,7 +11,7 @@
         "@mui/styles": "5.14.14",
         "@mui/x-date-pickers": "^7.3.1",
         "@sentry/browser": "^7.112.2",
-        "@sentry/integrations": "^7.112.2",
+        "@sentry/integrations": "^7.114.0",
         "babel-eslint": "^10.1.0",
         "chroma-js": "^2.4.2",
         "eslint-plugin-eqeqeq-fix": "^1.0.3",
