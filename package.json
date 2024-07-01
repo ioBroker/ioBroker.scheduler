@@ -37,7 +37,7 @@
     "axios": "^1.6.8",
     "chai": "^4.4.1",
     "gulp": "^4.0.2",
-    "mocha": "^10.4.0"
+    "mocha": "^10.5.2"
   },
   "bugs": {
     "url": "https://github.com/ioBroker/ioBroker.scheduler/issues"
