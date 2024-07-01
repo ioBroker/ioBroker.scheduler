@@ -10,7 +10,7 @@
         "@mui/material": "5.14.14",
         "@mui/styles": "5.14.14",
         "@mui/x-date-pickers": "^7.3.1",
-        "@sentry/browser": "^7.112.2",
+        "@sentry/browser": "^8.13.0",
         "@sentry/integrations": "^7.112.2",
         "babel-eslint": "^10.1.0",
         "chroma-js": "^2.4.2",
