@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "scheduler",
-    "version": "1.3.12",
+    "version": "1.4.0",
     "news": {
+      "1.4.0": {
+        "en": "Removed `withStyles` from the widget",
+        "de": "Entfernen `withStyles` aus dem Widget",
+        "ru": "Удаленный `withStyles' из виджета",
+        "pt": "Removedo `withStyles` do widget",
+        "nl": "Verwijderd van het widget",
+        "fr": "Supprimé `withStyles` du widget",
+        "it": "Rimuoveto `withStyles` dal widget",
+        "es": "Quitado `con los estilos` del widget",
+        "pl": "Usunięty 'ze stylem' z widżetu",
+        "uk": "Вилучено `withStyle` від віджету",
+        "zh-cn": "从部件中删除了“ 带有样式”"
+      },
       "1.3.12": {
         "en": "Corrected widget",
         "de": "Korrigiertes Widget",
@@ -80,19 +93,6 @@
         "pl": "Dodano dwie opcje: \"Ignoruj wartości, jeśli są takie same jak poprzednio\" i \"Nie kontroluj, jeśli urządzenie jest już w pożądanym stanie\"\nPoprawione 15-minutowe interwały\nUlepszenia interfejsu GUI dla mobilnego widoku",
         "uk": "Додано два варіанти: \"Не контролюйте, якщо пристрій вже в бажаному стані\"\nВиправлено 15 хвилин інтервали\nУдосконалення інтерфейсу для мобільного вигляду",
         "zh-cn": "增加了两个选项: “如果与先前相同,则忽略数值”和“如果设备已经处于理想状态,则不要控制”\n15分钟间隔\n移动视图的图形用户界面改进"
-      },
-      "1.2.0": {
-        "en": "Corrected 15-minute intervals\nGUI improvements for mobile view",
-        "de": "Korrigierte 15-minütige Intervalle\nGUI Verbesserungen für mobile Ansicht",
-        "ru": "15-минутные интервалы\nУлучшения GUI для мобильного просмотра",
-        "pt": "Intervalos de 15 minutos corrigidos\nMelhorias de interface gráfica para visualização móvel",
-        "nl": "Gecorrigeerde intervallen van 15 minuten\nGUI verbeteringen voor mobiele weergave",
-        "fr": "Intervalles corrigés de 15 minutes\nAmélioration de l'interface graphique pour la vue mobile",
-        "it": "Intervalli corretti di 15 minuti\nMiglioramenti della GUI per la vista mobile",
-        "es": "Intervalos corregidos de 15 minutos\nMejoras de interfaz gráfica para la vista móvil",
-        "pl": "Poprawione 15-minutowe interwały\nUlepszenia interfejsu GUI dla mobilnego widoku",
-        "uk": "Виправлено 15 хвилин інтервали\nУдосконалення інтерфейсу для мобільного вигляду",
-        "zh-cn": "15分钟间隔\n移动视图的图形用户界面改进"
       }
     },
     "title": "Schedule profiler",
