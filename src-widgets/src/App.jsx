@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from "@mui/material";
+import { Box } from '@mui/material';
 
 import WidgetDemoApp from '@iobroker/vis-2-widgets-react-dev/widgetDemoApp';
 import { I18n } from '@iobroker/adapter-react-v5';

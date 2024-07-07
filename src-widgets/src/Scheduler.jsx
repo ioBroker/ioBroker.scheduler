@@ -398,7 +398,7 @@ class Scheduler extends Generic {
             {width ? <IntervalsContainer
                 id={this.props.id}
                 onChange={this.onIntervals}
-                theme={this.props.theme} // ?? this.props.context.theme
+                theme={this.props.context.theme} // ?? this.props.context.theme
                 intervals={profile.intervals}
                 range={profile.intervalDuration}
                 type={profile.type}
@@ -417,7 +417,7 @@ class Scheduler extends Generic {
                     holiday={profile.holiday}
                     holidayVisible={!!this.state.object.native.holidayId}
                     onChange={this.onDow}
-                    theme={this.props.theme} // ?? this.props.context.theme
+                    theme={this.props.context.theme} // ?? this.props.context.theme
                     t={Scheduler.t}
                 />}
         </div>;

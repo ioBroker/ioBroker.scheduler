@@ -273,7 +273,7 @@ class Interval extends Component {
             return this.props.minMax;
         }
 
-        return minmax[this.props.type];
+        return minmax[this.props.type] || { min: 0, max: 100 };
     }
 
     getLabel = () => {
