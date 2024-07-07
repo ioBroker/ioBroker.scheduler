@@ -1,10 +1,11 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { withStyles } from '@mui/styles';
+import PropTypes from 'prop-types';
+
+import { Box } from '@mui/material';
 
 import Intervals from './Intervals';
 
-const styles = () => ({
+const styles = {
     tapperGrid: {
         margin: 0,
         boxShadow: 'none',
@@ -28,7 +29,7 @@ const styles = () => ({
         flexDirection: 'column',
         justifyContent: 'center',
     },
-});
+};
 
 class IntervalsContainer extends Component {
     constructor(props) {
@@ -69,7 +70,6 @@ class IntervalsContainer extends Component {
             type, theme, range, intervals,
             minMax,
         } = this.props;
-        const { tapperGrid, tapperInside } = this.props.classes;
         const intervalsWidth = this.tapperRef.current?.getBoundingClientRect().width;
         if (intervalsWidth && intervalsWidth !== this.state.intervalsWidth) {
             this.updateWidth = this.updateWidth || setTimeout(() => {
@@ -78,15 +78,16 @@ class IntervalsContainer extends Component {
             }, 100);
         }
         // console.log(this.state.intervalsWidth);
-        return <div
-            className={`${tapperGrid} m-1 h-100`}
+        return <Box
+            className="m-1 h-100"
+            sx={styles.tapperGrid}
             style={{ backgroundColor: theme.palette.background.default }}
         >
             <div
-                className={tapperInside}
                 id={`${this.props.id}-tapper-inside`}
                 ref={this.tapperRef}
                 style={{
+                    ...styles.tapperInside,
                     padding: 0,
                     width: '100%',
                 }}
@@ -103,7 +104,7 @@ class IntervalsContainer extends Component {
                     t={this.props.t}
                 /> : null}
             </div>
-        </div>;
+        </Box>;
     }
 }
 
@@ -118,4 +119,4 @@ IntervalsContainer.propTypes = {
     minMax: PropTypes.object,
     t: PropTypes.func.isRequired,
 };
-export default withStyles(styles)(IntervalsContainer);
+export default IntervalsContainer;

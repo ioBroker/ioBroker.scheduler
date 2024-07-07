@@ -1,6 +1,5 @@
 import React from 'react';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
-import { withStyles } from '@mui/styles';
 import ReactSplit, { SplitDirection, GutterTheme } from '@devbookhq/splitter';
 
 import {
@@ -9,15 +8,15 @@ import {
     Fab, FormControlLabel, Checkbox,
     Dialog, DialogTitle, DialogActions,
     Button, DialogContent, TextField,
-    Drawer, Grid, IconButton, InputAdornment,
+    Drawer, Grid, IconButton, InputAdornment, Box,
 } from '@mui/material';
 
-import {Check, Close, Settings} from '@mui/icons-material';
+import { Check, Close, Settings } from '@mui/icons-material';
 
-import GenericApp from '@iobroker/adapter-react-v5/GenericApp';
 import {
     I18n, Utils, Loader,
     SelectID as DialogSelectID,
+    GenericApp,
 } from '@iobroker/adapter-react-v5';
 
 import {
@@ -42,204 +41,201 @@ import ProfilesPanel from './components/ProfilesPanel';
 import StatePanel from './components/StatePanel';
 import ResetAllValues from './components/ResetAllValues';
 
-const styles = theme => {
-    const mobilePanel = {};
+const leftRSM = {
+    position: 'absolute',
+    zIndex: 2000,
+    color: '#FF0000',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: 10,
+    left: 7,
+    transition: 'all 300ms ease-out',
+    '&.active': {
+        color: '#FFF',
+    },
+};
 
-    const leftRSM = {
-        position: 'absolute',
-        zIndex: 2000,
-        color: '#FF0000',
+const styles = {
+    app: theme => ({
         display: 'flex',
-        justifyContent: 'center',
+        position: 'relative',
+        height: 'calc(100% - 64px)',
+        backgroundColor: theme.palette.background.paper,
+    }),
+    mobileScrolled: {
+        overflowY: 'auto',
+    },
+    drawer: {
+        display: 'flex',
+        flexGrow: 0,
+        maxWidth: 330,
+        width: 330,
+        flexBasis: 330,
+        transition: 'width 300ms ease-in',
+    },
+    drawerPaper: {
+        height: 'calc(100% - 64px)',
+    },
+    drGrid: {
+        // width: 330,
+        transition: 'width 300ms ease-in',
+    },
+    drawerClose: {
+        width: 40,
+        maxWidth: 40,
+        flexBasis: 40,
+        transition: 'width 300ms ease-in',
+    },
+    drGridClose: {
+        transition: 'width 300ms ease-in',
+    },
+    tapperGrid: {
+        margin: 0,
+        boxShadow: 'none',
+        borderRadius: 0,
         alignItems: 'center',
-        top: 10,
-        left: 7,
-        transition: 'all 300ms ease-out',
-        '&.active': {
-            color: '#FFF',
-        },
-    };
-
-    return {
-        app: {
-            display: 'flex',
-            position: 'relative',
-            height: 'calc(100% - 64px)',
-            backgroundColor: theme.palette.background.paper,
-        },
-        mobileScrolled: {
-            overflowY: 'auto',
-        },
-        drawer: {
-            display: 'flex',
-            flexGrow: 0,
-            maxWidth: 330,
-            width: 330,
-            flexBasis: 330,
-            transition: 'width 300ms ease-in',
-        },
-        drawerPaper: {
-            height: 'calc(100% - 64px)',
-        },
-        drGrid: {
-            // width: 330,
-            transition: 'width 300ms ease-in',
-        },
-        drawerClose: {
-            width: 40,
-            maxWidth: 40,
-            flexBasis: 40,
-            transition: 'width 300ms ease-in',
-        },
-        drGridClose: {
-            transition: 'width 300ms ease-in',
-        },
-        tapperGrid: {
+        p: '10px',
+        '@media (max-width:570px)': {
             margin: 0,
             boxShadow: 'none',
             borderRadius: 0,
             alignItems: 'center',
-            padding: 10,
-            '@media (max-width:570px)': {
-                margin: 0,
-                boxShadow: 'none',
-                borderRadius: 0,
-                alignItems: 'center',
-                padding: '0px 10px 0 60px',
-            },
+            padding: '0px 10px 0 60px',
         },
-        flowDark: {
-            width: 26,
-            height: 28,
-            maxHeight: 28,
-            minHeight: 28,
-            padding: 0,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            cursor: 'pointer',
-            position: 'relative',
-            '&::before': {
-                content: '',
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                marginLeft: 0,
-                marginTop: 0,
-                width: 0,
-                height: 0,
-                transition: 'all 200ms ease-out',
-                opacity: 0,
-            },
+    },
+    flowDark: {
+        width: 26,
+        height: 28,
+        maxHeight: 28,
+        minHeight: 28,
+        p: 0,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        cursor: 'pointer',
+        position: 'relative',
+        '&::before': {
+            content: '',
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            ml: 0,
+            mt: 0,
+            width: 0,
+            height: 0,
+            transition: 'all 200ms ease-out',
+            opacity: 0,
         },
-        closeLabelLeftSm: {
-            height: 60,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-        },
-        labelLeftSm1: {
-            ...leftRSM,
-        },
-        labelLeftSm2: {
-            ...leftRSM,
-            top: 'auto',
-            bottom: 60,
-        },
-        labelRightSm3: {
-            ...leftRSM,
-            top: 60,
-        },
-        labelRightSm4: {
-            ...leftRSM,
-            top: 'auto',
-            bottom: 11,
-        },
-        labelRightSm5: {
-            ...leftRSM,
-            top: 110,
-        },
-        labelRightSm6: {
-            ...leftRSM,
-            top: 'auto',
-            bottom: 10,
-        },
-        labelRightSm7: {
-            ...leftRSM,
-            top: 'auto',
-            bottom: 60,
-        },
-        labelRightSm8: {
-            ...leftRSM,
-            top: 160,
-        },
-        labelMenuBottom: {
-            top: 'auto',
-            bottom: -75,
-            transform: 'skewY(11deg)',
-            height: 290,
-        },
-        root: {},
-        tabContent: {
-            padding: 10,
-            height: 'calc(100% - 64px - 48px - 20px)',
-            overflow: 'auto',
-        },
-        tabContentIFrame: {
-            padding: 10,
-            height: 'calc(100% - 64px - 48px - 20px - 38px)',
-            overflow: 'auto',
-        },
-        paneling: {
-            backgroundColor: theme.palette.background.paper,
-        },
-        mobilePanel,
-        slidersContainer: {
-            width: '100%',
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-        },
-        emptyProfile: {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '100%',
-            color: theme.palette.text.primary,
-        },
-        title: {
-            fontSize: 18,
-            fontWeight: 'bold',
-            marginLeft: 20,
-            color: theme.palette.text.primary,
-        },
-        checkbox: {
-            color: theme.palette.text.primary,
-        },
-    };
+    },
+    closeLabelLeftSm: {
+        height: 60,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    labelLeftSm1: {
+        ...leftRSM,
+    },
+    labelLeftSm2: {
+        ...leftRSM,
+        top: 'auto',
+        bottom: 60,
+    },
+    labelRightSm3: {
+        ...leftRSM,
+        top: 60,
+    },
+    labelRightSm4: {
+        ...leftRSM,
+        top: 'auto',
+        bottom: 11,
+    },
+    labelRightSm5: {
+        ...leftRSM,
+        top: 110,
+    },
+    labelRightSm6: {
+        ...leftRSM,
+        top: 'auto',
+        bottom: 10,
+    },
+    labelRightSm7: {
+        ...leftRSM,
+        top: 'auto',
+        bottom: 60,
+    },
+    labelRightSm8: {
+        ...leftRSM,
+        top: 160,
+    },
+    labelMenuBottom: {
+        top: 'auto',
+        bottom: -75,
+        transform: 'skewY(11deg)',
+        height: 290,
+    },
+    root: {},
+    tabContent: {
+        padding: 10,
+        height: 'calc(100% - 64px - 48px - 20px)',
+        overflow: 'auto',
+    },
+    tabContentIFrame: {
+        padding: 10,
+        height: 'calc(100% - 64px - 48px - 20px - 38px)',
+        overflow: 'auto',
+    },
+    paneling: theme => ({
+        backgroundColor: theme.palette.background.paper,
+    }),
+    mobilePanel: {},
+    slidersContainer: {
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    emptyProfile: theme => ({
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        color: theme.palette.text.primary,
+    }),
+    title: theme => ({
+        fontSize: 18,
+        fontWeight: 'bold',
+        ml: '20px',
+        color: theme.palette.text.primary,
+    }),
+    checkbox: theme => ({
+        color: theme.palette.text.primary,
+    }),
 };
 
-const AntTabs = withStyles({
-    root: {
+const AntTabs = props => <Tabs
+    sx={{
         margin: 0,
         width: '100%',
         justifyContent: 'center',
-    },
-    indicator: {
-        transition: 'all 300ms ease-out',
-    },
-})(Tabs);
+        '& .MuiTabs-indicator': {
+            transition: 'all 300ms ease-out',
+        }
+    }}
+    {...props}
+/>;
 
-const AntTab = withStyles(() => ({
-    root: {
+const AntTab = props => <Tab
+    style={{
         // backgroundColor:'#444',
         minWidth: 140,
         fontWeight: 700,
         fontSize: '0.75rem',
         opacity: 1,
-    },
-    selected: {},
-}))(props => <Tab {...props} />);
+    }}
+    {...props}
+/>;
 
 class App extends GenericApp {
     constructor(props) {
@@ -728,6 +724,7 @@ class App extends GenericApp {
                 prio={currentProfile.prio}
                 profiles={this.state.native.profiles}
                 icons={this.icons}
+                theme={this.state.theme}
             />
         </div>;
     }
@@ -781,7 +778,7 @@ class App extends GenericApp {
             <DialogContent>
                 <FormControlLabel
                     key="ignoreSameValues"
-                    className={this.props.classes.checkbox}
+                    sx={styles.checkbox}
                     control={<Checkbox
                         checked={this.state.optionsDialog.ignoreSameValues}
                         onChange={e => {
@@ -794,7 +791,7 @@ class App extends GenericApp {
                 />
                 <FormControlLabel
                     key="doNotWriteSameValue"
-                    className={this.props.classes.checkbox}
+                    sx={styles.checkbox}
                     control={<Checkbox
                         checked={this.state.optionsDialog.doNotWriteSameValue}
                         onChange={e => {
@@ -942,20 +939,20 @@ class App extends GenericApp {
             }}
             open={!!content && !!this.state.leftOpen}
         >
-            <div
-                className={
-                    `${this.props.classes.tapperGrid
-                    } h-100 m-1 p-2 ${this.props.classes.mobilePanel} active`
-                }
+            <Box
+                sx={styles.tapperGrid}
+                style={styles.mobilePanel}
+                className="h-100 m-1 p-2 active"
             >
-                <div
-                    className={`${this.props.classes.flowDark} ${this.props.classes.closeLabelLeftSm}`}
+                <Box
+                    sx={styles.flowDark}
+                    style={styles.closeLabelLeftSm}
                     onClick={() => this.onLeftOpen(this.state.leftOpen)}
                 >
                     <ClearIcon />
-                </div>
+                </Box>
                 {content}
-            </div>
+            </Box>
         </Drawer>;
     }
 
@@ -1157,17 +1154,16 @@ class App extends GenericApp {
             }, 100);
         }
 
-        const { classes } = this.props;
         const fullProfile = this.state.native.profiles.find(profile => profile.id === this.state.activeProfile);
 
-        const profileGrid = <div className={`${classes.tapperGrid} ${classes.paneling} h-100 m-0`}>
+        const profileGrid = <Box sx={Utils.getStyle(this.state.theme, styles.tapperGrid, styles.paneling)} className="h-100 m-0">
             {this.renderProfile()}
-        </div>;
+        </Box>;
 
         const isMobile = this.state.windowWidth < 768;
 
         const desktopProfilePanel = isMobile ? null :
-            (this.state.isDrawOpen ? <div className={this.state.isDrawOpen ? classes.drGrid : classes.drGridClose} style={{ position: 'relative' }}>
+            (this.state.isDrawOpen ? <div style={{ ...(this.state.isDrawOpen ? styles.drGrid : styles.drGridClose), position: 'relative' }}>
                 <IconButton
                     style={{
                         zIndex: 1,
@@ -1215,10 +1211,10 @@ class App extends GenericApp {
                         >
                             <DehazeIcon/>
                         </IconButton>}
-                        <div className={this.props.classes.title}>{fullProfile.title}</div>
+                        <Box sx={styles.title}>{fullProfile.title}</Box>
                     </div>}
                     <div style={{ height: 'calc(100% - 100px)', width: '100%', display: 'flex' }}>
-                        <Grid className={this.props.classes.slidersContainer} item xs={11}>
+                        <Grid style={styles.slidersContainer} item xs={11}>
                             <IntervalsContainer
                                 id="IntervalsContainer"
                                 type={currentProfile.type}
@@ -1230,19 +1226,19 @@ class App extends GenericApp {
                                 minMax={this.getProfileMinMax(currentProfile)}
                                 t={I18n.t}
                             />
-                            {this.state.isExpert ? <div className={`${classes.tapperGrid} m-1 mt-1`}>
+                            {this.state.isExpert ? <Box sx={styles.tapperGrid} className="m-1 mt-1">
                                 {isMobile ? null : this.renderRange(currentProfile)}
-                            </div> : null}
+                            </Box> : null}
                         </Grid>
                         {isMobile ? null : <Grid
                             item
                             xs={1}
                             className="h-100  sm-hidden"
                         >
-                            <div className={`${classes.tapperGrid} m-1 p-2 h-100`}>
+                            <Box sx={styles.tapperGrid} className="m-1 p-2 h-100">
                                 {this.renderDow(currentProfile)}
                                 {this.renderResetHours(currentProfile)}
-                            </div>
+                            </Box>
                         </Grid>}
                     </div>
                     {isMobile ? null : <div style={{ width: '100%' }}>
@@ -1251,12 +1247,13 @@ class App extends GenericApp {
                             spacing={0}
                         >
                             <Grid item xs={6} className="h-100 expert">
-                                <div
-                                    className={`${classes.tapperGrid} m-1 p-2 mt-1`}
+                                <Box
+                                    sx={styles.tapperGrid}
+                                    className="m-1 p-2 mt-1"
                                     style={{flexGrow: 100}}
                                 >
                                     {this.renderDevices(currentProfile)}
-                                </div>
+                                </Box>
                             </Grid>
                             {this.state.isExpert ? <Grid item xs={6}>
                                 <div style={{display: 'flex', gap: 10}}>
@@ -1270,9 +1267,10 @@ class App extends GenericApp {
                     </div>}
 
                     {isMobile ? <>
-                        <div className={classes.labelMenuBottom} />
+                        <div style={styles.labelMenuBottom} />
                         <div
-                            className={`${classes.labelRightSm5} ${this.state.leftOpen === 5 ? 'active' : ''}`}
+                            style={styles.labelRightSm5}
+                            className={this.state.leftOpen === 5 ? 'active' : ''}
                             onClick={() => this.onLeftOpen(5)}
                         >
                             <Fab
@@ -1284,7 +1282,8 @@ class App extends GenericApp {
                             </Fab>
                         </div>
                         <div
-                            className={`${classes.labelRightSm3} ${this.state.leftOpen === 3 ? 'active' : ''}`}
+                            style={styles.labelRightSm3}
+                            className={this.state.leftOpen === 3 ? 'active' : ''}
                             onClick={() => this.onLeftOpen(3)}
                         >
                             <Fab
@@ -1296,9 +1295,12 @@ class App extends GenericApp {
                             </Fab>
                         </div>
                         {this.state.isExpert ? <>
-                            <div className={classes.labelMenuBottom}/>
-                            <div className={`${classes.labelLeftSm2} expert ${this.state.leftOpen === 2 ? 'active' : ''}`}
-                                 onClick={() => this.onLeftOpen(2)}>
+                            <div style={styles.labelMenuBottom}/>
+                            <div
+                                style={styles.labelLeftSm2}
+                                className={`expert ${this.state.leftOpen === 2 ? 'active' : ''}`}
+                                onClick={() => this.onLeftOpen(2)}
+                            >
                                 <Fab
                                     size="small"
                                     color={this.state.leftOpen === 2 ? 'secondary' : 'primary'}
@@ -1307,8 +1309,11 @@ class App extends GenericApp {
                                     <AssignmentTurnedInIcon/>
                                 </Fab>
                             </div>
-                            <div className={`${classes.labelRightSm6} ${this.state.leftOpen === 4 ? 'active' : ''}`}
-                                 onClick={() => this.onLeftOpen(4)}>
+                            <div
+                                style={styles.labelLeftSm2}
+                                className={this.state.leftOpen === 4 ? 'active' : ''}
+                                onClick={() => this.onLeftOpen(4)}
+                            >
                                 <Fab
                                     size="small"
                                     color={this.state.leftOpen === 4 ? 'secondary' : 'primary'}
@@ -1317,7 +1322,7 @@ class App extends GenericApp {
                                     <ViewListIcon/>
                                 </Fab>
                             </div>
-                            {/* <div className={`${classes.labelRightSm4} ${this.state.leftOpen === 7 ? 'active' : ''}`} onClick={() => this.onLeftOpen(7)}>
+                            {/* <div style={styles.labelRightSm4} className={this.state.leftOpen === 7 ? 'active' : ''} onClick={() => this.onLeftOpen(7)}>
                                         <Fab
                                             size="small"
                                             color={this.state.leftOpen === 7 ? 'secondary' : 'primary'}
@@ -1326,7 +1331,7 @@ class App extends GenericApp {
                                             <ScheduleIcon />
                                         </Fab>
                                     </div> */}
-                            <div className={`${classes.labelRightSm8} ${this.state.leftOpen === 8 ? 'active' : ''}`}
+                            <div style={styles.labelRightSm8} className={this.state.leftOpen === 8 ? 'active' : ''}
                                  onClick={() => this.onLeftOpen(8)}>
                                 <Fab
                                     size="small"
@@ -1339,12 +1344,12 @@ class App extends GenericApp {
                         </> : null}
                     </> : null}
                 </>
-                : <div className={classes.emptyProfile}>
+                : <Box sx={styles.emptyProfile}>
                     {I18n.t('Select or create profile in left menu')}
-                </div>}
+                </Box>}
         </Grid>;
 
-        const allContent = !isMobile && this.state.isDrawOpen ? <div className={classes.app}>
+        const allContent = !isMobile && this.state.isDrawOpen ? <Box sx={styles.app}>
             <ReactSplit
                 direction={SplitDirection.Horizontal}
                 initialSizes={this.state.splitSizes}
@@ -1359,10 +1364,11 @@ class App extends GenericApp {
                 {desktopProfilePanel}
                 {content}
             </ReactSplit>
-        </div> : <div className={classes.app}>
+        </Box> : <Box sx={styles.app}>
             {desktopProfilePanel}
             {isMobile ? <div
-                className={`${classes.labelLeftSm1} ${this.state.leftOpen === 1 ? 'active' : ''}`}
+                style={styles.labelLeftSm1}
+                className={this.state.leftOpen === 1 ? 'active' : ''}
                 onClick={() => this.onLeftOpen(1)}
             >
                 <Fab
@@ -1375,7 +1381,7 @@ class App extends GenericApp {
             </div>: null}
             {this.renderMobileDrawer(isMobile, currentProfile)}
             {content}
-        </div>;
+        </Box>;
 
         return <StyledEngineProvider injectFirst>
             <ThemeProvider theme={this.state.theme}>
@@ -1388,4 +1394,4 @@ class App extends GenericApp {
     }
 }
 
-export default withStyles(styles)(App);
+export default App;

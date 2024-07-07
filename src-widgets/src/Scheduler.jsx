@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, withTheme } from '@mui/styles';
 
 import {
     LinearProgress,
@@ -23,14 +22,14 @@ import IntervalsContainer from './components/IntervalsContainer';
 import DayOfWeekPanel from './components/DayOfWeekPanel';
 import minmax from './data/minmax.json';
 
-const styles = () => ({
+const styles = {
     content: {
         display: 'flex',
         width: '100%',
         height: '100%',
         position: 'relative',
     },
-});
+};
 
 const ProfileSelector = props => {
     const [object, setObject] = useState(null);
@@ -384,7 +383,7 @@ class Scheduler extends Generic {
         }
 
         const content = <div
-            className={this.props.classes.content}
+            style={styles.content}
             ref={this.widgetRef}
         >
             {this.state.writing ? <LinearProgress
@@ -438,4 +437,4 @@ Scheduler.propTypes = {
     data: PropTypes.object,
 };
 
-export default withStyles(styles)(withTheme(Scheduler));
+export default Scheduler;

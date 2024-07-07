@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import {
     TextField, IconButton, Button,
 } from '@mui/material';
-import ClearIcon from '@mui/icons-material/Clear';
+import { Clear as ClearIcon } from '@mui/icons-material';
 
 import { I18n, SelectID as DialogSelectID } from '@iobroker/adapter-react-v5';
 

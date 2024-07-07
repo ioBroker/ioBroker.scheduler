@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@mui/styles';
 import { FormControl, FormControlLabel, Checkbox } from '@mui/material';
 
 const daysOfWeek = [
@@ -16,7 +15,7 @@ const daysOfWeek = [
 const dowOrderMonday = [1, 2, 3, 4, 5, 6, 0];
 const dowOrderSunday = [0, 1, 2, 3, 4, 5, 6];
 
-const styles = () => ({
+const styles = {
     flow: {
         width: 26,
         height: 28,
@@ -29,16 +28,15 @@ const styles = () => ({
         cursor: 'pointer',
         position: 'relative',
     },
-    label: {
-        color: props => props.theme.palette.text.primary,
-        marginLeft: 0,
-        marginRight: 12,
-    },
-});
+    label: theme => ({
+        color: theme.palette.text.primary,
+        ml: 0,
+        mr: '12px',
+    }),
+};
 
 class DayOfWeekPanel extends Component {
     render() {
-        const { flow, label } = this.props.classes;
         const dowOrder = this.props.firstDayOfWeek === 'monday' ? dowOrderMonday : dowOrderSunday;
 
         return <FormControl component="fieldset" style={{ marginRight: 12 }}>
@@ -49,12 +47,12 @@ class DayOfWeekPanel extends Component {
                     <Checkbox
                         checked={this.props.dow.includes(index)}
                         color="primary"
-                        className={flow}
+                        style={styles.flow}
                         onChange={e => this.props.onChange(index, e.target.checked)}
                     />
                 }
                 label={this.props.t(daysOfWeek[index])}
-                className={label}
+                sx={styles.label}
             />)}
             {this.props.holidayVisible ? <FormControlLabel
                 style={{ marginLeft: 6 }}
@@ -62,12 +60,12 @@ class DayOfWeekPanel extends Component {
                     <Checkbox
                         checked={!!this.props.holiday}
                         color="primary"
-                        className={flow}
+                        style={styles.flow}
                         onChange={e => this.props.onChange('holiday', e.target.checked)}
                     />
                 }
                 label={this.props.t('Holiday')}
-                className={label}
+                sx={styles.label}
             /> : null}
         </FormControl>;
     }
@@ -82,4 +80,4 @@ DayOfWeekPanel.propTypes = {
     t: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(DayOfWeekPanel);
+export default DayOfWeekPanel;

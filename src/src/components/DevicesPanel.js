@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { withStyles } from '@mui/styles';
 
 import {
     FormLabel, Chip, Tooltip, Fab,
@@ -79,6 +78,7 @@ class DevicesPanel extends Component {
     renderSelectIdDialog() {
         if (this.state.showSelectId) {
             return <DialogSelectID
+                theme={this.props.theme}
                 key="tableSelect"
                 imagePrefix="../.."
                 filterFunc={obj => checkObject(obj, this.props.type)}
@@ -164,18 +164,18 @@ class DevicesPanel extends Component {
                             title={errors[id].length ? `${I18n.t('Errors')}: ${errors[id].join(', ')}` : ''}
                         >
                             <Chip
-                                label={<div className={this.props.classes.deviceContainer}>
-                                    <Icon src={this.props.icons[id]} className={this.props.classes.deviceIcon} />
+                                label={<div style={styles.deviceContainer}>
+                                    <Icon src={this.props.icons[id]} style={styles.deviceIcon} />
                                     <div>
                                         {this.props.devicesCache[id] ? <div>
                                             {Utils.getObjectNameFromObj(this.props.devicesCache[id], lang)}
                                         </div> : null}
-                                        <div className={this.props.classes.deviceId}>{id}</div>
+                                        <div style={styles.deviceId}>{id}</div>
                                     </div>
                                 </div>}
                                 onDelete={this.props.isExpert ? () => this.deviceDelete(id) : null}
                                 style={errors[id].length ? { backgroundColor: 'red' } : null}
-                                className={this.props.classes.chip}
+                                style={styles.chip}
                                 disabled={!this.props.isExpert}
                             />
                         </Tooltip>
@@ -204,5 +204,6 @@ DevicesPanel.propTypes = {
     socket: PropTypes.object,
     devicesCache: PropTypes.object,
     icons: PropTypes.object,
+    theme: PropTypes.object,
 };
-export default withStyles(styles)(DevicesPanel);
+export default DevicesPanel;

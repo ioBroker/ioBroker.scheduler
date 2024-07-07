@@ -1,6 +1,5 @@
 import React, { Component, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@mui/styles';
 import { v4 as uuidv4 } from 'uuid';
 
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
@@ -20,7 +19,8 @@ import {
     Typography,
     TextField,
     Toolbar,
-    DialogContent, DialogActions, Checkbox, Tooltip,
+    DialogContent, DialogActions,
+    Checkbox, Tooltip, Box,
 } from '@mui/material';
 
 import {
@@ -70,7 +70,7 @@ function isTouchDevice() {
         || navigator.msMaxTouchPoints;
 }
 
-const styles = theme => ({
+const styles = {
     closeButton: {
         position: 'absolute',
         top: 5,
@@ -90,7 +90,7 @@ const styles = theme => ({
         display: 'none',
         justifyContent: 'center',
         alignItems: 'center',
-        marginRight: 2,
+        mr: '2px',
         '&:active': {
             color: '#EEE',
         },
@@ -107,11 +107,11 @@ const styles = theme => ({
     tooltip: {
         pointerEvents: 'none',
     },
-    dndHover: {
+    dndHover: theme => ({
         backgroundColor: () => theme.palette.primary.dark,
         color: theme.palette.grey[200],
-    },
-    flowMenuItem: {
+    }),
+    flowMenuItem: theme => ({
         height: 28,
         maxHeight: 28,
         minHeight: 28,
@@ -134,7 +134,7 @@ const styles = theme => ({
             width: 20,
             height: 20,
         },
-    },
+    }),
     active: {
 
     },
@@ -160,7 +160,7 @@ const styles = theme => ({
         height: 16,
         marginTop: 4,
     }
-});
+};
 
 function canDrop(childId, parentId, profiles) {
     const child = profiles.find(profile => profile.id === childId);
@@ -237,12 +237,12 @@ const FolderDrop = props => {
         }),
     }), [props.profiles]);
 
-    return <div
+    return <Box
         ref={drop}
-        className={CanDrop && isOver ? props.classes.dndHover : null}
+        sx={CanDrop && isOver ? styles.dndHover : undefined}
     >
         {props.children}
-    </div>;
+    </Box>;
 };
 
 class ProfilesPanel extends Component {
@@ -468,7 +468,6 @@ class ProfilesPanel extends Component {
 
     renderFolder = (folderItem, level, searchText) => {
         const { profiles, active } = this.props;
-        const { flowMenuItem, editButton } = this.props.classes;
 
         const isOpen = !this.state.collapsed.includes(folderItem.id);
 
@@ -482,14 +481,14 @@ class ProfilesPanel extends Component {
                 </div> : null);
 
         const folderSample = isOpen ? <FolderOpenIcon
-                className={this.props.classes.folderIcon}
+                style={styles.folderIcon}
                 onClick={e => {
                     this.onOpen(folderItem.id, false);
                     e.stopPropagation();
                 }}
             />
             : <FolderIcon
-                className={this.props.classes.folderIcon}
+                style={styles.folderIcon}
                 onClick={e => {
                     this.onOpen(folderItem.id, true);
                     e.stopPropagation();
@@ -497,7 +496,8 @@ class ProfilesPanel extends Component {
             />;
 
         const result = <MenuItem
-            className={`${flowMenuItem} flow-menu-item ${active === folderItem.id ? ' active ' : ''}`}
+            sx={styles.flowMenuItem}
+            className={`flow-menu-item ${active === folderItem.id ? ' active ' : ''}`}
             style={{ marginLeft: (level * 12) }}
             disableRipple
         >
@@ -508,33 +508,36 @@ class ProfilesPanel extends Component {
             </Typography>
 
             <div className="absolute-right">
-                <div
-                    className={editButton}
+                <Box
+                    sx={styles.editButton}
                     title={I18n.t('Add new child profile')}
                     onClick={() => this.onAddChild(folderItem, 'profile')}
                 >
                     <AddIcon />
-                </div>
-                <div
-                    className={editButton}
+                </Box>
+                <Box
+                    sx={styles.editButton}
                     title={I18n.t('Add new child folder')}
                     onClick={() => this.onAddChild(folderItem, 'folder')}
                 >
                     <CreateNewFolderIcon />
-                </div>
-                <div
-                    className={editButton}
+                </Box>
+                <Box
+                    sx={styles.editButton}
                     title={I18n.t('Edit')}
                     onClick={() => this.onEditDialog(folderItem)}
                 >
                     <EditIcon />
-                </div>
+                </Box>
             </div>
 
         </MenuItem>;
 
         return <div key={folderItem.id}>
-            <FolderDrop folderData={folderItem} profiles={this.props.profiles} classes={this.props.classes}>
+            <FolderDrop
+                folderData={folderItem}
+                profiles={this.props.profiles}
+            >
                 <ProfileDrag onMoveItem={this.onMoveItem} profileData={folderItem}>
                     {result}
                 </ProfileDrag>
@@ -545,20 +548,20 @@ class ProfilesPanel extends Component {
 
     renderProfile = (profile, level, searchText) => {
         const { active } = this.props;
-        const { flowMenuItem, editButton, tooltip } = this.props.classes;
 
         const stateId = profile.data.state === true ? this.props.getStateId(profile, this.props.profiles) : profile.data.state;
 
         const result = <MenuItem
-            className={`${flowMenuItem} flow-menu-item sub ${active === profile.id ? ' active ' : ''}`}
+            sx={styles.flowMenuItem}
+            className={`flow-menu-item sub ${active === profile.id ? ' active ' : ''}`}
             style={{ marginLeft: level * 12 }}
             onClick={() => this.onActive(profile.id)}
             disableRipple
         >
             <Typography variant="inherit" className="pl-1 w-100">
-                <ScheduleIcon className={this.props.classes.scheduleIcon} />
+                <ScheduleIcon style={styles.scheduleIcon} />
                 <Tooltip
-                    classes={{ popper: tooltip }}
+                    componentsProps={{ popper: { sx: styles.tooltip } }}
                     title={typeof profile.data.state === 'boolean' ?
                         (profile.data.enabled ? I18n.t('Enabled') : I18n.t('Disabled')) :
                         I18n.t('You cannot enable or disable this profile as it controlled by %s state', profile.data.state)}
@@ -584,8 +587,8 @@ class ProfilesPanel extends Component {
             </Typography>
 
             <div className="absolute-right">
-                <div
-                    className={editButton}
+                <Box
+                    sx={styles.editButton}
                     title={I18n.t('Edit')}
                     onClick={e => {
                         e.stopPropagation();
@@ -593,9 +596,9 @@ class ProfilesPanel extends Component {
                     }}
                 >
                     <EditIcon />
-                </div>
-                <div
-                    className={editButton}
+                </Box>
+                <Box
+                    sx={styles.editButton}
                     title={I18n.t('Duplicate')}
                     onClick={e => {
                         e.stopPropagation();
@@ -603,7 +606,7 @@ class ProfilesPanel extends Component {
                     }}
                 >
                     <FileCopyIcon />
-                </div>
+                </Box>
             </div>
         </MenuItem>;
 
@@ -680,7 +683,7 @@ class ProfilesPanel extends Component {
                 <IconButton
                     component="span"
                     size="small"
-                    className={this.props.classes.searchIcon}
+                    style={styles.searchIcon}
                     title={I18n.t('Search')}
                     onClick={this.onSearch}
                 >
@@ -688,7 +691,7 @@ class ProfilesPanel extends Component {
                 </IconButton>
             </>;
 
-        return <FolderDrop folderData={{ id: '' }} profiles={this.props.profiles} classes={this.props.classes}>
+        return <FolderDrop folderData={{ id: '' }} profiles={this.props.profiles}>
             {result}
         </FolderDrop>;
     }
@@ -714,7 +717,7 @@ class ProfilesPanel extends Component {
         >
             <IconButton
                 onClick={() => this.onDialogClose()}
-                className={this.props.classes.closeButton}
+                style={styles.closeButton}
             >
                 <CloseIcon />
             </IconButton>
@@ -780,7 +783,7 @@ class ProfilesPanel extends Component {
 
         return <DndProvider backend={this.isTouchDevice ? TouchBackend : HTML5Backend}>
             <DndPreview />
-            <div className={this.props.classes.scrolledAuto}>
+            <div style={styles.scrolledAuto}>
                 <Toolbar variant="dense" disableGutters>
                     {this.renderHead()}
                 </Toolbar>
@@ -799,9 +802,8 @@ ProfilesPanel.propTypes = {
     profiles: PropTypes.array,
     onSelectProfile: PropTypes.func,
     onChangeProfiles: PropTypes.func,
-    classes: PropTypes.object,
     getStateId: PropTypes.func,
     socket: PropTypes.object,
 };
 
-export default withStyles(styles)(ProfilesPanel);
+export default ProfilesPanel;

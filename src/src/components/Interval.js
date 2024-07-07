@@ -1,19 +1,18 @@
-import PropTypes from 'prop-types';
 import { Component } from 'react';
-import { withStyles, makeStyles } from '@mui/styles';
-import { Slider, Tooltip } from '@mui/material';
+import PropTypes from 'prop-types';
+import { Box, Slider, Tooltip } from '@mui/material';
 
 import minmax from '../data/minmax.json';
 
-const styles = () => ({
-    pretty: {
+const styles = {
+    pretty: intervalsWidth => ({
         position: 'relative',
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        width: props => props.intervalsWidth,
+        width: intervalsWidth,
         // padding:"0 3px"
-    },
+    }),
     prettyLabel: {
         color: '#6c7a93',
         fontWeight: 700,
@@ -37,44 +36,44 @@ const styles = () => ({
         alignItems: 'center',
         cursor: 'pointer',
     },
-    active: {
-        backgroundColor: props => props.theme.palette.primary.light,
+    active: theme => ({
+        backgroundColor: theme.palette.primary.light,
         color: '#FFF',
-    },
-    prettySecs: {
+    }),
+    prettySecs: theme => ({
         fontSize: '0.6rem',
         fontWeight: 100,
-        color: props => props.theme.palette.text.primary,
-    },
+        color: theme.palette.text.primary,
+    }),
     tooltip: {
         pointerEvents: 'none',
     },
-});
+};
 
-const usePrettySliderStyles = makeStyles({
-    root: props => ({
-        color: props.theme.palette.primary.light,
+const prettySliderStyles = {
+    root: (theme, intervalsWidth) => ({
+        color: theme.palette.primary.light,
         borderRadius: 0,
         transition: 'all 100ms ease-out',
         position: 'relative',
         '&&': {
-            width: `${props.intervalsWidth}px`,
+            width: `${intervalsWidth}px`,
             padding: '0',
             height: 'calc(100% - 90px)',
         },
     }),
-    thumb: props => ({
+    thumb: type => ({
         left: '50%',
         width: 0,
         height: 0,
-        display: props.type === 'onoff' ? 'none' : 'flex',
+        display: type === 'onoff' ? 'none' : 'flex',
     }),
     active: {
         backgroundColor: 'transparent',
         width: 0,
         height: 0,
     },
-    valueLabel: props => ({
+    valueLabel: (theme, fontSize) => ({
         position: 'relative',
         left: 'unset',
         right: 'unset',
@@ -86,8 +85,8 @@ const usePrettySliderStyles = makeStyles({
             userSelect: 'none',
             background: 'transparent',
             fontWeight: 100,
-            color: props.theme.palette.text.primary,
-            fontSize: props.fontSize ? `${props.fontSize}px` : '1.0rem',
+            color: theme.palette.text.primary,
+            fontSize: fontSize ? `${fontSize}px` : '1.0rem',
             transition: 'all 100ms ease-out',
         },
     }),
@@ -101,19 +100,19 @@ const usePrettySliderStyles = makeStyles({
             width: 'calc(100% - 8px)',
         },
     },
-    rail: props => ({
+    rail: theme => ({
         transition: 'all 100ms ease-out',
         borderRadius: 4,
         height: 'calc(100% + 5px)',
         marginTop: -5,
-        backgroundColor: props.theme.palette.primary.light,
+        backgroundColor: theme.palette.primary.light,
         '&&': {
             width: 'calc(100% - 5px)',
             borderBottomLeftRadius: '0px',
             borderBottomRightRadius: '0px',
         },
     }),
-});
+};
 
 function getTextWidth(text) {
     // re-use a canvas object for better performance
@@ -141,15 +140,15 @@ const PrettySlider = props => {
 
     return <Slider
         id={props.id}
-        classes={
-            usePrettySliderStyles({
-                intervalsWidth: props.intervalsWidth,
-                type: props.type,
-                theme: props.theme,
-                fontSize,
-                textWidth,
-            })
-        }
+        sx={{
+            '&.MuiSlider-root': prettySliderStyles.root(props.theme, intervalsWidth),
+            '& .MuiSlider-thumb': prettySliderStyles.thumb(props.type),
+            '& .MuiSlider-thumbColorPrimary': prettySliderStyles.active,
+            '& .MuiSlider-valueLabel': prettySliderStyles.valueLabel(props.theme, fontSize),
+            '& .MuiSlider-valueLabelCircle': prettySliderStyles.valueLabelCircle,
+            '& .MuiSlider-track': prettySliderStyles.track,
+            '& .MuiSlider-rail': prettySliderStyles.rail(props.theme),
+        }}
         {...componentProps}
     />;
 };
@@ -291,7 +290,7 @@ class Interval extends Component {
         } = this.props;
         const { intervalsWidth } = this.state;
         const {
-            pretty, prettyLabel, prettyTime, active, prettySecs,
+            prettyLabel
         } = this.props.classes;
         if (i < 0) {
             return '';
@@ -305,7 +304,7 @@ class Interval extends Component {
         const v2 = type !== 'onoff' ? this.getPostfix(val || 0) : '';
 
         return <Tooltip title={this.props.t('Press "shift" and move mouse to change more than one slider')} classes={{ popper: this.props.tooltip }}>
-            <span className={pretty}>
+            <span style={styles.pretty(intervalsWidth)}>
                 <span className={prettyLabel}>
                     {vl}
                 </span>
@@ -327,8 +326,8 @@ class Interval extends Component {
                     valueLabelDisplay="on"
                     id={`slider_${this.props.i}_${this.props.id}`}
                 />
-                <div
-                    className={`${prettyTime} ${selected ? active : ''}`}
+                <Box
+                    sx={selected ? styles.active : undefined}
                     onClick={this.handleSelected}
                     onMouseMove={event => {
                         if (event.shiftKey && event.buttons) {
@@ -341,13 +340,13 @@ class Interval extends Component {
                             this.on('selected', !this.props.selected);
                         }
                     }}
-                    style={{ userSelect: 'none' }}
+                    style={{ ...styles.prettyTime, userSelect: 'none' }}
                 >
                     <span style={{ color: this.props.theme.palette.text.primary }}>{label[0]}</span>
-                    <span className={prettySecs}>
+                    <Box component="span" sx={styles.prettySecs}>
                         {label[1]}
-                    </span>
-                </div>
+                    </Box>
+                </Box>
             </span>
         </Tooltip>;
     }
@@ -368,4 +367,4 @@ Interval.propTypes = {
     onText: PropTypes.string,
     t: PropTypes.func.isRequired,
 };
-export default withStyles(styles)(Interval);
+export default Interval;

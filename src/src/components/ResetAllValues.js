@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { withStyles } from '@mui/styles';
 import {
     Fab,
     Dialog,
@@ -21,10 +20,6 @@ import IconClose from '@mui/icons-material/Close';
 import IconCheck from '@mui/icons-material/Check';
 
 import I18n from '@iobroker/adapter-react-v5/i18n';
-
-const styles = () => ({
-
-});
 
 class ResetAllValues extends Component {
     constructor(props) {
@@ -142,4 +137,4 @@ ResetAllValues.propTypes = {
     minMax: PropTypes.object,
 };
 
-export default withStyles(styles)(ResetAllValues);
+export default ResetAllValues;

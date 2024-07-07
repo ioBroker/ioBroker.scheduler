@@ -1,11 +1,11 @@
-import { withStyles } from '@mui/styles';
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Box } from '@mui/material';
 
 import DayNightSwitcher from './DayNightSwitcher';
 import Interval from './Interval';
 
-const styles = theme => ({
+const styles = {
     swiperContent: {
         width: '100%',
         height: '100%',
@@ -27,7 +27,7 @@ const styles = theme => ({
         position: 'absolute',
         height: '100%',
     },
-    timeLine: {
+    timeLine: theme => ({
         zIndex: 100,
         borderWidth: 2,
         borderColor: theme.palette.text.primary,
@@ -35,8 +35,8 @@ const styles = theme => ({
         width: 4,
         height: 'calc(100% - 20px)',
         position: 'relative',
-    },
-});
+    }),
+};
 
 class Intervals extends Component {
     timeInterval = null;
@@ -204,7 +204,7 @@ class Intervals extends Component {
             intervalsWidth, slideId, selected, key,
         } = this.state;
         const {
-            type, theme, range, data, classes,
+            type, theme, range, data,
             minMax,
         } = this.props;
         const count = this.getCountByRange(range);
@@ -244,9 +244,9 @@ class Intervals extends Component {
         );
 
         return <>
-            <div className={classes.timeLineContainer} title={this.props.t('Now')}>
-                <div
-                    className={classes.timeLine}
+            <div style={styles.timeLineContainer} title={this.props.t('Now')}>
+                <Box
+                    sx={styles.timeLine}
                     style={{ left: leftOffset }}
                 />
             </div>
@@ -287,14 +287,13 @@ class Intervals extends Component {
         }
         const { slideId } = this.state;
         const { range } = this.props;
-        const { swiperContent, swiper } = this.props.classes;
         const sections = this.getNumberOfSectionsByRange(range);
         return <>
-            <div className={swiperContent}>
-                <div className={swiper}>
+            <Box sx={styles.swiperContent}>
+                <div style={styles.swiper}>
                     {this.getSlide()}
                 </div>
-            </div>
+            </Box>
             <DayNightSwitcher
                 id={this.props.id}
                 sections={sections}
@@ -320,4 +319,4 @@ Intervals.propTypes = {
     minMax: PropTypes.object,
     t: PropTypes.func.isRequired,
 };
-export default withStyles(styles)(Intervals);
+export default Intervals;
