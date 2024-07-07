@@ -81,7 +81,7 @@ class IntervalsContainer extends Component {
         return <Box
             className="m-1 h-100"
             sx={styles.tapperGrid}
-            style={{ backgroundColor: theme.palette.background.default }}
+            style={{ backgroundColor: theme.palette.background.default, padding: 0 }}
         >
             <div
                 id={`${this.props.id}-tapper-inside`}

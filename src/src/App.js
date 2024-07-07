@@ -1249,8 +1249,8 @@ class App extends GenericApp {
                             <Grid item xs={6} className="h-100 expert">
                                 <Box
                                     sx={styles.tapperGrid}
-                                    className="m-1 p-2 mt-1"
-                                    style={{flexGrow: 100}}
+                                    className="m-1 mt-1"
+                                    style={{ flexGrow: 100, padding: 0 }}
                                 >
                                     {this.renderDevices(currentProfile)}
                                 </Box>
