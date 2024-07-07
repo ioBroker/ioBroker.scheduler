@@ -32,6 +32,9 @@ const styles = {
         display: 'flex',
         alignItems: 'center',
     },
+    tooltip: {
+        pointerEvents: 'none',
+    },
 };
 
 function checkObject(obj, type) {
@@ -162,6 +165,7 @@ class DevicesPanel extends Component {
                     {this.props.members.map(id => <span key={id}>
                         <Tooltip
                             title={errors[id].length ? `${I18n.t('Errors')}: ${errors[id].join(', ')}` : ''}
+                            componentsProps={{ popper: { sx: styles.tooltip } }}
                         >
                             <Chip
                                 label={<div style={styles.deviceContainer}>
@@ -174,22 +178,19 @@ class DevicesPanel extends Component {
                                     </div>
                                 </div>}
                                 onDelete={this.props.isExpert ? () => this.deviceDelete(id) : null}
-                                style={errors[id].length ? { backgroundColor: 'red' } : null}
-                                style={styles.chip}
+                                style={{ ...styles.chip, backgroundColor: errors[id].length ? 'red' : undefined }}
                                 disabled={!this.props.isExpert}
                             />
                         </Tooltip>
                     </span>)}
                 </div>
-                {this.props.isExpert
-                    ? <Fab
-                        size="small"
-                        color="primary"
-                        onClick={() => this.setState({ showSelectId: true })}
-                    >
-                        <IconAdd />
-                    </Fab>
-                    : null}
+                {this.props.isExpert ? <Fab
+                    size="small"
+                    color="primary"
+                    onClick={() => this.setState({ showSelectId: true })}
+                >
+                    <IconAdd />
+                </Fab> : null}
             </div>
         </>;
     }

@@ -11,7 +11,7 @@ const styles = {
         boxShadow: 'none',
         borderRadius: 0,
         alignItems: 'center',
-        padding: 10,
+        p: '10px',
         '@media (max-width:570px)': {
             margin: 0,
             boxShadow: 'none',

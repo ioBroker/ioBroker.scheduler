@@ -159,7 +159,7 @@ const styles = {
         width: 16,
         height: 16,
         marginTop: 4,
-    }
+    },
 };
 
 function canDrop(childId, parentId, profiles) {
@@ -582,8 +582,8 @@ class ProfilesPanel extends Component {
                 </Tooltip>
                 {profile.title}
                 {profile.parent && searchText ? ` [${this.props.profiles.find(i => i.id === profile.parent).title}]` : ''}
-                {profile.data.prio === 1 ? <Tooltip title={I18n.t('High priority')}><span>&#8593;</span></Tooltip> : ''}
-                {profile.data.prio === 2 ? <Tooltip title={I18n.t('Highest priority')}><span>&#8593;&#8593;</span></Tooltip> : ''}
+                {profile.data.prio === 1 ? <Tooltip title={I18n.t('High priority')} componentsProps={{ popper: { sx: styles.tooltip } }}><span>&#8593;</span></Tooltip> : ''}
+                {profile.data.prio === 2 ? <Tooltip title={I18n.t('Highest priority')} componentsProps={{ popper: { sx: styles.tooltip } }}><span>&#8593;&#8593;</span></Tooltip> : ''}
             </Typography>
 
             <div className="absolute-right">

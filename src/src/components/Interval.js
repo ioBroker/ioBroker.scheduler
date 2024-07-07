@@ -289,9 +289,6 @@ class Interval extends Component {
             value, i, selected, theme, type,
         } = this.props;
         const { intervalsWidth } = this.state;
-        const {
-            prettyLabel
-        } = this.props.classes;
         if (i < 0) {
             return '';
         }
@@ -303,9 +300,12 @@ class Interval extends Component {
         const vl = type === 'onoff' ? this.getPostfix(val || 0) : '';
         const v2 = type !== 'onoff' ? this.getPostfix(val || 0) : '';
 
-        return <Tooltip title={this.props.t('Press "shift" and move mouse to change more than one slider')} classes={{ popper: this.props.tooltip }}>
+        return <Tooltip
+            title={this.props.t('Press "shift" and move mouse to change more than one slider')}
+            componentsProps={{ popper: { sx: styles.tooltip } }}
+        >
             <span style={styles.pretty(intervalsWidth)}>
-                <span className={prettyLabel}>
+                <span style={styles.prettyLabel}>
                     {vl}
                 </span>
                 <PrettySlider
