@@ -56,11 +56,9 @@ const prettySliderStyles = {
         borderRadius: 0,
         transition: 'all 100ms ease-out',
         position: 'relative',
-        '&&': {
-            width: `${intervalsWidth}px`,
-            padding: '0',
-            height: 'calc(100% - 90px)',
-        },
+        width: `${intervalsWidth}px`,
+        p: 0,
+        height: 'calc(100% - 90px)',
     }),
     thumb: type => ({
         left: '50%',
@@ -95,22 +93,18 @@ const prettySliderStyles = {
     },
     track: {
         transition: 'all 100ms ease-out',
-        borderRadius: 4,
-        '&&': {
-            width: 'calc(100% - 8px)',
-        },
+        borderRadius: '4px',
+        width: 'calc(100% - 8px)',
     },
     rail: theme => ({
         transition: 'all 100ms ease-out',
-        borderRadius: 4,
+        borderRadius: '4px',
         height: 'calc(100% + 5px)',
-        marginTop: -5,
+        mt: '-5px',
         backgroundColor: theme.palette.primary.light,
-        '&&': {
-            width: 'calc(100% - 5px)',
-            borderBottomLeftRadius: '0px',
-            borderBottomRightRadius: '0px',
-        },
+        width: 'calc(100% - 5px)',
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
     }),
 };
 
@@ -143,7 +137,7 @@ const PrettySlider = props => {
         sx={{
             '&.MuiSlider-root': prettySliderStyles.root(props.theme, intervalsWidth),
             '& .MuiSlider-thumb': prettySliderStyles.thumb(props.type),
-            '& .MuiSlider-thumbColorPrimary': prettySliderStyles.active,
+            '& .MuiSlider-active': prettySliderStyles.active,
             '& .MuiSlider-valueLabel': prettySliderStyles.valueLabel(props.theme, fontSize),
             '& .MuiSlider-valueLabelCircle': prettySliderStyles.valueLabelCircle,
             '& .MuiSlider-track': prettySliderStyles.track,

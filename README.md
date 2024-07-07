@@ -25,6 +25,9 @@ This adapter has vis2 widget.
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (bluefox) Removed `withStyles` from the widget
+
 ### 1.3.12 (2024-04-27)
 * (bluefox) Corrected widget
 
