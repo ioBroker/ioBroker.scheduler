@@ -16,8 +16,6 @@ import {
     I18n,
 } from '@iobroker/adapter-react-v5';
 
-import { VisRxWidget } from '@iobroker/vis-2-widgets-react-dev';
-
 import IntervalsContainer from './components/IntervalsContainer';
 import DayOfWeekPanel from './components/DayOfWeekPanel';
 import minmax from './data/minmax.json';
@@ -95,9 +93,7 @@ const ProfileSelector = props => {
     </Select>;
 };
 
-const Generic = window.visRxWidget || VisRxWidget;
-
-class Scheduler extends Generic {
+class Scheduler extends window.visRxWidget {
     static getWidgetInfo() {
         return {
             id: 'tplScheduler',
