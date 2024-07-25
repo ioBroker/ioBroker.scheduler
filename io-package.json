@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "scheduler",
-    "version": "1.4.0",
+    "version": "1.4.1",
     "news": {
+      "1.4.1": {
+        "en": "Packages of the widget were updated",
+        "de": "Pakete des Widgets wurden aktualisiert",
+        "ru": "Пакеты виджета были обновлены",
+        "pt": "Pacotes do widget foram atualizados",
+        "nl": "Pakketten van het widget zijn bijgewerkt",
+        "fr": "Les paquets du widget ont été mis à jour",
+        "it": "I pacchetti del widget sono stati aggiornati",
+        "es": "Paquetes del widget fueron actualizados",
+        "pl": "Pakiety widżetu zostały zaktualizowane",
+        "uk": "Оновлено пакети віджету",
+        "zh-cn": "部件包已更新"
+      },
       "1.4.0": {
         "en": "Removed `withStyles` from the widget",
         "de": "Entfernen `withStyles` aus dem Widget",
@@ -80,19 +93,6 @@
         "pl": "Skorygowane błędy widget",
         "uk": "Виправлені помилки віджету",
         "zh-cn": "修正的部件错误"
-      },
-      "1.2.1": {
-        "en": "Added two options: \"Ignore values if same as previous\" and \"Do not control if device already in desired state\"\nCorrected 15-minute intervals\nGUI improvements for mobile view",
-        "de": "Zwei Optionen hinzugefügt: \"Ignorieren von Werten, wenn dies wie früher ist\" und \"Nicht steuern, ob das Gerät bereits in gewünschtem Zustand ist\"\nKorrigierte 15-minütige Intervalle\nGUI Verbesserungen für mobile Ansicht",
-        "ru": "Добавлено два варианта: \"Не обращайте внимания на значения, если они совпадают с предыдущими\" и \"Не контролируйте, если устройство уже находится в желаемом состоянии\"\n15-минутные интервалы\nУлучшения GUI для мобильного просмотра",
-        "pt": "Adicionado duas opções: \"Ignore valores se o mesmo que anterior\" e \"Não controle se dispositivo já em estado desejado\"\nIntervalos de 15 minutos corrigidos\nMelhorias de interface gráfica para visualização móvel",
-        "nl": "Twee opties toegevoegd: \"Negeren waarden als hetzelfde als vorige\" en \"Niet besturen als apparaat al in de gewenste staat\"\nGecorrigeerde intervallen van 15 minuten\nGUI verbeteringen voor mobiele weergave",
-        "fr": "Ajout de deux options : \"Ignorer les valeurs si elles sont identiques à celles du précédent\" et \"Ne pas contrôler si le dispositif est déjà dans l'état souhaité\"\nIntervalles corrigés de 15 minutes\nAmélioration de l'interface graphique pour la vue mobile",
-        "it": "Aggiunto due opzioni: \"Ignora i valori se stesso come precedente\" e \"Non controllare se il dispositivo già nello stato desiderato\"\nIntervalli corretti di 15 minuti\nMiglioramenti della GUI per la vista mobile",
-        "es": "Añadido dos opciones: \"Ignorar valores si son iguales a los anteriores\" y \"No controlar si el dispositivo ya está en estado deseado\"\nIntervalos corregidos de 15 minutos\nMejoras de interfaz gráfica para la vista móvil",
-        "pl": "Dodano dwie opcje: \"Ignoruj wartości, jeśli są takie same jak poprzednio\" i \"Nie kontroluj, jeśli urządzenie jest już w pożądanym stanie\"\nPoprawione 15-minutowe interwały\nUlepszenia interfejsu GUI dla mobilnego widoku",
-        "uk": "Додано два варіанти: \"Не контролюйте, якщо пристрій вже в бажаному стані\"\nВиправлено 15 хвилин інтервали\nУдосконалення інтерфейсу для мобільного вигляду",
-        "zh-cn": "增加了两个选项: “如果与先前相同,则忽略数值”和“如果设备已经处于理想状态,则不要控制”\n15分钟间隔\n移动视图的图形用户界面改进"
       }
     },
     "title": "Schedule profiler",
