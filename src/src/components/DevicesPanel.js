@@ -4,11 +4,11 @@ import React, { Component } from 'react';
 import {
     FormLabel, Chip, Tooltip, Fab,
 } from '@mui/material';
-import IconAdd from '@mui/icons-material/Add';
+import { Add as IconAdd } from '@mui/icons-material';
 
 import {
     I18n,
-    SelectID as DialogSelectID,
+    DialogSelectID,
     Utils,
     Icon,
 } from '@iobroker/adapter-react-v5';
@@ -39,19 +39,19 @@ const styles = {
 
 function checkObject(obj, type) {
     if (!obj?.common) {
-        return false;
+         return false;
     }
     if (type === 'custom') {
-        return obj.common.type === 'number';
+        return obj.common.type === 'number' || obj.common.type === 'mixed';
     }
     if (type === 'percent') {
-        return obj.common.unit === '%' || ('min' in obj.common && 'max' in obj.common);
+        return obj.common.unit === '%' || ('min' in obj.common && 'max' in obj.common) || obj.common.type === 'mixed';
     }
     if (type === 'temperature') {
-        return obj.common.type === 'number';
+        return obj.common.type === 'number' || obj.common.type === 'mixed';
     }
     if (type === 'onoff') {
-        return obj.common.type === 'boolean';
+        return obj.common.type === 'boolean' || obj.common.type === 'mixed';
     }
     return false;
 }

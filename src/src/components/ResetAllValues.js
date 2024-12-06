@@ -15,11 +15,9 @@ import {
     InputLabel, Select, MenuItem,
 } from '@mui/material';
 
-import EditAllIcon from '@mui/icons-material/Filter9Plus';
-import IconClose from '@mui/icons-material/Close';
-import IconCheck from '@mui/icons-material/Check';
+import { Filter9Plus as EditAllIcon, Close as IconClose, Check as IconCheck }from '@mui/icons-material';
 
-import I18n from '@iobroker/adapter-react-v5/i18n';
+import { I18n } from '@iobroker/adapter-react-v5';
 
 class ResetAllValues extends Component {
     constructor(props) {

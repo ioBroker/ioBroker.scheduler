@@ -41,6 +41,18 @@ import ProfilesPanel from './components/ProfilesPanel';
 import StatePanel from './components/StatePanel';
 import ResetAllValues from './components/ResetAllValues';
 
+import enLang from './i18n/en.json';
+import deLang from './i18n/de.json';
+import ruLang from './i18n/ru.json';
+import ptLang from './i18n/pt.json';
+import nlLang from './i18n/nl.json';
+import frLang from './i18n/fr.json';
+import itLang from './i18n/it.json';
+import esLang from './i18n/es.json';
+import plLang from './i18n/pl.json';
+import ukLang from './i18n/uk.json';
+import zhCNLang from './i18n/zh-cn.json';
+
 const leftRSM = {
     position: 'absolute',
     zIndex: 2000,
@@ -241,17 +253,17 @@ class App extends GenericApp {
     constructor(props) {
         const extendedProps = { ...props };
         extendedProps.translations = {
-            en: require('./i18n/en'),
-            de: require('./i18n/de'),
-            ru: require('./i18n/ru'),
-            pt: require('./i18n/pt'),
-            nl: require('./i18n/nl'),
-            fr: require('./i18n/fr'),
-            it: require('./i18n/it'),
-            es: require('./i18n/es'),
-            pl: require('./i18n/pl'),
-            uk: require('./i18n/uk'),
-            'zh-cn': require('./i18n/zh-cn'),
+            en: enLang,
+            de: deLang,
+            ru: ruLang,
+            pt: ptLang,
+            nl: nlLang,
+            fr: frLang,
+            it: itLang,
+            es: esLang,
+            pl: plLang,
+            uk: ukLang,
+            'zh-cn': zhCNLang,
         };
 
         extendedProps.sentryDSN = window.sentryDSN;
