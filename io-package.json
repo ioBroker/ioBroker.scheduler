@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "scheduler",
-    "version": "1.4.1",
+    "version": "1.4.2",
     "news": {
+      "1.4.2": {
+        "en": "Allowed selection of mixed states",
+        "de": "Erlaubte Auswahl von gemischten Staaten",
+        "ru": "Разрешенный выбор смешанных государств",
+        "pt": "Seleção permitida de estados mistos",
+        "nl": "Toegestaan selectie van gemengde staten",
+        "fr": "Sélection autorisée d'états mixtes",
+        "it": "Selezione consentita di stati misti",
+        "es": "Selección de estados mixtos",
+        "pl": "Dopuszczalny wybór państw mieszanych",
+        "uk": "Дозволений вибір змішаних станів",
+        "zh-cn": "允许选择混合州"
+      },
       "1.4.1": {
         "en": "Packages of the widget were updated",
         "de": "Pakete des Widgets wurden aktualisiert",
@@ -80,19 +93,6 @@
         "pl": "Skorygowane błędy widget\nWdrożone typy niestandardowe",
         "uk": "Виправлені помилки віджету\nРеалізовані спеціальні типи",
         "zh-cn": "修正的部件错误\n已执行定制类型"
-      },
-      "1.2.3": {
-        "en": "Corrected widget errors",
-        "de": "Korrigierte Widget-Fehler",
-        "ru": "Исправленные ошибки виджета",
-        "pt": "Erros de widget corrigidos",
-        "nl": "Gecorrigeerde widget-fouten",
-        "fr": "Erreurs de widget corrigées",
-        "it": "Errori di widget corretti",
-        "es": "Errores de widget corregidos",
-        "pl": "Skorygowane błędy widget",
-        "uk": "Виправлені помилки віджету",
-        "zh-cn": "修正的部件错误"
       }
     },
     "title": "Schedule profiler",
