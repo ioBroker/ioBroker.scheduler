@@ -1,214 +1,229 @@
 html {
-  height: 100%
+    height: 100%;
 }
 
 body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  margin: 0;
-  overflow: hidden;
-  padding: 0;
-  width: 100%;
-  height: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Roboto,
+        Oxygen,
+        Ubuntu,
+        Cantarell,
+        Fira Sans,
+        Droid Sans,
+        Helvetica Neue,
+        sans-serif;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    width: 100%;
+    height: 100%;
 }
 
-::-webkit-scrollbar, ::-webkit-scrollbar-track {
-  background-color: #ccc;
+::-webkit-scrollbar,
+::-webkit-scrollbar-track {
+    background-color: #ccc;
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
+    width: 6px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #575757;
+    background-color: #575757;
 }
 
-#root, .App {
-  height: 100%;
+#root,
+.App {
+    height: 100%;
 }
 
 .hidden {
-  display: none;
+    display: none;
 }
 
 .h-100 {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
-.w-100, .wc-100 {
-  display: flex;
-  width: 100%;
+.w-100,
+.wc-100 {
+    display: flex;
+    width: 100%;
 }
 
 .wc-100 {
-  flex-direction: column;
+    flex-direction: column;
 }
 
 .m-0 {
-  margin: 0;
+    margin: 0;
 }
 
 .m-1 {
-  margin: 10px;
+    margin: 10px;
 }
 
 .p-0 {
-  padding: 0
+    padding: 0;
 }
 
 .p-1 {
-  padding: 10px
+    padding: 10px;
 }
 
 .px-1 {
-  padding-left: 10px;
-  padding-right: 10px
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .p-2 {
-  padding: 20px
+    padding: 20px;
 }
 
 .pt-1 {
-  padding-top: 10px
+    padding-top: 10px;
 }
 
 .pr-1 {
-  padding-right: 10px
+    padding-right: 10px;
 }
 
 .pl-1 {
-  padding-left: 10px
+    padding-left: 10px;
 }
 
 .pl-2 {
-  padding-left: 20px
+    padding-left: 20px;
 }
 
 .pl-3 {
-  padding-left: 30px
+    padding-left: 30px;
 }
 
 .mt-1 {
-  margin-top: 10px
+    margin-top: 10px;
 }
 
 .mt-0 {
-  margin-top: 0
+    margin-top: 0;
 }
 
 .mt-1_5 {
-  margin-top: 15px
+    margin-top: 15px;
 }
 
 .mt-2 {
-  margin-top: 20px
+    margin-top: 20px;
 }
 
 .mt-3 {
-  margin-top: 30px
+    margin-top: 30px;
 }
 
 .ml-1 {
-  margin-left: 10px
+    margin-left: 10px;
 }
 
 .mr-1 {
-  margin-right: 10px
+    margin-right: 10px;
 }
 
 .mt-auto {
-  margin-top: auto
+    margin-top: auto;
 }
 
 .ml-auto {
-  margin-left: auto
+    margin-left: auto;
 }
 
-.mr-auto, .mx-auto {
-  margin-right: auto
+.mr-auto,
+.mx-auto {
+    margin-right: auto;
 }
 
 .mx-auto {
-  margin-left: auto
+    margin-left: auto;
 }
 
 .absolute-right {
-  display: flex;
-  position: absolute;
-  right: 0
+    display: flex;
+    position: absolute;
+    right: 0;
 }
 
 .absolute-left {
-  display: flex;
-  left: 0;
-  position: absolute;
-  right: auto
+    display: flex;
+    left: 0;
+    position: absolute;
+    right: auto;
 }
 
 .d-flex {
-  display: flex
+    display: flex;
 }
 
 .flex-column {
-  display: flex;
-  flex-direction: column
+    display: flex;
+    flex-direction: column;
 }
 
 .flex-grow-1 {
-  flex-grow: 1
+    flex-grow: 1;
 }
 
 .flex-grow-1000 {
-  flex-grow: 1000
+    flex-grow: 1000;
 }
 
 @media (max-width: 768px) {
-  .order-sm-1 {
-    order: 1;
-    overflow-x: hidden
-  }
+    .order-sm-1 {
+        order: 1;
+        overflow-x: hidden;
+    }
 
-  .order-sm-2 {
-    order: 2
-  }
+    .order-sm-2 {
+        order: 2;
+    }
 
-  .order-sm-3 {
-    order: 3
-  }
+    .order-sm-3 {
+        order: 3;
+    }
 
-  .order-sm-4 {
-    order: 4
-  }
+    .order-sm-4 {
+        order: 4;
+    }
 
-  .order-sm-5 {
-    order: 5
-  }
+    .order-sm-5 {
+        order: 5;
+    }
 
-  .order-sm-6 {
-    order: 6
-  }
+    .order-sm-6 {
+        order: 6;
+    }
 
-  .sm-hidden {
-    height: 0;
-    margin: 0;
-    padding: 0;
-    width: 0
-  }
+    .sm-hidden {
+        height: 0;
+        margin: 0;
+        padding: 0;
+        width: 0;
+    }
 
-  .mt-sm-auto {
-    margin-top: auto
-  }
+    .mt-sm-auto {
+        margin-top: auto;
+    }
 
-  .mb-sm-auto {
-    margin-bottom: auto
-  }
+    .mb-sm-auto {
+        margin-bottom: auto;
+    }
 
-  .mb-sm-4 {
-    margin-bottom: 40px
-  }
+    .mb-sm-4 {
+        margin-bottom: 40px;
+    }
 }

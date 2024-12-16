@@ -3,12 +3,12 @@
 /* jslint node: true */
 'use strict';
 
-const utils       = require('@iobroker/adapter-core'); // Get common adapter utils
-// @ts-ignore
+const utils = require('@iobroker/adapter-core'); // Get common adapter utils
 const adapterName = require('./package.json').name.split('.').pop();
 
 /**
  * The adapter instance
+ *
  * @type {ioBroker.Adapter}
  */
 let adapter;
@@ -36,7 +36,7 @@ function startAdapter(options) {
             timer = null;
             callback();
         },
-        ready: () => main()
+        ready: () => main(),
     });
 
     adapter = new utils.Adapter(options);
@@ -47,9 +47,11 @@ function startAdapter(options) {
 function checkObject(obj, type) {
     if (type === 'percent') {
         return obj.common.unit === '%' || ('min' in obj.common && 'max' in obj.common);
-    } else if (type === 'temperature') {
+    }
+    if (type === 'temperature') {
         return obj.common.type === 'number';
-    } else if (type === 'onoff') {
+    }
+    if (type === 'onoff') {
         return obj.common.type === 'boolean';
     }
     return false;
@@ -59,13 +61,14 @@ function convertValue(obj, type, value) {
     if (type === 'percent') {
         if ('min' in obj.common && 'max' in obj.common) {
             const delta = obj.common.max - obj.common.min;
-            return obj.common.min + Math.round(delta * value / 100);
-        } else {
-            return value;
+            return obj.common.min + Math.round((delta * value) / 100);
         }
-    } else if (type === 'temperature') {
         return value;
-    } else if (type === 'onoff') {
+    }
+    if (type === 'temperature') {
+        return value;
+    }
+    if (type === 'onoff') {
         return !!value;
     }
 
@@ -96,7 +99,10 @@ const updateStates = async force => {
     for (const k in profiles) {
         const profile = profiles[k];
 
-        let profileState = profile.type === 'profile' && profile.data.state && (await adapter.getForeignStateAsync(profile.data.state));
+        let profileState =
+            profile.type === 'profile' &&
+            profile.data.state &&
+            (await adapter.getForeignStateAsync(profile.data.state));
 
         if (profileState && typeof profileState === 'object') {
             profileState = profileState.val;
@@ -115,10 +121,16 @@ const updateStates = async force => {
                 const index = Math.floor((now.getHours() + now.getMinutes() / 60) / profile.data.intervalDuration);
                 const value = profile.data.intervals[index];
                 await adapter.setStateAsync(profile.data.activeState, true, true);
-                if (force || !profile.data.ignoreSameValues || getPreviousValue(profile.data.intervals, index) !== value) {
+                if (
+                    force ||
+                    !profile.data.ignoreSameValues ||
+                    getPreviousValue(profile.data.intervals, index) !== value
+                ) {
                     profile.data.members.forEach(id => {
                         if (!devices[id]) {
-                            adapter.log.warn(`Device ${id} used in schedule "${profile.title}", but object does not exist.`);
+                            adapter.log.warn(
+                                `Device ${id} used in schedule "${profile.title}", but object does not exist.`,
+                            );
                             // this object was deleted after adapter start
                             return;
                         }
@@ -134,7 +146,9 @@ const updateStates = async force => {
                             };
                         } else if (active[id] && active[id].priority === profile.data.prio) {
                             // check if the days are different
-                            adapter.log.error(`"${id}" is in two or more profiles: "${profile.title}" and "${active[id].title}"(<-used for control)`);
+                            adapter.log.error(
+                                `"${id}" is in two or more profiles: "${profile.title}" and "${active[id].title}"(<-used for control)`,
+                            );
                         }
                     });
                 }
@@ -164,7 +178,7 @@ const updateStates = async force => {
 
         adapter.log.info(`${id} in ${profile.title} set to ${value}`);
     }
-}
+};
 
 function startNextInterval() {
     const time = new Date();
@@ -202,7 +216,6 @@ function getStateId(profile, profiles, _list) {
         if (parentProfile) {
             return getStateId(parentProfile, profiles, _list);
         }
-        // eslint-disable-next-line
         console.error(`Cannot find parent ${profile.parent}`);
         return null;
     }
@@ -223,9 +236,8 @@ async function createActiveState(id) {
                 write: false,
                 def: false,
             },
-            native: {}
+            native: {},
         });
-
     }
 }
 
@@ -263,7 +275,6 @@ async function main() {
 }
 
 // If started as allInOne mode => return function to create instance
-// @ts-ignore
 if (module.parent) {
     module.exports = startAdapter;
 } else {

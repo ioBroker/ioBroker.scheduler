@@ -1,20 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import {
-    LinearProgress,
-    MenuItem,
-    Select,
-} from '@mui/material';
+import { LinearProgress, MenuItem, Select } from '@mui/material';
 
-import {
-    Schedule as ScheduleIcon,
-} from '@mui/icons-material';
+import { Schedule as ScheduleIcon } from '@mui/icons-material';
 
-import {
-    IconClosed as FolderIcon,
-    I18n,
-} from '@iobroker/adapter-react-v5';
+import { IconClosed as FolderIcon, I18n } from '@iobroker/adapter-react-v5';
 
 import IntervalsContainer from './components/IntervalsContainer';
 import DayOfWeekPanel from './components/DayOfWeekPanel';
@@ -32,9 +23,10 @@ const styles = {
 const ProfileSelector = props => {
     const [object, setObject] = useState(null);
     useEffect(() => {
-        props.context.socket.getObject(`system.adapter.scheduler.${props.data.instance}`)
+        props.context.socket
+            .getObject(`system.adapter.scheduler.${props.data.instance}`)
             .then(_object => setObject(_object));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     if (!object) {
@@ -50,47 +42,56 @@ const ProfileSelector = props => {
                 level,
             });
             if (object.native.profiles.filter(p => p.parent === profile.id).length) {
-                profileRecursive(object.native.profiles.filter(p => p.parent === profile.id), level + 1);
+                profileRecursive(
+                    object.native.profiles.filter(p => p.parent === profile.id),
+                    level + 1,
+                );
             }
         });
     };
 
-    profileRecursive(object.native.profiles.filter(p => !p.parent), 0);
+    profileRecursive(
+        object.native.profiles.filter(p => !p.parent),
+        0,
+    );
 
     console.log(profilesArray);
 
-    return <Select
-        style={{ width: '100%' }}
-        value={props.data[props.field.name]}
-        onChange={e => {
-            const data = { ...props.data, [props.field.name]: e.target.value };
-            const oldProfile = profilesArray.find(p => p.profile.id === props.data[props.field.name]);
-            const newProfile = profilesArray.find(p => p.profile.id === e.target.value);
-            if (newProfile && (!data.name || (oldProfile && props.data.name === oldProfile.profile.title))) {
-                data.name = newProfile.profile.title;
-            }
-            props.setData(data);
-        }}
-        variant="standard"
-        renderValue={value => {
-            const profile = profilesArray.find(p => p.profile.id === value);
-            return <div>{profile ? profile.profile.title : ''}</div>;
-        }}
-    >
-        {profilesArray.map(profile =>
-            <MenuItem
-                key={profile.profile.id}
-                value={profile.profile.id}
-                disabled={profile.profile.type === 'folder'}
-            >
-                <div style={{ paddingLeft: profile.level * 20, display: 'flex' }}>
-                    <span style={{ paddingRight: 4 }}>
-                        {profile.profile.type === 'folder' ? <FolderIcon /> : <ScheduleIcon />}
-                    </span>
-                    {profile.profile.title}
-                </div>
-            </MenuItem>)}
-    </Select>;
+    return (
+        <Select
+            style={{ width: '100%' }}
+            value={props.data[props.field.name]}
+            onChange={e => {
+                const data = { ...props.data, [props.field.name]: e.target.value };
+                const oldProfile = profilesArray.find(p => p.profile.id === props.data[props.field.name]);
+                const newProfile = profilesArray.find(p => p.profile.id === e.target.value);
+                if (newProfile && (!data.name || (oldProfile && props.data.name === oldProfile.profile.title))) {
+                    data.name = newProfile.profile.title;
+                }
+                props.setData(data);
+            }}
+            variant="standard"
+            renderValue={value => {
+                const profile = profilesArray.find(p => p.profile.id === value);
+                return <div>{profile ? profile.profile.title : ''}</div>;
+            }}
+        >
+            {profilesArray.map(profile => (
+                <MenuItem
+                    key={profile.profile.id}
+                    value={profile.profile.id}
+                    disabled={profile.profile.type === 'folder'}
+                >
+                    <div style={{ paddingLeft: profile.level * 20, display: 'flex' }}>
+                        <span style={{ paddingRight: 4 }}>
+                            {profile.profile.type === 'folder' ? <FolderIcon /> : <ScheduleIcon />}
+                        </span>
+                        {profile.profile.title}
+                    </div>
+                </MenuItem>
+            ))}
+        </Select>
+    );
 };
 
 class Scheduler extends window.visRxWidget {
@@ -98,59 +99,63 @@ class Scheduler extends window.visRxWidget {
         return {
             id: 'tplScheduler',
             visSet: 'scheduler',
-            visWidgetLabel: 'scheduler',  // Label of widget
+            visWidgetLabel: 'scheduler', // Label of widget
             visSetLabel: 'set_label', // Label of the widget set
             visSetColor: '#70BBF7', // color of the widget set
             visName: 'Scheduler',
-            visAttrs: [{
-                name: 'common',
-                fields: [
-                    {
-                        label: 'instance',
-                        name: 'instance',
-                        type: 'instance',
-                        adapter: 'scheduler',
-                        isShort: true,
-                    },
-                    {
-                        label: 'profile',
-                        name: 'profile',
-                        type: 'custom',
-                        hidden: data => !data.instance && data.instance !== 0,
-                        component: (field, data, setData, props) => <ProfileSelector
-                            field={field}
-                            data={data}
-                            setData={setData}
-                            context={props.context}
-                            selectedWidgets={props.selectedWidgets}
-                            selectedView={props.selectedView}
-                        />,
-                    },
-                    {
-                        label: 'read_only',
-                        name: 'readOnly',
-                        type: 'checkbox',
-                        default: false,
-                    },
-                    {
-                        label: 'hide_days_of_week',
-                        name: 'hideDow',
-                        type: 'checkbox',
-                        default: false,
-                    },
-                    {
-                        name: 'noCard',
-                        label: 'without_card',
-                        type: 'checkbox',
-                        hidden: '!!data.externalDialog',
-                    },
-                    {
-                        name: 'widgetTitle',
-                        label: 'name',
-                        hidden: '!!data.noCard',
-                    },
-                ],
-            }],
+            visAttrs: [
+                {
+                    name: 'common',
+                    fields: [
+                        {
+                            label: 'instance',
+                            name: 'instance',
+                            type: 'instance',
+                            adapter: 'scheduler',
+                            isShort: true,
+                        },
+                        {
+                            label: 'profile',
+                            name: 'profile',
+                            type: 'custom',
+                            hidden: data => !data.instance && data.instance !== 0,
+                            component: (field, data, setData, props) => (
+                                <ProfileSelector
+                                    field={field}
+                                    data={data}
+                                    setData={setData}
+                                    context={props.context}
+                                    selectedWidgets={props.selectedWidgets}
+                                    selectedView={props.selectedView}
+                                />
+                            ),
+                        },
+                        {
+                            label: 'read_only',
+                            name: 'readOnly',
+                            type: 'checkbox',
+                            default: false,
+                        },
+                        {
+                            label: 'hide_days_of_week',
+                            name: 'hideDow',
+                            type: 'checkbox',
+                            default: false,
+                        },
+                        {
+                            name: 'noCard',
+                            label: 'without_card',
+                            type: 'checkbox',
+                            hidden: '!!data.externalDialog',
+                        },
+                        {
+                            name: 'widgetTitle',
+                            label: 'name',
+                            hidden: '!!data.noCard',
+                        },
+                    ],
+                },
+            ],
             visDefaultStyle: {
                 width: '100%',
                 height: 355,
@@ -171,7 +176,10 @@ class Scheduler extends window.visRxWidget {
 
     async propertiesUpdate() {
         // calculate current instance
-        const instanceId = this.state.rxData.instance || this.state.rxData.instance === 0 ? `system.adapter.scheduler.${this.state.rxData.instance}` : '';
+        const instanceId =
+            this.state.rxData.instance || this.state.rxData.instance === 0
+                ? `system.adapter.scheduler.${this.state.rxData.instance}`
+                : '';
 
         // if instance changed
         if (this.subscribedId !== instanceId) {
@@ -206,7 +214,8 @@ class Scheduler extends window.visRxWidget {
             }
         } else if (this.state.object && this.state.rxData.profile) {
             const profile = this.state.object.native.profiles.find(p => p.id === this.state.rxData.profile);
-            const minMaxObjectId = profile.data.type === 'custom' || profile.data.type === 'temperature' ? profile.data.members[0] : '';
+            const minMaxObjectId =
+                profile.data.type === 'custom' || profile.data.type === 'temperature' ? profile.data.members[0] : '';
             if (minMaxObjectId !== this.minMaxObjectId) {
                 this.minMaxObjectId = minMaxObjectId;
                 let minMaxObject;
@@ -236,9 +245,7 @@ class Scheduler extends window.visRxWidget {
                 profile => profile.id === this.state.rxData.profile,
             );
 
-            const profileNew = obj.native?.profiles?.find(
-                profile => profile.id === this.state.rxData.profile,
-            );
+            const profileNew = obj.native?.profiles?.find(profile => profile.id === this.state.rxData.profile);
 
             if (JSON.stringify(profileOld) !== JSON.stringify(profileNew)) {
                 this.setState({ object: obj });
@@ -288,15 +295,21 @@ class Scheduler extends window.visRxWidget {
         } else {
             this.setState({ writing: true });
         }
-        this.writeTimeout = setTimeout(async _object => {
-            this.writeTimeout = null;
-            await this.props.context.socket.setObject(_object._id, _object);
-            this.setState({ writing: false });
-        }, 2000, object);
+        this.writeTimeout = setTimeout(
+            async _object => {
+                this.writeTimeout = null;
+                await this.props.context.socket.setObject(_object._id, _object);
+                this.setState({ writing: false });
+            },
+            2000,
+            object,
+        );
     };
 
     currentProfile = () => {
-        const foundProfile = this.state.object.native.profiles.find(profile => profile.id === this.state.rxData.profile);
+        const foundProfile = this.state.object.native.profiles.find(
+            profile => profile.id === this.state.rxData.profile,
+        );
         return foundProfile ? foundProfile.type === 'profile' && foundProfile.data : null;
     };
 
@@ -305,7 +318,9 @@ class Scheduler extends window.visRxWidget {
             const obj = this.state.minMaxObject;
             if (obj?.common?.type === 'number') {
                 if (obj.common.states && !Array.isArray(obj.common.states)) {
-                    const keys = Object.keys(obj.common.states).map(i => parseFloat(i)).sort();
+                    const keys = Object.keys(obj.common.states)
+                        .map(i => parseFloat(i))
+                        .sort();
                     return {
                         min: keys[0],
                         max: keys[keys.length - 1],
@@ -363,7 +378,7 @@ class Scheduler extends window.visRxWidget {
 
         console.log(this.state.object);
 
-        const profile  = this.currentProfile();
+        const profile = this.currentProfile();
 
         if (!profile) {
             return <div>{Scheduler.t('profile_not_selected')}</div>;
@@ -378,45 +393,52 @@ class Scheduler extends window.visRxWidget {
             width = 0;
         }
 
-        const content = <div
-            style={styles.content}
-            ref={this.widgetRef}
-        >
-            {this.state.writing ? <LinearProgress
-                style={{
-                    position: 'absolute',
-                    zIndex: 1,
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                }}
-            /> : null}
-            {width ? <IntervalsContainer
-                id={this.props.id}
-                onChange={this.onIntervals}
-                theme={this.props.context.theme} // ?? this.props.context.theme
-                intervals={profile.intervals}
-                range={profile.intervalDuration}
-                type={profile.type}
-                socket={this.props.context.socket}
-                windowWidth={width}
-                readOnly={this.state.rxData.readOnly}
-                intervalsWidth={width}
-                minMax={this.getProfileMinMax(profile)}
-                t={Scheduler.t}
-            /> : null}
-            {this.state.rxData.hideDow && width ? null :
-                <DayOfWeekPanel
-                    firstDayOfWeek={this.props.context.socket.systemConfig.common.firstDayOfWeek || 'monday'}
-                    readOnly={this.state.rxData.readOnly}
-                    dow={profile.dow}
-                    holiday={profile.holiday}
-                    holidayVisible={!!this.state.object.native.holidayId}
-                    onChange={this.onDow}
-                    theme={this.props.context.theme} // ?? this.props.context.theme
-                    t={Scheduler.t}
-                />}
-        </div>;
+        const content = (
+            <div
+                style={styles.content}
+                ref={this.widgetRef}
+            >
+                {this.state.writing ? (
+                    <LinearProgress
+                        style={{
+                            position: 'absolute',
+                            zIndex: 1,
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                        }}
+                    />
+                ) : null}
+                {width ? (
+                    <IntervalsContainer
+                        id={this.props.id}
+                        onChange={this.onIntervals}
+                        theme={this.props.context.theme} // ?? this.props.context.theme
+                        intervals={profile.intervals}
+                        range={profile.intervalDuration}
+                        type={profile.type}
+                        socket={this.props.context.socket}
+                        windowWidth={width}
+                        readOnly={this.state.rxData.readOnly}
+                        intervalsWidth={width}
+                        minMax={this.getProfileMinMax(profile)}
+                        t={Scheduler.t}
+                    />
+                ) : null}
+                {this.state.rxData.hideDow && width ? null : (
+                    <DayOfWeekPanel
+                        firstDayOfWeek={this.props.context.socket.systemConfig.common.firstDayOfWeek || 'monday'}
+                        readOnly={this.state.rxData.readOnly}
+                        dow={profile.dow}
+                        holiday={profile.holiday}
+                        holidayVisible={!!this.state.object.native.holidayId}
+                        onChange={this.onDow}
+                        theme={this.props.context.theme} // ?? this.props.context.theme
+                        t={Scheduler.t}
+                    />
+                )}
+            </div>
+        );
 
         if (this.state.rxData.noCard || props.widget.usedInWidget) {
             return content;
