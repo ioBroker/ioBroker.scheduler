@@ -366,4 +366,5 @@ Interval.propTypes = {
     onText: PropTypes.string,
     t: PropTypes.func.isRequired,
 };
+
 export default Interval;
