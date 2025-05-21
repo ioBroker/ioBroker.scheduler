@@ -1,0 +1,2 @@
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["../customWidgets.js","./vis_mf_2_2_mf_2_scheduler__mf_v__runtimeInit__mf_v__-DnslPhSa.js","./virtualExposes-DqkbB5g1.js","./preload-helper-Dp1pzeXC.js"])))=>i.map(i=>d[i]);
+import{_ as i}from"./preload-helper-Dp1pzeXC.js";const r=i(()=>import("../customWidgets.js"),__vite__mapDeps([0,1,2,3]),import.meta.url);Promise.resolve(r).then(e=>Promise.resolve(e.__tla).then(e.init).catch(e.init));

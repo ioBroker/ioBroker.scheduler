@@ -1,0 +1,1 @@
+import{g as e}from"./_commonjsHelpers-Cpj98o6Y.js";import{i as r,v as o}from"./vis_mf_2_2_mf_2_scheduler__mf_v__runtimeInit__mf_v__-DnslPhSa.js";const{loadShare:s}=r,{initPromise:t}=o,i=t.then(_=>s("prop-types",{customShareInfo:{shareConfig:{singleton:!0,strictVersion:!1,requiredVersion:"*"}}})),a=await i.then(_=>_());var n=a;const p=e(n);export{p as P};

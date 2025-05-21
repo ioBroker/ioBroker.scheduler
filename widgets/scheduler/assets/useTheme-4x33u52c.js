@@ -1,0 +1,1 @@
+import{v as n}from"./vis_mf_2_2_mf_2_scheduler__loadShare__react__loadShare__-j4bl0Obe.js";import{T as s,n as r,H as a,G as m}from"./defaultTheme-jQ9CFr21.js";function o(e){return Object.keys(e).length===0}function u(e=null){const t=n.useContext(s);return!t||o(t)?e:t}const _=r();function c(e=_){return u(e)}function T(){const e=c(m);return e[a]||e}export{u as a,T as b,c as u};

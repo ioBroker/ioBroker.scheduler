@@ -7,8 +7,7 @@
 const gulp = require('gulp');
 const { copyFileSync, readFileSync, statSync, writeFileSync, existsSync, readdirSync, rmdirSync } = require('node:fs');
 const adapterName = require('./package.json').name.replace('iobroker.', '');
-const gulpHelper = require('@iobroker/vis-2-widgets-react-dev/gulpHelper');
-const { npmInstall, buildReact, deleteFoldersRecursive, patchHtmlFile } = require('@iobroker/build-tools');
+const { npmInstall, buildReact, deleteFoldersRecursive, patchHtmlFile, copyFiles } = require('@iobroker/build-tools');
 
 function sync2files(src, dst) {
     const srcTxt = readFileSync(src).toString('utf8');
@@ -45,7 +44,7 @@ function buildWidgets() {
     );
     sync2files(`${__dirname}/src-widgets/src/data/minmax.json`, `${__dirname}/src/src/data/minmax.json`);
 
-    return buildReact(`${__dirname}/src-widgets/`, { rootDir: __dirname, craco: true });
+    return buildReact(`${__dirname}/src-widgets/`, { rootDir: __dirname, vite: true });
 }
 
 // TASKS
@@ -59,31 +58,12 @@ gulp.task('widget-1-npm', async () => npmInstall(`${__dirname}/src-widgets/`));
 
 gulp.task('widget-2-compile', async () => buildWidgets());
 
-gulp.task('widget-3-copy', () =>
-    Promise.all([
-        gulp.src([`src-widgets/build/*.js`]).pipe(gulp.dest(`widgets/${adapterName}`)),
-        gulp.src([`src-widgets/build/img/*`]).pipe(gulp.dest(`widgets/${adapterName}/img`)),
-        gulp.src([`src-widgets/build/*.map`]).pipe(gulp.dest(`widgets/${adapterName}`)),
-        gulp
-            .src([`src-widgets/build/static/**/*`, ...gulpHelper.ignoreFiles(`${__dirname}/src-widgets/`)])
-            .pipe(gulp.dest(`widgets/${adapterName}/static`)),
-        gulp
-            .src([...gulpHelper.copyFiles(`${__dirname}/src-widgets/`)])
-            .pipe(gulp.dest(`widgets/${adapterName}/static/js`)),
-        gulp.src([`src-widgets/src/i18n/*.json`]).pipe(gulp.dest(`widgets/${adapterName}/i18n`)),
-        new Promise(resolve =>
-            setTimeout(() => {
-                if (
-                    existsSync(`widgets/${adapterName}/static/media`) &&
-                    !readdirSync(`widgets/${adapterName}/static/media`).length
-                ) {
-                    rmdirSync(`widgets/${adapterName}/static/media`);
-                }
-                resolve(null);
-            }, 500),
-        ),
-    ]),
-);
+gulp.task('widget-3-copy', done => {
+    copyFiles([`src-widgets/build/assets/**/*`], `widgets/${adapterName}/assets`);
+    copyFiles([`src-widgets/build/img/**/*`], `widgets/${adapterName}/img`);
+    copyFiles([`src-widgets/build/customWidgets.js`], `widgets/${adapterName}`);
+    done();
+});
 
 gulp.task('widget-build', gulp.series(['widget-0-clean', 'widget-1-npm', 'widget-2-compile', 'widget-3-copy']));
 

@@ -10,3 +10,5 @@ nbproject
 /src/src/Components/cp-react-tree-table/package-lock.json
 package-lock.json
 src/build
+src-widgets/build
+/src-widgets/.__mf__temp/

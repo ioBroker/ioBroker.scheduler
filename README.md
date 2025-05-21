@@ -25,6 +25,9 @@ This adapter has vis2 widget.
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (bluefox) Corrected widgets for vis-2
+
 ### 1.4.3 (2024-12-16)
 * (bluefox) Corrected states selection
 
@@ -107,7 +110,7 @@ This adapter has vis2 widget.
 ## License
 The MIT License (MIT)
 
-Copyright (c) 2021-2024 bluefox <dogafox@gmail.com>
+Copyright (c) 2021-2025 bluefox <dogafox@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

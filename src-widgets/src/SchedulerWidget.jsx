@@ -94,7 +94,7 @@ const ProfileSelector = props => {
     );
 };
 
-class Scheduler extends window.visRxWidget {
+class SchedulerWidget extends window.visRxWidget {
     static getWidgetInfo() {
         return {
             id: 'tplScheduler',
@@ -259,7 +259,7 @@ class Scheduler extends window.visRxWidget {
 
     // eslint-disable-next-line class-methods-use-this
     getWidgetInfo() {
-        return Scheduler.getWidgetInfo();
+        return SchedulerWidget.getWidgetInfo();
     }
 
     onDow = (day, enabled) => {
@@ -369,7 +369,7 @@ class Scheduler extends window.visRxWidget {
         super.renderWidgetBody(props);
 
         if (!this.state.rxData.instance) {
-            return <div>{Scheduler.t('instance_not_selected')}</div>;
+            return <div>{SchedulerWidget.t('instance_not_selected')}</div>;
         }
 
         if (!this.state.object) {
@@ -381,7 +381,7 @@ class Scheduler extends window.visRxWidget {
         const profile = this.currentProfile();
 
         if (!profile) {
-            return <div>{Scheduler.t('profile_not_selected')}</div>;
+            return <div>{SchedulerWidget.t('profile_not_selected')}</div>;
         }
 
         if (!this.widgetRef.current?.offsetWidth) {
@@ -422,7 +422,7 @@ class Scheduler extends window.visRxWidget {
                         readOnly={this.state.rxData.readOnly}
                         intervalsWidth={width}
                         minMax={this.getProfileMinMax(profile)}
-                        t={Scheduler.t}
+                        t={SchedulerWidget.t}
                     />
                 ) : null}
                 {this.state.rxData.hideDow && width ? null : (
@@ -434,7 +434,7 @@ class Scheduler extends window.visRxWidget {
                         holidayVisible={!!this.state.object.native.holidayId}
                         onChange={this.onDow}
                         theme={this.props.context.theme} // ?? this.props.context.theme
-                        t={Scheduler.t}
+                        t={SchedulerWidget.t}
                     />
                 )}
             </div>
@@ -448,11 +448,11 @@ class Scheduler extends window.visRxWidget {
     }
 }
 
-Scheduler.propTypes = {
+SchedulerWidget.propTypes = {
     context: PropTypes.object,
     themeType: PropTypes.string,
     style: PropTypes.object,
     data: PropTypes.object,
 };
 
-export default Scheduler;
+export default SchedulerWidget;

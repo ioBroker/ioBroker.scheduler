@@ -122,4 +122,5 @@ IntervalsContainer.propTypes = {
     minMax: PropTypes.object,
     t: PropTypes.func.isRequired,
 };
+
 export default IntervalsContainer;

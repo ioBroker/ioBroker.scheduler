@@ -78,6 +78,7 @@ const styles = {
         display: 'flex',
     },
 };
+
 class DayNightSwitcher extends Component {
     onSlide = quarterId => {
         if (this.props.onChange) {
@@ -134,4 +135,5 @@ DayNightSwitcher.propTypes = {
     sections: PropTypes.number,
     id: PropTypes.string.isRequired,
 };
+
 export default DayNightSwitcher;
