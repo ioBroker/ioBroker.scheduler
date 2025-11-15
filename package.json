@@ -34,7 +34,7 @@
     "@iobroker/types": "^7.0.7",
     "@iobroker/vis-2-widgets-react-dev": "^4.0.4",
     "@types/node": "^22.15.21",
-    "axios": "^1.9.0",
+    "axios": "^1.13.2",
     "gulp": "^4.0.2"
   },
   "bugs": {
