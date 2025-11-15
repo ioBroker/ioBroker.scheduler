@@ -21,7 +21,7 @@
         "react-icons": "^5.4.0",
         "react-swipe-component": "^3.0.0",
         "sass-loader": "^16.0.5",
-        "uuid": "^11.1.0"
+        "uuid": "^13.0.0"
     },
     "scripts": {
         "start": "vite",
