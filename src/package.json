@@ -7,7 +7,7 @@
         "@iobroker/adapter-react-v5": "^7.6.17",
         "@mui/icons-material": "^6.4.11",
         "@mui/material": "^6.4.11",
-        "@mui/x-date-pickers": "^8.3.1",
+        "@mui/x-date-pickers": "^8.23.0",
         "@sentry/browser": "^9.22.0",
         "@vitejs/plugin-react": "^4.4.1",
         "chroma-js": "^3.1.2",
