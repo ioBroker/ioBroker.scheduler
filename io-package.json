@@ -170,7 +170,12 @@
       "license": "MIT",
       "type": "free",
       "link": "https://github.com/ioBroker/ioBroker.scheduler/blob/master/LICENSE"
-    }
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=6.0.11"
+      }
+    ]
   },
   "native": {
     "holidayId": "",

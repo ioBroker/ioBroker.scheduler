@@ -25,6 +25,10 @@ This adapter has vis2 widget.
 -->
 
 ## Changelog
+
+### **WORK IN PROGRESS**
+- (ioBroker-Bot) Adapter requires js-controller >= 6.0.11 now.
+
 ### 1.5.0 (2025-05-21)
 * (bluefox) Corrected widgets for vis-2
 * (bluefox) Packages were updated
