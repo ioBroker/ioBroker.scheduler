@@ -6,10 +6,9 @@ iob_npm.done
 admin/i18n/flat.txt
 admin/i18n/*/flat.txt
 nbproject
-/src/package-lock.json
-/src/src/Components/cp-react-tree-table/package-lock.json
-package-lock.json
-src/build
+/src-admin/src/Components/cp-react-tree-table/package-lock.json
+/build
+src-admin/build
 src-widgets/build
 /src-widgets/.__mf__temp/
 

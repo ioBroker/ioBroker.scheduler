@@ -6,17 +6,18 @@ export default [
         languageOptions: {
             parserOptions: {
                 projectService: {
-                    allowDefaultProject: ['*.mjs'],
+                    allowDefaultProject: ['*.mjs', '*.js'],
                 },
                 tsconfigRootDir: import.meta.dirname,
-                project: './tsconfig.json',
             },
         },
     },
     {
         ignores: [
             'src-admin/**/*',
+            'src-widgets/**/*',
             'admin/**/*',
+            'widgets/**/*',
             'node_modules/**/*',
             'test/**/*',
             'build/**/*',
