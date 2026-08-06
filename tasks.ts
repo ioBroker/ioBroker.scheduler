@@ -51,14 +51,14 @@ function cleanWidgets(): void {
 
 function buildWidgets(): Promise<void> {
     // sync src-admin and src-widgets
-    sync2files(`${srcWidgets}src/components/DayNightSwitcher.jsx`, `${srcAdmin}src/components/DayNightSwitcher.jsx`);
+    /*sync2files(`${srcWidgets}src/components/DayNightSwitcher.jsx`, `${srcAdmin}src/components/DayNightSwitcher.jsx`);
     sync2files(`${srcWidgets}src/components/DayOfWeekPanel.jsx`, `${srcAdmin}src/components/DayOfWeekPanel.jsx`);
     sync2files(`${srcWidgets}src/components/Interval.jsx`, `${srcAdmin}src/components/Interval.jsx`);
     sync2files(`${srcWidgets}src/components/Intervals.jsx`, `${srcAdmin}src/components/Intervals.jsx`);
     sync2files(
         `${srcWidgets}src/components/IntervalsContainer.jsx`,
         `${srcAdmin}src/components/IntervalsContainer.jsx`,
-    );
+    );*/
     sync2files(`${srcWidgets}src/data/minmax.json`, `${srcAdmin}src/data/minmax.json`);
 
     // `rootDir` makes the build take over the version from the root package.json
