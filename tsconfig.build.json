@@ -1,0 +1,13 @@
+// Build config: compiles the backend TypeScript from src/ into build/, so src/main.ts -> build/main.js.
+// That is the entry point referenced by "main" in package.json.
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "noEmit": false,
+        "noEmitOnError": true,
+        "rootDir": "./src",
+        "outDir": "./build"
+    },
+    "include": ["src/**/*.ts"],
+    "exclude": ["node_modules/**", "admin/**", "widgets/**", "src-admin/**", "src-widgets/**", "test/**", "build/**"]
+}
