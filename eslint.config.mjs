@@ -21,7 +21,6 @@ export default [
             'node_modules/**/*',
             'test/**/*',
             'build/**/*',
-            'tasks.js',
             'tmp/**/*',
             '.**/*',
         ],

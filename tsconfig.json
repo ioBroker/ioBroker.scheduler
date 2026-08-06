@@ -1,3 +1,5 @@
+// Root tsconfig: powers editor support and type checking for the backend sources and for tasks.ts.
+// It never emits - the actual compilation is configured in tsconfig.build.json.
 {
     "compilerOptions": {
         "target": "esnext",
@@ -6,6 +8,8 @@
         "moduleResolution": "node16",
         "lib": ["esnext"],
         "allowJs": false,
+        "checkJs": false,
+        "noEmit": true,
         "strictNullChecks": true,
         "strict": true,
         "noImplicitAny": true,
@@ -19,8 +23,8 @@
         "declaration": false,
         "newLine": "lf",
         "outDir": "./build",
-        "rootDir": "./src",
         "types": ["node", "@iobroker/types"]
     },
-    "include": ["./src/**/*"]
+    "include": ["src/**/*.ts", "tasks.ts"],
+    "exclude": ["node_modules/**", "admin/**", "widgets/**", "src-admin/**", "src-widgets/**", "test/**", "build/**"]
 }
