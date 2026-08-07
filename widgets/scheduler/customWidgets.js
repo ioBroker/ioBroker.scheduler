@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./assets/index-Brm9gacW.js","./assets/defaultTheme-Bre6gJDy.js","./assets/vis_mf_2_2_mf_2_scheduler__loadShare__react__loadShare__-CW7phi3m.js","./assets/_commonjsHelpers-Cpj98o6Y.js","./assets/vis_mf_2_2_mf_2_scheduler__mf_v__runtimeInit__mf_v__-BYoRdOOk.js","./assets/vis_mf_2_2_mf_2_scheduler__loadShare___mf_0_mui_mf_1_icons_mf_2_material__loadShare__-D1EBM7Yy.js","./assets/useTheme-Drv48unW.js","./assets/index-ClXuMIHL.js","./assets/jsx-runtime-DWrJB0x-.js","./assets/createSvgIcon-uwMkAX2s.js","./assets/index-J8M_k1pp.js","./assets/index-CIFN4z0u.js","./assets/index-BEpFHtMA.js","./assets/index-BTdRPs2C.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./assets/index-DV6lj1W8.js","./assets/defaultTheme-Bre6gJDy.js","./assets/vis_mf_2_2_mf_2_scheduler__loadShare__react__loadShare__-CW7phi3m.js","./assets/_commonjsHelpers-Cpj98o6Y.js","./assets/vis_mf_2_2_mf_2_scheduler__mf_v__runtimeInit__mf_v__-BYoRdOOk.js","./assets/vis_mf_2_2_mf_2_scheduler__loadShare___mf_0_mui_mf_1_icons_mf_2_material__loadShare__-D1EBM7Yy.js","./assets/useTheme-Drv48unW.js","./assets/index-ClXuMIHL.js","./assets/jsx-runtime-DWrJB0x-.js","./assets/createSvgIcon-uwMkAX2s.js","./assets/index-J8M_k1pp.js","./assets/index-CIFN4z0u.js","./assets/index-BEpFHtMA.js","./assets/index-BTdRPs2C.js"])))=>i.map(i=>d[i]);
 import { i as d, v as p, __tla as __tla_0 } from "./assets/vis_mf_2_2_mf_2_scheduler__mf_v__runtimeInit__mf_v__-BYoRdOOk.js";
 import s, { __tla as __tla_1 } from "./assets/virtualExposes-CtZ6e3UR.js";
 import { _ as o } from "./assets/preload-helper-PPVm8Dsz.js";
@@ -18,7 +18,7 @@ let __tla = Promise.all([
   })()
 ]).then(async () => {
   const i = {
-    "@iobroker/adapter-react-v5": async () => await o(() => import("./assets/index-Brm9gacW.js").then(async (m2) => {
+    "@iobroker/adapter-react-v5": async () => await o(() => import("./assets/index-DV6lj1W8.js").then(async (m2) => {
       await m2.__tla;
       return m2;
     }), __vite__mapDeps([0,1,2,3,4,5,6]), import.meta.url),

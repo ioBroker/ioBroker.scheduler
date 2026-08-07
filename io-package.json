@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "scheduler",
-    "version": "1.5.0",
+    "version": "1.6.0",
     "news": {
+      "1.6.0": {
+        "en": "Migrated to React 19",
+        "de": "Migration zu React 19",
+        "ru": "Иммиграция в React 19",
+        "pt": "Migrado para Reagir 19",
+        "nl": "Gemigreerd om 19 te reageren",
+        "fr": "Migré pour réagir 19",
+        "it": "Migrato a React 19",
+        "es": "Migrated to React 19",
+        "pl": "Migrant to React 19",
+        "uk": "Міграція до React 19",
+        "zh-cn": "移动到反应 19"
+      },
       "1.5.0": {
         "en": "Corrected widgets for vis-2\nPackages were updated",
         "de": "Korrigierte Widgets für vis-2\nPakete wurden aktualisiert",
@@ -80,19 +93,6 @@
         "pl": "Poprawiony widżet",
         "uk": "Виправлений віджет",
         "zh-cn": "修正的部件"
-      },
-      "1.3.8": {
-        "en": "Small GUI changes done",
-        "de": "Kleine GUI Änderungen erledigt",
-        "ru": "Небольшие изменения в GUI",
-        "pt": "Pequenas mudanças GUI feitas",
-        "nl": "Kleine GUI wijzigingen voltooid",
-        "fr": "Petits changements d'interface utilisateur",
-        "it": "Piccoli cambiamenti della GUI",
-        "es": "Pequeños cambios realizados",
-        "pl": "Małe zmiany GUI wykonane",
-        "uk": "Невеликі зміни GUI",
-        "zh-cn": "完成小的图形界面修改"
       }
     },
     "title": "Schedule profiler",
