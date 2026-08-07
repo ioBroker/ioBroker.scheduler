@@ -1,35 +1,34 @@
 {
     "name": "scheduler-admin",
-    "version": "1.4.2",
+    "version": "1.5.0",
     "private": true,
     "dependencies": {
         "@devbookhq/splitter": "^1.4.2",
-        "@iobroker/gui-components": "^10.0.12",
+        "@emotion/react": "^11.14.0",
+        "@emotion/styled": "^11.14.1",
+        "@iobroker/gui-components": "^10.0.14",
         "@mui/icons-material": "^9.3.1",
         "@mui/material": "^9.3.1",
-        "@mui/x-date-pickers": "^9.11.0",
-        "@sentry/browser": "^10.69.0",
         "@vitejs/plugin-react": "^6.0.5",
-        "chroma-js": "^3.2.0",
-        "material-ui-chip-input": "^1.1.0",
         "react": "^19.2.8",
         "react-dnd": "^16.0.1",
         "react-dnd-html5-backend": "^16.0.1",
         "react-dnd-preview": "^9.0.0",
         "react-dnd-touch-backend": "^16.0.1",
         "react-dom": "^19.2.8",
-        "react-icons": "^5.7.0",
-        "react-swipe-component": "^3.0.0",
-        "sass-loader": "^17.0.0",
-        "uuid": "^14.0.1"
+        "typescript": "^7.0.2",
+        "uuid": "^14.0.1",
+        "vite": "^8.2.1"
+    },
+    "devDependencies": {
+        "@types/react": "^19.2.18",
+        "@types/react-dom": "^19.2.4"
     },
     "scripts": {
         "start": "vite",
         "build": "vite build",
-        "cleanModules": "rmdir node_modules /S /Q"
-    },
-    "eslintConfig": {
-        "extends": "react-app"
+        "lint": "eslint -c eslint.config.mjs",
+        "check-ts": "tsc --noEmit"
     },
     "homepage": ".",
     "browserslist": [
@@ -37,6 +36,5 @@
         "not dead",
         "not ie <= 11",
         "not op_mini all"
-    ],
-    "devDependencies": {}
+    ]
 }

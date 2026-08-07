@@ -50,7 +50,11 @@ function cleanWidgets(): void {
 }
 
 function buildWidgets(): Promise<void> {
-    // sync src-admin and src-widgets
+    // Sync the files, that are shared between src-admin and src-widgets.
+    // The React components cannot be synced any longer: src-admin was migrated to TypeScript,
+    // React 19 and MUI 9 (*.tsx, @iobroker/gui-components), while src-widgets is still bound to
+    // React 18 and MUI 6 by vis-2 (*.jsx, @iobroker/adapter-react-v5).
+    // Re-enable this as soon as vis-2 runs on React 19.
     /*sync2files(`${srcWidgets}src/components/DayNightSwitcher.jsx`, `${srcAdmin}src/components/DayNightSwitcher.jsx`);
     sync2files(`${srcWidgets}src/components/DayOfWeekPanel.jsx`, `${srcAdmin}src/components/DayOfWeekPanel.jsx`);
     sync2files(`${srcWidgets}src/components/Interval.jsx`, `${srcAdmin}src/components/Interval.jsx`);

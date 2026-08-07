@@ -7,7 +7,7 @@ export default defineVisWidgetConfig({
     name: 'vis-2-scheduler',
     exposes: {
         './SchedulerWidget': './src/SchedulerWidget',
-        './translations': './src/translations.js',
+        './translations': './src/translations.ts',
     },
     pack,
     devServerPort: 4173,

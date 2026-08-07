@@ -1,4 +1,4 @@
-import * as utils from '@iobroker/adapter-core'; // Get common adapter utils
+import { Adapter, type AdapterOptions } from '@iobroker/adapter-core'; // Get common adapter utils
 
 import type { ActiveDevice, ProfileValueType, SchedulerProfile } from './types';
 
@@ -6,14 +6,14 @@ const adapterName: string = (require('../package.json') as { name: string }).nam
 
 const FORBIDDEN_CHARS = /[^._\-/ :!#$%&()+=@^{}|~\p{Ll}\p{Lu}\p{Nd}]+/gu;
 
-class SchedulerAdapter extends utils.Adapter {
+class SchedulerAdapter extends Adapter {
     /** Cache of all objects, which are controlled by the profiles */
     private readonly devices: { [id: string]: ioBroker.StateObject } = {};
 
     /** Timer for the next interval */
     private timer: ioBroker.Timeout | undefined;
 
-    public constructor(options: Partial<utils.AdapterOptions> = {}) {
+    public constructor(options: Partial<AdapterOptions> = {}) {
         super({ ...options, name: adapterName });
 
         this.on('ready', () => this.main());
@@ -281,7 +281,7 @@ class SchedulerAdapter extends utils.Adapter {
 
 // If started as allInOne mode => return function to create instance
 if (require.main !== module) {
-    module.exports = (options: Partial<utils.AdapterOptions> | undefined) => new SchedulerAdapter(options);
+    module.exports = (options: Partial<AdapterOptions> | undefined) => new SchedulerAdapter(options);
 } else {
     // or start the instance directly
     (() => new SchedulerAdapter())();

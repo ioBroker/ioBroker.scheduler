@@ -1,28 +1,28 @@
-// Specialized tsconfig for the admin directory,
-// includes DOM typings and configures the admin build
+// Specialized tsconfig for the admin GUI: DOM typings, JSX and bundler resolution.
+// vite emits the bundle, tsc only type-checks.
 {
     "compilerOptions": {
         "module": "esnext",
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "allowJs": false,
+        "checkJs": false,
         "resolveJsonModule": true,
         "strictNullChecks": true,
+        "noImplicitAny": true,
         "useUnknownInCatchVariables": false,
         "target": "ES2022",
-        "rootDir": "./src",
+        "lib": ["ES2022", "DOM", "DOM.Iterable"],
         "allowSyntheticDefaultImports": true,
-        "checkJs": false,
-        "noEmit": false,
-        "outDir": "./build",
+        "esModuleInterop": true,
+        "verbatimModuleSyntax": true,
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
+        "noEmit": true,
         "sourceMap": true,
         "sourceRoot": "./src",
-        "noImplicitAny": true,
-        "skipLibCheck": true,
-        "verbatimModuleSyntax": true,
-        "lib": ["es2018", "DOM"],
-        "jsx": "react",
-        "types": ["@iobroker/types"]
+        "jsx": "react-jsx",
+        "types": ["@iobroker/types", "vite/client"]
     },
-    "include": ["./src/**/*.ts", "./src/**/*.d.ts", "./src/**/*.tsx", "./src/**/*.json", "./src/**/*.css"],
-    "exclude": ["**/node_modules", "**/dist"]
+    "include": ["./src/**/*.ts", "./src/**/*.d.ts", "./src/**/*.tsx", "./src/**/*.json"],
+    "exclude": ["**/node_modules", "**/build"]
 }

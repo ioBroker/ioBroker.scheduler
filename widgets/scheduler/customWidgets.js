@@ -1,7 +1,7 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./assets/index-pBNA87xJ.js","./assets/defaultTheme-Doh7ptl0.js","./assets/vis_mf_2_2_mf_2_scheduler__loadShare__react__loadShare__-CW7phi3m.js","./assets/_commonjsHelpers-Cpj98o6Y.js","./assets/vis_mf_2_2_mf_2_scheduler__mf_v__runtimeInit__mf_v__-BYoRdOOk.js","./assets/index-hsLLLtN8.js","./assets/vis_mf_2_2_mf_2_scheduler__loadShare__prop_mf_2_types__loadShare__-DjolvwIX.js","./assets/vis_mf_2_2_mf_2_scheduler__loadShare___mf_0_mui_mf_1_icons_mf_2_material__loadShare__-D1EBM7Yy.js","./assets/useTheme-D0yr-MMl.js","./assets/index-CNgVdCKu.js","./assets/jsx-runtime-DWrJB0x-.js","./assets/createSvgIcon-BcrG3AsZ.js","./assets/clsx-CvjUOCqx.js","./assets/index-BVyNU6OU.js","./assets/index-BxizbA9W.js","./assets/index-DQiceR5U.js","./assets/index-BEpFHtMA.js","./assets/index-BTdRPs2C.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./assets/index-Brm9gacW.js","./assets/defaultTheme-Bre6gJDy.js","./assets/vis_mf_2_2_mf_2_scheduler__loadShare__react__loadShare__-CW7phi3m.js","./assets/_commonjsHelpers-Cpj98o6Y.js","./assets/vis_mf_2_2_mf_2_scheduler__mf_v__runtimeInit__mf_v__-BYoRdOOk.js","./assets/vis_mf_2_2_mf_2_scheduler__loadShare___mf_0_mui_mf_1_icons_mf_2_material__loadShare__-D1EBM7Yy.js","./assets/useTheme-Drv48unW.js","./assets/index-ClXuMIHL.js","./assets/jsx-runtime-DWrJB0x-.js","./assets/createSvgIcon-uwMkAX2s.js","./assets/index-J8M_k1pp.js","./assets/index-CIFN4z0u.js","./assets/index-BEpFHtMA.js","./assets/index-BTdRPs2C.js"])))=>i.map(i=>d[i]);
 import { i as d, v as p, __tla as __tla_0 } from "./assets/vis_mf_2_2_mf_2_scheduler__mf_v__runtimeInit__mf_v__-BYoRdOOk.js";
-import s, { __tla as __tla_1 } from "./assets/virtualExposes-DttESYOh.js";
-import { _ as a } from "./assets/preload-helper-PPVm8Dsz.js";
+import s, { __tla as __tla_1 } from "./assets/virtualExposes-CtZ6e3UR.js";
+import { _ as o } from "./assets/preload-helper-PPVm8Dsz.js";
 let h, y;
 let __tla = Promise.all([
   (() => {
@@ -18,39 +18,38 @@ let __tla = Promise.all([
   })()
 ]).then(async () => {
   const i = {
-    "@iobroker/adapter-react-v5": async () => await a(() => import("./assets/index-pBNA87xJ.js").then(async (m2) => {
+    "@iobroker/adapter-react-v5": async () => await o(() => import("./assets/index-Brm9gacW.js").then(async (m2) => {
       await m2.__tla;
       return m2;
-    }), __vite__mapDeps([0,1,2,3,4,5,6,7,8]), import.meta.url),
-    "@mui/icons-material": async () => await a(() => import("./assets/index-CNgVdCKu.js").then(async (m2) => {
+    }), __vite__mapDeps([0,1,2,3,4,5,6]), import.meta.url),
+    "@mui/icons-material": async () => await o(() => import("./assets/index-ClXuMIHL.js").then(async (m2) => {
       await m2.__tla;
       return m2;
-    }), __vite__mapDeps([9,10,2,3,4,11,6,12,1,5]), import.meta.url),
-    "@mui/material": async () => await a(() => import("./assets/index-BVyNU6OU.js").then(async (m2) => {
+    }), __vite__mapDeps([7,8,2,3,4,9,1]), import.meta.url),
+    "@mui/material": async () => await o(() => import("./assets/index-J8M_k1pp.js").then(async (m2) => {
       await m2.__tla;
       return m2;
-    }), __vite__mapDeps([13,1,2,3,4,5,6,11,10,12,8]), import.meta.url),
-    "@mui/system": async () => await a(() => import("./assets/index-BxizbA9W.js").then(async (m2) => {
+    }), __vite__mapDeps([10,1,2,3,4,9,8,6]), import.meta.url),
+    "@mui/system": async () => await o(() => import("./assets/index-CIFN4z0u.js").then(async (m2) => {
       await m2.__tla;
       return m2;
-    }), __vite__mapDeps([14,6,3,4,2,5,12,10]), import.meta.url),
-    "prop-types": async () => await a(() => import("./assets/index-DQiceR5U.js").then((t) => t.i), __vite__mapDeps([15,3]), import.meta.url),
-    react: async () => await a(() => import("./assets/index-BEpFHtMA.js").then((t) => t.i), __vite__mapDeps([16,3]), import.meta.url),
-    "react-dom": async () => await a(() => import("./assets/index-BTdRPs2C.js").then(async (m2) => {
+    }), __vite__mapDeps([11,2,3,4]), import.meta.url),
+    react: async () => await o(() => import("./assets/index-BEpFHtMA.js").then((t) => t.i), __vite__mapDeps([12,3]), import.meta.url),
+    "react-dom": async () => await o(() => import("./assets/index-BTdRPs2C.js").then(async (m2) => {
       await m2.__tla;
       return m2;
-    }).then((t) => t.i), __vite__mapDeps([17,3,2,4]), import.meta.url)
-  }, o = {
+    }).then((t) => t.i), __vite__mapDeps([13,3,2,4]), import.meta.url)
+  }, a = {
     "@iobroker/adapter-react-v5": {
       name: "@iobroker/adapter-react-v5",
-      version: "8.2.1",
+      version: "8.3.2",
       scope: [
         "default"
       ],
       loaded: false,
       from: "vis-2-scheduler",
       async get() {
-        o["@iobroker/adapter-react-v5"].loaded = true;
+        a["@iobroker/adapter-react-v5"].loaded = true;
         const { "@iobroker/adapter-react-v5": e } = i, r = {
           ...await e()
         };
@@ -75,7 +74,7 @@ let __tla = Promise.all([
       loaded: false,
       from: "vis-2-scheduler",
       async get() {
-        o["@mui/icons-material"].loaded = true;
+        a["@mui/icons-material"].loaded = true;
         const { "@mui/icons-material": e } = i, r = {
           ...await e()
         };
@@ -100,7 +99,7 @@ let __tla = Promise.all([
       loaded: false,
       from: "vis-2-scheduler",
       async get() {
-        o["@mui/material"].loaded = true;
+        a["@mui/material"].loaded = true;
         const { "@mui/material": e } = i, r = {
           ...await e()
         };
@@ -118,40 +117,15 @@ let __tla = Promise.all([
     },
     "@mui/system": {
       name: "@mui/system",
-      version: "7.1.0",
+      version: "6.5.0",
       scope: [
         "default"
       ],
       loaded: false,
       from: "vis-2-scheduler",
       async get() {
-        o["@mui/system"].loaded = true;
+        a["@mui/system"].loaded = true;
         const { "@mui/system": e } = i, r = {
-          ...await e()
-        };
-        return Object.defineProperty(r, "__esModule", {
-          value: true,
-          enumerable: false
-        }), function() {
-          return r;
-        };
-      },
-      shareConfig: {
-        singleton: true,
-        requiredVersion: "*"
-      }
-    },
-    "prop-types": {
-      name: "prop-types",
-      version: "15.8.1",
-      scope: [
-        "default"
-      ],
-      loaded: false,
-      from: "vis-2-scheduler",
-      async get() {
-        o["prop-types"].loaded = true;
-        const { "prop-types": e } = i, r = {
           ...await e()
         };
         return Object.defineProperty(r, "__esModule", {
@@ -175,7 +149,7 @@ let __tla = Promise.all([
       loaded: false,
       from: "vis-2-scheduler",
       async get() {
-        o.react.loaded = true;
+        a.react.loaded = true;
         const { react: e } = i, r = {
           ...await e()
         };
@@ -200,7 +174,7 @@ let __tla = Promise.all([
       loaded: false,
       from: "vis-2-scheduler",
       async get() {
-        o["react-dom"].loaded = true;
+        a["react-dom"].loaded = true;
         const { "react-dom": e } = i, r = {
           ...await e()
         };
@@ -221,7 +195,7 @@ let __tla = Promise.all([
     const r = d({
       name: m,
       remotes: f,
-      shared: o,
+      shared: a,
       plugins: [],
       shareStrategy: "version-first"
     });

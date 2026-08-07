@@ -26,9 +26,11 @@ export default [
             'jsdoc/require-jsdoc': 'off',
             'jsdoc/require-param': 'off',
             '@/no-duplicate-imports': 'error',
+            // the automatic JSX runtime ("jsx": "react-jsx") does not need React in scope
+            'react/react-in-jsx-scope': 'off',
         },
     },
     {
-        ignores: ['build/**/*', 'node_modules/**/*', 'src/serviceWorker.js', 'vite.config.mjs'],
+        ignores: ['build/**/*', 'node_modules/**/*', '.__mf__temp/**/*', '.mf/**/*', 'public/**/*'],
     },
 ];
