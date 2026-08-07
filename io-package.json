@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "scheduler",
-    "version": "1.6.0",
+    "version": "2.0.0",
     "news": {
+      "2.0.0": {
+        "en": "Migrated to React 19\nBreaking: Minimum Node.js version is 22",
+        "de": "Migration zu React 19\nBreaking: Minimum Node.js Version ist 22",
+        "ru": "Иммиграция в React 19\nМинимальная версия Node.js - 22",
+        "pt": "Migrado para Reagir 19\nQuebrando: Versão mínima Node.js é 22",
+        "nl": "Gemigreerd om 19 te reageren\nBreaking: Minimum Node.js versie is 22",
+        "fr": "Migré pour réagir 19\nBreaking: La version minimum Node.js est 22",
+        "it": "Migrato a React 19\nBreaking: versione minima Node.js è 22",
+        "es": "Migrated to React 19\nBreaking: versión mínima Node.js es 22",
+        "pl": "Migrant to React 19\nBreaking: Minimalna wersja Node.js to 22",
+        "uk": "Міграція до React 19\nВиправлення: Мінімальна версія Node.js 22",
+        "zh-cn": "移动到反应 19\n突破:最小节点.js版本为22"
+      },
       "1.5.0": {
         "en": "Corrected widgets for vis-2\nPackages were updated",
         "de": "Korrigierte Widgets für vis-2\nPakete wurden aktualisiert",
