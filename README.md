@@ -25,8 +25,9 @@ This adapter has vis2 widget.
 -->
 
 ## Changelog
-### 1.6.0 (2026-08-07)
+### **WORK IN PROGRESS**
 * (@GermanBluefox) Migrated to React 19
+* (@GermanBluefox) Breaking: Minimum Node.js version is 22
 
 ### 1.5.0 (2025-05-21)
 * (bluefox) Corrected widgets for vis-2
