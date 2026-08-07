@@ -1,7 +1,7 @@
 /* jshint -W097 */
 /* jshint strict: false */
 /* jslint node: true */
-const expect = require('chai').expect;
+const assert = require('node:assert');
 const setup = require('@iobroker/legacy-testing');
 
 let objects = null;
@@ -100,8 +100,10 @@ describe(`Test ${adapterShortName} adapter`, function () {
     it(`Test ${adapterShortName} adapter: Check if adapter started`, function (done) {
         this.timeout(60000);
         checkConnectionOfAdapter(res => {
-            res && console.log(res);
-            expect(res).not.to.be.equal('Cannot check connection');
+            if (res) {
+                console.log(res);
+            }
+            assert.notStrictEqual(res, 'Cannot check connection', 'Adapter did not start');
             objects.setObject(
                 'system.adapter.test.0',
                 {
