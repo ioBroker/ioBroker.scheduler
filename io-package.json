@@ -3,19 +3,6 @@
     "name": "scheduler",
     "version": "1.6.0",
     "news": {
-      "1.6.0": {
-        "en": "Migrated to React 19",
-        "de": "Migration zu React 19",
-        "ru": "Иммиграция в React 19",
-        "pt": "Migrado para Reagir 19",
-        "nl": "Gemigreerd om 19 te reageren",
-        "fr": "Migré pour réagir 19",
-        "it": "Migrato a React 19",
-        "es": "Migrated to React 19",
-        "pl": "Migrant to React 19",
-        "uk": "Міграція до React 19",
-        "zh-cn": "移动到反应 19"
-      },
       "1.5.0": {
         "en": "Corrected widgets for vis-2\nPackages were updated",
         "de": "Korrigierte Widgets für vis-2\nPakete wurden aktualisiert",
