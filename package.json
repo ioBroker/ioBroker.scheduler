@@ -37,7 +37,7 @@
     "@iobroker/vis-2-widgets-react-dev": "^4.0.4",
     "@types/node": "^22.20.1",
     "tsx": "^4.23.10",
-    "typescript": "^6.0.3"
+    "typescript": "^7.0.2"
   },
   "bugs": {
     "url": "https://github.com/ioBroker/ioBroker.scheduler/issues"
