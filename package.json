@@ -36,7 +36,7 @@
     "@iobroker/types": "^7.2.2",
     "@iobroker/vis-2-widgets-react-dev": "^4.0.4",
     "@types/node": "^22.20.1",
-    "tsx": "^4.23.10",
+    "tsx": "^4.23.13",
     "typescript": "^6.0.3"
   },
   "bugs": {
