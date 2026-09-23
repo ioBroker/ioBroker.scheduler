@@ -112,6 +112,8 @@ This adapter has vis2 widget.
 ### 0.1.0 (2021-05-19)
 * (bluefox) Initial commit
 
+[Older changelogs can be found there](CHANGELOG_OLD.md)
+
 ## License
 The MIT License (MIT)
 
