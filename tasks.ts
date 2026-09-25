@@ -70,9 +70,7 @@ function buildWidgets(): Promise<void> {
 }
 
 function copyAllFilesWidgets(): void {
-    copyFiles(['src-widgets/build/assets/**/*'], `widgets/${adapterName}/assets`);
-    copyFiles(['src-widgets/build/img/**/*'], `widgets/${adapterName}/img`);
-    copyFiles(['src-widgets/build/customWidgets.js'], `widgets/${adapterName}`);
+    copyFiles(['src-widgets/**/*'], `widgets/${adapterName}`);
 }
 
 // ---------------------------------------- admin ----------------------------------------

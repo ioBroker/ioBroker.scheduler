@@ -6,23 +6,23 @@
         "@devbookhq/splitter": "^1.4.2",
         "@emotion/react": "^11.14.0",
         "@emotion/styled": "^11.14.1",
-        "@iobroker/gui-components": "^10.0.14",
-        "@mui/icons-material": "^9.3.1",
-        "@mui/material": "^9.3.1",
-        "@vitejs/plugin-react": "^6.0.5",
-        "react": "^19.2.8",
+        "@iobroker/gui-components": "^10.3.5",
+        "@mui/icons-material": "^9.4.0",
+        "@mui/material": "^9.4.0",
+        "@vitejs/plugin-react": "^6.1.1",
+        "react": "^19.3.0",
         "react-dnd": "^16.0.1",
         "react-dnd-html5-backend": "^16.0.1",
         "react-dnd-preview": "^9.0.0",
         "react-dnd-touch-backend": "^16.0.1",
-        "react-dom": "^19.2.8",
+        "react-dom": "^19.3.0",
         "typescript": "^7.0.2",
-        "uuid": "^14.0.1",
-        "vite": "^8.2.1"
+        "uuid": "^14.0.2",
+        "vite": "^8.3.1"
     },
     "devDependencies": {
-        "@types/react": "^19.2.18",
-        "@types/react-dom": "^19.2.4"
+        "@types/react": "^19.3.0",
+        "@types/react-dom": "^19.3.0"
     },
     "scripts": {
         "start": "vite",
