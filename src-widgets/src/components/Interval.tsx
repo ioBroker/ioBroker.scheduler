@@ -1,6 +1,6 @@
 import { Component, type JSX, type MouseEvent as ReactMouseEvent } from 'react';
 import { Box, Slider, Tooltip } from '@mui/material';
-import type { IobTheme, Translate } from '@iobroker/adapter-react-v5';
+import type { IobTheme, Translate } from '@iobroker/gui-components';
 
 import minmax from '../data/minmax.json';
 import type { MinMax, ProfileValueType } from '../types';

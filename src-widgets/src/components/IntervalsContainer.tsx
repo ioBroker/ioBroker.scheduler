@@ -1,7 +1,7 @@
 import { Component, createRef, type JSX, type RefObject } from 'react';
 
 import { Box } from '@mui/material';
-import type { IobTheme, Translate } from '@iobroker/adapter-react-v5';
+import type { IobTheme, Translate } from '@iobroker/gui-components';
 
 import Intervals from './Intervals';
 import type { MinMax, ProfileValueType } from '../types';
@@ -48,7 +48,7 @@ interface IntervalsContainerState {
 }
 
 export default class IntervalsContainer extends Component<IntervalsContainerProps, IntervalsContainerState> {
-    private readonly tapperRef: RefObject<HTMLDivElement>;
+    private readonly tapperRef: RefObject<HTMLDivElement | null>;
 
     private updateWidth: ReturnType<typeof setTimeout> | null = null;
 

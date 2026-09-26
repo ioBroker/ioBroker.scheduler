@@ -1,6 +1,6 @@
 import { Component, type JSX } from 'react';
 import { Box } from '@mui/material';
-import type { IobTheme, Translate } from '@iobroker/adapter-react-v5';
+import type { IobTheme, Translate } from '@iobroker/gui-components';
 
 import DayNightSwitcher from './DayNightSwitcher';
 import Interval from './Interval';

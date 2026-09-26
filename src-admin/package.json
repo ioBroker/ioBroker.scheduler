@@ -16,7 +16,7 @@
         "react-dnd-preview": "^9.0.0",
         "react-dnd-touch-backend": "^16.0.1",
         "react-dom": "^19.3.0",
-        "typescript": "^7.0.2",
+        "typescript": "~6.0.3",
         "uuid": "^14.0.2",
         "vite": "^8.3.1"
     },

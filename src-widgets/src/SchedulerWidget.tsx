@@ -4,7 +4,7 @@ import { LinearProgress, MenuItem, Select } from '@mui/material';
 
 import { Schedule as ScheduleIcon } from '@mui/icons-material';
 
-import { IconClosed as FolderIcon, I18n } from '@iobroker/adapter-react-v5';
+import { IconClosed as FolderIcon, I18n } from '@iobroker/gui-components';
 
 import type VisRxWidget from '@iobroker/types-vis-2/visRxWidget';
 import type {
@@ -150,7 +150,7 @@ export default class SchedulerWidget extends (window.visRxWidget as typeof VisRx
     SchedulerRxData,
     SchedulerWidgetState
 > {
-    private readonly widgetRef: React.RefObject<HTMLDivElement> = React.createRef();
+    private readonly widgetRef: React.RefObject<HTMLDivElement | null> = React.createRef();
 
     private subscribedId = '';
 

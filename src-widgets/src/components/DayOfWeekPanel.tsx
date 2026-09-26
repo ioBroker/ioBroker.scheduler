@@ -1,6 +1,6 @@
 import { Component, type JSX } from 'react';
 import { Box, ToggleButton, Tooltip } from '@mui/material';
-import type { Translate } from '@iobroker/adapter-react-v5';
+import type { Translate } from '@iobroker/gui-components';
 
 const daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 

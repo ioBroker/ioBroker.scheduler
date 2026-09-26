@@ -51,18 +51,16 @@ function cleanWidgets(): void {
 
 function buildWidgets(): Promise<void> {
     // Sync the files, that are shared between src-admin and src-widgets.
-    // The React components cannot be synced any longer: src-admin was migrated to TypeScript,
-    // React 19 and MUI 9 (*.tsx, @iobroker/gui-components), while src-widgets is still bound to
-    // React 18 and MUI 6 by vis-2 (*.jsx, @iobroker/adapter-react-v5).
-    // Re-enable this as soon as vis-2 runs on React 19.
-    /*sync2files(`${srcWidgets}src/components/DayNightSwitcher.jsx`, `${srcAdmin}src/components/DayNightSwitcher.jsx`);
-    sync2files(`${srcWidgets}src/components/DayOfWeekPanel.jsx`, `${srcAdmin}src/components/DayOfWeekPanel.jsx`);
-    sync2files(`${srcWidgets}src/components/Interval.jsx`, `${srcAdmin}src/components/Interval.jsx`);
-    sync2files(`${srcWidgets}src/components/Intervals.jsx`, `${srcAdmin}src/components/Intervals.jsx`);
-    sync2files(
-        `${srcWidgets}src/components/IntervalsContainer.jsx`,
-        `${srcAdmin}src/components/IntervalsContainer.jsx`,
-    );*/
+    // Both sides now run on the same stack (*.tsx, React 19, MUI 9, @iobroker/gui-components), so the
+    // React components could be synced again in principle - but they have meanwhile diverged: the widget
+    // copies carry the `readOnly`/`disabled` props that let a vis-2 widget be configured read only, and
+    // src-admin has no counterpart for them. `sync2files` overwrites the older file as a whole, so turning
+    // this back on would silently drop that feature. Only re-enable it once both copies are equal again.
+    // sync2files(`${srcWidgets}src/components/DayNightSwitcher.tsx`, `${srcAdmin}src/components/DayNightSwitcher.tsx`);
+    // sync2files(`${srcWidgets}src/components/DayOfWeekPanel.tsx`, `${srcAdmin}src/components/DayOfWeekPanel.tsx`);
+    // sync2files(`${srcWidgets}src/components/Interval.tsx`, `${srcAdmin}src/components/Interval.tsx`);
+    // sync2files(`${srcWidgets}src/components/Intervals.tsx`, `${srcAdmin}src/components/Intervals.tsx`);
+    // sync2files(`${srcWidgets}src/components/IntervalsContainer.tsx`, `${srcAdmin}src/components/IntervalsContainer.tsx`);
     sync2files(`${srcWidgets}src/data/minmax.json`, `${srcAdmin}src/data/minmax.json`);
 
     // `rootDir` makes the build take over the version from the root package.json
@@ -70,7 +68,13 @@ function buildWidgets(): Promise<void> {
 }
 
 function copyAllFilesWidgets(): void {
-    copyFiles(['src-widgets/**/*'], `widgets/${adapterName}`);
+    // Only the build output belongs in `widgets/` - it is what gets published and what vis-2 loads.
+    // `index.html` is the stand-alone demo page of the dev server, and `_socket/info.js` the web adapter
+    // stub it pulls in (it sets `window._authIoBroker` & co.); neither has any place in the published set.
+    copyFiles(
+        ['src-widgets/build/**/*', '!src-widgets/build/index.html', '!src-widgets/build/**/_socket/*'],
+        `widgets/${adapterName}`,
+    );
 }
 
 // ---------------------------------------- admin ----------------------------------------
