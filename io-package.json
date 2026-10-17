@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "scheduler",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "news": {
+      "2.0.1": {
+        "en": "Packages were updated",
+        "de": "Pakete wurden aktualisiert",
+        "ru": "Пакеты обновлены",
+        "pt": "Pacotes atualizados",
+        "nl": "De pakketten zijn bijgewerkt",
+        "fr": "Les packs ont été mis à jour",
+        "it": "Pacchetti aggiornati",
+        "es": "Se actualizó el paquete",
+        "pl": "Pakiety zostały zaktualizowane",
+        "uk": "Пакети оновлені",
+        "zh-cn": "软件包已更新"
+      },
       "2.0.0": {
         "en": "Migrated to React 19\nBreaking: Minimum Node.js version is 22",
         "de": "Migration zu React 19\nBreaking: Minimum Node.js Version ist 22",
@@ -80,19 +93,6 @@
         "pl": "Usunięty 'ze stylem' z widżetu",
         "uk": "Вилучено `withStyle` від віджету",
         "zh-cn": "从部件中删除了“ 带有样式”"
-      },
-      "1.3.12": {
-        "en": "Corrected widget",
-        "de": "Korrigiertes Widget",
-        "ru": "Исправленный виджет",
-        "pt": "Widget corrigido",
-        "nl": "Gecorrigeerd widget",
-        "fr": "Widget corrigé",
-        "it": "Widget corretti",
-        "es": "Widget corregido",
-        "pl": "Poprawiony widżet",
-        "uk": "Виправлений віджет",
-        "zh-cn": "修正的部件"
       }
     },
     "titleLang": {
