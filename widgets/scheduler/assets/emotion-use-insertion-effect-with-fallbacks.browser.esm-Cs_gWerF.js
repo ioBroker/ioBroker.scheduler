@@ -1,4 +1,4 @@
-import { g as e, h as t } from "./_virtual_mf___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__195610562247234__loadShare__react__loadShare__.js-DfDU6gQX.js";
+import { T as e, w as t } from "./_virtual_mf___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__108432574651544__loadShare__shared-TMCjcIVW.js";
 function n(e2) {
   var t2 = /* @__PURE__ */ Object.create(null);
   return function(n2) {

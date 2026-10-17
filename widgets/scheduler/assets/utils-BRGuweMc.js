@@ -1,4 +1,4 @@
-import { t as e } from "./vite-preload-helper-uBIymjUX.js";
+import { t as e } from "./vite-preload-helper-CRzLMJPS.js";
 let Me, je, cr, Ae, sr, ur;
 let __tla = (async () => {
   var t = `FEDERATION_DEBUG`, n = {
@@ -480,7 +480,7 @@ ${n2.slice(0, 5).join(`
     return C.__FEDERATION__.__DEBUG_CONSTRUCTOR__;
   };
   Me = function(e2, t2 = c()) {
-    t2 && (C.__FEDERATION__.__DEBUG_CONSTRUCTOR__ = e2, C.__FEDERATION__.__DEBUG_CONSTRUCTOR_VERSION__ = `2.9.0`);
+    t2 && (C.__FEDERATION__.__DEBUG_CONSTRUCTOR__ = e2, C.__FEDERATION__.__DEBUG_CONSTRUCTOR_VERSION__ = `2.9.2`);
   };
   function D(e2, t2) {
     if (typeof t2 == `string`) {
@@ -1066,8 +1066,7 @@ ${n2.slice(0, 5).join(`
       cached: true
     }), n2;
     if (!E[s2]) {
-      let e3 = t2.remoteHandler.hooks.lifecycle.loadEntry, c3 = t2.loaderHook;
-      E[s2] = e3.emit({
+      let e3 = t2.remoteHandler.hooks.lifecycle.loadEntry, c3 = t2.loaderHook, l2 = e3.emit({
         origin: t2,
         loaderHook: c3,
         remoteInfo: r2,
@@ -1113,7 +1112,10 @@ ${n2.slice(0, 5).join(`
           resourceContext: a2,
           error: e4
         }), e4;
-      }), hn.set(E[s2], t2);
+      });
+      E[s2] = l2, l2.then(void 0, () => {
+        E[s2] === l2 && delete E[s2];
+      }), hn.set(l2, t2);
     }
     let c2 = E[s2];
     if (hn.get(c2) !== t2) try {
@@ -2609,9 +2611,7 @@ ${n2.slice(0, 5).join(`
           name: n2.name,
           expose: r2
         };
-        return;
-      }
-      if (a2 && e2.startsWith(a2)) {
+      } else if (a2 && e2.startsWith(a2)) {
         let t3 = e2.replace(a2, i2);
         this.idToRemoteMap[t3] = {
           name: n2.name,
@@ -2950,7 +2950,7 @@ ${n2.slice(0, 5).join(`
         init: new Y(),
         beforeInitContainer: new Q(`beforeInitContainer`),
         initContainer: new Q(`initContainer`)
-      }), this.version = `2.9.0`, this.moduleCache = /* @__PURE__ */ new Map(), this.loaderHook = new J({
+      }), this.version = `2.9.2`, this.moduleCache = /* @__PURE__ */ new Map(), this.loaderHook = new J({
         getModuleInfo: new Y(),
         createScript: new Y(),
         createLink: new Y(),

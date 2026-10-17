@@ -1,4 +1,4 @@
-import { t as e } from "./rolldown-runtime-hePW80VL.js";
+import { t as e } from "./rolldown-runtime-XKyaHtl9.js";
 var t = e(((e2) => {
   var t2 = /* @__PURE__ */ Symbol.for(`react.transitional.element`), n = /* @__PURE__ */ Symbol.for(`react.portal`), r = /* @__PURE__ */ Symbol.for(`react.fragment`), i = /* @__PURE__ */ Symbol.for(`react.strict_mode`), a = /* @__PURE__ */ Symbol.for(`react.profiler`), o = /* @__PURE__ */ Symbol.for(`react.consumer`), s = /* @__PURE__ */ Symbol.for(`react.context`), c = /* @__PURE__ */ Symbol.for(`react.forward_ref`), l = /* @__PURE__ */ Symbol.for(`react.suspense`), u = /* @__PURE__ */ Symbol.for(`react.memo`), d = /* @__PURE__ */ Symbol.for(`react.lazy`), f = /* @__PURE__ */ Symbol.for(`react.activity`), p = /* @__PURE__ */ Symbol.for(`react.view_transition`), m = Symbol.iterator;
   function h(e3) {
@@ -249,7 +249,7 @@ var t = e(((e2) => {
     return T.H.useSyncExternalStore(e3, t3, n2);
   }, e2.useTransition = function() {
     return T.H.useTransition();
-  }, e2.version = `19.3.0`;
+  }, e2.version = `19.3.1`;
 }));
 export {
   t

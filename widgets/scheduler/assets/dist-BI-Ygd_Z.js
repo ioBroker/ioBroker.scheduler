@@ -1,4 +1,4 @@
-import { a as e, i as t, o as n, r, t as i } from "./utils-jR9fY54i.js";
+import { a as e, i as t, o as n, r, t as i } from "./utils-BRGuweMc.js";
 function a(e2) {
   let i2 = new (t() || r)({ id: `${e2.name}@${e2.version || Date.now()}`, ...e2 });
   return n(i2), i2;

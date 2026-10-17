@@ -1,5 +1,5 @@
-import { t as e } from "./vite-preload-helper-uBIymjUX.js";
-import "./dist-BK97MX24.js";
+import { t as e } from "./vite-preload-helper-CRzLMJPS.js";
+import "./dist-BI-Ygd_Z.js";
 let a, i;
 let __tla = (async () => {
   let t, n, r;
@@ -8,58 +8,84 @@ let __tla = (async () => {
     for (let e3 = 0; e3 < 5; e3++) {
       let e4 = t2 == null ? void 0 : t2.default;
       if (!e4 || typeof e4 != `object` || Object.keys(e4).length === 0) break;
-      let n2 = Object.keys(t2).filter((e5) => e5 !== "default").map((e5) => t2[e5]);
-      if (n2.length > 0 && n2.some((e5) => e5 !== void 0)) break;
+      let n2 = Object.getPrototypeOf(e4);
+      if (n2 !== null && n2 !== Object.prototype) break;
+      let r2 = Object.keys(t2).filter((e5) => e5 !== "default").map((e5) => t2[e5]);
+      if (r2.length > 0 && r2.some((e5) => e5 !== void 0)) break;
       t2 = e4;
     }
     return t2;
   };
   n = (e2, t2, n2, r2) => {
-    var _a, _b, _c;
-    let i2 = (_a = globalThis.__mf_module_cache__) == null ? void 0 : _a.share, a2 = t2.map((e3) => i2 == null ? void 0 : i2[e3]).find((e3) => e3 !== void 0), o = (a2 == null ? void 0 : a2.version) ?? ((_b = a2 == null ? void 0 : a2.default) == null ? void 0 : _b.version), s = String(o || ``).split(/[^0-9]+/).map(Number), c = String(n2 || ``).split(/[^0-9]+/).map(Number);
-    for (let e3 = 0; e3 < Math.max(s.length, c.length); e3++) {
-      if ((s[e3] || 0) < (c[e3] || 0)) return;
-      if ((s[e3] || 0) > (c[e3] || 0)) break;
-    }
-    for (let t3 of e2) {
+    var _a, _b, _c, _d;
+    let i2 = (_a = globalThis.__mf_module_cache__) == null ? void 0 : _a.share, a2 = t2.map((e3) => i2 == null ? void 0 : i2[e3]).find((e3) => e3 !== void 0), o = (e3) => {
+      let t3 = String(e3 || ``).split(/[^0-9]+/).map(Number), r3 = String(n2 || ``).split(/[^0-9]+/).map(Number);
+      for (let e4 = 0; e4 < Math.max(t3.length, r3.length); e4++) {
+        if ((t3[e4] || 0) < (r3[e4] || 0)) return true;
+        if ((t3[e4] || 0) > (r3[e4] || 0)) return false;
+      }
+      return false;
+    };
+    if (!o((a2 == null ? void 0 : a2.version) ?? ((_b = a2 == null ? void 0 : a2.default) == null ? void 0 : _b.version))) for (let t3 of e2) {
       let e3 = i2 == null ? void 0 : i2[t3];
-      if (e3 !== void 0 && (!r2 || typeof (e3 == null ? void 0 : e3[r2]) == `function` || typeof ((_c = e3 == null ? void 0 : e3.default) == null ? void 0 : _c[r2]) == `function`)) return e3;
+      if (e3 === void 0) continue;
+      let n3 = (e3 == null ? void 0 : e3.version) ?? ((_c = e3 == null ? void 0 : e3.default) == null ? void 0 : _c.version);
+      if (!(n3 !== void 0 && o(n3)) && (!r2 || typeof (e3 == null ? void 0 : e3[r2]) == `function` || typeof ((_d = e3 == null ? void 0 : e3.default) == null ? void 0 : _d[r2]) == `function`)) {
+        let n4 = typeof (e3 == null ? void 0 : e3[r2]) == `function` ? e3 : e3 == null ? void 0 : e3.default, i3 = n4 == null ? void 0 : n4.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+        if (!r2 || t3.endsWith(`/client`) || !i3) return e3;
+        let a3 = {};
+        for (let e4 of [
+          `createRoot`,
+          `hydrateRoot`
+        ]) a3[e4] = (...t4) => {
+          i3.usingClientEntryPoint = true;
+          try {
+            return n4[e4](...t4);
+          } finally {
+            i3.usingClientEntryPoint = false;
+          }
+        };
+        return {
+          ...a3,
+          default: a3
+        };
+      }
     }
   };
   r = {
-    react: async () => await e(() => import("./_virtual_mf___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__195610562247234__prebuild__react__prebuild__-DMwD2vWI.js").then(async (m) => {
+    react: async () => await e(() => import("./_virtual_mf___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__108432574651544__prebuild__react__prebuild__-1xMCno8k.js").then(async (m) => {
       await m.__tla;
       return m;
     }), [], import.meta.url),
-    "react/jsx-dev-runtime": async () => await e(() => import("./_virtual_mf___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__195610562247234__prebuild__react_mf_1_jsx_mf_2_dev_mf_2_runtime__prebuild__-Cbwz_BNS.js").then(async (m) => {
+    "react/jsx-dev-runtime": async () => await e(() => import("./_virtual_mf___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__108432574651544__prebuild__react_mf_1_jsx_mf_2_dev_mf_2_runtime__prebuild__-BHRu0R3m.js").then(async (m) => {
       await m.__tla;
       return m;
     }), [], import.meta.url),
-    "react/jsx-runtime": async () => await e(() => import("./_virtual_mf___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__195610562247234__prebuild__react_mf_1_jsx_mf_2_runtime__prebuild__-ls7Ro8xU.js").then(async (m) => {
+    "react/jsx-runtime": async () => await e(() => import("./_virtual_mf___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__108432574651544__prebuild__react_mf_1_jsx_mf_2_runtime__prebuild__-lLn5ruiO.js").then(async (m) => {
       await m.__tla;
       return m;
     }), [], import.meta.url),
-    "react-dom": async () => await e(() => import("./_virtual_mf___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__195610562247234__prebuild__react_mf_2_dom__prebuild__-CwDi_M7l.js").then(async (m) => {
+    "react-dom": async () => await e(() => import("./_virtual_mf___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__108432574651544__prebuild__react_mf_2_dom__prebuild__-VNyph6pn.js").then(async (m) => {
       await m.__tla;
       return m;
     }), [], import.meta.url),
-    "react-dom/client": async () => await e(() => import("./_virtual_mf___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__195610562247234__prebuild__react_mf_2_dom_mf_1_client__prebuild__-8_65ovBr.js").then(async (m) => {
+    "react-dom/client": async () => await e(() => import("./_virtual_mf___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__108432574651544__prebuild__react_mf_2_dom_mf_1_client__prebuild__-BryF9XAJ.js").then(async (m) => {
       await m.__tla;
       return m;
     }), [], import.meta.url),
-    "@emotion/react": async () => await e(() => import("./_virtual_mf___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__195610562247234__prebuild___mf_0_emotion_mf_1_react__prebuild__-B7JyfeT8.js").then(async (m) => {
+    "@emotion/react": async () => await e(() => import("./_virtual_mf___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__108432574651544__prebuild___mf_0_emotion_mf_1_react__prebuild__-CmawhGUr.js").then(async (m) => {
       await m.__tla;
       return m;
     }), [], import.meta.url),
-    "@mui/private-theming": async () => await e(() => import("./_virtual_mf___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__195610562247234__prebuild___mf_0_mui_mf_1_private_mf_2_theming__prebuild__-B66vmzvg.js").then(async (m) => {
+    "@mui/private-theming": async () => await e(() => import("./_virtual_mf___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__108432574651544__prebuild___mf_0_mui_mf_1_private_mf_2_theming__prebuild__-DYV4JqbY.js").then(async (m) => {
       await m.__tla;
       return m;
     }), [], import.meta.url),
-    "@mui/system": async () => await e(() => import("./_virtual_mf___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__195610562247234__prebuild___mf_0_mui_mf_1_system__prebuild__-Bj-QI9RK.js").then(async (m) => {
+    "@mui/system": async () => await e(() => import("./_virtual_mf___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__108432574651544__prebuild___mf_0_mui_mf_1_system__prebuild__-BkvZsrua.js").then(async (m) => {
       await m.__tla;
       return m;
     }), [], import.meta.url),
-    "@mui/material": async () => await e(() => import("./_virtual_mf___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__195610562247234__prebuild___mf_0_mui_mf_1_material__prebuild__-BU3NoBV9.js").then(async (m) => {
+    "@mui/material": async () => await e(() => import("./_virtual_mf___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__108432574651544__prebuild___mf_0_mui_mf_1_material__prebuild__-CXzIVIIv.js").then(async (m) => {
       await m.__tla;
       return m;
     }), [], import.meta.url)
@@ -67,7 +93,7 @@ let __tla = (async () => {
   i = {
     react: {
       name: `react`,
-      version: `19.3.0`,
+      version: `19.3.1`,
       scope: [
         `default`
       ],
@@ -103,7 +129,7 @@ let __tla = (async () => {
     },
     "react/jsx-dev-runtime": {
       name: `react/jsx-dev-runtime`,
-      version: `19.3.0`,
+      version: `19.3.1`,
       scope: [
         `default`
       ],
@@ -122,7 +148,7 @@ let __tla = (async () => {
         ], [
           `default:react`,
           `react`
-        ], `19.3.0`, void 0);
+        ], `19.3.1`, void 0);
         return a2 === void 0 ? (e2.loading = (async () => {
           try {
             let { "react/jsx-dev-runtime": n2 } = r, i2 = t({
@@ -150,7 +176,7 @@ let __tla = (async () => {
     },
     "react/jsx-runtime": {
       name: `react/jsx-runtime`,
-      version: `19.3.0`,
+      version: `19.3.1`,
       scope: [
         `default`
       ],
@@ -169,7 +195,7 @@ let __tla = (async () => {
         ], [
           `default:react`,
           `react`
-        ], `19.3.0`, void 0);
+        ], `19.3.1`, void 0);
         return a2 === void 0 ? (e2.loading = (async () => {
           try {
             let { "react/jsx-runtime": n2 } = r, i2 = t({
@@ -197,7 +223,7 @@ let __tla = (async () => {
     },
     "react-dom": {
       name: `react-dom`,
-      version: `19.3.0`,
+      version: `19.3.1`,
       scope: [
         `default`
       ],
@@ -233,7 +259,7 @@ let __tla = (async () => {
     },
     "react-dom/client": {
       name: `react-dom/client`,
-      version: `19.3.0`,
+      version: `19.3.1`,
       scope: [
         `default`
       ],
@@ -254,7 +280,7 @@ let __tla = (async () => {
         ], [
           `default:react`,
           `react`
-        ], `19.3.0`, `createRoot`);
+        ], `19.3.1`, `createRoot`);
         return a2 === void 0 ? (e2.loading = (async () => {
           try {
             let { "react-dom/client": n2 } = r, i2 = t({
@@ -318,7 +344,7 @@ let __tla = (async () => {
     },
     "@mui/private-theming": {
       name: `@mui/private-theming`,
-      version: `9.4.0`,
+      version: `9.5.0`,
       scope: [
         `default`
       ],
@@ -354,7 +380,7 @@ let __tla = (async () => {
     },
     "@mui/system": {
       name: `@mui/system`,
-      version: `9.4.0`,
+      version: `9.5.0`,
       scope: [
         `default`
       ],
@@ -390,7 +416,7 @@ let __tla = (async () => {
     },
     "@mui/material": {
       name: `@mui/material`,
-      version: `9.4.0`,
+      version: `9.5.0`,
       scope: [
         `default`
       ],
