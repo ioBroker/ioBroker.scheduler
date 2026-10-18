@@ -760,12 +760,25 @@ export default class App extends GenericApp<GenericAppProps, AppState> {
         window.localStorage.setItem('iobroker.scheduler.activeProfile', active);
     };
 
+    /**
+     * Selects the first element of type `profile` if the active ID does not point to an existing profile (e.g. it was deleted).
+     * Called after loading and after the profile list changed - never from `render()`, so it cannot override a later click.
+     */
+    validateActiveProfile = (profiles: SchedulerProfile[]): void => {
+        if (profiles.find(profile => profile.id === this.state.activeProfile && profile.type === 'profile')) {
+            return;
+        }
+        const firstProfile = profiles.find(profile => profile.type === 'profile');
+        this.onSelectProfile(firstProfile ? firstProfile.id : '');
+    };
+
     changeProfiles = (profiles: SchedulerProfile[], activeProfile?: string, cb?: () => void): void => {
         this.updateNativeValue('profiles', profiles, () => {
             if (activeProfile) {
-                this.setState({ activeProfile }, () => cb && cb());
-            } else if (cb) {
-                cb();
+                this.setState({ activeProfile }, () => cb?.());
+            } else {
+                this.validateActiveProfile(profiles);
+                cb?.();
             }
         });
     };
@@ -813,6 +826,7 @@ export default class App extends GenericApp<GenericAppProps, AppState> {
             this.lastSavedNative = native;
         } else {
             this.lastSavedNative = JSON.parse(JSON.stringify(this.state.native));
+            this.validateActiveProfile(this.state.native.profiles);
         }
     }
 
@@ -1434,13 +1448,6 @@ export default class App extends GenericApp<GenericAppProps, AppState> {
         const currentProfile = this.currentProfile();
 
         this.checkDevices();
-
-        if (!currentProfile && this.state.native.profiles.length) {
-            // try to select first profile
-            setTimeout(() => {
-                this.onSelectProfile(this.state.native.profiles[0].id);
-            }, 100);
-        }
 
         const fullProfile = this.state.native.profiles.find(profile => profile.id === this.state.activeProfile);
 
