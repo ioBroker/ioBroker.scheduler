@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "scheduler",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "news": {
+      "2.0.2": {
+        "en": "Fixed: profiles could not be selected if the first element in the list was a folder (e.g. after deleting profiles)",
+        "de": "Behoben: Profile konnten nicht ausgewählt werden, wenn der erste Ordner war (z. B. nach dem Löschen von Profilen)",
+        "ru": "Исправлено: профили не могли быть выбраны, если первым элементом в списке была папка (например, после удаления профилей)",
+        "pt": "Corrigido: não era possível selecionar perfis se o primeiro elemento da lista fosse uma pasta (p. ex.)",
+        "nl": "Opgelost: profielen konden niet worden geselecteerd als het eerste element in de lijst een map was (bijvoorbeeld na het verwijderen van profielen)",
+        "fr": "Corrigé : aucun profil ne pouvait être sélectionné si le premier élément de la liste était un dossier (par ex.)",
+        "it": "Risolto: i profili non erano selezionabili se il primo elemento era una cartella (ad es.",
+        "es": "Corregido: no se podían seleccionar perfiles si el primer elemento de la lista era una carpeta (p. ej., tras borrar perfiles)",
+        "pl": "Naprawiono: profile nie mogły zostać wybrane, jeśli pierwszym elementem na liście był folder (np. po usunięciu profili)",
+        "uk": "Виправлено: профілі не можна було вибрати, якщо першим елементом у списку була папка (наприклад, після видалення профілів)",
+        "zh-cn": "修复：如果列表中的第一个元素是文件夹（例如删除配置文件后），则无法选择配置文件"
+      },
       "2.0.1": {
         "en": "Packages were updated",
         "de": "Pakete wurden aktualisiert",
@@ -80,19 +93,6 @@
         "pl": "Pakiety widżetu zostały zaktualizowane",
         "uk": "Оновлено пакети віджету",
         "zh-cn": "部件包已更新"
-      },
-      "1.4.0": {
-        "en": "Removed `withStyles` from the widget",
-        "de": "Entfernen `withStyles` aus dem Widget",
-        "ru": "Удаленный `withStyles' из виджета",
-        "pt": "Removedo `withStyles` do widget",
-        "nl": "Verwijderd van het widget",
-        "fr": "Supprimé `withStyles` du widget",
-        "it": "Rimuoveto `withStyles` dal widget",
-        "es": "Quitado `con los estilos` del widget",
-        "pl": "Usunięty 'ze stylem' z widżetu",
-        "uk": "Вилучено `withStyle` від віджету",
-        "zh-cn": "从部件中删除了“ 带有样式”"
       }
     },
     "titleLang": {
