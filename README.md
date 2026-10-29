@@ -19,6 +19,11 @@ This adapter has vis2 widget.
 
 ![Screenshot](img/scheduler.png)
 
+Two widgets in a dark vis-2 view: the setpoint of the heating and the position of the shutters on weekends.
+Every bar is one hour and is set by dragging it. On the right the weekdays and holidays of the profile are selected.
+
+![vis-2 widget, dark theme](img/vis2-widget-dark.png)
+
 <!--
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
