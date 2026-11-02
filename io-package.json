@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "scheduler",
-    "version": "2.0.2",
+    "version": "2.0.3",
     "news": {
+      "2.0.3": {
+        "en": "Corrected the widget: changes in one widget were overwritten by other widgets of the same instance",
+        "de": "Das Widget wurde korrigiert: Änderungen an einem Widget wurden überschrieben",
+        "ru": "Исправлен виджет: изменения в одном виджете были заменены другими виджетами того же экземпляра",
+        "pt": "Corrigido o widget: mudanças em um widget foram substituídas por outros da mesma instância",
+        "nl": "De widget is gecorrigeerd: wijzigingen in één widget zijn overschreven door andere widgets van dezelfde instantie",
+        "fr": "Correction du widget : les modifications d'un widget ont été remplacées par d'autres de la même instance",
+        "it": "Corretto il widget: le modifiche in un widget sono state sovrascritte da altre istanze",
+        "es": "Se corrigió el widget: los cambios en un widget los sobrescribieron otros widgets de la misma instancia",
+        "pl": "Poprawiono widżet: zmiany w jednym widżecie zostały zastąpione przez inne widżety tego samego wystąpienia",
+        "uk": "Виправлено віджет: зміни в одному віджеті були перезаписані іншими віджетами того ж екземпляра",
+        "zh-cn": "更正了控件：一个小部件中的更改被同一实例的其他小部件覆盖"
+      },
       "2.0.2": {
         "en": "Fixed: profiles could not be selected if the first element in the list was a folder (e.g. after deleting profiles)",
         "de": "Behoben: Profile konnten nicht ausgewählt werden, wenn der erste Ordner war (z. B. nach dem Löschen von Profilen)",
@@ -80,19 +93,6 @@
         "pl": "Dopuszczalny wybór państw mieszanych",
         "uk": "Дозволений вибір змішаних станів",
         "zh-cn": "允许选择混合州"
-      },
-      "1.4.1": {
-        "en": "Packages of the widget were updated",
-        "de": "Pakete des Widgets wurden aktualisiert",
-        "ru": "Пакеты виджета были обновлены",
-        "pt": "Pacotes do widget foram atualizados",
-        "nl": "Pakketten van het widget zijn bijgewerkt",
-        "fr": "Les paquets du widget ont été mis à jour",
-        "it": "I pacchetti del widget sono stati aggiornati",
-        "es": "Paquetes del widget fueron actualizados",
-        "pl": "Pakiety widżetu zostały zaktualizowane",
-        "uk": "Оновлено пакети віджету",
-        "zh-cn": "部件包已更新"
       }
     },
     "titleLang": {
