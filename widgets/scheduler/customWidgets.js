@@ -18,14 +18,16 @@ let __tla = (async () => {
       let t3 = new URL(e3, import.meta.url).href;
       return i.has(t3) || (i.add(t3), document.querySelector(`link[rel="stylesheet"][href="${t3}"]`)) ? Promise.resolve() : new Promise((e4, n2) => {
         let r2 = document.createElement(`link`);
-        r2.rel = `stylesheet`, r2.href = t3, r2.onload = () => e4(), r2.onerror = () => n2(Error(`[Module Federation] Failed to load CSS asset: ${t3}`)), document.head.appendChild(r2);
+        r2.rel = `stylesheet`, r2.href = t3, r2.onload = () => e4(), r2.onerror = () => {
+          i.delete(t3), r2.remove(), n2(Error(`[Module Federation] Failed to load CSS asset: ${t3}`));
+        }, document.head.appendChild(r2);
       });
     }));
   }
   var c = {
     "./SchedulerWidget": async () => {
       await s(`./SchedulerWidget`), await Promise.all([]);
-      let t2 = await o(`./SchedulerWidget`, () => e(() => import("./assets/SchedulerWidget-DIORe_EF.js").then(async (m2) => {
+      let t2 = await o(`./SchedulerWidget`, () => e(() => import("./assets/SchedulerWidget-Bd75woIY.js").then(async (m2) => {
         await m2.__tla;
         return m2;
       }), [], import.meta.url)), n2 = t2 && t2.__mf_remote_dependency_pending;
@@ -58,7 +60,7 @@ let __tla = (async () => {
     reload() {
     }
   });
-  var l = `__mf_init__virtual:mf:__mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__108432574651544__mf_v__runtimeInit__mf_v__.js__`, u = globalThis[l];
+  var l = `__mf_init__virtual:mf:__mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__188434573433139__mf_v__runtimeInit__mf_v__.js__`, u = globalThis[l];
   if (!u) {
     let e2, t2, n2 = new Promise((n3, r2) => {
       e2 = n3, t2 = r2;
@@ -185,7 +187,7 @@ let __tla = (async () => {
     };
   };
   async function N() {
-    return x || (x = C(() => e(() => import("./assets/_virtual_mf-localSharedImportMap___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__1-QN5cEpig.js").then(async (m2) => {
+    return x || (x = C(() => e(() => import("./assets/_virtual_mf-localSharedImportMap___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__1-BtApgZbP.js").then(async (m2) => {
       await m2.__tla;
       return m2;
     }), [], import.meta.url)).catch((e2) => {
@@ -712,7 +714,7 @@ let __tla = (async () => {
     var ke = async (e3) => {
       let t2 = new Set(e3);
       for (let e4 of Ee) await Promise.all(e4.filter((e5) => t2.has(e5)).map(async (e5) => {
-        var _a3, _b3, _c2, _d2, _e3;
+        var _a3, _b3, _c2, _d2, _e3, _f2;
         let t3 = R[e5], n3 = i2(e5, (_a3 = t3.shareConfig) == null ? void 0 : _a3.singleton, t3.version, t3.scope);
         if (((_b3 = t3.shareConfig) == null ? void 0 : _b3.import) === false || t3.treeShaking || a2(h.share, n3) !== void 0) return;
         let r3 = i2(e5, true, t3.version, t3.scope), o3 = a2(h.share, r3);
@@ -740,13 +742,20 @@ let __tla = (async () => {
             })(t4), s3.from);
             return;
           }
-          if (typeof z == `function` && z(s3) && (((_c2 = t3.shareConfig) == null ? void 0 : _c2.singleton) || ((_d2 = O(L[e5], s3)) == null ? void 0 : _d2.version) === t3.version)) return;
+          if (!((_c2 = t3.shareConfig) == null ? void 0 : _c2.singleton) && typeof s3.version == `string`) {
+            let r5 = a2(h.share, i2(e5, false, s3.version, t3.scope));
+            if (r5 !== void 0) {
+              x2(h.share, n3, r5, s3.from);
+              return;
+            }
+          }
+          if (typeof z == `function` && z(s3) && (((_d2 = t3.shareConfig) == null ? void 0 : _d2.singleton) || ((_e3 = O(L[e5], s3)) == null ? void 0 : _e3.version) === t3.version)) return;
         }
         let c3 = n3.canonical, u2 = await Oe(c3, async () => {
           let e6 = await t3.get(), n4 = typeof e6 == `function` ? e6() : e6;
           return Promise.resolve(n4);
         });
-        for (let n4 of ((_e3 = G.options.shared) == null ? void 0 : _e3[e5]) || []) n4.get === t3.get && (n4.eager = true);
+        for (let n4 of ((_f2 = G.options.shared) == null ? void 0 : _f2[e5]) || []) n4.get === t3.get && (n4.eager = true);
         let d2 = ((e6) => {
           let t4 = e6;
           for (let e7 = 0; e7 < 5; e7++) {
@@ -893,7 +902,7 @@ let __tla = (async () => {
   if (typeof document !== "undefined" && document.head) {
     try {
       for (const __mfWarmupPath of [
-        "assets/_virtual_mf-localSharedImportMap___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__1-QN5cEpig.js",
+        "assets/_virtual_mf-localSharedImportMap___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__1-BtApgZbP.js",
         "assets/vite-preload-helper-CRzLMJPS.js",
         "assets/dist-BI-Ygd_Z.js",
         "assets/utils-BRGuweMc.js"
