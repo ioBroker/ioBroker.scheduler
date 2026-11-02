@@ -30,6 +30,9 @@ Every bar is one hour and is set by dragging it. On the right the weekdays and h
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (@GermanBluefox) Corrected the widget: changes in one widget were overwritten by other widgets of the same instance
+
 ### 2.0.2 (2026-10-18)
 * (@GermanBluefox) Fixed: profiles could not be selected if the first element in the list was a folder (e.g. after deleting profiles)
 

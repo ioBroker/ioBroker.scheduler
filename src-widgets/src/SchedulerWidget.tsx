@@ -22,6 +22,19 @@ import type { MinMax, ProfileData, SchedulerInstanceObject, SchedulerProfile } f
 
 const defaultMinMax: Record<string, MinMax> = minmax;
 
+/** Changes of one profile, which are not yet written to the instance object */
+interface UnsavedProfile {
+    instanceId: string;
+    profileId: string;
+    data: ProfileData;
+}
+
+/**
+ * All scheduler widgets store their profiles in the same instance object.
+ * Writes are queued, so that every write reads the result of the previous one and no change gets lost.
+ */
+let writeQueue: Promise<void> = Promise.resolve();
+
 const styles: Record<string, React.CSSProperties> = {
     content: {
         display: 'flex',
@@ -157,6 +170,9 @@ export default class SchedulerWidget extends (window.visRxWidget as typeof VisRx
     private minMaxObjectId = '';
 
     private writeTimeout: ReturnType<typeof setTimeout> | null = null;
+
+    /** Local changes of this widget's profile, which are not yet confirmed by the server */
+    private unsaved: UnsavedProfile | null = null;
 
     static getWidgetInfo(): RxWidgetInfo {
         return {
@@ -306,24 +322,30 @@ export default class SchedulerWidget extends (window.visRxWidget as typeof VisRx
         if (this.subscribedId) {
             void this.props.context.socket.unsubscribeObject(this.subscribedId, this.onProfileChanged);
         }
+        // Do not lose the last change if the widget disappears (e.g., view change) before the delayed write
         if (this.writeTimeout) {
-            clearTimeout(this.writeTimeout);
-            this.writeTimeout = null;
+            this.saveProfile();
         }
     }
 
     onProfileChanged = (id: string, obj: ioBroker.Object | null | undefined): void => {
-        if (this.state.object && id === this.state.object._id) {
-            const profileOld = this.state.object.native.profiles.find(
-                profile => profile.id === this.state.rxData.profile,
-            );
-
-            const newObject = obj as SchedulerInstanceObject | null | undefined;
-            const profileNew = newObject?.native?.profiles?.find(profile => profile.id === this.state.rxData.profile);
-
-            if (JSON.stringify(profileOld) !== JSON.stringify(profileNew) && newObject) {
-                this.setState({ object: newObject });
+        if (!this.state.object || id !== this.state.object._id || !obj) {
+            return;
+        }
+        // Always take the current object, because other widgets or admin could have changed other profiles
+        let newObject = obj as SchedulerInstanceObject;
+        const unsaved = this.unsaved;
+        if (unsaved && unsaved.instanceId === id) {
+            // Keep showing own changes, which are not yet written
+            newObject = JSON.parse(JSON.stringify(newObject));
+            const profile = newObject.native?.profiles?.find(p => p.id === unsaved.profileId);
+            if (profile) {
+                profile.data = unsaved.data;
             }
+        }
+
+        if (JSON.stringify(this.state.object) !== JSON.stringify(newObject)) {
+            this.setState({ object: newObject });
         }
     };
 
@@ -363,31 +385,61 @@ export default class SchedulerWidget extends (window.visRxWidget as typeof VisRx
     };
 
     changeProfile = (newData: ProfileData): void => {
-        if (this.state.rxData.readOnly || !this.state.object) {
+        const profileId = this.state.rxData.profile;
+        if (this.state.rxData.readOnly || !this.state.object || !profileId) {
             return;
         }
         const object: SchedulerInstanceObject = JSON.parse(JSON.stringify(this.state.object));
-        const profileIndex = this.state.object.native.profiles.findIndex(
-            profile => profile.id === this.state.rxData.profile,
-        );
-        object.native.profiles[profileIndex].data = newData;
+        const profile = object.native.profiles.find(p => p.id === profileId);
+        if (!profile) {
+            return;
+        }
+        profile.data = newData;
+        this.unsaved = { instanceId: object._id, profileId, data: newData };
         this.setState({ object });
         if (this.writeTimeout) {
             clearTimeout(this.writeTimeout);
         } else {
             this.setState({ writing: true });
         }
-        this.writeTimeout = setTimeout(() => {
-            this.writeTimeout = null;
-            this.props.context.socket
-                .setObject(object._id, object)
-                .then(() => this.setState({ writing: false }))
-                .catch((e: unknown) => {
-                    this.setState({ writing: false });
-                    console.error(`Cannot write profile: ${e as Error}`);
-                });
-        }, 2000);
+        this.writeTimeout = setTimeout(() => this.saveProfile(), 2000);
     };
+
+    /**
+     * Writes only this widget's profile into the current instance object.
+     * The object is read fresh from the server, so that the changes of other widgets are not overwritten
+     * with the outdated copy of this widget.
+     */
+    saveProfile(): void {
+        if (this.writeTimeout) {
+            clearTimeout(this.writeTimeout);
+            this.writeTimeout = null;
+        }
+        const unsaved = this.unsaved;
+        if (!unsaved) {
+            return;
+        }
+        writeQueue = writeQueue
+            .then(async (): Promise<void> => {
+                const object = await this.getInstanceObject(unsaved.instanceId);
+                const profile = object?.native?.profiles?.find(p => p.id === unsaved.profileId);
+                if (!object || !profile) {
+                    throw new Error(`Profile ${unsaved.profileId} not found in ${unsaved.instanceId}`);
+                }
+                profile.data = unsaved.data;
+                await this.props.context.socket.setObject(unsaved.instanceId, object);
+            })
+            .catch((e: unknown) => console.error(`Cannot write profile: ${e as Error}`))
+            .then(() => {
+                // Newer changes were made in the meantime: they will be written by the next call
+                if (this.unsaved === unsaved) {
+                    this.unsaved = null;
+                    if (!this.writeTimeout) {
+                        this.setState({ writing: false });
+                    }
+                }
+            });
+    }
 
     currentProfile = (): ProfileData | null => {
         const foundProfile = this.state.object?.native.profiles.find(
