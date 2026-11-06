@@ -24,12 +24,36 @@ Every bar is one hour and is set by dragging it. On the right the weekdays and h
 
 ![vis-2 widget, dark theme](img/vis2-widget-dark.png)
 
+## Web components
+The adapter brings the profile view as a web component too (`common.webComponents`, `@iobroker/web-components`), so
+that Aura, ioBroker.devices, admin and every other host can show it. vis-2 keeps showing its own widget.
+
+| Tag                     | Shows                                                                                  |
+|-------------------------|----------------------------------------------------------------------------------------|
+| `iob-scheduler-profile` | One profile: a bar per interval of the day, the days of the week and the holiday flag |
+
+Settings:
+- **Profile** - a state of the profile, e.g. `scheduler.0.Heating.Living room_active`; the instance is taken from the ID
+- **Title** - shown above the profile, nothing if empty
+- **Read only**
+- **Hide days of week**
+
+Drag a bar up or down to set its value, or across several bars to set them all. Tap the time below a bar to select it:
+a change then applies to all selected intervals. On/off intervals switch with a tap.
+
+A web component may not write objects, so it sends its changes to the instance with the message `setProfile`
+(`{ id, intervals?, dow?, holiday? }`), which writes them into the instance object on behalf of the user of the
+connection. The instance must run for that, and it restarts after every change, like after saving the settings in admin.
+
 <!--
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (@GermanBluefox) Added the web component `iob-scheduler-profile` for Aura and other hosts (`common.webComponents`); it saves its changes through the new message `setProfile`
+
 ### 2.0.3 (2026-11-02)
 * (@GermanBluefox) Corrected the widget: changes in one widget were overwritten by other widgets of the same instance
 

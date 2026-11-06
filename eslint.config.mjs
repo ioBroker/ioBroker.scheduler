@@ -16,6 +16,8 @@ export default [
         ignores: [
             'src-admin/**/*',
             'src-widgets/**/*',
+            // linted with its own config: npm run lint-wc
+            'src-webcomponents/**/*',
             'admin/**/*',
             'widgets/**/*',
             'node_modules/**/*',

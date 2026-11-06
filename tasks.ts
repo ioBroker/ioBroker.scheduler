@@ -10,6 +10,7 @@ import { name } from './package.json';
 const adapterName = name.replace('iobroker.', '');
 const srcAdmin = `${__dirname}/src-admin/`;
 const srcWidgets = `${__dirname}/src-widgets/`;
+const srcWebComponents = `${__dirname}/src-webcomponents/`;
 
 /** Compile the adapter backend: src/*.ts => build/*.js */
 function buildBackend(): Promise<void> {
@@ -77,9 +78,26 @@ function copyAllFilesWidgets(): void {
     );
 }
 
+// ------------------------------------ web components -----------------------------------
+/**
+ * Builds the web component `<iob-scheduler-profile>` into `admin/webcomponents/`: one ES module and its manifest,
+ * which `common.webComponents` names. Every host - vis-2, devices, Aura, admin - loads them from
+ * `/adapter/scheduler/webcomponents/`. The vite build fails if the manifest does not pass `checkManifest()`.
+ */
+function webComponentsBuild(): Promise<void> {
+    deleteFoldersRecursive(`${__dirname}/admin/webcomponents`);
+    deleteFoldersRecursive(`${srcWebComponents}build`);
+    return (existsSync(`${srcWebComponents}node_modules`) ? Promise.resolve() : npmInstall(srcWebComponents))
+        .then(() => buildReact(srcWebComponents, { rootDir: srcWebComponents, vite: true }))
+        .then(() =>
+            copyFiles(['src-webcomponents/build/*.js', 'src-webcomponents/build/*.json'], 'admin/webcomponents'),
+        );
+}
+
 // ---------------------------------------- admin ----------------------------------------
 function cleanAdmin(): void {
-    deleteFoldersRecursive(`${__dirname}/admin`, [`${adapterName}.png`]);
+    // the web components have a build of their own, see webComponentsBuild()
+    deleteFoldersRecursive(`${__dirname}/admin`, [`${adapterName}.png`, 'webcomponents']);
 }
 
 function npmInstallAdmin(): Promise<void> {
@@ -148,8 +166,11 @@ if (process.argv.includes('--backend-build')) {
     patch().catch(onError);
 } else if (process.argv.includes('--admin-build')) {
     adminBuild().catch(onError);
+} else if (process.argv.includes('--wc-build')) {
+    webComponentsBuild().catch(onError);
 } else {
     adminBuild()
+        .then(() => webComponentsBuild())
         .then(() => widgetBuild())
         .then(() => buildBackend())
         .catch(onError);

@@ -58,6 +58,9 @@
     "build-backend": "tsx tasks.ts --backend-build",
     "build-admin": "tsx tasks.ts --admin-build",
     "build-widgets": "tsx tasks.ts --widget-build",
+    "build-wc": "tsx tasks.ts --wc-build",
+    "check-wc": "cd src-webcomponents && npm run check-ts",
+    "lint-wc": "cd src-webcomponents && npm run lint",
     "0-clean": "tsx tasks.ts --0-clean",
     "1-npm": "tsx tasks.ts --1-npm",
     "2-build": "tsx tasks.ts --2-build",
@@ -74,7 +77,7 @@
     "release-minor": "release-script minor --yes",
     "release-major": "release-script major --yes",
     "update-packages": "npx -y npm-check-updates --upgrade && cd src-widgets && npx -y npm-check-updates --upgrade && cd ../src-admin && npx -y npm-check-updates --upgrade",
-    "npm": "npm i && cd src-widgets && npm i -f && cd ../src-admin && npm i -f && cd"
+    "npm": "npm i && cd src-widgets && npm i -f && cd ../src-admin && npm i -f && cd ../src-webcomponents && npm i && cd"
   },
   "license": "MIT",
   "readmeFilename": "README.md"

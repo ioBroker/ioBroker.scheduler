@@ -6,6 +6,18 @@ const adapterName: string = (require('../package.json') as { name: string }).nam
 
 const FORBIDDEN_CHARS = /[^._\-/ :!#$%&()+=@^{}|~\p{Ll}\p{Lu}\p{Nd}]+/gu;
 
+/** Message `setProfile`: what a client may change of one profile */
+interface ProfileChange {
+    /** ID of the profile */
+    id: string;
+    /** Desired value for every interval of the day - as many as the profile has */
+    intervals?: number[];
+    /** Active days of the week: 0 - Sunday, 1 - Monday, ... */
+    dow?: number[];
+    /** True if the profile is active on holidays too */
+    holiday?: boolean;
+}
+
 class SchedulerAdapter extends Adapter {
     /** Cache of all objects, which are controlled by the profiles */
     private readonly devices: { [id: string]: ioBroker.StateObject } = {};
@@ -13,12 +25,100 @@ class SchedulerAdapter extends Adapter {
     /** Timer for the next interval */
     private timer: ioBroker.Timeout | undefined;
 
+    /** Changes of profiles are written one after another, each on the result of the previous one */
+    private profileWrites: Promise<void> = Promise.resolve();
+
     public constructor(options: Partial<AdapterOptions> = {}) {
         super({ ...options, name: adapterName });
 
         this.on('ready', () => this.main());
         this.on('objectChange', (id, obj) => this.onObjectChange(id, obj));
+        this.on('message', obj => this.onMessage(obj));
         this.on('unload', callback => this.onUnload(callback));
+    }
+
+    /**
+     * `setProfile`: changes the intervals, the days of the week and the holiday flag of one profile - what the web
+     * component `<iob-scheduler-profile>` edits. A web component may not write objects, so it asks the adapter.
+     */
+    private onMessage(msg: ioBroker.Message): void {
+        if (msg?.command !== 'setProfile') {
+            return;
+        }
+        const answer = (result: { result?: boolean; error?: string }): void => {
+            if (msg.callback) {
+                this.sendTo(msg.from, msg.command, result, msg.callback);
+            }
+        };
+        this.profileWrites = this.profileWrites
+            .then(() => this.setProfile(msg.message, msg.user))
+            .then(
+                () => answer({ result: true }),
+                (e: unknown) => {
+                    const error = e instanceof Error ? e.message : String(e);
+                    this.log.warn(`Cannot change profile: ${error}`);
+                    answer({ error });
+                },
+            );
+    }
+
+    /**
+     * Writes the change of one profile into the instance object, which is read fresh, so that other profiles and
+     * settings stay as they are. It is written on behalf of the user of the socket (`user` of the message), so the
+     * same rights apply as for the vis-2 widget, which writes the object itself. Like saving in admin, this restarts
+     * the instance with the new profiles.
+     *
+     * @param message the change, see {@link ProfileChange}
+     * @param user the user the message was sent for
+     */
+    private async setProfile(message: unknown, user?: ioBroker.ObjectIDs.User): Promise<void> {
+        const change = (message && typeof message === 'object' ? message : {}) as Partial<
+            Record<keyof ProfileChange, unknown>
+        >;
+        if (typeof change.id !== 'string' || !change.id) {
+            throw new Error('No profile ID');
+        }
+        const id = `system.adapter.${this.namespace}`;
+        const obj = await this.getForeignObjectAsync(id);
+        const profiles = (obj?.native as ioBroker.AdapterConfig | undefined)?.profiles;
+        const profile = Array.isArray(profiles)
+            ? profiles.find(item => item?.id === change.id && item.type === 'profile')
+            : undefined;
+        if (!obj || !profile) {
+            throw new Error(`Profile ${change.id} not found`);
+        }
+        const isNumber = (value: unknown): value is number => typeof value === 'number' && Number.isFinite(value);
+        if (change.intervals !== undefined) {
+            if (
+                !Array.isArray(change.intervals) ||
+                change.intervals.length !== profile.data.intervals.length ||
+                !change.intervals.every(isNumber)
+            ) {
+                throw new Error(`Invalid intervals for profile "${profile.title}"`);
+            }
+            profile.data.intervals = change.intervals;
+        }
+        if (change.dow !== undefined) {
+            if (
+                !Array.isArray(change.dow) ||
+                !change.dow.every(day => isNumber(day) && Number.isInteger(day) && day >= 0 && day <= 6)
+            ) {
+                throw new Error(`Invalid days of the week for profile "${profile.title}"`);
+            }
+            profile.data.dow = [...new Set(change.dow)];
+        }
+        if (change.holiday !== undefined) {
+            if (typeof change.holiday !== 'boolean') {
+                throw new Error(`Invalid holiday flag for profile "${profile.title}"`);
+            }
+            profile.data.holiday = change.holiday;
+        }
+        obj.from = `system.adapter.${this.namespace}`;
+        obj.ts = Date.now();
+        if (user) {
+            obj.user = user;
+        }
+        await this.setForeignObjectAsync(id, obj, user ? { user } : undefined);
     }
 
     private onObjectChange(id: string, obj: ioBroker.Object | null | undefined): void {

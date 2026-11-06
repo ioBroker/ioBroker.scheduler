@@ -1,0 +1,136 @@
+{
+    "$schema": "https://raw.githubusercontent.com/ioBroker/web-components/main/schemas/manifest.json",
+    "manifestVersion": 1,
+    "tag": "iob-scheduler-profile",
+    "name": {
+        "en": "Scheduler",
+        "de": "Planer",
+        "ru": "Планировщик",
+        "pt": "Agendador",
+        "nl": "Planner",
+        "fr": "Planificateur",
+        "it": "Pianificatore",
+        "es": "Planificador",
+        "pl": "Planista",
+        "uk": "Планувальник",
+        "zh-cn": "调度器"
+    },
+    "description": {
+        "en": "Shows and edits a profile of the scheduler: the value of each interval of the day and the days of the week",
+        "de": "Zeigt und bearbeitet ein Profil des Planers: den Wert jedes Intervalls des Tages und die Wochentage",
+        "ru": "Показывает и редактирует профиль планировщика: значение каждого интервала дня и дни недели",
+        "pt": "Mostra e edita um perfil do agendador: o valor de cada intervalo do dia e os dias da semana",
+        "nl": "Toont en bewerkt een profiel van de planner: de waarde van elk interval van de dag en de dagen van de week",
+        "fr": "Affiche et modifie un profil du planificateur : la valeur de chaque intervalle de la journée et les jours de la semaine",
+        "it": "Mostra e modifica un profilo del pianificatore: il valore di ogni intervallo del giorno e i giorni della settimana",
+        "es": "Muestra y edita un perfil del planificador: el valor de cada intervalo del día y los días de la semana",
+        "pl": "Wyświetla i edytuje profil harmonogramu: wartość każdego przedziału dnia i dni tygodnia",
+        "uk": "Показує та редагує профіль планувальника: значення кожного інтервалу дня та дні тижня",
+        "zh-cn": "显示并编辑调度器的配置文件：一天中每个时间段的值以及星期几"
+    },
+    "icon": "../scheduler.png",
+    "module": "scheduler-profile.js",
+    "size": {
+        "width": 640,
+        "height": 355
+    },
+    "settings": {
+        "type": "panel",
+        "items": {
+            "profile": {
+                "type": "objectId",
+                "types": "state",
+                "root": "scheduler",
+                "label": {
+                    "en": "Profile",
+                    "de": "Profil",
+                    "ru": "Профиль",
+                    "pt": "Perfil",
+                    "nl": "Profiel",
+                    "fr": "Profil",
+                    "it": "Profilo",
+                    "es": "Perfil",
+                    "pl": "Profil",
+                    "uk": "Профіль",
+                    "zh-cn": "配置文件"
+                },
+                "help": {
+                    "en": "A state of the profile, e.g. scheduler.0.<profile>_active",
+                    "de": "Ein Datenpunkt des Profils, z. B. scheduler.0.<Profil>_active",
+                    "ru": "Состояние профиля, например scheduler.0.<профиль>_active",
+                    "pt": "Um estado do perfil, p. ex. scheduler.0.<perfil>_active",
+                    "nl": "Een toestand van het profiel, bijv. scheduler.0.<profiel>_active",
+                    "fr": "Un état du profil, p. ex. scheduler.0.<profil>_active",
+                    "it": "Uno stato del profilo, ad es. scheduler.0.<profilo>_active",
+                    "es": "Un estado del perfil, p. ej. scheduler.0.<perfil>_active",
+                    "pl": "Stan profilu, np. scheduler.0.<profil>_active",
+                    "uk": "Стан профілю, напр. scheduler.0.<профіль>_active",
+                    "zh-cn": "配置文件的一个状态，例如 scheduler.0.<配置文件>_active"
+                }
+            },
+            "title": {
+                "type": "text",
+                "label": {
+                    "en": "Title",
+                    "de": "Titel",
+                    "ru": "Заголовок",
+                    "pt": "Título",
+                    "nl": "Titel",
+                    "fr": "Titre",
+                    "it": "Titolo",
+                    "es": "Título",
+                    "pl": "Tytuł",
+                    "uk": "Заголовок",
+                    "zh-cn": "标题"
+                },
+                "help": {
+                    "en": "Shown above the profile; empty: no title",
+                    "de": "Über dem Profil angezeigt; leer: kein Titel",
+                    "ru": "Показывается над профилем; пусто: без заголовка",
+                    "pt": "Mostrado acima do perfil; vazio: sem título",
+                    "nl": "Boven het profiel getoond; leeg: geen titel",
+                    "fr": "Affiché au-dessus du profil ; vide : pas de titre",
+                    "it": "Mostrato sopra il profilo; vuoto: nessun titolo",
+                    "es": "Se muestra encima del perfil; vacío: sin título",
+                    "pl": "Wyświetlany nad profilem; puste: bez tytułu",
+                    "uk": "Показується над профілем; порожньо: без заголовка",
+                    "zh-cn": "显示在配置文件上方；为空时不显示标题"
+                }
+            },
+            "readOnly": {
+                "type": "checkbox",
+                "default": false,
+                "label": {
+                    "en": "Read only",
+                    "de": "Schreibgeschützt",
+                    "ru": "Только чтение",
+                    "pt": "Somente leitura",
+                    "nl": "Alleen lezen",
+                    "fr": "Lecture seule",
+                    "it": "Sola lettura",
+                    "es": "Solo lectura",
+                    "pl": "Tylko do odczytu",
+                    "uk": "Лише для читання",
+                    "zh-cn": "只读"
+                }
+            },
+            "hideDow": {
+                "type": "checkbox",
+                "default": false,
+                "label": {
+                    "en": "Hide days of week",
+                    "de": "Wochentage ausblenden",
+                    "ru": "Скрыть дни недели",
+                    "pt": "Ocultar dias da semana",
+                    "nl": "Dagen van de week verbergen",
+                    "fr": "Masquer les jours de la semaine",
+                    "it": "Nascondi i giorni della settimana",
+                    "es": "Ocultar días de la semana",
+                    "pl": "Ukryj dni tygodnia",
+                    "uk": "Приховати дні тижня",
+                    "zh-cn": "隐藏星期几"
+                }
+            }
+        }
+    }
+}
