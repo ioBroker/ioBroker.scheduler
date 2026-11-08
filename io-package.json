@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "scheduler",
-    "version": "2.0.3",
+    "version": "2.1.0",
     "news": {
+      "2.1.0": {
+        "en": "Added the web component `iob-scheduler-profile` for Aura and other hosts (`common.webComponents`); it saves its changes through the new message `setProfile`",
+        "de": "Webkomponente `iob-scheduler-profile` für Aura und andere Hosts hinzugefügt (`common.webComponents`); sie speichert Änderungen in der neuen Nachricht `setProfile`",
+        "ru": "Добавлен веб-компонент `iob-scheduler-profile` для Aura и других хостов (`Common.webcomponents`); изменения сохраняются в новом сообщении `setProfile`",
+        "pt": "Adicionado o componente web `iob-scheduler-profile` para Aura e outros hosts (`common.webComponents`); ele salva as mudanças na nova mensagem `setProfile`",
+        "nl": "De webcomponent `iob-scheduler-profile` toegevoegd voor Aura en andere hosts (`Common.WebComponents`); de wijzigingen worden opgeslagen in het nieuwe bericht `SetProfile`",
+        "fr": "Ajout du composant Web « iob-scheduler-profile » pour Aura et d'autres hôtes (« common.WebComponents ») ; il enregistre ses modifications via le nouveau message « SetProfile »",
+        "it": "Aggiunto il componente web `iob-scheduler-profile` per Aura e altri host (`common.webComponents`); salva le modifiche con il nuovo messaggio `setProfile`",
+        "es": "Ha añadido el componente web «iob-scheduler-profile» para Aura y otros hosts (`Common.WebComponents`); guarda sus cambios en el nuevo mensaje `setProfile`",
+        "pl": "Dodano komponent internetowy „iob-scheduler-profile” dla Aura i innych hostów (`common.webcomponents`); zapisuje zmiany poprzez nowy komunikat `SetProfile`",
+        "uk": "Додано веб-компонент `iob-scheduler-profile` для Aura та інших хостів (`Common.WebComponents`); він зберігає свої зміни через нове повідомлення `setProfile`",
+        "zh-cn": "为 Aura 和其他主机添加了 Web 组件 `iob-scheduler-profile`（`common.webComponents`）；它通过新消息 `setProfile`保存其更改"
+      },
       "2.0.3": {
         "en": "Corrected the widget: changes in one widget were overwritten by other widgets of the same instance",
         "de": "Das Widget wurde korrigiert: Änderungen an einem Widget wurden überschrieben",
@@ -80,19 +93,6 @@
         "pl": "Skorygowany wybór stanów",
         "uk": "Правильний вибір станів",
         "zh-cn": "已更正状态选择"
-      },
-      "1.4.2": {
-        "en": "Allowed selection of mixed states",
-        "de": "Erlaubte Auswahl von gemischten Staaten",
-        "ru": "Разрешенный выбор смешанных государств",
-        "pt": "Seleção permitida de estados mistos",
-        "nl": "Toegestaan selectie van gemengde staten",
-        "fr": "Sélection autorisée d'états mixtes",
-        "it": "Selezione consentita di stati misti",
-        "es": "Selección de estados mixtos",
-        "pl": "Dopuszczalny wybór państw mieszanych",
-        "uk": "Дозволений вибір змішаних станів",
-        "zh-cn": "允许选择混合州"
       }
     },
     "titleLang": {
