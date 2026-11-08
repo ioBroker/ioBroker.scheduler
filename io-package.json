@@ -159,6 +159,9 @@
         ]
       }
     },
+    "webComponents": [
+      "webcomponents/scheduler-profile.json"
+    ],
     "ifInstalledDependencies": {
       "vis-2": ">=2.12.9"
     },
