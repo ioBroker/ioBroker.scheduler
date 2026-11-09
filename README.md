@@ -51,6 +51,9 @@ connection. The instance must run for that, and it restarts after every change, 
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (@GermanBluefox) Web component: the holiday button shows its whole name, and decimal values follow the number format of the system
+
 ### 2.1.0 (2026-11-08)
 * (@GermanBluefox) Added the web component `iob-scheduler-profile` for Aura and other hosts (`common.webComponents`); it saves its changes through the new message `setProfile`
 

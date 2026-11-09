@@ -210,7 +210,10 @@ export const STYLES = `
 }
 .days {
     flex: none;
-    width: clamp(40px, 13cqmin, 64px);
+    /* as wide as the longest day: the word for a holiday differs a lot between the languages */
+    width: max-content;
+    min-width: clamp(40px, 13cqmin, 64px);
+    max-width: 30cqw;
     display: grid;
     grid-auto-rows: minmax(0, 1fr);
     gap: clamp(2px, 1cqmin, 6px);
@@ -220,7 +223,7 @@ export const STYLES = `
     min-width: 0;
     min-height: 0;
     margin: 0;
-    padding: 0 2px;
+    padding: 0 6px;
     font: inherit;
     font-size: var(--fs-small);
     font-weight: 600;
@@ -257,6 +260,8 @@ export const STYLES = `
     }
     .days {
         width: auto;
+        min-width: 0;
+        max-width: none;
         height: clamp(28px, 10cqmin, 40px);
         grid-auto-flow: column;
         grid-auto-columns: minmax(0, 1fr);
