@@ -51,7 +51,7 @@ connection. The instance must run for that, and it restarts after every change, 
 -->
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 2.1.1 (2026-11-09)
 * (@GermanBluefox) Web component: the holiday button shows its whole name, and decimal values follow the number format of the system
 
 ### 2.1.0 (2026-11-08)
@@ -65,10 +65,6 @@ connection. The instance must run for that, and it restarts after every change, 
 
 ### 2.0.1 (2026-10-17)
 * (@GermanBluefox) Packages were updated
-
-### 2.0.0 (2026-08-07)
-* (@GermanBluefox) Migrated to React 19
-* (@GermanBluefox) Breaking: Minimum Node.js version is 22
 
 [Older changelogs can be found there](CHANGELOG_OLD.md)
 

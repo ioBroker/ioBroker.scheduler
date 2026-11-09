@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "scheduler",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "news": {
+      "2.1.1": {
+        "en": "Web component: the holiday button shows its whole name, and decimal values follow the number format of the system",
+        "de": "Web-Komponente: Der Feiertagsknopf zeigt seinen ganzen Namen und Dezimalzahlen im System",
+        "ru": "Веб-компонент: кнопка праздника показывает полное название, а десятичные значения соответствуют числовому формату системы",
+        "pt": "Componente Web: o botão de férias mostra o nome completo e os decimais seguem o formato numérico do sistema",
+        "nl": "Webcomponent: op de vakantieknop staat de volledige naam, en de decimale waarden volgen de getalnotatie van het systeem",
+        "fr": "Composant Web : le bouton « jour férié » affiche son nom complet et les décimales suivent le format numérique du système",
+        "it": "Componente Web: il pulsante festività mostra il nome completo e i valori decimali sono numerici",
+        "es": "Componente web: el botón navideño muestra su nombre completo y los decimales siguen el formato numérico del sistema",
+        "pl": "Komponent WWW: przycisk świąteczny pokazuje całą nazwę, a wartości dziesiętne są zgodne z formatem liczbowym systemu",
+        "uk": "Веб-компонент: кнопка свята показує всю її назву, а десяткові значення слідують за форматом чисел системи",
+        "zh-cn": "Web 组件：假日按钮显示其全名，十进制值遵循系统的数字格式"
+      },
       "2.1.0": {
         "en": "Added the web component `iob-scheduler-profile` for Aura and other hosts (`common.webComponents`); it saves its changes through the new message `setProfile`",
         "de": "Webkomponente `iob-scheduler-profile` für Aura und andere Hosts hinzugefügt (`common.webComponents`); sie speichert Änderungen in der neuen Nachricht `setProfile`",
@@ -80,19 +93,6 @@
         "pl": "Poprawione widżety dla vis-2\nPakiety zostały zaktualizowane",
         "uk": "Виправлені віджети для vis-2\nПакети оновлено",
         "zh-cn": "已校正的元件 :\n软件包已更新"
-      },
-      "1.4.3": {
-        "en": "Corrected states selection",
-        "de": "Auswahl der korrigierten Zustände",
-        "ru": "Выбор исправленных состояний",
-        "pt": "Seleção de estados corrigidos",
-        "nl": "Gecorrigeerde selectie",
-        "fr": "Sélection des états corrigés",
-        "it": "Selezione degli stati corretti",
-        "es": "Selección de estados corregida",
-        "pl": "Skorygowany wybór stanów",
-        "uk": "Правильний вибір станів",
-        "zh-cn": "已更正状态选择"
       }
     },
     "titleLang": {

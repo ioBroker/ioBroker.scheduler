@@ -1,4 +1,8 @@
 # Older changes
+## 2.0.0 (2026-08-07)
+* (@GermanBluefox) Migrated to React 19
+* (@GermanBluefox) Breaking: Minimum Node.js version is 22
+
 ## 1.5.0 (2025-05-21)
 * (bluefox) Corrected widgets for vis-2
 * (bluefox) Packages were updated
