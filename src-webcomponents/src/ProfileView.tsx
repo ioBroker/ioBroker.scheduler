@@ -37,6 +37,8 @@ export interface ProfileViewProps {
     profile: ProfileShown;
     range: ValueRange;
     showDow: boolean;
+    /** The system writes numbers with a comma */
+    floatComma: boolean;
     /** The instance has a holiday state: the holiday button is shown */
     holidayVisible: boolean;
     mondayFirst: boolean;
@@ -109,12 +111,14 @@ function useNow(): Date {
  * @param range the values of the profile
  * @param type the type of the profile
  * @param word the words of the element
+ * @param floatComma the system writes numbers with a comma
  */
 function formatValue(
     value: number,
     range: ValueRange,
     type: ProfileValueType,
     word: (key: WordKey) => string,
+    floatComma: boolean,
 ): { text: string; unit: string } {
     if (type === 'onoff') {
         return { text: word(value ? 'on' : 'off'), unit: '' };
@@ -123,7 +127,8 @@ function formatValue(
     if (mark) {
         return { text: mark.label, unit: '' };
     }
-    return { text: String(Number(value.toFixed(2))), unit: range.unit };
+    const text = String(Number(value.toFixed(2)));
+    return { text: floatComma ? text.replace('.', ',') : text, unit: range.unit };
 }
 
 /** A hint instead of the profile: nothing chosen, or what is chosen is no profile */
@@ -391,7 +396,7 @@ export function ProfileView(props: ProfileViewProps): JSX.Element {
                         >
                             {shown.map((value, i) => {
                                 const start = getIntervalStart(i, duration);
-                                const formatted = formatValue(value, range, profile.type, word);
+                                const formatted = formatValue(value, range, profile.type, word, props.floatComma);
                                 const label = formatted.text + formatted.unit;
                                 const time = `${start.hours}:${start.minutes}`;
                                 const colClasses = ['col'];

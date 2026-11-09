@@ -241,6 +241,7 @@ class SchedulerProfileElement extends IobWebComponent<ProfileSettings> {
                 profile={shown}
                 range={getValueRange(shown.type, memberId ? this.objects[memberId] : null)}
                 showDow={!settings.hideDow}
+                floatComma={!!config?.common?.isFloatComma}
                 holidayVisible={!!(object.native as { holidayId?: string } | undefined)?.holidayId}
                 mondayFirst={config?.common?.firstDayOfWeek !== 'sunday'}
                 editable={!this.editMode && !settings.readOnly && !!this.socket}
@@ -264,6 +265,10 @@ class SchedulerProfileElement extends IobWebComponent<ProfileSettings> {
                 profile={SAMPLE_PROFILE}
                 range={getValueRange(SAMPLE_PROFILE.type, null)}
                 showDow={!this.settings.hideDow}
+                floatComma={
+                    !!(this.objects['system.config'] as ioBroker.SystemConfigObject | null | undefined)?.common
+                        ?.isFloatComma
+                }
                 holidayVisible={false}
                 mondayFirst
                 editable={false}
