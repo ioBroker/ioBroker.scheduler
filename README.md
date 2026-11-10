@@ -51,6 +51,9 @@ connection. The instance must run for that, and it restarts after every change, 
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (@GermanBluefox) The adapter declares the versions it needs: js-controller 6.0.11 and admin 7.6.20 or newer. It cannot be installed from GitHub, because the build is not part of the repository
+
 ### 2.1.1 (2026-11-09)
 * (@GermanBluefox) Web component: the holiday button shows its whole name, and decimal values follow the number format of the system
 

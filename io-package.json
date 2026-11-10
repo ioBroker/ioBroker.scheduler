@@ -140,9 +140,20 @@
     "tier": 1,
     "enabled": true,
     "compact": true,
+    "nogit": true,
     "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.scheduler/master/admin/scheduler.png",
     "type": "logic",
     "messagebox": true,
+    "dependencies": [
+      {
+        "js-controller": ">=6.0.11"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=7.6.20"
+      }
+    ],
     "plugins": {
       "sentry": {
         "dsn": "https://28777a2d4d4e4b3f9ec5e9b55b8fa62d@sentry.iobroker.net/145"
