@@ -69,6 +69,7 @@ const styles: Record<string, any> = {
     },
 };
 
+// Must stay identical to SchedulerAdapter.checkObject() in src/main.ts
 function checkObject(obj: ioBroker.Object | false | null | undefined, type: ProfileValueType): boolean {
     if (!obj || !obj.common) {
         return false;

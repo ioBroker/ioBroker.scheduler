@@ -24,6 +24,21 @@ Every bar is one hour and is set by dragging it. On the right the weekdays and h
 
 ![vis-2 widget, dark theme](img/vis2-widget-dark.png)
 
+## Profile types and data points
+The type of the profile decides which data points can be added to it and which value is written into them.
+
+| Type        | Required data point                                        | Written value                                                                               |
+|-------------|------------------------------------------------------------|---------------------------------------------------------------------------------------------|
+| Percent     | `number` with `min` and `max`                              | The value is scaled linearly between `min` and `max`: `min + round((max - min) * value / 100)` |
+| Percent     | unit `%`                                                   | The value 0-100 unchanged                                                                   |
+| Temperature | `number`                                                   | The value unchanged                                                                         |
+| On/Off      | `boolean`                                                  | `true` or `false`                                                                           |
+| Custom      | `number`                                                   | The value unchanged                                                                         |
+
+Data points with `common.type` `mixed` are accepted for all types.
+The dialog to select the data points offers only the data points that match the type of the profile.
+Do not set `common.type` of a data point to `custom`: this is not a valid type of ioBroker, use `number`.
+
 ## Web components
 The adapter brings the profile view as a web component too (`common.webComponents`, `@iobroker/web-components`), so
 that Aura, ioBroker.devices, admin and every other host can show it. vis-2 keeps showing its own widget.
@@ -53,6 +68,7 @@ connection. The instance must run for that, and it restarts after every change, 
 ## Changelog
 ### **WORK IN PROGRESS**
 * (@GermanBluefox) The adapter declares the versions it needs: js-controller 6.0.11 and admin 7.6.20 or newer. It cannot be installed from GitHub, because the build is not part of the repository
+* (@GermanBluefox) Fixed profiles of type Custom: the adapter rejected the data points accepted by admin and did not write the value. Documented which data points every profile type needs (#448)
 
 ### 2.1.1 (2026-11-09)
 * (@GermanBluefox) Web component: the holiday button shows its whole name, and decimal values follow the number format of the system
