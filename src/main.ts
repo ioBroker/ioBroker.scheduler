@@ -142,15 +142,23 @@ class SchedulerAdapter extends Adapter {
         callback();
     }
 
+    // Must stay identical to checkObject() in src-admin/src/components/DevicesPanel.tsx
     private static checkObject(obj: ioBroker.StateObject, type: ProfileValueType): boolean {
+        if (type === 'custom') {
+            return obj.common.type === 'number' || obj.common.type === 'mixed';
+        }
         if (type === 'percent') {
-            return obj.common.unit === '%' || (obj.common.min !== undefined && obj.common.max !== undefined);
+            return (
+                obj.common.unit === '%' ||
+                (obj.common.min !== undefined && obj.common.max !== undefined) ||
+                obj.common.type === 'mixed'
+            );
         }
         if (type === 'temperature') {
-            return obj.common.type === 'number';
+            return obj.common.type === 'number' || obj.common.type === 'mixed';
         }
         if (type === 'onoff') {
-            return obj.common.type === 'boolean';
+            return obj.common.type === 'boolean' || obj.common.type === 'mixed';
         }
         return false;
     }
@@ -163,7 +171,7 @@ class SchedulerAdapter extends Adapter {
             }
             return value;
         }
-        if (type === 'temperature') {
+        if (type === 'temperature' || type === 'custom') {
             return value;
         }
         if (type === 'onoff') {
