@@ -239,7 +239,7 @@ class SchedulerProfileElement extends IobWebComponent<ProfileSettings> {
                 key={key}
                 title={settings.title || ''}
                 profile={shown}
-                range={getValueRange(shown.type, memberId ? this.objects[memberId] : null)}
+                range={getValueRange(shown.type, memberId ? this.objects[memberId] : null, profile.data)}
                 showDow={!settings.hideDow}
                 floatComma={!!config?.common?.isFloatComma}
                 holidayVisible={!!(object.native as { holidayId?: string } | undefined)?.holidayId}

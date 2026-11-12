@@ -1,5 +1,5 @@
-import { E as e, O as t, S as n, T as r, b as i, d as a, f as o, g as s, gt as c, h as l, j as u, o as d, u as f, y as p } from "./_virtual_mf___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__188434573433139__loadShare__shared-JSlo9709.js";
-import { a as m, dt as h, f as g, ft as ee, s as _, t as v } from "./createStyled-BDLds_S8.js";
+import { E as e, O as t, S as n, T as r, b as i, d as a, f as o, g as s, gt as c, h as l, j as u, o as d, u as f, y as p } from "./_virtual_mf___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__188434573433139__loadShare__shared-D9z2PFkA.js";
+import { a as m, dt as h, f as g, ft as ee, s as _, t as v } from "./createStyled-BKi0ou9I.js";
 var y = typeof window < `u` ? r : n;
 function b(e2) {
   return Object.keys(e2).length === 0;
@@ -246,8 +246,7 @@ function $(t2 = {}) {
     let i2 = x();
     i2 && n2 && (i2 = i2[n2] || i2);
     let a2 = typeof window < `u` && window.matchMedia !== void 0 ? window.matchMedia : null, { defaultMatches: o2 = false, matchMedia: s2, ssrMatchMedia: c2 = null, noSsr: l2 = false } = R({ name: `MuiUseMediaQuery`, props: r2, theme: i2 }), u2 = e(() => s2 === void 0 ? a2 === null ? null : a2.bind(window) : s2, [s2, a2]), d2 = typeof t3 == `function` ? t3(i2) : t3;
-    return d2 = d2.replace(/^@media( ?)/m, ``), d2.includes(`print`) && console.warn(["MUI: You have provided a `print` query to the `useMediaQuery` hook.", `Using the print media query to modify print styles can lead to unexpected results.`, "Consider using the `displayPrint` field in the `sx` prop instead.", "More information about `displayPrint` on our docs: https://mui.com/system/display/#display-in-print."].join(`
-`)), (Q === void 0 ? me : he)(d2, o2, u2, c2, l2);
+    return d2 = d2.replace(/^@media( ?)/m, ``), d2.includes(`print`) && console.warn("MUI: You have provided a `print` query to the `useMediaQuery` hook.\nUsing the print media query to modify print styles can lead to unexpected results.\nConsider using the `displayPrint` field in the `sx` prop instead.\nMore information about `displayPrint` on our docs: https://mui.com/system/display/#display-in-print."), (Q === void 0 ? me : he)(d2, o2, u2, c2, l2);
   };
 }
 var ge = $();

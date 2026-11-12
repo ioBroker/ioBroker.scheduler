@@ -105,7 +105,8 @@
       "it": "Scheduler",
       "es": "Programador",
       "pl": "Planista",
-      "zh-cn": "排程器"
+      "zh-cn": "排程器",
+      "uk": "Планувальник"
     },
     "desc": {
       "en": "Creates schedule profiles and controls devices with it",
@@ -117,7 +118,8 @@
       "it": "Crea profili di pianificazione e controlla i dispositivi con esso",
       "es": "Crea perfiles de programación y controla dispositivos con él",
       "pl": "Tworzy profile harmonogramów i steruje nimi urządzeniami",
-      "zh-cn": "创建时间表配置文件并使用它控制设备"
+      "zh-cn": "创建时间表配置文件并使用它控制设备",
+      "uk": "Створює профілі розкладу та керує за ними пристроями"
     },
     "authors": [
       "bluefox <dogafox@gmail.com>"
@@ -181,8 +183,7 @@
     ],
     "licenseInformation": {
       "license": "MIT",
-      "type": "free",
-      "link": "https://github.com/ioBroker/ioBroker.scheduler/blob/master/LICENSE"
+      "type": "free"
     }
   },
   "native": {

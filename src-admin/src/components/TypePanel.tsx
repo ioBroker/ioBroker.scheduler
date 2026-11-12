@@ -1,12 +1,19 @@
 import { Component, type JSX } from 'react';
-import { FormControl, InputLabel, MenuItem, Select, type SelectChangeEvent } from '@mui/material';
+import { FormControl, FormHelperText, InputLabel, MenuItem, Select, type SelectChangeEvent } from '@mui/material';
 import { I18n } from '@iobroker/gui-components';
 
 import type { ProfileValueType } from '../types';
+import { getTypeHint } from './typeHints';
+import { fadeIn, motion } from './animations';
+
+// the hint changes with the type: the new text fades in
+const hintStyle = motion({ animation: `${fadeIn} 400ms ease-out both` });
 
 interface TypePanelProps {
     onChange: (type: ProfileValueType) => void;
     type: ProfileValueType;
+    /** The profile has a value list */
+    hasValueList?: boolean;
 }
 
 export default class TypePanel extends Component<TypePanelProps> {
@@ -32,6 +39,12 @@ export default class TypePanel extends Component<TypePanelProps> {
                     <MenuItem value="onoff">{I18n.t('On/Off')}</MenuItem>
                     <MenuItem value="custom">{I18n.t('Custom')}</MenuItem>
                 </Select>
+                <FormHelperText
+                    key={`${type}${this.props.hasValueList ? '-list' : ''}`}
+                    sx={hintStyle}
+                >
+                    {I18n.t(getTypeHint(type, this.props.hasValueList))}
+                </FormHelperText>
             </FormControl>
         );
     }

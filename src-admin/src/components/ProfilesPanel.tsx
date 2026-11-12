@@ -39,23 +39,14 @@ import {
     FileCopy as FileCopyIcon,
     CreateNewFolder as CreateNewFolderIcon,
     Search as SearchIcon,
-    Schedule as ScheduleIcon,
-    UnfoldLess as UnfoldLessIcon,
-    UnfoldMore as UnfoldMoreIcon,
     Close as CloseIcon,
-    Delete as DeleteIcon,
     Check as CheckIcon,
 } from '@mui/icons-material';
 
-import {
-    I18n,
-    IconClosed as FolderIcon,
-    IconOpen as FolderOpenIcon,
-    type AdminConnection,
-    type IobTheme,
-} from '@iobroker/gui-components';
+import { I18n, IconFolder, IconFilter, IconTrash, type AdminConnection, type IobTheme } from '@iobroker/gui-components';
 
 import type { ProfileData, SchedulerProfile } from '../types';
+import { AnimatedClock, fadeSlideIn, motion } from './animations';
 
 const defaultProfileData: ProfileData = {
     enabled: true,
@@ -151,6 +142,10 @@ const styles: Record<string, any> = {
             width: 20,
             height: 20,
         },
+        ...motion({
+            animation: `${fadeSlideIn} 220ms ease-out both`,
+            transition: 'background-color 150ms ease-out, color 150ms ease-out',
+        }),
     }),
     active: {},
     head: {
@@ -567,16 +562,9 @@ export default class ProfilesPanel extends Component<ProfilesPanelProps, Profile
                       ) : null,
                   );
 
-        const folderSample = isOpen ? (
-            <FolderOpenIcon
-                style={styles.folderIcon}
-                onClick={(e: ReactMouseEvent) => {
-                    this.onOpen(folderItem.id);
-                    e.stopPropagation();
-                }}
-            />
-        ) : (
-            <FolderIcon
+        const folderSample = (
+            <IconFolder
+                open={isOpen}
                 style={styles.folderIcon}
                 onClick={(e: ReactMouseEvent) => {
                     this.onOpen(folderItem.id);
@@ -662,7 +650,7 @@ export default class ProfilesPanel extends Component<ProfilesPanelProps, Profile
                     variant="inherit"
                     className="pl-1 w-100"
                 >
-                    <ScheduleIcon style={styles.scheduleIcon} />
+                    <AnimatedClock style={styles.scheduleIcon} />
                     <Tooltip
                         slotProps={{ popper: { sx: styles.tooltip } }}
                         title={
@@ -777,7 +765,7 @@ export default class ProfilesPanel extends Component<ProfilesPanelProps, Profile
                                 title={I18n.t('finish searching')}
                                 onClick={this.onSearch}
                             >
-                                <CloseIcon />
+                                <IconFilter active={!!this.state.searchText} />
                             </IconButton>
                         ),
                     },
@@ -809,7 +797,10 @@ export default class ProfilesPanel extends Component<ProfilesPanelProps, Profile
                             title={I18n.t('Close all')}
                             onClick={this.onCloseAll}
                         >
-                            <UnfoldLessIcon />
+                            <IconFolder
+                                open
+                                toggleOnHover
+                            />
                         </IconButton>
                     ) : (
                         <IconButton
@@ -818,7 +809,10 @@ export default class ProfilesPanel extends Component<ProfilesPanelProps, Profile
                             title={I18n.t('Open all')}
                             onClick={this.onOpenAll}
                         >
-                            <UnfoldMoreIcon />
+                            <IconFolder
+                                open={false}
+                                toggleOnHover
+                            />
                         </IconButton>
                     )
                 ) : null}
@@ -911,7 +905,7 @@ export default class ProfilesPanel extends Component<ProfilesPanelProps, Profile
                             style={{ color: '#FF8080' }}
                             onClick={this.onDeleteItem}
                             variant="outlined"
-                            startIcon={<DeleteIcon />}
+                            startIcon={<IconTrash />}
                         >
                             {I18n.t('Delete')}
                         </Button>

@@ -29,7 +29,10 @@ updates:
           - 'version-update:semver-major'
 
   - package-ecosystem: 'npm'
-    directory: '/src'
+    directories:
+      - '/src-admin'
+      - '/src-webcomponents'
+      - '/src-widgets'
     schedule:
       interval: 'cron'
       timezone: 'Europe/Berlin'

@@ -1,5 +1,5 @@
-import { A as e, _ as t, a as n, ct as r, dt as i, ft as a, lt as o, m as s, o as c, pt as l, s as u, st as d, ut as f } from "./_virtual_mf___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__188434573433139__loadShare__shared-JSlo9709.js";
-import { t as p } from "./createSvgIcon-DQBixDG0.js";
+import { A as e, _ as t, a as n, ct as r, dt as i, ft as a, lt as o, m as s, o as c, pt as l, s as u, st as d, ut as f } from "./_virtual_mf___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__188434573433139__loadShare__shared-D9z2PFkA.js";
+import { t as p } from "./createSvgIcon-BdLYe-SR.js";
 var m = p([c(`path`, { d: `M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2M12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8` }, `0`), c(`path`, { d: `M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z` }, `1`)], `Schedule`);
 window.i18nTranslations || (window.i18nTranslations = {}), window.sysLang || (window.sysLang = `en`);
 var h = class e2 {
@@ -308,8 +308,30 @@ var D = class extends t {
     let e4 = this.props.firstDayOfWeek === `monday` ? N : P, t3 = this.props.columns || 1, n2 = e4.map((e5) => this.renderButton(`dow${e5}`, this.props.t(M[e5]), this.props.t(M[e5]), this.props.dow.includes(e5), () => this.props.onChange(e5, !this.props.dow.includes(e5))));
     return this.props.holidayVisible && n2.push(this.renderButton(`holiday`, this.props.t(`Holiday`), this.props.t(`Holiday`), !!this.props.holiday, () => this.props.onChange(`holiday`, !this.props.holiday))), c(o, { sx: F.grid, style: { gridTemplateColumns: `repeat(${t3}, minmax(0, 1fr))` }, children: n2 });
   }
-}, L = b, R = Promise.resolve(), z = { content: { display: `flex`, gap: 8, width: `100%`, height: `100%`, minHeight: 0, position: `relative`, boxSizing: `border-box` }, intervals: { flex: 1, minWidth: 0, minHeight: 0, display: `flex`, flexDirection: `column` }, days: { width: 68, flexShrink: 0, display: `flex`, alignItems: `center` } };
-function B(t3) {
+};
+function L(e4, t3) {
+  var _a;
+  return t3 === `custom` && !!((_a = e4.values) == null ? void 0 : _a.length);
+}
+function R(e4, t3) {
+  var _a;
+  let n2 = (_a = e4.values) == null ? void 0 : _a[t3];
+  return n2 && (n2.label || n2.value || n2.id) || String(t3);
+}
+function z(e4, t3, n2) {
+  if (L(t3, n2)) {
+    let e5 = {};
+    return t3.values.forEach((n3, r3) => e5[r3] = R(t3, r3)), { min: 0, max: t3.values.length - 1, step: 1, unit: ``, marks: e5 };
+  }
+  let r2 = t3.range;
+  if (!r2 || n2 !== `temperature` && n2 !== `custom`) return e4;
+  let i2 = (e5) => typeof e5 == `number` && Number.isFinite(e5);
+  if (!i2(r2.min) && !i2(r2.max) && !i2(r2.step)) return e4;
+  let a2 = { ...e4, simulated: false };
+  return (i2(r2.min) || i2(r2.max)) && (a2.min = i2(r2.min) ? r2.min : e4.min, a2.max = i2(r2.max) ? r2.max : e4.max, a2.marks = null), i2(r2.step) && r2.step > 0 && (a2.step = r2.step), a2.max > a2.min ? a2 : e4;
+}
+var B = b, V = Promise.resolve(), H = { content: { display: `flex`, gap: 8, width: `100%`, height: `100%`, minHeight: 0, position: `relative`, boxSizing: `border-box` }, intervals: { flex: 1, minWidth: 0, minHeight: 0, display: `flex`, flexDirection: `column` }, days: { width: 68, flexShrink: 0, display: `flex`, alignItems: `center` } };
+function U(t3) {
   let [n2, r2] = e.useState(null);
   if (e.useEffect(() => {
     t3.context.socket.getObject(`system.adapter.scheduler.${t3.data.instance}`).then((e4) => r2(e4 || null));
@@ -331,14 +353,14 @@ function B(t3) {
     return c(`div`, { children: t4 ? t4.profile.title : `` });
   }, children: o2.map((e4) => c(i, { value: e4.profile.id, disabled: e4.profile.type === `folder`, children: u(`div`, { style: { paddingLeft: e4.level * 20, display: `flex` }, children: [c(`span`, { style: { paddingRight: 4 }, children: e4.profile.type === `folder` ? c(g, {}) : c(m, {}) }), e4.profile.title] }) }, e4.profile.id)) });
 }
-var V = class t2 extends window.visRxWidget {
+var W = class t2 extends window.visRxWidget {
   widgetRef = e.createRef();
   subscribedId = ``;
   minMaxObjectId = ``;
   writeTimeout = null;
   unsaved = null;
   static getWidgetInfo() {
-    return { id: `tplScheduler`, visSet: `scheduler`, visWidgetLabel: `scheduler`, visSetLabel: `set_label`, visSetColor: `#70BBF7`, visName: `Scheduler`, visAttrs: [{ name: `common`, fields: [{ label: `instance`, name: `instance`, type: `instance`, adapter: `scheduler`, isShort: true }, { label: `profile`, name: `profile`, type: `custom`, hidden: (e4) => !e4.instance && e4.instance !== 0, component: (e4, t3, n2, r2) => c(B, { field: e4, data: t3, setData: n2, context: r2.context }) }, { label: `read_only`, name: `readOnly`, type: `checkbox`, default: false }, { label: `hide_days_of_week`, name: `hideDow`, type: `checkbox`, default: false }, { name: `noCard`, label: `without_card`, type: `checkbox`, hidden: `!!data.externalDialog` }, { name: `widgetTitle`, label: `name`, hidden: `!!data.noCard` }] }], visDefaultStyle: { width: `100%`, height: 355, position: `relative` }, visPrev: `widgets/scheduler/img/prev_scheduler.png` };
+    return { id: `tplScheduler`, visSet: `scheduler`, visWidgetLabel: `scheduler`, visSetLabel: `set_label`, visSetColor: `#70BBF7`, visName: `Scheduler`, visAttrs: [{ name: `common`, fields: [{ label: `instance`, name: `instance`, type: `instance`, adapter: `scheduler`, isShort: true }, { label: `profile`, name: `profile`, type: `custom`, hidden: (e4) => !e4.instance && e4.instance !== 0, component: (e4, t3, n2, r2) => c(U, { field: e4, data: t3, setData: n2, context: r2.context }) }, { label: `read_only`, name: `readOnly`, type: `checkbox`, default: false }, { label: `hide_days_of_week`, name: `hideDow`, type: `checkbox`, default: false }, { name: `noCard`, label: `without_card`, type: `checkbox`, hidden: `!!data.externalDialog` }, { name: `widgetTitle`, label: `name`, hidden: `!!data.noCard` }] }], visDefaultStyle: { width: `100%`, height: 355, position: `relative` }, visPrev: `widgets/scheduler/img/prev_scheduler.png` };
   }
   static t(e4, ...t3) {
     return h.t(`scheduler_${e4}`, ...t3);
@@ -416,7 +438,7 @@ var V = class t2 extends window.visRxWidget {
   saveProfile() {
     this.writeTimeout && (this.writeTimeout = (clearTimeout(this.writeTimeout), null));
     let e4 = this.unsaved;
-    e4 && (R = R.then(async () => {
+    e4 && (V = V.then(async () => {
       var _a, _b;
       let t3 = await this.getInstanceObject(e4.instanceId), n2 = (_b = (_a = t3 == null ? void 0 : t3.native) == null ? void 0 : _a.profiles) == null ? void 0 : _b.find((t4) => t4.id === e4.profileId);
       if (!t3 || !n2) throw Error(`Profile ${e4.profileId} not found in ${e4.instanceId}`);
@@ -431,6 +453,9 @@ var V = class t2 extends window.visRxWidget {
     return e4 && e4.type === `profile` ? e4.data : null;
   };
   getProfileMinMax(e4) {
+    return z(this.getBaseMinMax(e4), e4, e4.type);
+  }
+  getBaseMinMax(e4) {
     var _a, _b;
     if (e4.type === `custom`) {
       let e5 = (_a = this.state.minMaxObject) == null ? void 0 : _a.common;
@@ -445,9 +470,9 @@ var V = class t2 extends window.visRxWidget {
     }
     if (e4.type === `temperature`) {
       let t3 = (_b = this.state.minMaxObject) == null ? void 0 : _b.common;
-      if (t3 && (t3.min !== void 0 || t3.max !== void 0)) return { min: t3.min === void 0 ? L.temperature.min : t3.min, max: t3.max === void 0 ? L.temperature.max : t3.max, unit: t3.unit || L[e4.type].unit, marks: null };
+      if (t3 && (t3.min !== void 0 || t3.max !== void 0)) return { min: t3.min === void 0 ? B.temperature.min : t3.min, max: t3.max === void 0 ? B.temperature.max : t3.max, unit: t3.unit || B[e4.type].unit, marks: null };
     }
-    return { min: L[e4.type].min, max: L[e4.type].max, step: L[e4.type].step, marks: null, unit: L[e4.type].unit };
+    return { min: B[e4.type].min, max: B[e4.type].max, step: B[e4.type].step, marks: null, unit: B[e4.type].unit };
   }
   renderWidgetBody(e4) {
     var _a, _b, _c, _d;
@@ -458,10 +483,10 @@ var V = class t2 extends window.visRxWidget {
     ((_a = this.widgetRef.current) == null ? void 0 : _a.offsetWidth) || setTimeout(() => this.forceUpdate(), 100);
     let r2 = !this.state.rxData.hideDow, i2 = (((_b = this.widgetRef.current) == null ? void 0 : _b.offsetWidth) || 0) - (r2 ? 76 : 0);
     i2 < 0 && (i2 = 0);
-    let a2 = u(`div`, { style: z.content, ref: this.widgetRef, children: [this.state.writing ? c(f, { style: { position: `absolute`, zIndex: 1, top: 0, left: 0, width: `100%` } }) : null, i2 ? c(`div`, { style: z.intervals, children: c(j, { id: this.props.id, onChange: this.onIntervals, theme: this.props.context.theme, intervals: n2.intervals, range: n2.intervalDuration, type: n2.type, readOnly: this.state.rxData.readOnly, intervalsWidth: i2, minMax: this.getProfileMinMax(n2), t: t2.t }) }) : null, r2 && i2 ? c(`div`, { style: z.days, children: c(I, { firstDayOfWeek: ((_d = (_c = this.props.context.socket.systemConfig) == null ? void 0 : _c.common) == null ? void 0 : _d.firstDayOfWeek) || `monday`, readOnly: this.state.rxData.readOnly, dow: n2.dow, holiday: n2.holiday, holidayVisible: !!this.state.object.native.holidayId, onChange: this.onDow, columns: 1, t: t2.t }) }) : null] });
+    let a2 = u(`div`, { style: H.content, ref: this.widgetRef, children: [this.state.writing ? c(f, { style: { position: `absolute`, zIndex: 1, top: 0, left: 0, width: `100%` } }) : null, i2 ? c(`div`, { style: H.intervals, children: c(j, { id: this.props.id, onChange: this.onIntervals, theme: this.props.context.theme, intervals: n2.intervals, range: n2.intervalDuration, type: n2.type, readOnly: this.state.rxData.readOnly, intervalsWidth: i2, minMax: this.getProfileMinMax(n2), t: t2.t }) }) : null, r2 && i2 ? c(`div`, { style: H.days, children: c(I, { firstDayOfWeek: ((_d = (_c = this.props.context.socket.systemConfig) == null ? void 0 : _c.common) == null ? void 0 : _d.firstDayOfWeek) || `monday`, readOnly: this.state.rxData.readOnly, dow: n2.dow, holiday: n2.holiday, holidayVisible: !!this.state.object.native.holidayId, onChange: this.onDow, columns: 1, t: t2.t }) }) : null] });
     return this.state.rxData.noCard || e4.widget.usedInWidget ? a2 : this.wrapContent(a2, null, { height: `calc(100% - 24px)`, width: `calc(100% - 24px)` });
   }
 };
 export {
-  V as default
+  W as default
 };

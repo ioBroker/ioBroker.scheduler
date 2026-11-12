@@ -5,6 +5,7 @@ import type { IobTheme, Translate } from '@iobroker/gui-components';
 import DayNightSwitcher from './DayNightSwitcher';
 import Interval from './Interval';
 import type { MinMax, ProfileValueType } from '../types';
+import { breathe, motion } from './animations';
 
 const styles: Record<string, any> = {
     swiperContent: {
@@ -36,6 +37,8 @@ const styles: Record<string, any> = {
         width: 4,
         height: 'calc(100% - 20px)',
         position: 'relative',
+        // the line of the current time breathes slowly
+        ...motion({ animation: `${breathe} 3s ease-in-out infinite` }),
     }),
 };
 

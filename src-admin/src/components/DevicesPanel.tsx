@@ -1,19 +1,22 @@
 import { Component, type JSX } from 'react';
 
-import { Box, Button, Chip, FormLabel, Tooltip } from '@mui/material';
-import { Add as IconAdd, WarningAmber as IconWarning } from '@mui/icons-material';
+import { Box, Button, Chip, FormHelperText, FormLabel, Tooltip } from '@mui/material';
+import { Add as IconAdd } from '@mui/icons-material';
 
 import {
     I18n,
     DialogSelectID,
     Utils,
     Icon,
+    IconResult,
     type AdminConnection,
     type IobTheme,
     type ThemeType,
 } from '@iobroker/gui-components';
 
 import type { DevicesCache, ProfileValueType, SchedulerProfile } from '../types';
+import { getTypeHint } from './typeHints';
+import { fadeIn, motion, popIn } from './animations';
 
 const styles: Record<string, any> = {
     list: {
@@ -31,11 +34,16 @@ const styles: Record<string, any> = {
         '& .MuiChip-label': {
             overflow: 'hidden',
         },
+        // a new data point pops in
+        ...motion({ animation: `${popIn} 300ms ease-out both` }),
     },
     addButton: {
         borderRadius: '8px',
         textTransform: 'none',
+        '& .MuiButton-startIcon svg': motion({ transition: 'transform 300ms ease-out' }),
+        '&:hover .MuiButton-startIcon svg': { transform: 'rotate(90deg)' },
     },
+    hint: motion({ animation: `${fadeIn} 400ms ease-out both` }),
     deviceId: {
         fontSize: 10,
         fontStyle: 'italic',
@@ -66,16 +74,25 @@ const styles: Record<string, any> = {
     },
     tooltip: {
         pointerEvents: 'none',
+        whiteSpace: 'pre-line',
     },
 };
 
 // Must stay identical to SchedulerAdapter.checkObject() in src/main.ts
-function checkObject(obj: ioBroker.Object | false | null | undefined, type: ProfileValueType): boolean {
+function checkObject(
+    obj: ioBroker.Object | false | null | undefined,
+    type: ProfileValueType,
+    hasValueList?: boolean,
+): boolean {
     if (!obj || !obj.common) {
         return false;
     }
     const common = obj.common as ioBroker.StateCommon;
     if (type === 'custom') {
+        if (hasValueList) {
+            // the entries of a value list can be numbers, texts or true/false
+            return ['number', 'string', 'boolean', 'mixed'].includes(common.type);
+        }
         return common.type === 'number' || common.type === 'mixed';
     }
     if (type === 'percent') {
@@ -92,6 +109,8 @@ function checkObject(obj: ioBroker.Object | false | null | undefined, type: Prof
 
 interface DevicesPanelProps {
     type: ProfileValueType;
+    /** The profile has a value list: data points of type string and boolean fit too */
+    hasValueList?: boolean;
     members: string[];
     onChange: (members: string[]) => void;
     title?: string;
@@ -143,7 +162,7 @@ export default class DevicesPanel extends Component<DevicesPanelProps, DevicesPa
                     theme={this.props.theme}
                     key="tableSelect"
                     imagePrefix="../.."
-                    filterFunc={obj => checkObject(obj, this.props.type)}
+                    filterFunc={obj => checkObject(obj, this.props.type, this.props.hasValueList)}
                     dialogName={this.props.adapterName}
                     themeType={this.props.themeType}
                     socket={this.props.socket}
@@ -209,8 +228,10 @@ export default class DevicesPanel extends Component<DevicesPanelProps, DevicesPa
                 if (this.props.devicesCache[deviceID] === false) {
                     errors[deviceID].push(I18n.t('not exists'));
                 }
-            } else if (!checkObject(this.props.devicesCache[deviceID], this.props.type)) {
-                errors[deviceID].push(I18n.t('wrong type'));
+            } else if (!checkObject(this.props.devicesCache[deviceID], this.props.type, this.props.hasValueList)) {
+                errors[deviceID].push(
+                    `${I18n.t('wrong type')}. ${I18n.t(getTypeHint(this.props.type, this.props.hasValueList))}`,
+                );
             }
         });
 
@@ -227,13 +248,21 @@ export default class DevicesPanel extends Component<DevicesPanelProps, DevicesPa
                         return (
                             <Tooltip
                                 key={id}
-                                title={hasError ? `${I18n.t('Errors')}: ${errors[id].join(', ')}` : ''}
+                                title={hasError ? `${I18n.t('Errors')}:\n${errors[id].join('\n')}` : ''}
                                 slotProps={{ popper: { sx: styles.tooltip } }}
                             >
                                 <Chip
                                     variant="outlined"
                                     color={hasError ? 'error' : 'default'}
-                                    icon={hasError ? <IconWarning /> : undefined}
+                                    icon={
+                                        hasError ? (
+                                            <IconResult
+                                                type="error"
+                                                fontSize="small"
+                                                replay={errors[id].join()}
+                                            />
+                                        ) : undefined
+                                    }
                                     label={
                                         <Box sx={styles.deviceContainer}>
                                             <Icon
@@ -269,6 +298,11 @@ export default class DevicesPanel extends Component<DevicesPanelProps, DevicesPa
                         </Button>
                     ) : null}
                 </Box>
+                {this.props.members.length ? null : (
+                    <FormHelperText sx={styles.hint}>
+                        {I18n.t('hint_no_devices')} {I18n.t(getTypeHint(this.props.type, this.props.hasValueList))}
+                    </FormHelperText>
+                )}
             </>
         );
     }

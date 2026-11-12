@@ -1,5 +1,5 @@
 import { Component, type JSX } from 'react';
-import { FormControl, InputLabel, MenuItem, Select, type SelectChangeEvent } from '@mui/material';
+import { FormControl, FormHelperText, InputLabel, MenuItem, Select, type SelectChangeEvent } from '@mui/material';
 import { I18n } from '@iobroker/gui-components';
 
 interface PriorityPanelProps {
@@ -35,6 +35,7 @@ export default class PriorityPanel extends Component<PriorityPanelProps> {
                         {I18n.t('Highest eg. Holiday')}
                     </MenuItem>
                 </Select>
+                <FormHelperText>{I18n.t('hint_priority_short')}</FormHelperText>
             </FormControl>
         );
     }

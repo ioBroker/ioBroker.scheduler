@@ -174,13 +174,51 @@ export function isSameChange(data: ProfileData, change: ProfileChange): boolean 
 const DEFAULTS: Record<string, { min: number; max: number; step?: number; unit?: string }> = minmax;
 
 /**
- * The values a profile can take - as the vis-2 widget shows them: `temperature`, `percent` and `onoff` with the
- * range of the adapter, `custom` with the range or the states of the first controlled state.
+ * The values a profile can take - as the vis-2 widget shows them: a value list of a `custom` profile gives its
+ * entries, an own range of a `temperature` or `custom` profile its limits, else `temperature`, `percent` and
+ * `onoff` take the range of the adapter and `custom` the range or the states of the first controlled state.
+ *
+ * @param type the type of the profile
+ * @param member the object of the first state the profile controls, if it was read
+ * @param data the own range and the value list of the profile
+ */
+export function getValueRange(
+    type: ProfileValueType,
+    member: ioBroker.Object | null | undefined,
+    data?: Pick<ProfileData, 'range' | 'values'>,
+): ValueRange {
+    if (type === 'custom' && data?.values?.length) {
+        const marks = data.values.map((entry, i) => ({
+            value: i,
+            label: entry.label || entry.value || entry.id || String(i),
+        }));
+        return { min: 0, max: marks.length - 1, step: 1, unit: '', marks };
+    }
+    const base = getBaseValueRange(type, member);
+    const range = data?.range;
+    if (!range || (type !== 'temperature' && type !== 'custom')) {
+        return base;
+    }
+    const isSet = (value: unknown): value is number => typeof value === 'number' && Number.isFinite(value);
+    const result: ValueRange = { ...base };
+    if (isSet(range.min) || isSet(range.max)) {
+        result.min = isSet(range.min) ? range.min : base.min;
+        result.max = isSet(range.max) ? range.max : base.max;
+        result.marks = [];
+    }
+    if (isSet(range.step) && range.step > 0) {
+        result.step = range.step;
+    }
+    return result.max > result.min ? result : base;
+}
+
+/**
+ * The values a profile can take without its own range and value list
  *
  * @param type the type of the profile
  * @param member the object of the first state the profile controls, if it was read
  */
-export function getValueRange(type: ProfileValueType, member: ioBroker.Object | null | undefined): ValueRange {
+function getBaseValueRange(type: ProfileValueType, member: ioBroker.Object | null | undefined): ValueRange {
     const common = member?.type === 'state' ? (member.common as ioBroker.StateCommon) : undefined;
     if (type === 'custom') {
         const unit = common?.unit || '';
