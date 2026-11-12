@@ -29,6 +29,33 @@ export interface ProfileData {
     ignoreSameValues?: boolean;
     /** Do not write the value if the device is already in the desired state */
     doNotWriteSameValue?: boolean;
+    /**
+     * Own range of the bars for `temperature` and `custom`. Every limit that is set replaces the one of the first
+     * data point and the default.
+     */
+    range?: ProfileRange | null;
+    /**
+     * Only `custom`: list of the values. The bars choose an entry (the interval stores its index), and the adapter
+     * writes the value of the entry or the current value of its state.
+     */
+    values?: ProfileValue[] | null;
+}
+
+/** Own range of the bars of a profile */
+export interface ProfileRange {
+    min?: number;
+    max?: number;
+    step?: number;
+}
+
+/** One entry of the value list of a `custom` profile */
+export interface ProfileValue {
+    /** Shown at the bars */
+    label: string;
+    /** Written value as text. It is converted to the type of the data point: number, boolean or string */
+    value?: string;
+    /** ID of a state: its current value is written instead of `value` */
+    id?: string;
 }
 
 /** One entry of the profile tree: either a profile or a folder, which groups profiles */

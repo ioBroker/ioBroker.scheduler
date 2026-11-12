@@ -103,7 +103,7 @@ export default class StatePanel extends Component<StatePanelProps, StatePanelSta
                         style={{ flex: 1 }}
                         label={I18n.t(title)}
                         value={this.props.value === true ? this.props.possibleStateId : this.props.value || ''}
-                        helperText={`(${I18n.t('optional')})`}
+                        helperText={`(${I18n.t('optional')}) ${I18n.t('hint_activation_short')}`}
                         slotProps={{
                             input: {
                                 readOnly: true,

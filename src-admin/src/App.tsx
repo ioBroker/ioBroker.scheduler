@@ -1,10 +1,11 @@
-import { type JSX, type MouseEvent as ReactMouseEvent, type ReactNode } from 'react';
+import { createRef, type JSX, type MouseEvent as ReactMouseEvent, type ReactNode } from 'react';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import ReactSplit, { SplitDirection, GutterTheme } from '@devbookhq/splitter';
 
 import {
     Fab,
     FormControlLabel,
+    FormHelperText,
     Checkbox,
     Dialog,
     DialogTitle,
@@ -28,13 +29,12 @@ import {
     Settings,
     Clear as ClearIcon,
     Dehaze as DehazeIcon,
-    ChevronLeft as ChevronLeftIcon,
-    ChevronRight as ChevronRightIcon,
     AssignmentTurnedIn as AssignmentTurnedInIcon,
     CalendarToday as CalendarTodayIcon,
     CallSplit as CallSplitIcon,
     ViewList as ViewListIcon,
     AccountTree as AccountTreeIcon,
+    HelpOutlineOutlined as HelpIcon,
 } from '@mui/icons-material';
 
 import {
@@ -43,6 +43,7 @@ import {
     Loader,
     SelectID as DialogSelectID,
     GenericApp,
+    IconMenuArrow,
     type GenericAppProps,
     type GenericAppState,
     type IobTheme,
@@ -57,8 +58,21 @@ import TypePanel from './components/TypePanel';
 import ProfilesPanel from './components/ProfilesPanel';
 import StatePanel from './components/StatePanel';
 import ResetAllValues from './components/ResetAllValues';
+import HelpDialog from './components/HelpDialog';
+import { applyOwnRange, hasValueList } from './components/valueRange';
+import ValuesPanel from './components/ValuesPanel';
+import { AnimatedClock, fadeIn, gearOnHover, motion, playOnce, pulseRing } from './components/animations';
 
-import type { DevicesCache, MinMax, ProfileData, ProfileValueType, SchedulerNative, SchedulerProfile } from './types';
+import type {
+    DevicesCache,
+    MinMax,
+    ProfileData,
+    ProfileRange,
+    ProfileValue,
+    ProfileValueType,
+    SchedulerNative,
+    SchedulerProfile,
+} from './types';
 
 import enLang from './i18n/en.json';
 import deLang from './i18n/de.json';
@@ -300,6 +314,7 @@ const styles: Record<string, any> = {
         },
     },
     emptyProfile: (theme: IobTheme): any => ({
+        flex: 1,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -315,7 +330,36 @@ const styles: Record<string, any> = {
     checkbox: (theme: IobTheme): any => ({
         color: theme.palette.text.primary,
     }),
+    checkboxHint: {
+        mt: '-6px',
+        ml: '32px',
+        mb: '12px',
+    },
+    emptyHelp: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '12px',
+        ...motion({ animation: `${fadeIn} 400ms ease-out both` }),
+    },
+    emptyClock: (theme: IobTheme): any => ({
+        fontSize: 64,
+        color: theme.palette.primary.main,
+        opacity: 0.8,
+    }),
+    /** The help button pulses until the user opened the help once */
+    helpButtonPulse: (theme: IobTheme): any => ({
+        '--iob-pulse-color': `${theme.palette.primary.main}99`,
+        ...motion({ animation: `${pulseRing} 1.8s ease-out 1s 5` }),
+    }),
+    helpButton: {
+        '& svg': motion({ transition: 'transform 300ms ease-out' }),
+        '&:hover svg': { transform: 'rotate(-12deg) scale(1.1)' },
+    },
+    gearButton: gearOnHover,
 };
+
+const HELP_SEEN_KEY = 'iobroker.scheduler.helpSeen';
 
 /** A flat, rounded panel with an optional caption - the building block of the settings column */
 function Card(props: {
@@ -368,6 +412,9 @@ interface AppState extends GenericAppState {
     optionsDialog: OptionsDialog | null;
     originalOptions: string;
     showSelectId: boolean;
+    showHelp: boolean;
+    /** The help was opened at least once in this browser: the help button does not pulse any more */
+    helpSeen: boolean;
 }
 
 export default class App extends GenericApp<GenericAppProps, AppState> {
@@ -375,6 +422,9 @@ export default class App extends GenericApp<GenericAppProps, AppState> {
     private readonly icons: Record<string, string> = {};
 
     private lastDevices = '';
+
+    /** Working area right of the profile tree: it fades in when another profile is selected */
+    private readonly contentRef = createRef<HTMLDivElement>();
 
     /**
      * Copy of the last saved configuration, used by `onPrepareSave` to diff the profiles.
@@ -428,6 +478,8 @@ export default class App extends GenericApp<GenericAppProps, AppState> {
             optionsDialog: null,
             originalOptions: '',
             showSelectId: false,
+            showHelp: false,
+            helpSeen: window.localStorage.getItem(HELP_SEEN_KEY) === 'true',
         };
     }
 
@@ -503,6 +555,22 @@ export default class App extends GenericApp<GenericAppProps, AppState> {
             }
         }
 
+        this.changeProfile(profile);
+    };
+
+    /** Own range or value list changed: the values of the intervals are limited to the new range */
+    onValues = (range: ProfileRange | null, values: ProfileValue[] | null): void => {
+        const current = this.currentProfile();
+        if (!current) {
+            return;
+        }
+        const profile: ProfileData = JSON.parse(JSON.stringify(current));
+        profile.range = range;
+        profile.values = values;
+        const minMax = this.getProfileMinMax(profile);
+        if (minMax.max > minMax.min) {
+            profile.intervals = profile.intervals.map(value => Math.min(minMax.max, Math.max(minMax.min, value)));
+        }
         this.changeProfile(profile);
     };
 
@@ -756,7 +824,19 @@ export default class App extends GenericApp<GenericAppProps, AppState> {
     };
 
     onSelectProfile = (active: string): void => {
-        this.setState({ activeProfile: active, leftOpen: 0 });
+        const changed = active !== this.state.activeProfile;
+        this.setState({ activeProfile: active, leftOpen: 0 }, () => {
+            if (changed) {
+                playOnce(
+                    this.contentRef.current,
+                    [
+                        { opacity: 0.3, transform: 'translateX(8px)' },
+                        { opacity: 1, transform: 'none' },
+                    ],
+                    { duration: 250, easing: 'ease-out' },
+                );
+            }
+        });
         window.localStorage.setItem('iobroker.scheduler.activeProfile', active);
     };
 
@@ -881,6 +961,7 @@ export default class App extends GenericApp<GenericAppProps, AppState> {
                 key="type"
                 onChange={this.onType}
                 type={currentProfile.type}
+                hasValueList={hasValueList(currentProfile, currentProfile.type)}
             />
         );
     }
@@ -929,6 +1010,37 @@ export default class App extends GenericApp<GenericAppProps, AppState> {
         );
     }
 
+    showHelp = (): void => {
+        window.localStorage.setItem(HELP_SEEN_KEY, 'true');
+        this.setState({ showHelp: true, helpSeen: true });
+    };
+
+    renderHelpButton(): JSX.Element {
+        return (
+            <IconButton
+                size="small"
+                title={I18n.t('How the scheduler works')}
+                onClick={this.showHelp}
+                sx={this.state.helpSeen ? styles.helpButton : [styles.helpButton, styles.helpButtonPulse]}
+            >
+                <HelpIcon />
+            </IconButton>
+        );
+    }
+
+    /** Opens and closes the profile tree. The menu symbol turns into an arrow and back. */
+    renderDrawerButton(): JSX.Element {
+        return (
+            <IconButton
+                size="small"
+                title={I18n.t(this.state.isDrawOpen ? 'hide profiles' : 'show profiles')}
+                onClick={this.onDrawerHandler}
+            >
+                <IconMenuArrow open={this.state.isDrawOpen} />
+            </IconButton>
+        );
+    }
+
     /** The whole settings column right of the sliders */
     renderSidebar(currentProfile: ProfileData): JSX.Element {
         return (
@@ -947,6 +1059,20 @@ export default class App extends GenericApp<GenericAppProps, AppState> {
                         {this.renderPriority(currentProfile)}
                         {this.renderType(currentProfile)}
                         {this.renderState()}
+                    </Card>
+                ) : null}
+                {currentProfile.type === 'temperature' || currentProfile.type === 'custom' ? (
+                    <Card title={I18n.t('Values')}>
+                        <ValuesPanel
+                            type={currentProfile.type}
+                            range={currentProfile.range}
+                            values={currentProfile.values}
+                            baseMinMax={this.getBaseMinMax(currentProfile, currentProfile.type)}
+                            onChange={this.onValues}
+                            socket={this.socket}
+                            theme={this.state.theme}
+                            themeType={this.state.themeType}
+                        />
                     </Card>
                 ) : null}
                 <Card title={I18n.t('Devices')}>{this.renderDevices(currentProfile, true)}</Card>
@@ -968,6 +1094,7 @@ export default class App extends GenericApp<GenericAppProps, AppState> {
                     windowWidth={this.state.windowWidth}
                     devicesCache={this.state.devicesCache}
                     type={currentProfile.type}
+                    hasValueList={hasValueList(currentProfile, currentProfile.type)}
                     prio={currentProfile.prio}
                     profiles={this.state.native.profiles}
                     icons={this.icons}
@@ -1051,6 +1178,7 @@ export default class App extends GenericApp<GenericAppProps, AppState> {
                         }
                         label={I18n.t('Ignore values if same as previous')}
                     />
+                    <FormHelperText sx={styles.checkboxHint}>{I18n.t('hint_ignore_same')}</FormHelperText>
                     <FormControlLabel
                         key="doNotWriteSameValue"
                         sx={styles.checkbox}
@@ -1066,6 +1194,7 @@ export default class App extends GenericApp<GenericAppProps, AppState> {
                         }
                         label={I18n.t('Do not control if device already in desired state')}
                     />
+                    <FormHelperText sx={styles.checkboxHint}>{I18n.t('hint_do_not_write_same')}</FormHelperText>
                     <div style={{ width: '100%' }}>
                         <TextField
                             value={optionsDialog.holidayId || ''}
@@ -1094,7 +1223,7 @@ export default class App extends GenericApp<GenericAppProps, AppState> {
                                     ) : null,
                                 },
                             }}
-                            helperText={I18n.t('Applied for all profiles')}
+                            helperText={`${I18n.t('hint_holiday_id')} ${I18n.t('Applied for all profiles')}`}
                             variant="standard"
                             label={I18n.t('Holiday ID')}
                             style={{ width: 'calc(100% - 76px)', marginRight: 16 }}
@@ -1168,6 +1297,7 @@ export default class App extends GenericApp<GenericAppProps, AppState> {
                     style={{ marginRight: 20, height: 40, marginTop: 8 }}
                     title={I18n.t('Advanced settings')}
                     onClick={() => this.onShowOptions()}
+                    sx={styles.gearButton}
                 >
                     <Settings />
                 </IconButton>
@@ -1178,6 +1308,7 @@ export default class App extends GenericApp<GenericAppProps, AppState> {
                 key="options"
                 style={{ marginTop: 8, marginRight: 16, minWidth: 130, height: 40 }}
                 onClick={() => this.onShowOptions()}
+                sx={styles.gearButton}
                 startIcon={<Settings />}
                 variant="outlined"
                 color="grey"
@@ -1311,24 +1442,23 @@ export default class App extends GenericApp<GenericAppProps, AppState> {
             }
         }
 
+        // The range of the bars comes from the first data point. The values are absolute (21° stay 21°), so they
+        // are never scaled, only limited to the new range. Scaling them on every load of the data points changed
+        // the values every time the configuration was opened (#309).
         const newMinMax = this.getProfileMinMax(currentProfile, undefined, devicesCache);
         if (
             (newMinMax.min !== oldMinMax.min || newMinMax.max !== oldMinMax.max) &&
             !oldMinMax.simulated &&
             !newMinMax.simulated
         ) {
-            const profile: ProfileData = JSON.parse(JSON.stringify(currentProfile));
-            profile.intervals = profile.intervals.map(interval => {
-                const normalizedInterval = Math.round((newMinMax.max / oldMinMax.max) * interval);
-                if (normalizedInterval < newMinMax.min) {
-                    return newMinMax.min;
-                }
-                if (normalizedInterval > newMinMax.max) {
-                    return newMinMax.max;
-                }
-                return normalizedInterval;
-            });
-            this.changeProfile(profile);
+            const intervals = currentProfile.intervals.map(interval =>
+                Math.min(newMinMax.max, Math.max(newMinMax.min, interval)),
+            );
+            if (intervals.some((value, i) => value !== currentProfile.intervals[i])) {
+                const profile: ProfileData = JSON.parse(JSON.stringify(currentProfile));
+                profile.intervals = intervals;
+                this.changeProfile(profile);
+            }
         }
 
         if (changed) {
@@ -1362,8 +1492,14 @@ export default class App extends GenericApp<GenericAppProps, AppState> {
         }
     }
 
+    /** Range of the bars: from the first data point or the defaults, then the own range or the value list of the profile */
     getProfileMinMax(profile: ProfileData, type?: ProfileValueType, devicesCache?: DevicesCache): MinMax {
         type = type || profile.type;
+        return applyOwnRange(this.getBaseMinMax(profile, type, devicesCache), profile, type);
+    }
+
+    /** Range of the bars from the first data point or the defaults */
+    getBaseMinMax(profile: ProfileData, type: ProfileValueType, devicesCache?: DevicesCache): MinMax {
         devicesCache = devicesCache || this.state.devicesCache;
         if (type === 'custom') {
             const obj = devicesCache[profile.members[0]];
@@ -1464,51 +1600,30 @@ export default class App extends GenericApp<GenericAppProps, AppState> {
 
         const desktopProfilePanel = isMobile ? null : this.state.isDrawOpen ? (
             <div style={{ ...(this.state.isDrawOpen ? styles.drGrid : styles.drGridClose), position: 'relative' }}>
-                <IconButton
-                    style={{
-                        zIndex: 1,
-                        position: 'absolute',
-                        top: 14,
-                        right: 8,
-                    }}
-                    component="span"
-                    size="small"
-                    title={I18n.t('hide profiles')}
-                    onClick={this.onDrawerHandler}
-                >
-                    {this.state.isDrawOpen ? (
-                        <ChevronLeftIcon className="ml-auto" />
-                    ) : (
-                        <ChevronRightIcon className="ml-auto" />
-                    )}
-                </IconButton>
                 {profileGrid}
             </div>
         ) : null;
 
+        // The button of the profile tree is always at the same place, so its symbol can turn into the arrow and back
+        const header = (
+            <Box sx={styles.header}>
+                {isMobile ? <div style={{ width: 40 }} /> : this.renderDrawerButton()}
+                <Box sx={styles.title}>{currentProfile ? fullProfile?.title : null}</Box>
+                <Box sx={{ flex: 1 }} />
+                {this.renderHelpButton()}
+            </Box>
+        );
+
         const content = (
             <Box
+                ref={this.contentRef}
                 sx={styles.content}
                 style={{ background: this.state.theme.palette.background.default }}
             >
                 {currentProfile ? (
                     <>
                         <Box sx={styles.mainColumn}>
-                            <Box sx={styles.header}>
-                                {isMobile ? (
-                                    <div style={{ width: 40 }} />
-                                ) : this.state.isDrawOpen ? null : (
-                                    <IconButton
-                                        component="span"
-                                        size="small"
-                                        title={I18n.t('show profiles')}
-                                        onClick={this.onDrawerHandler}
-                                    >
-                                        <DehazeIcon />
-                                    </IconButton>
-                                )}
-                                <Box sx={styles.title}>{fullProfile?.title}</Box>
-                            </Box>
+                            {header}
                             <Card grow>
                                 <Box sx={styles.slidersCard}>
                                     <IntervalsContainer
@@ -1607,7 +1722,25 @@ export default class App extends GenericApp<GenericAppProps, AppState> {
                         ) : null}
                     </>
                 ) : (
-                    <Box sx={styles.emptyProfile}>{I18n.t('Select or create profile in left menu')}</Box>
+                    <Box sx={styles.mainColumn}>
+                        {header}
+                        <Box sx={styles.emptyProfile}>
+                            <Box sx={styles.emptyHelp}>
+                                <AnimatedClock
+                                    running
+                                    sx={styles.emptyClock}
+                                />
+                                {I18n.t('Select or create profile in left menu')}
+                                <Button
+                                    variant="outlined"
+                                    startIcon={<HelpIcon />}
+                                    onClick={this.showHelp}
+                                >
+                                    {I18n.t('How the scheduler works')}
+                                </Button>
+                            </Box>
+                        </Box>
+                    </Box>
                 )}
             </Box>
         );
@@ -1659,6 +1792,7 @@ export default class App extends GenericApp<GenericAppProps, AppState> {
                     {allContent}
                     {this.renderOptionsDialog()}
                     {this.renderSelectIdDialog()}
+                    {this.state.showHelp ? <HelpDialog onClose={() => this.setState({ showHelp: false })} /> : null}
                     {this.renderSaveCloseButtons()}
                 </ThemeProvider>
             </StyledEngineProvider>

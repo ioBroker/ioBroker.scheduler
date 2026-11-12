@@ -5,6 +5,11 @@
 [![Downloads](https://img.shields.io/npm/dm/iobroker.scheduler.svg)](https://www.npmjs.com/package/iobroker.scheduler)
 [![NPM](https://nodei.co/npm/iobroker.scheduler.png?downloads=true)](https://nodei.co/npm/iobroker.scheduler/)
 
+**This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.**
+For more details and for information how to disable the error reporting see
+[Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)!
+Sentry reporting is used starting with js-controller 3.0.
+
 This adapter is designed to control devices on a schedule. For example, heating or watering control.
 
 You can create the profiles with different priority: normal (e.g., workdays), high (e.g., weekends) and highest (e.g., for holidays).
@@ -34,14 +39,31 @@ The type of the profile decides which data points can be added to it and which v
 | Temperature | `number`                                                   | The value unchanged                                                                         |
 | On/Off      | `boolean`                                                  | `true` or `false`                                                                           |
 | Custom      | `number`                                                   | The value unchanged                                                                         |
+| Custom with value list | `number`, `string` or `boolean`                 | The value of the chosen entry, converted to the type of the data point                       |
 
 Data points with `common.type` `mixed` are accepted for all types.
 The dialog to select the data points offers only the data points that match the type of the profile.
 Do not set `common.type` of a data point to `custom`: this is not a valid type of ioBroker, use `number`.
 
+## Values: own range and value list
+Profiles of type Temperature and Custom have the card **Values**:
+
+- **Own range** (min, max, step): replaces the range of the bars, which is otherwise taken from `min`/`max` of the
+  first data point (Custom also from its `states`) or is 0-28° for Temperature and 0-100 for Custom.
+  E.g. 30-60° for hot water. Empty fields keep the automatic value.
+- **Value list** (Custom only): the bars choose one of the entries instead of a number. Every entry has a label and
+  either a fixed value or a state:
+  - a fixed value is written as text and converted to the type of the data point: a number for `number`,
+    `true` for `true`/`1`/`on` and `false` otherwise for `boolean`, the text for `string`.
+    E.g. `"on"`/`"off"` for a device that expects text, or the levels 0-3 of a ventilation.
+  - a state: its current value is written, e.g. a comfort and an eco temperature that are changed in vis.
+    If the state changes while its entry is active, the new value is written at once.
+
+The vis-2 widget and the web component show the labels of the value list at the bars.
+
 ## Web components
 The adapter brings the profile view as a web component too (`common.webComponents`, `@iobroker/web-components`), so
-that Aura, ioBroker.devices, admin and every other host can show it. vis-2 keeps showing its own widget.
+that Aura, `ioBroker.devices`, admin and every other host can show it. vis-2 keeps showing its own widget.
 
 | Tag                     | Shows                                                                                  |
 |-------------------------|----------------------------------------------------------------------------------------|
@@ -69,6 +91,12 @@ connection. The instance must run for that, and it restarts after every change, 
 ### **WORK IN PROGRESS**
 * (@GermanBluefox) The adapter declares the versions it needs: js-controller 6.0.11 and admin 7.6.20 or newer. It cannot be installed from GitHub, because the build is not part of the repository
 * (@GermanBluefox) Fixed profiles of type Custom: the adapter rejected the data points accepted by admin and did not write the value. Documented which data points every profile type needs (#448)
+* (@GermanBluefox) The configuration explains itself: a help dialog (question mark above the bars) describes profiles, intervals, days, holidays, priority, types, activation state and the advanced options. The type, the priority, the activation state and the advanced options show a short hint, and a data point of the wrong type tells which data point the profile type needs
+* (@GermanBluefox) The configuration is animated: folders open and close, the menu symbol turns into an arrow, the trash can opens its lid, the clock of a profile turns on hover, new data points pop in, the days of week bounce and the line of the current time breathes. No animation runs if the system asks for less motion
+* (@GermanBluefox) Fixed: the values of a profile changed every time the configuration was opened, if the first data point has its own `min`/`max` (#309)
+* (@GermanBluefox) Temperature and Custom profiles can have their own range of the bars, e.g. 30-60° for hot water (#308)
+* (@GermanBluefox) Custom profiles can have a value list: the bars choose an entry, which writes a fixed value (also text like `"on"`/`"off"`) or the value of a state, e.g. a comfort temperature changed in vis (#268, #181, #33)
+* (@GermanBluefox) Added the Ukrainian title and description, the Sentry notice and the dependabot entries of all frontend packages
 
 ### 2.1.1 (2026-11-09)
 * (@GermanBluefox) Web component: the holiday button shows its whole name, and decimal values follow the number format of the system

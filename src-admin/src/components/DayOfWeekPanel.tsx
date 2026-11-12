@@ -1,6 +1,7 @@
 import { Component, type JSX } from 'react';
 import { Box, ToggleButton, Tooltip } from '@mui/material';
 import type { Translate } from '@iobroker/gui-components';
+import { BOUNCE_FRAMES, playOnce } from './animations';
 
 const daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
@@ -23,6 +24,7 @@ const styles: Record<string, any> = {
         textTransform: 'none',
         border: '1px solid',
         borderColor: 'divider',
+        transition: 'background-color 200ms ease-out, color 200ms ease-out, border-color 200ms ease-out',
         '&.Mui-selected': {
             backgroundColor: 'primary.main',
             color: 'primary.contrastText',
@@ -68,7 +70,10 @@ export default class DayOfWeekPanel extends Component<DayOfWeekPanelProps> {
                         fullWidth
                         disabled={this.props.readOnly}
                         selected={selected}
-                        onChange={onClick}
+                        onChange={e => {
+                            playOnce(e.currentTarget, BOUNCE_FRAMES, { duration: 300, easing: 'ease-out' });
+                            onClick();
+                        }}
                         sx={styles.button}
                     >
                         {label}

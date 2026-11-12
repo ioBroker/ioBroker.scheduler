@@ -19,6 +19,7 @@ import IntervalsContainer from './components/IntervalsContainer';
 import DayOfWeekPanel from './components/DayOfWeekPanel';
 import minmax from './data/minmax.json';
 import type { MinMax, ProfileData, SchedulerInstanceObject, SchedulerProfile } from './types';
+import { applyOwnRange } from './components/valueRange';
 
 const defaultMinMax: Record<string, MinMax> = minmax;
 
@@ -448,7 +449,12 @@ export default class SchedulerWidget extends (window.visRxWidget as typeof VisRx
         return foundProfile && foundProfile.type === 'profile' ? foundProfile.data : null;
     };
 
+    /** Range of the bars, like in admin: from the first data point or the defaults, then the own range or the value list */
     getProfileMinMax(profile: ProfileData): MinMax {
+        return applyOwnRange(this.getBaseMinMax(profile), profile, profile.type);
+    }
+
+    getBaseMinMax(profile: ProfileData): MinMax {
         if (profile.type === 'custom') {
             const obj = this.state.minMaxObject;
             const common = obj?.common;

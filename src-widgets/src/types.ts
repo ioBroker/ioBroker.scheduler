@@ -24,6 +24,27 @@ export interface ProfileData {
     activeState?: string | null;
     ignoreSameValues?: boolean;
     doNotWriteSameValue?: boolean;
+    /** Own range of the bars for `temperature` and `custom`, see `src/types.ts` */
+    range?: ProfileRange | null;
+    /** Only `custom`: list of the values, the intervals store the index of the entry, see `src/types.ts` */
+    values?: ProfileValue[] | null;
+}
+
+/** Own range of the bars of a profile */
+export interface ProfileRange {
+    min?: number;
+    max?: number;
+    step?: number;
+}
+
+/** One entry of the value list of a `custom` profile */
+export interface ProfileValue {
+    /** Shown at the bars */
+    label: string;
+    /** Written value as text */
+    value?: string;
+    /** ID of a state, whose value is written instead of `value` */
+    id?: string;
 }
 
 /** One entry of the profile tree: either a profile or a folder, which groups profiles */
@@ -55,4 +76,6 @@ export interface MinMax {
     unit?: string;
     /** Labels for discrete values of a `custom` profile */
     marks?: Record<string, string> | null;
+    /** True if no controlled object provided a range, so 0...100 is assumed */
+    simulated?: boolean;
 }

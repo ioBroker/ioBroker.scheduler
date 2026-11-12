@@ -1,6 +1,6 @@
 import { Adapter, type AdapterOptions } from '@iobroker/adapter-core'; // Get common adapter utils
 
-import type { ActiveDevice, ProfileValueType, SchedulerProfile } from './types';
+import type { ActiveDevice, ProfileValue, ProfileValueType, SchedulerProfile } from './types';
 
 const adapterName: string = (require('../package.json') as { name: string }).name.split('.').pop()!;
 
@@ -25,6 +25,9 @@ class SchedulerAdapter extends Adapter {
     /** Timer for the next interval */
     private timer: ioBroker.Timeout | undefined;
 
+    /** IDs of the states, whose values the value lists of the profiles write */
+    private valueIds: string[] = [];
+
     /** Changes of profiles are written one after another, each on the result of the previous one */
     private profileWrites: Promise<void> = Promise.resolve();
 
@@ -33,6 +36,7 @@ class SchedulerAdapter extends Adapter {
 
         this.on('ready', () => this.main());
         this.on('objectChange', (id, obj) => this.onObjectChange(id, obj));
+        this.on('stateChange', (id, state) => this.onStateChange(id, state));
         this.on('message', obj => this.onMessage(obj));
         this.on('unload', callback => this.onUnload(callback));
     }
@@ -121,6 +125,18 @@ class SchedulerAdapter extends Adapter {
         await this.setForeignObjectAsync(id, obj, user ? { user } : undefined);
     }
 
+    /**
+     * A state of a value list changed: the data points, which get their value from it now, get the new value
+     *
+     * @param id the ID of the state
+     * @param state the new state
+     */
+    private onStateChange(id: string, state: ioBroker.State | null | undefined): void {
+        if (state && this.valueIds.includes(id)) {
+            this.updateStates(true, id).catch(e => this.log.error(`Cannot update states: ${e as Error}`));
+        }
+    }
+
     private onObjectChange(id: string, obj: ioBroker.Object | null | undefined): void {
         if (this.devices[id]) {
             if (obj) {
@@ -143,8 +159,12 @@ class SchedulerAdapter extends Adapter {
     }
 
     // Must stay identical to checkObject() in src-admin/src/components/DevicesPanel.tsx
-    private static checkObject(obj: ioBroker.StateObject, type: ProfileValueType): boolean {
+    private static checkObject(obj: ioBroker.StateObject, type: ProfileValueType, hasValueList?: boolean): boolean {
         if (type === 'custom') {
+            if (hasValueList) {
+                // the entries of a value list can be numbers, texts or true/false
+                return ['number', 'string', 'boolean', 'mixed'].includes(obj.common.type);
+            }
             return obj.common.type === 'number' || obj.common.type === 'mixed';
         }
         if (type === 'percent') {
@@ -181,6 +201,65 @@ class SchedulerAdapter extends Adapter {
         return false;
     }
 
+    /**
+     * Converts a value of a value list to the type of the data point
+     *
+     * @param obj the controlled data point
+     * @param value the value of the entry (text from the settings) or of its state
+     */
+    private static convertListValue(obj: ioBroker.StateObject, value: ioBroker.StateValue): ioBroker.StateValue {
+        if (value === null || value === undefined) {
+            return null;
+        }
+        const text = String(value).trim();
+        switch (obj.common.type) {
+            case 'number': {
+                if (typeof value === 'boolean') {
+                    return value ? 1 : 0;
+                }
+                const number = parseFloat(text.replace(',', '.'));
+                return Number.isFinite(number) ? number : null;
+            }
+            case 'boolean':
+                if (typeof value === 'boolean') {
+                    return value;
+                }
+                if (typeof value === 'number') {
+                    return !!value;
+                }
+                return ['true', '1', 'on', 'yes', 'ein', 'an'].includes(text.toLowerCase());
+            case 'string':
+                return typeof value === 'string' ? value : text;
+            default:
+                // mixed: a value of a state keeps its type, a text of the settings becomes a number or true/false if it is one
+                if (typeof value !== 'string') {
+                    return value;
+                }
+                if (text === 'true' || text === 'false') {
+                    return text === 'true';
+                }
+                return text !== '' && Number.isFinite(Number(text)) ? Number(text) : value;
+        }
+    }
+
+    /**
+     * Value of an entry of a value list: the current value of its state or its fixed value
+     *
+     * @param values the value list of the profile
+     * @param index the index of the entry, as stored in the interval
+     */
+    private async getListValue(values: ProfileValue[], index: number): Promise<ioBroker.StateValue> {
+        const entry = values[Math.min(values.length - 1, Math.max(0, Math.round(index)))];
+        if (!entry) {
+            return null;
+        }
+        if (entry.id) {
+            const state = await this.getForeignStateAsync(entry.id);
+            return state ? state.val : null;
+        }
+        return entry.value ?? null;
+    }
+
     private static getPreviousValue(intervals: number[], index: number): number {
         if (index === 0) {
             return intervals[intervals.length - 1];
@@ -188,7 +267,13 @@ class SchedulerAdapter extends Adapter {
         return intervals[index - 1];
     }
 
-    private async updateStates(force?: boolean): Promise<void> {
+    /**
+     * Writes the values of the current intervals
+     *
+     * @param force write the values also if the interval did not start now and if the value is the same as before
+     * @param changedValueId only write the data points, whose current value comes from this state of a value list
+     */
+    private async updateStates(force?: boolean, changedValueId?: string): Promise<void> {
         const profiles = this.config.profiles;
         const now = new Date();
         const active: { [id: string]: ActiveDevice } = {};
@@ -249,6 +334,10 @@ class SchedulerAdapter extends Adapter {
                                     type: profile.data.type,
                                     value,
                                     doNotWriteSameValue: profile.data.doNotWriteSameValue,
+                                    values:
+                                        profile.data.type === 'custom' && profile.data.values?.length
+                                            ? profile.data.values
+                                            : null,
                                 };
                             } else if (active[id].priority === profile.data.prio) {
                                 // check if the days are different
@@ -268,11 +357,30 @@ class SchedulerAdapter extends Adapter {
             const profile = active[id];
             const obj = this.devices[id];
 
-            if (!SchedulerAdapter.checkObject(obj, profile.type)) {
+            if (changedValueId) {
+                // only the data points, which get their value from the changed state now
+                const entry = profile.values?.[Math.round(profile.value)];
+                if (entry?.id !== changedValueId) {
+                    continue;
+                }
+            }
+
+            if (!SchedulerAdapter.checkObject(obj, profile.type, !!profile.values)) {
                 this.log.error(`${id} in ${profile.title} is not type ${profile.type}`);
                 continue;
             }
-            const value = SchedulerAdapter.convertValue(obj, profile.type, profile.value);
+            let value: ioBroker.StateValue;
+            if (profile.values) {
+                value = SchedulerAdapter.convertListValue(obj, await this.getListValue(profile.values, profile.value));
+                if (value === null) {
+                    this.log.warn(
+                        `${id} in ${profile.title}: entry ${Math.round(profile.value) + 1} of the value list has no value`,
+                    );
+                    continue;
+                }
+            } else {
+                value = SchedulerAdapter.convertValue(obj, profile.type, profile.value);
+            }
 
             if (profile.doNotWriteSameValue) {
                 const currentValue = await this.getForeignStateAsync(id);
@@ -381,6 +489,18 @@ class SchedulerAdapter extends Adapter {
 
         // subscribe on all used IDs
         await this.subscribeForeignObjectsAsync(Object.keys(this.devices));
+
+        // a changed state of a value list is written at once, e.g. a new comfort temperature
+        const valueIds = new Set<string>();
+        for (const profile of profiles) {
+            if (profile?.type === 'profile' && profile.data.type === 'custom') {
+                profile.data.values?.forEach(entry => entry.id && valueIds.add(entry.id));
+            }
+        }
+        this.valueIds = [...valueIds];
+        if (this.valueIds.length) {
+            await this.subscribeForeignStatesAsync(this.valueIds);
+        }
 
         await this.updateStates(true);
         this.startNextInterval();

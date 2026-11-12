@@ -1,57 +1,56 @@
-import { t as e } from "./vite-preload-helper-CRzLMJPS.js";
-let Me, je, cr, Ae, sr, ur;
+let ke, Oe, or, De, ar, cr;
 let __tla = (async () => {
-  var t = `FEDERATION_DEBUG`, n = {
+  var e = {
     AT: `@`,
     HYPHEN: `-`,
     SLASH: `/`
-  }, r = {
-    [n.AT]: `scope_`,
-    [n.HYPHEN]: `_`,
-    [n.SLASH]: `__`
+  }, t = {
+    [e.AT]: `scope_`,
+    [e.HYPHEN]: `_`,
+    [e.SLASH]: `__`
   };
-  r[n.AT], n.AT, r[n.HYPHEN], n.HYPHEN, r[n.SLASH], n.SLASH;
-  var i = (function(e2) {
+  t[e.AT], e.AT, t[e.HYPHEN], e.HYPHEN, t[e.SLASH], e.SLASH;
+  var n = (function(e2) {
     return e2[e2.UNKNOWN = 1] = `UNKNOWN`, e2[e2.CALCULATED = 2] = `CALCULATED`, e2[e2.NO_USE = 0] = `NO_USE`, e2;
   })({});
-  function a() {
+  function r() {
     return true;
   }
-  function o() {
+  function i() {
     return typeof navigator < `u` && (navigator == null ? void 0 : navigator.product) === `ReactNative`;
   }
-  function s() {
+  function a() {
     try {
-      if (a() && window.localStorage) return !!localStorage.getItem(t);
+      if (r() && window.localStorage) return !!localStorage.getItem(`FEDERATION_DEBUG`);
     } catch {
       return false;
     }
     return false;
   }
-  function c() {
-    return typeof process < `u` && {}.FEDERATION_DEBUG ? !!{}.FEDERATION_DEBUG : typeof FEDERATION_DEBUG < `u` && FEDERATION_DEBUG ? true : s();
+  function o() {
+    return typeof process < `u` && {}.FEDERATION_DEBUG ? !!{}.FEDERATION_DEBUG : typeof FEDERATION_DEBUG < `u` && FEDERATION_DEBUG ? true : a();
   }
-  var l = `[ Federation Runtime ]`, u = function(...e2) {
+  var s = `[ Federation Runtime ]`, c = function(...e2) {
     return e2.length ? e2.reduce((e3, t2) => t2 ? e3 ? `${e3}:${t2}` : t2 : e3, ``) : ``;
   };
-  function d(e2, t2) {
+  function l(e2, t2) {
     if (`getPublicPath` in e2) {
       let n2;
       return n2 = e2.getPublicPath.startsWith(`function`) ? Function(`return ` + e2.getPublicPath)()() : Function(e2.getPublicPath)(), `${n2}${t2}`;
     }
-    return `publicPath` in e2 ? !a() && !o() && `ssrPublicPath` in e2 && typeof e2.ssrPublicPath == `string` ? `${e2.ssrPublicPath}${t2}` : `${e2.publicPath}${t2}` : (console.warn(`Cannot get resource URL. If in debug mode, please ignore.`, e2, t2), ``);
+    return `publicPath` in e2 ? !r() && !i() && `ssrPublicPath` in e2 && typeof e2.ssrPublicPath == `string` ? `${e2.ssrPublicPath}${t2}` : `${e2.publicPath}${t2}` : (console.warn(`Cannot get resource URL. If in debug mode, please ignore.`, e2, t2), ``);
   }
-  var f = (e2) => {
-    console.warn(`${l}: ${e2}`);
+  var u = (e2) => {
+    console.warn(`${s}: ${e2}`);
   };
-  function p(e2) {
+  function d(e2) {
     try {
       return JSON.stringify(e2, null, 2);
     } catch {
       return ``;
     }
   }
-  var m = (e2, t2) => {
+  var f = (e2, t2) => {
     if (!e2) return t2;
     let n2 = ((e3) => {
       if (e3 === `.`) return ``;
@@ -64,12 +63,12 @@ let __tla = (async () => {
     })(e2);
     return n2 ? n2.endsWith(`/`) ? `${n2}${t2}` : `${n2}/${t2}` : t2;
   };
-  function ee(e2) {
+  function p(e2) {
     return e2.replace(/#.*$/, ``).replace(/\?.*$/, ``).replace(/\/[^\/]+$/, `/`);
   }
-  function h(e2, t2 = {}) {
+  function m(e2, t2 = {}) {
     var _a;
-    let { remotes: n2 = {}, overrides: r2 = {}, version: i2 } = t2, a2, o2 = () => `publicPath` in e2.metaData ? (e2.metaData.publicPath === `auto` || e2.metaData.publicPath === ``) && i2 ? ee(i2) : e2.metaData.publicPath : e2.metaData.getPublicPath, s2 = Object.keys(r2), c2 = {};
+    let { remotes: n2 = {}, overrides: r2 = {}, version: i2 } = t2, a2, o2 = () => `publicPath` in e2.metaData ? (e2.metaData.publicPath === `auto` || e2.metaData.publicPath === ``) && i2 ? p(i2) : e2.metaData.publicPath : e2.metaData.getPublicPath, s2 = Object.keys(r2), c2 = {};
     Object.keys(n2).length || (c2 = ((_a = e2.remotes) == null ? void 0 : _a.reduce((e3, t3) => {
       let n3, i3 = t3.federationContainerName;
       return n3 = s2.includes(i3) ? r2[i3] : `version` in t3 ? t3.version : t3.entry, e3[i3] = {
@@ -78,20 +77,20 @@ let __tla = (async () => {
     }, {})) || {}), Object.keys(n2).forEach((e3) => c2[e3] = {
       matchedVersion: s2.includes(e3) ? r2[e3] : n2[e3]
     });
-    let { remoteEntry: { path: l2, name: u2, type: d2 }, types: f2 = {
+    let { remoteEntry: { path: l2, name: u2, type: d2 }, types: m2 = {
       path: ``,
       name: ``,
       zip: ``,
       api: ``
-    }, buildInfo: { buildVersion: p2 }, globalName: h2, ssrRemoteEntry: g2 } = e2.metaData, { exposes: te2 } = e2, _2 = {
+    }, buildInfo: { buildVersion: ee2 }, globalName: h2, ssrRemoteEntry: g2 } = e2.metaData, { exposes: te2 } = e2, ne2 = {
       version: i2 || ``,
-      buildVersion: p2,
+      buildVersion: ee2,
       globalName: h2,
-      remoteEntry: m(l2, u2),
+      remoteEntry: f(l2, u2),
       remoteEntryType: d2,
-      remoteTypes: m(f2.path, f2.name),
-      remoteTypesZip: f2.zip || ``,
-      remoteTypesAPI: f2.api || ``,
+      remoteTypes: f(m2.path, m2.name),
+      remoteTypesZip: m2.zip || ``,
+      remoteTypesAPI: m2.api || ``,
       remotesInfo: c2,
       shared: e2 == null ? void 0 : e2.shared.map((e3) => ({
         assets: e3.assets,
@@ -106,21 +105,21 @@ let __tla = (async () => {
       }))
     };
     if (`publicPath` in e2.metaData ? (a2 = {
-      ..._2,
+      ...ne2,
       publicPath: o2()
     }, typeof e2.metaData.ssrPublicPath == `string` && (a2.ssrPublicPath = e2.metaData.ssrPublicPath)) : a2 = {
-      ..._2,
+      ...ne2,
       getPublicPath: o2()
     }, g2) {
-      let e3 = m(g2.path, g2.name);
+      let e3 = f(g2.path, g2.name);
       a2.ssrRemoteEntry = e3, a2.ssrRemoteEntryType = g2.type || `commonjs-module`;
     }
     return a2;
   }
-  function g(e2) {
+  function ee(e2) {
     return !!(`remoteEntry` in e2 && e2.remoteEntry.includes(`.json`));
   }
-  var te = `[ Module Federation ]`, _ = console, ne = [
+  var h = `[ Module Federation ]`, g = console, te = [
     `logger.ts`,
     `logger.js`,
     `captureStackTrace`,
@@ -131,12 +130,12 @@ let __tla = (async () => {
     `Logger.error`,
     `Logger.debug`
   ];
-  function re() {
+  function ne() {
     try {
       let e2 = Error().stack;
       if (!e2) return;
       let [, ...t2] = e2.split(`
-`), n2 = t2.filter((e3) => !ne.some((t3) => e3.includes(t3)));
+`), n2 = t2.filter((e3) => !te.some((t3) => e3.includes(t3)));
       return n2.length ? `Stack trace:
 ${n2.slice(0, 5).join(`
 `)}` : void 0;
@@ -144,18 +143,18 @@ ${n2.slice(0, 5).join(`
       return;
     }
   }
-  var ie = class {
-    constructor(e2, t2 = _) {
-      this.prefix = e2, this.delegate = t2 ?? _;
+  var re = class {
+    constructor(e2, t2 = g) {
+      this.prefix = e2, this.delegate = t2 ?? g;
     }
     setPrefix(e2) {
       this.prefix = e2;
     }
     setDelegate(e2) {
-      this.delegate = e2 ?? _;
+      this.delegate = e2 ?? g;
     }
     emit(e2, t2) {
-      let n2 = this.delegate, r2 = c() ? re() : void 0, i2 = r2 ? [
+      let n2 = this.delegate, r2 = o() ? ne() : void 0, i2 = r2 ? [
         ...t2,
         r2
       ] : t2, a2 = (() => {
@@ -197,9 +196,9 @@ ${n2.slice(0, 5).join(`
         }
       }
       for (let e3 of a2) {
-        let t3 = _[e3];
+        let t3 = g[e3];
         if (typeof t3 == `function`) {
-          t3.call(_, this.prefix, ...i2);
+          t3.call(g, this.prefix, ...i2);
           return;
         }
       }
@@ -223,38 +222,38 @@ ${n2.slice(0, 5).join(`
       this.emit(`info`, e2);
     }
     debug(...e2) {
-      c() && this.emit(`debug`, e2);
+      o() && this.emit(`debug`, e2);
     }
   };
-  function ae(e2) {
-    return new ie(e2);
+  function ie(e2) {
+    return new re(e2);
   }
-  function oe(e2) {
-    let t2 = new ie(e2);
+  function ae(e2) {
+    let t2 = new re(e2);
     return Object.defineProperty(t2, "__mf_infrastructure_logger__", {
       value: true,
       enumerable: false,
       configurable: false
     }), t2;
   }
-  ae(te), oe(te);
-  async function se(e2, t2) {
+  ie(h), ae(h);
+  async function oe(e2, t2) {
     try {
       return await e2();
     } catch (e3) {
-      !t2 && f(e3);
+      !t2 && u(e3);
       return;
     }
   }
-  function ce(e2, t2) {
+  function se(e2, t2) {
     let n2 = /^(https?:)?\/\//i;
     return e2.replace(n2, ``).replace(/\/$/, ``) === t2.replace(n2, ``).replace(/\/$/, ``);
   }
-  function le(e2) {
+  function ce(e2) {
     let t2 = null, n2 = true, r2 = 2e4, i2, a2 = document.getElementsByTagName(`script`);
     for (let r3 = 0; r3 < a2.length; r3++) {
       let i3 = a2[r3], o3 = i3.getAttribute(`src`);
-      if (o3 && ce(o3, e2.url)) {
+      if (o3 && se(o3, e2.url)) {
         t2 = i3, n2 = false;
         break;
       }
@@ -268,7 +267,7 @@ ${n2.slice(0, 5).join(`
       });
     }
     let o2 = null, s2 = typeof window < `u` ? (t3) => {
-      if (t3.filename && ce(t3.filename, e2.url)) {
+      if (t3.filename && se(t3.filename, e2.url)) {
         let n3 = Error(`ScriptExecutionError: Script "${e2.url}" loaded but threw a runtime error during execution: ${t3.message} (${t3.filename}:${t3.lineno}:${t3.colno})`);
         n3.name = `ScriptExecutionError`, o2 = n3;
       }
@@ -282,7 +281,7 @@ ${n2.slice(0, 5).join(`
           t3.name = `ScriptNetworkError`, (e2 == null ? void 0 : e2.onErrorCallback) && (e2 == null ? void 0 : e2.onErrorCallback(t3));
         } else o2 ? (e2 == null ? void 0 : e2.onErrorCallback) && (e2 == null ? void 0 : e2.onErrorCallback(o2)) : (e2 == null ? void 0 : e2.cb) && (e2 == null ? void 0 : e2.cb());
       };
-      if (t2 && (t2.onerror = null, t2.onload = null, se(() => {
+      if (t2 && (t2.onerror = null, t2.onload = null, oe(() => {
         let { needDeleteScript: n4 = true } = e2;
         n4 && (t2 == null ? void 0 : t2.parentNode) && t2.parentNode.removeChild(t2);
       }), n3 && typeof n3 == `function`)) {
@@ -305,11 +304,11 @@ ${n2.slice(0, 5).join(`
       needAttach: n2
     };
   }
-  function ue(e2) {
+  function le(e2) {
     let t2 = null, n2 = true, r2 = 2e4, i2, a2 = document.getElementsByTagName(`link`);
     for (let r3 = 0; r3 < a2.length; r3++) {
       let i3 = a2[r3], o3 = i3.getAttribute(`href`), s2 = i3.getAttribute(`rel`);
-      if (o3 && ce(o3, e2.url) && s2 === e2.attrs.rel) {
+      if (o3 && se(o3, e2.url) && s2 === e2.attrs.rel) {
         t2 = i3, n2 = false;
         break;
       }
@@ -335,7 +334,7 @@ ${n2.slice(0, 5).join(`
           t3.name = `LinkNetworkError`, (e2 == null ? void 0 : e2.onErrorCallback) && (e2 == null ? void 0 : e2.onErrorCallback(t3));
         } else (e2 == null ? void 0 : e2.cb) && (e2 == null ? void 0 : e2.cb());
       };
-      if (t2 && (t2.onerror = null, t2.onload = null, se(() => {
+      if (t2 && (t2.onerror = null, t2.onload = null, oe(() => {
         let { needDeleteLink: n4 = true } = e2;
         n4 && (t2 == null ? void 0 : t2.parentNode) && t2.parentNode.removeChild(t2);
       }), n3)) {
@@ -354,10 +353,10 @@ ${n2.slice(0, 5).join(`
       needAttach: n2
     };
   }
-  function de(e2, t2) {
+  function ue(e2, t2) {
     let { attrs: n2 = {}, createScriptHook: r2 } = t2;
     return new Promise((t3, i2) => {
-      let { script: a2, needAttach: o2 } = le({
+      let { script: a2, needAttach: o2 } = ce({
         url: e2,
         cb: t3,
         onErrorCallback: i2,
@@ -371,58 +370,58 @@ ${n2.slice(0, 5).join(`
       o2 && document.head.appendChild(a2);
     });
   }
-  var fe = (e2) => `View the docs to see how to solve: https://module-federation.io/guide/troubleshooting/${e2.split(`-`)[0].toLowerCase()}#${e2.toLowerCase()}`, pe = (e2, t2, n2, r2) => {
+  var de = (e2) => `View the docs to see how to solve: https://module-federation.io/guide/troubleshooting/${e2.split(`-`)[0].toLowerCase()}#${e2.toLowerCase()}`, fe = (e2, t2, n2, r2) => {
     let i2 = [
       `${[
         t2[e2]
       ]} #${e2}`
     ];
-    return n2 && i2.push(`args: ${JSON.stringify(n2)}`), i2.push(fe(e2)), r2 && i2.push(`Original Error Message:
+    return n2 && i2.push(`args: ${JSON.stringify(n2)}`), i2.push(de(e2)), r2 && i2.push(`Original Error Message:
  ${r2}`), i2.join(`
 `);
   };
-  function me(e2, t2, n2, r2, i2, a2) {
-    return r2(pe(e2, t2, n2, i2));
+  function pe(e2, t2, n2, r2, i2, a2) {
+    return r2(fe(e2, t2, n2, i2));
   }
-  var v = `[ Federation Runtime ]`, he = ae(v);
+  var _ = `[ Federation Runtime ]`, me = ie(_);
+  function v(e2, t2, n2, r2, i2) {
+    e2 || (n2 === void 0 ? y(t2) : y(t2, n2, r2, void 0, i2));
+  }
   function y(e2, t2, n2, r2, i2) {
-    e2 || (n2 === void 0 ? b(t2) : b(t2, n2, r2, void 0, i2));
-  }
-  function b(e2, t2, n2, r2, i2) {
-    if (t2 !== void 0) return me(e2, t2, n2 ?? {}, (e3) => {
-      throw Error(`${v}: ${e3}`);
+    if (t2 !== void 0) return pe(e2, t2, n2 ?? {}, (e3) => {
+      throw Error(`${_}: ${e3}`);
     }, r2, i2);
     let a2 = e2;
-    throw a2 instanceof Error ? (a2.message.startsWith(v) || (a2.message = `${v}: ${a2.message}`), a2) : Error(`${v}: ${a2}`);
+    throw a2 instanceof Error ? (a2.message.startsWith(_) || (a2.message = `${_}: ${a2.message}`), a2) : Error(`${_}: ${a2}`);
   }
-  function x(e2) {
-    e2 instanceof Error && (e2.message.startsWith(v) || (e2.message = `${v}: ${e2.message}`)), he.warn(e2);
+  function b(e2) {
+    e2 instanceof Error && (e2.message.startsWith(_) || (e2.message = `${_}: ${e2.message}`)), me.warn(e2);
   }
-  function ge(e2, t2) {
+  function he(e2, t2) {
     return e2.findIndex((e3) => e3 === t2) === -1 && e2.push(t2), e2;
   }
-  function S(e2) {
+  function x(e2) {
     return `version` in e2 && e2.version ? `${e2.name}:${e2.version}` : `entry` in e2 && e2.entry ? `${e2.name}:${e2.entry}` : `${e2.name}`;
   }
-  function _e(e2) {
+  function ge(e2) {
     return e2.entry !== void 0;
   }
-  function ve(e2) {
+  function _e(e2) {
     return !e2.entry.includes(`.json`);
   }
-  function ye(e2) {
+  function ve(e2) {
     return e2 && typeof e2 == `object`;
   }
-  var be = Object.prototype.toString;
-  function xe(e2) {
-    return be.call(e2) === `[object Object]`;
+  var ye = Object.prototype.toString;
+  function be(e2) {
+    return ye.call(e2) === `[object Object]`;
   }
-  function Se(e2) {
+  function xe(e2) {
     return Array.isArray(e2) ? e2 : [
       e2
     ];
   }
-  function Ce(e2) {
+  function Se(e2) {
     return `remoteEntry` in e2 ? {
       url: e2.remoteEntry,
       type: e2.remoteEntryType,
@@ -433,31 +432,31 @@ ${n2.slice(0, 5).join(`
       globalName: ``
     };
   }
-  var we = (e2, t2) => {
+  var Ce = (e2, t2) => {
     let n2;
     return n2 = e2.endsWith(`/`) ? e2.slice(0, -1) : e2, t2.startsWith(`.`) && (t2 = t2.slice(1)), n2 += t2, n2;
-  }, Te = 2e3, C = typeof globalThis == `object` ? globalThis : window, w = (() => {
+  }, we = 2e3, S = typeof globalThis == `object` ? globalThis : window, C = (() => {
     try {
       return document.defaultView;
     } catch {
-      return C;
+      return S;
     }
-  })(), T = w;
-  function Ee(e2, t2, n2) {
+  })(), w = C;
+  function T(e2, t2, n2) {
     Object.defineProperty(e2, t2, {
       value: n2,
       configurable: false,
       writable: true
     });
   }
-  function De(e2, t2) {
+  function E(e2, t2) {
     return Object.hasOwnProperty.call(e2, t2);
   }
-  De(C, `__GLOBAL_LOADING_REMOTE_ENTRY__`) || Ee(C, `__GLOBAL_LOADING_REMOTE_ENTRY__`, {});
-  var E = C.__GLOBAL_LOADING_REMOTE_ENTRY__;
-  function Oe(e2) {
+  E(S, `__GLOBAL_LOADING_REMOTE_ENTRY__`) || T(S, `__GLOBAL_LOADING_REMOTE_ENTRY__`, {});
+  var D = S.__GLOBAL_LOADING_REMOTE_ENTRY__;
+  function Te(e2) {
     var _a, _b, _c, _d, _e2, _f, _g;
-    De(e2, `__VMOK__`) && !De(e2, `__FEDERATION__`) && Ee(e2, `__FEDERATION__`, e2.__VMOK__), De(e2, `__FEDERATION__`) || (Ee(e2, `__FEDERATION__`, {
+    E(e2, `__VMOK__`) && !E(e2, `__FEDERATION__`) && T(e2, `__FEDERATION__`, e2.__VMOK__), E(e2, `__FEDERATION__`) || (T(e2, `__FEDERATION__`, {
       __GLOBAL_PLUGIN__: [],
       __INSTANCES__: [],
       moduleInfo: {},
@@ -465,24 +464,24 @@ ${n2.slice(0, 5).join(`
       __MANIFEST_LOADING__: {},
       __PRELOADED_MAP__: /* @__PURE__ */ new Map(),
       __PRELOADED_ASSETS__: /* @__PURE__ */ new Set()
-    }), Ee(e2, `__VMOK__`, e2.__FEDERATION__)), (_a = e2.__FEDERATION__).__GLOBAL_PLUGIN__ ?? (_a.__GLOBAL_PLUGIN__ = []), (_b = e2.__FEDERATION__).__INSTANCES__ ?? (_b.__INSTANCES__ = []), (_c = e2.__FEDERATION__).moduleInfo ?? (_c.moduleInfo = {}), (_d = e2.__FEDERATION__).__SHARE__ ?? (_d.__SHARE__ = {}), (_e2 = e2.__FEDERATION__).__MANIFEST_LOADING__ ?? (_e2.__MANIFEST_LOADING__ = {}), (_f = e2.__FEDERATION__).__PRELOADED_MAP__ ?? (_f.__PRELOADED_MAP__ = /* @__PURE__ */ new Map()), (_g = e2.__FEDERATION__).__PRELOADED_ASSETS__ ?? (_g.__PRELOADED_ASSETS__ = /* @__PURE__ */ new Set());
+    }), T(e2, `__VMOK__`, e2.__FEDERATION__)), (_a = e2.__FEDERATION__).__GLOBAL_PLUGIN__ ?? (_a.__GLOBAL_PLUGIN__ = []), (_b = e2.__FEDERATION__).__INSTANCES__ ?? (_b.__INSTANCES__ = []), (_c = e2.__FEDERATION__).moduleInfo ?? (_c.moduleInfo = {}), (_d = e2.__FEDERATION__).__SHARE__ ?? (_d.__SHARE__ = {}), (_e2 = e2.__FEDERATION__).__MANIFEST_LOADING__ ?? (_e2.__MANIFEST_LOADING__ = {}), (_f = e2.__FEDERATION__).__PRELOADED_MAP__ ?? (_f.__PRELOADED_MAP__ = /* @__PURE__ */ new Map()), (_g = e2.__FEDERATION__).__PRELOADED_ASSETS__ ?? (_g.__PRELOADED_ASSETS__ = /* @__PURE__ */ new Set());
   }
-  Oe(C), Oe(w);
-  function ke() {
-    C.__FEDERATION__.__GLOBAL_PLUGIN__ = [], C.__FEDERATION__.__INSTANCES__ = [], C.__FEDERATION__.moduleInfo = {}, C.__FEDERATION__.__SHARE__ = {}, C.__FEDERATION__.__MANIFEST_LOADING__ = {}, C.__FEDERATION__.__PRELOADED_ASSETS__.clear(), Object.keys(E).forEach((e2) => {
-      delete E[e2];
+  Te(S), Te(C);
+  function Ee() {
+    S.__FEDERATION__.__GLOBAL_PLUGIN__ = [], S.__FEDERATION__.__INSTANCES__ = [], S.__FEDERATION__.moduleInfo = {}, S.__FEDERATION__.__SHARE__ = {}, S.__FEDERATION__.__MANIFEST_LOADING__ = {}, S.__FEDERATION__.__PRELOADED_ASSETS__.clear(), Object.keys(D).forEach((e2) => {
+      delete D[e2];
     });
   }
-  Ae = function(e2) {
-    C.__FEDERATION__.__INSTANCES__.push(e2);
+  De = function(e2) {
+    S.__FEDERATION__.__INSTANCES__.push(e2);
   };
-  je = function() {
-    return C.__FEDERATION__.__DEBUG_CONSTRUCTOR__;
+  Oe = function() {
+    return S.__FEDERATION__.__DEBUG_CONSTRUCTOR__;
   };
-  Me = function(e2, t2 = c()) {
-    t2 && (C.__FEDERATION__.__DEBUG_CONSTRUCTOR__ = e2, C.__FEDERATION__.__DEBUG_CONSTRUCTOR_VERSION__ = `2.9.2`);
+  ke = function(e2, t2 = o()) {
+    t2 && (S.__FEDERATION__.__DEBUG_CONSTRUCTOR__ = e2, S.__FEDERATION__.__DEBUG_CONSTRUCTOR_VERSION__ = `2.9.3`);
   };
-  function D(e2, t2) {
+  function O(e2, t2) {
     if (typeof t2 == `string`) {
       if (e2[t2]) return {
         value: e2[t2],
@@ -503,140 +502,140 @@ ${n2.slice(0, 5).join(`
         };
       }
     }
-    b(`getInfoWithoutType: "key" must be a string, got ${typeof t2} (${JSON.stringify(t2)}).`);
+    y(`getInfoWithoutType: "key" must be a string, got ${typeof t2} (${JSON.stringify(t2)}).`);
   }
-  var Ne = () => w.__FEDERATION__.moduleInfo, Pe = (e2, t2) => {
-    let n2 = D(t2, S(e2)).value;
+  var Ae = () => C.__FEDERATION__.moduleInfo, je = (e2, t2) => {
+    let n2 = O(t2, x(e2)).value;
     if (n2 && !n2.version && `version` in e2 && e2.version && (n2.version = e2.version), n2) return n2;
     if (`version` in e2 && e2.version) {
-      let { version: t3, ...n3 } = e2, r2 = S(n3), i2 = D(w.__FEDERATION__.moduleInfo, r2).value;
+      let { version: t3, ...n3 } = e2, r2 = x(n3), i2 = O(C.__FEDERATION__.moduleInfo, r2).value;
       if ((i2 == null ? void 0 : i2.version) === t3) return i2;
     }
-  }, O = (e2) => Pe(e2, w.__FEDERATION__.moduleInfo), Fe = (e2, t2) => {
-    let n2 = S(e2);
-    return w.__FEDERATION__.moduleInfo[n2] = t2, w.__FEDERATION__.moduleInfo;
-  }, Ie = (e2) => (w.__FEDERATION__.moduleInfo = {
-    ...w.__FEDERATION__.moduleInfo,
+  }, k = (e2) => je(e2, C.__FEDERATION__.moduleInfo), Me = (e2, t2) => {
+    let n2 = x(e2);
+    return C.__FEDERATION__.moduleInfo[n2] = t2, C.__FEDERATION__.moduleInfo;
+  }, Ne = (e2) => (C.__FEDERATION__.moduleInfo = {
+    ...C.__FEDERATION__.moduleInfo,
     ...e2
   }, () => {
     let t2 = Object.keys(e2);
-    for (let e3 of t2) delete w.__FEDERATION__.moduleInfo[e3];
-  }), Le = (e2, t2) => {
+    for (let e3 of t2) delete C.__FEDERATION__.moduleInfo[e3];
+  }), Pe = (e2, t2) => {
     let n2 = t2 || `__FEDERATION_${e2}:custom__`;
     return {
       remoteEntryKey: n2,
-      entryExports: C[n2]
+      entryExports: S[n2]
     };
-  }, Re = (e2) => {
-    let { __GLOBAL_PLUGIN__: t2 } = w.__FEDERATION__;
+  }, Fe = (e2) => {
+    let { __GLOBAL_PLUGIN__: t2 } = C.__FEDERATION__;
     e2.forEach((e3) => {
-      t2.findIndex((t3) => t3.name === e3.name) === -1 ? t2.push(e3) : x(`The plugin ${e3.name} has been registered.`);
+      t2.findIndex((t3) => t3.name === e3.name) === -1 ? t2.push(e3) : b(`The plugin ${e3.name} has been registered.`);
     });
-  }, ze = () => w.__FEDERATION__.__GLOBAL_PLUGIN__, Be = (e2) => C.__FEDERATION__.__PRELOADED_MAP__.get(e2), Ve = (e2) => C.__FEDERATION__.__PRELOADED_MAP__.set(e2, true), He = (e2) => C.__FEDERATION__.__PRELOADED_ASSETS__.has(e2), Ue = (e2) => {
-    let t2 = C.__FEDERATION__.__PRELOADED_ASSETS__;
-    if (t2.add(e2), t2.size > Te) {
+  }, Ie = () => C.__FEDERATION__.__GLOBAL_PLUGIN__, Le = (e2) => S.__FEDERATION__.__PRELOADED_MAP__.get(e2), Re = (e2) => S.__FEDERATION__.__PRELOADED_MAP__.set(e2, true), ze = (e2) => S.__FEDERATION__.__PRELOADED_ASSETS__.has(e2), Be = (e2) => {
+    let t2 = S.__FEDERATION__.__PRELOADED_ASSETS__;
+    if (t2.add(e2), t2.size > we) {
       let e3 = t2.values().next().value;
       e3 !== void 0 && t2.delete(e3);
     }
-  }, We = `[0-9A-Za-z-]+`, Ge = `(?:\\+(${We}(?:\\.${We})*))`, k = `0|[1-9]\\d*`, A = `[0-9]+`, Ke = `\\d*[a-zA-Z-][a-zA-Z0-9-]*`, qe = `(?:${A}|${Ke})`, Je = `(?:-?(${qe}(?:\\.${qe})*))`, Ye = `(?:${k}|${Ke})`, Xe = `(?:-(${Ye}(?:\\.${Ye})*))`, Ze = `${k}|x|X|\\*`, j = `[v=\\s]*(${Ze})(?:\\.(${Ze})(?:\\.(${Ze})(?:${Xe})?${Ge}?)?)?`, Qe = `^\\s*(${j})\\s+-\\s+(${j})\\s*$`, $e = `[v=\\s]*${`(${A})\\.(${A})\\.(${A})`}${Je}?${Ge}?`, et = `((?:<|>)?=?)`, tt = `(\\s*)${et}\\s*(${$e}|${j})`, nt = `(?:~>?)`, rt = `(\\s*)${nt}\\s+`, it = `(?:\\^)`, at = `(\\s*)${it}\\s+`, ot = `(<|>)?=?\\s*\\*`, st = `^${it}${j}$`, ct = `v?${`(${k})\\.(${k})\\.(${k})`}${Xe}?${Ge}?`, lt = `^${nt}${j}$`, ut = `^${et}\\s*${j}$`, dt = `^${et}\\s*(${ct})$|^$`, ft = `^\\s*>=\\s*0.0.0\\s*$`;
-  function M(e2) {
+  }, Ve = `[0-9A-Za-z-]+`, He = `(?:\\+(${Ve}(?:\\.${Ve})*))`, A = `0|[1-9]\\d*`, j = `[0-9]+`, Ue = `\\d*[a-zA-Z-][a-zA-Z0-9-]*`, We = `(?:${j}|${Ue})`, Ge = `(?:-?(${We}(?:\\.${We})*))`, Ke = `(?:${A}|${Ue})`, qe = `(?:-(${Ke}(?:\\.${Ke})*))`, Je = `${A}|x|X|\\*`, M = `[v=\\s]*(${Je})(?:\\.(${Je})(?:\\.(${Je})(?:${qe})?${He}?)?)?`, Ye = `^\\s*(${M})\\s+-\\s+(${M})\\s*$`, Xe = `[v=\\s]*${`(${j})\\.(${j})\\.(${j})`}${Ge}?${He}?`, Ze = `((?:<|>)?=?)`, Qe = `(\\s*)${Ze}\\s*(${Xe}|${M})`, $e = `(?:~>?)`, et = `(\\s*)${$e}\\s+`, tt = `(?:\\^)`, nt = `(\\s*)${tt}\\s+`, rt = `(<|>)?=?\\s*\\*`, it = `^${tt}${M}$`, at = `v?${`(${A})\\.(${A})\\.(${A})`}${qe}?${He}?`, ot = `^${$e}${M}$`, st = `^${Ze}\\s*${M}$`, ct = `^${Ze}\\s*(${at})$|^$`, lt = `^\\s*>=\\s*0.0.0\\s*$`;
+  function N(e2) {
     return new RegExp(e2);
   }
-  function N(e2) {
+  function P(e2) {
     return !e2 || e2.toLowerCase() === `x` || e2 === `*`;
   }
-  function pt(...e2) {
+  function ut(...e2) {
     return (t2) => e2.reduce((e3, t3) => t3(e3), t2);
   }
-  function mt(e2) {
-    return e2.match(M(dt));
+  function dt(e2) {
+    return e2.match(N(ct));
   }
-  function ht(e2, t2, n2, r2) {
+  function ft(e2, t2, n2, r2) {
     let i2 = `${e2}.${t2}.${n2}`;
     return r2 ? `${i2}-${r2}` : i2;
   }
+  function pt(e2) {
+    return e2.replace(N(Ye), (e3, t2, n2, r2, i2, a2, o2, s2, c2, l2, u2, d2) => (t2 = P(n2) ? `` : P(r2) ? `>=${n2}.0.0` : P(i2) ? `>=${n2}.${r2}.0` : `>=${t2}`, s2 = P(c2) ? `` : P(l2) ? `<${Number(c2) + 1}.0.0-0` : P(u2) ? `<${c2}.${Number(l2) + 1}.0-0` : d2 ? `<=${c2}.${l2}.${u2}-${d2}` : `<=${s2}`, `${t2} ${s2}`.trim()));
+  }
+  function mt(e2) {
+    return e2.replace(N(Qe), `$1$2$3`);
+  }
+  function ht(e2) {
+    return e2.replace(N(et), `$1~`);
+  }
   function gt(e2) {
-    return e2.replace(M(Qe), (e3, t2, n2, r2, i2, a2, o2, s2, c2, l2, u2, d2) => (t2 = N(n2) ? `` : N(r2) ? `>=${n2}.0.0` : N(i2) ? `>=${n2}.${r2}.0` : `>=${t2}`, s2 = N(c2) ? `` : N(l2) ? `<${Number(c2) + 1}.0.0-0` : N(u2) ? `<${c2}.${Number(l2) + 1}.0-0` : d2 ? `<=${c2}.${l2}.${u2}-${d2}` : `<=${s2}`, `${t2} ${s2}`.trim()));
+    return e2.replace(N(nt), `$1^`);
   }
   function _t(e2) {
-    return e2.replace(M(tt), `$1$2$3`);
+    return e2.trim().split(/\s+/).map((e3) => e3.replace(N(it), (e4, t2, n2, r2, i2) => P(t2) ? `` : P(n2) ? `>=${t2}.0.0 <${Number(t2) + 1}.0.0-0` : P(r2) ? t2 === `0` ? `>=${t2}.${n2}.0 <${t2}.${Number(n2) + 1}.0-0` : `>=${t2}.${n2}.0 <${Number(t2) + 1}.0.0-0` : i2 ? t2 === `0` ? n2 === `0` ? `>=${t2}.${n2}.${r2}-${i2} <${t2}.${n2}.${Number(r2) + 1}-0` : `>=${t2}.${n2}.${r2}-${i2} <${t2}.${Number(n2) + 1}.0-0` : `>=${t2}.${n2}.${r2}-${i2} <${Number(t2) + 1}.0.0-0` : t2 === `0` ? n2 === `0` ? `>=${t2}.${n2}.${r2} <${t2}.${n2}.${Number(r2) + 1}-0` : `>=${t2}.${n2}.${r2} <${t2}.${Number(n2) + 1}.0-0` : `>=${t2}.${n2}.${r2} <${Number(t2) + 1}.0.0-0`)).join(` `);
   }
   function vt(e2) {
-    return e2.replace(M(rt), `$1~`);
+    return e2.trim().split(/\s+/).map((e3) => e3.replace(N(ot), (e4, t2, n2, r2, i2) => P(t2) ? `` : P(n2) ? `>=${t2}.0.0 <${Number(t2) + 1}.0.0-0` : P(r2) ? `>=${t2}.${n2}.0 <${t2}.${Number(n2) + 1}.0-0` : i2 ? `>=${t2}.${n2}.${r2}-${i2} <${t2}.${Number(n2) + 1}.0-0` : `>=${t2}.${n2}.${r2} <${t2}.${Number(n2) + 1}.0-0`)).join(` `);
   }
   function yt(e2) {
-    return e2.replace(M(at), `$1^`);
-  }
-  function bt(e2) {
-    return e2.trim().split(/\s+/).map((e3) => e3.replace(M(st), (e4, t2, n2, r2, i2) => N(t2) ? `` : N(n2) ? `>=${t2}.0.0 <${Number(t2) + 1}.0.0-0` : N(r2) ? t2 === `0` ? `>=${t2}.${n2}.0 <${t2}.${Number(n2) + 1}.0-0` : `>=${t2}.${n2}.0 <${Number(t2) + 1}.0.0-0` : i2 ? t2 === `0` ? n2 === `0` ? `>=${t2}.${n2}.${r2}-${i2} <${t2}.${n2}.${Number(r2) + 1}-0` : `>=${t2}.${n2}.${r2}-${i2} <${t2}.${Number(n2) + 1}.0-0` : `>=${t2}.${n2}.${r2}-${i2} <${Number(t2) + 1}.0.0-0` : t2 === `0` ? n2 === `0` ? `>=${t2}.${n2}.${r2} <${t2}.${n2}.${Number(r2) + 1}-0` : `>=${t2}.${n2}.${r2} <${t2}.${Number(n2) + 1}.0-0` : `>=${t2}.${n2}.${r2} <${Number(t2) + 1}.0.0-0`)).join(` `);
-  }
-  function xt(e2) {
-    return e2.trim().split(/\s+/).map((e3) => e3.replace(M(lt), (e4, t2, n2, r2, i2) => N(t2) ? `` : N(n2) ? `>=${t2}.0.0 <${Number(t2) + 1}.0.0-0` : N(r2) ? `>=${t2}.${n2}.0 <${t2}.${Number(n2) + 1}.0-0` : i2 ? `>=${t2}.${n2}.${r2}-${i2} <${t2}.${Number(n2) + 1}.0-0` : `>=${t2}.${n2}.${r2} <${t2}.${Number(n2) + 1}.0-0`)).join(` `);
-  }
-  function St(e2) {
-    return e2.split(/\s+/).map((e3) => e3.trim().replace(M(ut), (e4, t2, n2, r2, i2, a2) => {
-      let o2 = N(n2), s2 = o2 || N(r2), c2 = s2 || N(i2);
+    return e2.split(/\s+/).map((e3) => e3.trim().replace(N(st), (e4, t2, n2, r2, i2, a2) => {
+      let o2 = P(n2), s2 = o2 || P(r2), c2 = s2 || P(i2);
       return t2 === `=` && c2 && (t2 = ``), a2 = ``, o2 ? t2 === `>` || t2 === `<` ? `<0.0.0-0` : `*` : t2 && c2 ? (s2 && (r2 = 0), i2 = 0, t2 === `>` ? (t2 = `>=`, s2 ? (n2 = Number(n2) + 1, r2 = 0, i2 = 0) : (r2 = Number(r2) + 1, i2 = 0)) : t2 === `<=` && (t2 = `<`, s2 ? n2 = Number(n2) + 1 : r2 = Number(r2) + 1), t2 === `<` && (a2 = `-0`), `${t2 + n2}.${r2}.${i2}${a2}`) : s2 ? `>=${n2}.0.0${a2} <${Number(n2) + 1}.0.0-0` : c2 ? `>=${n2}.${r2}.0${a2} <${n2}.${Number(r2) + 1}.0-0` : e4;
     })).join(` `);
   }
-  function Ct(e2) {
-    return e2.trim().replace(M(ot), ``);
+  function bt(e2) {
+    return e2.trim().replace(N(rt), ``);
   }
-  function wt(e2) {
-    return e2.trim().replace(M(ft), ``);
+  function xt(e2) {
+    return e2.trim().replace(N(lt), ``);
   }
-  function P(e2, t2) {
+  function F(e2, t2) {
     return e2 = Number(e2) || e2, t2 = Number(t2) || t2, e2 > t2 ? 1 : e2 === t2 ? 0 : -1;
   }
-  function Tt(e2, t2) {
+  function St(e2, t2) {
     let { preRelease: n2 } = e2, { preRelease: r2 } = t2;
     if (n2 === void 0 && r2) return 1;
     if (n2 && r2 === void 0) return -1;
     if (n2 === void 0 && r2 === void 0) return 0;
     for (let e3 = 0, t3 = n2.length; e3 <= t3; e3++) {
       let t4 = n2[e3], i2 = r2[e3];
-      if (t4 !== i2) return t4 === void 0 && i2 === void 0 ? 0 : t4 ? i2 ? P(t4, i2) : -1 : 1;
+      if (t4 !== i2) return t4 === void 0 && i2 === void 0 ? 0 : t4 ? i2 ? F(t4, i2) : -1 : 1;
     }
     return 0;
   }
-  function Et(e2, t2) {
-    return P(e2.major, t2.major) || P(e2.minor, t2.minor) || P(e2.patch, t2.patch) || Tt(e2, t2);
+  function I(e2, t2) {
+    return F(e2.major, t2.major) || F(e2.minor, t2.minor) || F(e2.patch, t2.patch) || St(e2, t2);
   }
-  function Dt(e2, t2) {
+  function Ct(e2, t2) {
     return e2.version === t2.version;
   }
-  function Ot(e2, t2) {
+  function wt(e2, t2) {
     switch (e2.operator) {
       case ``:
       case `=`:
-        return Dt(e2, t2);
+        return Ct(e2, t2);
       case `>`:
-        return Et(e2, t2) < 0;
+        return I(e2, t2) < 0;
       case `>=`:
-        return Dt(e2, t2) || Et(e2, t2) < 0;
+        return Ct(e2, t2) || I(e2, t2) < 0;
       case `<`:
-        return Et(e2, t2) > 0;
+        return I(e2, t2) > 0;
       case `<=`:
-        return Dt(e2, t2) || Et(e2, t2) > 0;
+        return Ct(e2, t2) || I(e2, t2) > 0;
       case void 0:
         return true;
       default:
         return false;
     }
   }
-  function kt(e2) {
-    return pt(bt, xt, St, Ct)(e2);
+  function Tt(e2) {
+    return ut(_t, vt, yt, bt)(e2);
   }
-  function At(e2) {
-    return pt(gt, _t, vt, yt)(e2.trim()).split(/\s+/).join(` `);
+  function Et(e2) {
+    return ut(pt, mt, ht, gt)(e2.trim()).split(/\s+/).join(` `);
   }
-  function F(e2, t2) {
+  function L(e2, t2) {
     if (!e2) return false;
-    let n2 = mt(e2);
+    let n2 = dt(e2);
     if (!n2) return false;
     let [, r2, , i2, a2, o2, s2] = n2, c2 = {
       operator: r2,
-      version: ht(i2, a2, o2, s2),
+      version: ft(i2, a2, o2, s2),
       major: i2,
       minor: a2,
       patch: o2,
@@ -646,23 +645,23 @@ ${n2.slice(0, 5).join(`
       let t3 = e3.trim();
       if (!t3 || t3 === `*` || t3 === `x`) return true;
       try {
-        let e4 = At(t3);
+        let e4 = Et(t3);
         if (!e4.trim()) return true;
-        let n3 = e4.split(` `).map((e5) => kt(e5)).join(` `);
+        let n3 = e4.split(` `).map((e5) => Tt(e5)).join(` `);
         if (!n3.trim()) return true;
-        let r3 = n3.split(/\s+/).map((e5) => wt(e5)).filter(Boolean);
+        let r3 = n3.split(/\s+/).map((e5) => xt(e5)).filter(Boolean);
         if (r3.length === 0) continue;
         let i3 = true;
         for (let e5 of r3) {
-          let t4 = mt(e5);
+          let t4 = dt(e5);
           if (!t4) {
             i3 = false;
             break;
           }
           let [, n4, , r4, a3, o3, s3] = t4;
-          if (!Ot({
+          if (!wt({
             operator: n4,
-            version: ht(r4, a3, o3, s3),
+            version: ft(r4, a3, o3, s3),
             major: r4,
             minor: a3,
             patch: o3,
@@ -680,13 +679,13 @@ ${n2.slice(0, 5).join(`
     }
     return false;
   }
-  var jt = `default`, Mt = `global`;
-  function Nt(e2, t2, n2, r2) {
+  var Dt = `default`, Ot = `global`;
+  function kt(e2, t2, r2, i2) {
     var _a, _b;
     let a2;
     return a2 = `get` in e2 ? e2.get : `lib` in e2 ? () => Promise.resolve(e2.lib) : () => Promise.resolve(() => {
-      b(`Cannot get shared "${n2}" from "${t2}": neither "get" nor "lib" is provided in the share config.`);
-    }), ((_a = e2.shareConfig) == null ? void 0 : _a.eager) && ((_b = e2.treeShaking) == null ? void 0 : _b.mode) && b(`Invalid shared config for "${n2}" from "${t2}": cannot use both "eager: true" and "treeShaking.mode" simultaneously. Choose one strategy.`), {
+      y(`Cannot get shared "${r2}" from "${t2}": neither "get" nor "lib" is provided in the share config.`);
+    }), ((_a = e2.shareConfig) == null ? void 0 : _a.eager) && ((_b = e2.treeShaking) == null ? void 0 : _b.mode) && y(`Invalid shared config for "${r2}" from "${t2}": cannot use both "eager: true" and "treeShaking.mode" simultaneously. Choose one strategy.`), {
       deps: [],
       useIn: [],
       from: t2,
@@ -705,20 +704,20 @@ ${n2.slice(0, 5).join(`
       scope: Array.isArray(e2.scope) ? e2.scope : [
         e2.scope ?? `default`
       ],
-      strategy: (e2.strategy ?? r2) || `version-first`,
+      strategy: (e2.strategy ?? i2) || `version-first`,
       treeShaking: e2.treeShaking ? {
         ...e2.treeShaking,
         mode: e2.treeShaking.mode ?? `server-calc`,
-        status: e2.treeShaking.status ?? i.UNKNOWN,
+        status: e2.treeShaking.status ?? n.UNKNOWN,
         useIn: []
       } : void 0
     };
   }
-  function Pt(e2, t2) {
+  function At(e2, t2) {
     let n2 = t2.shared || {}, r2 = t2.name, i2 = Object.keys(n2).reduce((e3, i3) => {
-      let a3 = Se(n2[i3]);
+      let a3 = xe(n2[i3]);
       return e3[i3] = e3[i3] || [], a3.forEach((n3) => {
-        e3[i3].push(Nt(n3, r2, i3, t2.shareStrategy));
+        e3[i3].push(kt(n3, r2, i3, t2.shareStrategy));
       }), e3;
     }, {}), a2 = {
       ...e2.shared
@@ -732,12 +731,12 @@ ${n2.slice(0, 5).join(`
       newShareInfos: i2
     };
   }
-  function I(e2, t2) {
+  function R(e2, t2) {
     if (!e2) return false;
-    let { status: n2, mode: r2 } = e2;
-    return n2 === i.NO_USE ? false : n2 === i.CALCULATED ? true : r2 === `runtime-infer` ? !t2 || Lt(e2, t2) : false;
+    let { status: r2, mode: i2 } = e2;
+    return r2 === n.NO_USE ? false : r2 === n.CALCULATED ? true : i2 === `runtime-infer` ? !t2 || Nt(e2, t2) : false;
   }
-  function L(e2, t2) {
+  function z(e2, t2) {
     let n2 = (e3) => {
       if (!Number.isNaN(Number(e3))) {
         let t3 = e3.split(`.`), n3 = e3;
@@ -746,79 +745,79 @@ ${n2.slice(0, 5).join(`
       }
       return e3;
     };
-    return !!F(n2(e2), `<=${n2(t2)}`);
+    return !!L(n2(e2), `<=${n2(t2)}`);
   }
-  var R = (e2, t2) => {
+  var B = (e2, t2) => {
     let n2 = t2 || function(e3, t3) {
-      return L(e3, t3);
+      return z(e3, t3);
     };
     return Object.keys(e2).reduce((e3, t3) => !e3 || n2(e3, t3) || e3 === `0` ? t3 : e3, 0);
-  }, Ft = (e2) => !!e2.loaded || typeof e2.lib == `function`, It = (e2) => !!e2.loading, Lt = (e2, t2) => {
+  }, jt = (e2) => !!e2.loaded || typeof e2.lib == `function`, Mt = (e2) => !!e2.loading, Nt = (e2, t2) => {
     if (!e2 || !t2) return false;
     let { usedExports: n2 } = e2;
     return n2 ? !!t2.every((e3) => n2.includes(e3)) : false;
   };
-  function Rt(e2, t2, n2, r2) {
-    let i2 = e2[t2][n2], a2 = ``, o2 = I(r2), s2 = function(e3, t3) {
-      return o2 ? i2[e3].treeShaking ? i2[t3].treeShaking ? !Ft(i2[e3].treeShaking) && L(e3, t3) : false : true : !Ft(i2[e3]) && L(e3, t3);
+  function Pt(e2, t2, n2, r2) {
+    let i2 = e2[t2][n2], a2 = ``, o2 = R(r2), s2 = function(e3, t3) {
+      return o2 ? i2[e3].treeShaking ? i2[t3].treeShaking ? !jt(i2[e3].treeShaking) && z(e3, t3) : false : true : !jt(i2[e3]) && z(e3, t3);
     };
     if (o2) {
-      if (a2 = R(e2[t2][n2], s2), a2) return {
+      if (a2 = B(e2[t2][n2], s2), a2) return {
         version: a2,
         useTreesShaking: o2
       };
       o2 = false;
     }
     return {
-      version: R(e2[t2][n2], s2),
+      version: B(e2[t2][n2], s2),
       useTreesShaking: o2
     };
   }
-  var z = (e2) => Ft(e2) || It(e2);
-  function zt(e2, t2, n2, r2) {
-    let i2 = e2[t2][n2], a2 = ``, o2 = I(r2), s2 = function(e3, t3) {
+  var V = (e2) => jt(e2) || Mt(e2);
+  function Ft(e2, t2, n2, r2) {
+    let i2 = e2[t2][n2], a2 = ``, o2 = R(r2), s2 = function(e3, t3) {
       if (o2) {
         if (!i2[e3].treeShaking) return true;
         if (!i2[t3].treeShaking) return false;
-        if (z(i2[t3].treeShaking)) return !z(i2[e3].treeShaking) || !!L(e3, t3);
-        if (z(i2[e3].treeShaking)) return false;
+        if (V(i2[t3].treeShaking)) return !V(i2[e3].treeShaking) || !!z(e3, t3);
+        if (V(i2[e3].treeShaking)) return false;
       }
-      return z(i2[t3]) ? !z(i2[e3]) || !!L(e3, t3) : !z(i2[e3]) && L(e3, t3);
+      return V(i2[t3]) ? !V(i2[e3]) || !!z(e3, t3) : !V(i2[e3]) && z(e3, t3);
     };
     if (o2) {
-      if (a2 = R(e2[t2][n2], s2), a2) return {
+      if (a2 = B(e2[t2][n2], s2), a2) return {
         version: a2,
         useTreesShaking: o2
       };
       o2 = false;
     }
     return {
-      version: R(e2[t2][n2], s2),
+      version: B(e2[t2][n2], s2),
       useTreesShaking: o2
     };
   }
-  function Bt(e2) {
-    return e2 === `loaded-first` ? zt : Rt;
+  function It(e2) {
+    return e2 === `loaded-first` ? Ft : Pt;
   }
-  function B(e2, t2, n2, r2, i2) {
+  function H(e2, t2, n2, r2, i2) {
     if (!e2) return;
-    let { shareConfig: a2, scope: o2 = jt, strategy: s2, treeShaking: c2 } = n2, l2 = Array.isArray(o2) ? o2 : [
+    let { shareConfig: a2, scope: o2 = Dt, strategy: s2, treeShaking: c2 } = n2, l2 = Array.isArray(o2) ? o2 : [
       o2
     ];
     for (let o3 of l2) if (a2 && e2[o3] && e2[o3][t2]) {
-      let { requiredVersion: l3 } = a2, { version: u2, useTreesShaking: d2 } = Bt(s2)(e2, o3, t2, c2), f2 = {
+      let { requiredVersion: l3 } = a2, { version: u2, useTreesShaking: d2 } = It(s2)(e2, o3, t2, c2), f2 = {
         shareScopeMap: e2,
         scope: o3,
         pkgName: t2,
         version: u2,
-        GlobalFederation: T.__FEDERATION__,
+        GlobalFederation: w.__FEDERATION__,
         shareInfo: n2,
         resolver: () => {
           let r3 = e2[o3][t2][u2];
           if (a2.singleton) {
-            if (typeof l3 == `string` && !F(u2, l3)) {
+            if (typeof l3 == `string` && !L(u2, l3)) {
               let e3 = `Version ${u2} from ${u2 && r3.from} of shared singleton module ${t2} does not satisfy the requirement of ${n2.from} which needs ${l3})`;
-              a2.strictVersion ? b(e3) : x(e3);
+              a2.strictVersion ? y(e3) : b(e3);
             }
             return {
               shared: r3,
@@ -826,18 +825,18 @@ ${n2.slice(0, 5).join(`
             };
           }
           {
-            if (l3 === false || l3 === `*` || F(u2, l3)) return {
+            if (l3 === false || l3 === `*` || L(u2, l3)) return {
               shared: r3,
               useTreesShaking: d2
             };
-            let n3 = I(c2);
+            let n3 = R(c2);
             if (n3) {
-              for (let [r4, i3] of Object.entries(e2[o3][t2])) if (I(i3.treeShaking, c2 == null ? void 0 : c2.usedExports) && F(r4, l3)) return {
+              for (let [r4, i3] of Object.entries(e2[o3][t2])) if (R(i3.treeShaking, c2 == null ? void 0 : c2.usedExports) && L(r4, l3)) return {
                 shared: i3,
                 useTreesShaking: n3
               };
             }
-            for (let [n4, r4] of Object.entries(e2[o3][t2])) if (F(n4, l3)) return {
+            for (let [n4, r4] of Object.entries(e2[o3][t2])) if (L(n4, l3)) return {
               shared: r4,
               useTreesShaking: false
             };
@@ -848,17 +847,17 @@ ${n2.slice(0, 5).join(`
       return (r2.emit(f2) || f2).resolver();
     }
   }
-  function Vt() {
-    return T.__FEDERATION__.__SHARE__;
+  function Lt() {
+    return w.__FEDERATION__.__SHARE__;
   }
-  function Ht(e2) {
+  function Rt(e2) {
     let { pkgName: t2, extraOptions: n2, shareInfos: r2 } = e2, i2 = (n2 == null ? void 0 : n2.resolver) ?? ((e3) => {
       if (!e3) return;
       let t3 = {};
       return e3.forEach((e4) => {
         t3[e4.version] = e4;
-      }), t3[R(t3, function(e4, n3) {
-        return !Ft(t3[e4]) && L(e4, n3);
+      }), t3[B(t3, function(e4, n3) {
+        return !jt(t3[e4]) && z(e4, n3);
       })];
     }), a2 = (e3) => typeof e3 == `object` && !!e3 && !Array.isArray(e3), o2 = (...e3) => {
       let t3 = {};
@@ -870,16 +869,16 @@ ${n2.slice(0, 5).join(`
     };
     return o2(i2(r2[t2]), n2 == null ? void 0 : n2.customShareInfo);
   }
-  var V = (e2, t2) => {
-    e2.useIn || (e2.useIn = []), ge(e2.useIn, t2);
+  var U = (e2, t2) => {
+    e2.useIn || (e2.useIn = []), he(e2.useIn, t2);
   };
-  function Ut(e2, t2) {
+  function zt(e2, t2) {
     return t2 && e2.treeShaking ? e2.treeShaking : e2;
   }
-  function Wt(e2, t2) {
+  function Bt(e2, t2) {
     return !t2 || t2 === `.` ? e2 : `${e2}/${t2.replace(/^\.\//, ``)}`;
   }
-  function Gt(e2, t2) {
+  function Vt(e2, t2) {
     for (let n2 of e2) {
       let e3 = t2.startsWith(n2.name), r2 = t2.replace(n2.name, ``);
       if (e3) {
@@ -915,102 +914,102 @@ ${n2.slice(0, 5).join(`
       }
     }
   }
-  function Kt(e2, t2) {
+  function Ht(e2, t2) {
     for (let n2 of e2) if (t2 === n2.name || n2.alias && t2 === n2.alias) return n2;
   }
-  var qt = `RUNTIME-001`, Jt = `RUNTIME-002`, Yt = `RUNTIME-003`, Xt = `RUNTIME-004`, Zt = `RUNTIME-005`, Qt = `RUNTIME-006`, $t = `RUNTIME-007`, en = `RUNTIME-008`, tn = `RUNTIME-009`, nn = `RUNTIME-010`, rn = `RUNTIME-011`, an = `RUNTIME-012`, on = `RUNTIME-013`, sn = `RUNTIME-014`, cn = `RUNTIME-015`, ln = `TYPE-001`, un = `BUILD-001`, dn = `BUILD-002`, H = {
-    [qt]: `Failed to get remoteEntry exports.`,
-    [Jt]: `The remote entry interface does not contain "init"`,
-    [Yt]: `Failed to get manifest.`,
-    [Xt]: `Failed to locate remote.`,
-    [Zt]: `Invalid loadShareSync function call from bundler runtime`,
-    [Qt]: `Invalid loadShareSync function call from runtime`,
-    [$t]: `Failed to get remote snapshot.`,
-    [en]: `Failed to load script resources.`,
-    [tn]: `Please call createInstance first.`,
-    [nn]: `The name option cannot be changed after initialization. If you want to create a new instance with a different name, please use "createInstance" api.`,
-    [rn]: `The remoteEntry URL is missing from the remote snapshot.`,
-    [an]: `The getter for the shared module is not a function. This may be caused by setting "shared.import: false" without the host providing the corresponding lib.`,
-    [on]: `The manifest is not a valid Module Federation manifest.`,
-    [sn]: `The remote does not expose the requested module.`,
-    [cn]: `Remote container initialization failed.`
-  }, fn = {
-    [ln]: `Failed to generate type declaration. Execute the below cmd to reproduce and fix the error.`
-  }, pn = {
-    [un]: `Failed to find expose module.`,
-    [dn]: `PublicPath is required in prod mode.`
+  var Ut = `RUNTIME-001`, Wt = `RUNTIME-002`, Gt = `RUNTIME-003`, Kt = `RUNTIME-004`, qt = `RUNTIME-005`, Jt = `RUNTIME-006`, Yt = `RUNTIME-007`, Xt = `RUNTIME-008`, Zt = `RUNTIME-009`, Qt = `RUNTIME-010`, $t = `RUNTIME-011`, en = `RUNTIME-012`, tn = `RUNTIME-013`, nn = `RUNTIME-014`, rn = `RUNTIME-015`, an = `TYPE-001`, on = `BUILD-001`, sn = `BUILD-002`, W = {
+    [Ut]: `Failed to get remoteEntry exports.`,
+    [Wt]: `The remote entry interface does not contain "init"`,
+    [Gt]: `Failed to get manifest.`,
+    [Kt]: `Failed to locate remote.`,
+    [qt]: `Invalid loadShareSync function call from bundler runtime`,
+    [Jt]: `Invalid loadShareSync function call from runtime`,
+    [Yt]: `Failed to get remote snapshot.`,
+    [Xt]: `Failed to load script resources.`,
+    [Zt]: `Please call createInstance first.`,
+    [Qt]: `The name option cannot be changed after initialization. If you want to create a new instance with a different name, please use "createInstance" api.`,
+    [$t]: `The remoteEntry URL is missing from the remote snapshot.`,
+    [en]: `The getter for the shared module is not a function. This may be caused by setting "shared.import: false" without the host providing the corresponding lib.`,
+    [tn]: `The manifest is not a valid Module Federation manifest.`,
+    [nn]: `The remote does not expose the requested module.`,
+    [rn]: `Remote container initialization failed.`
+  }, cn = {
+    [an]: `Failed to generate type declaration. Execute the below cmd to reproduce and fix the error.`
+  }, ln = {
+    [on]: `Failed to find expose module.`,
+    [sn]: `PublicPath is required in prod mode.`
   };
   ({
-    ...H,
-    ...fn,
-    ...pn
+    ...W,
+    ...cn,
+    ...ln
   });
-  var mn = `.then(callbacks[0]).catch(callbacks[1])`, hn = /* @__PURE__ */ new WeakMap(), gn = [
+  var un = `.then(callbacks[0]).catch(callbacks[1])`, dn = /* @__PURE__ */ new WeakMap(), fn = [
     `Failed to fetch dynamically imported module`,
     `Importing a module script failed`,
     `error loading dynamically imported module`
   ];
-  function _n(e2) {
-    return e2 instanceof TypeError && gn.some((t2) => e2.message.includes(t2));
+  function pn(e2) {
+    return e2 instanceof TypeError && fn.some((t2) => e2.message.includes(t2));
   }
-  function vn(e2) {
+  function mn(e2) {
     return e2 === `esm` || e2 === `module`;
   }
-  async function yn({ entry: t2, remoteEntryExports: n2, name: r2, getEntryUrl: i2 }) {
-    return new Promise((a2, o2) => {
-      let s2 = (e2) => {
-        if (_n(e2)) {
-          let t3 = e2 instanceof Error ? e2.message : String(e2);
+  async function hn({ entry: e2, remoteEntryExports: t2, name: n2, getEntryUrl: r2 }) {
+    return new Promise((i2, a2) => {
+      let o2 = (e3) => {
+        if (pn(e3)) {
+          let t3 = e3 instanceof Error ? e3.message : String(e3);
           try {
-            b(en, H, {
-              remoteName: r2,
-              resourceUrl: c2
+            y(Xt, W, {
+              remoteName: n2,
+              resourceUrl: s2
             }, t3);
-          } catch (e3) {
-            o2(e3);
+          } catch (e4) {
+            a2(e4);
             return;
           }
         }
-        o2(e2);
-      }, c2 = i2 ? i2(t2) : t2;
+        a2(e3);
+      }, s2 = r2 ? r2(e2) : e2;
       try {
-        n2 ? a2(n2) : typeof FEDERATION_ALLOW_NEW_FUNCTION < `u` ? Function(`callbacks`, `import("${c2}")${mn}`)([
-          a2,
-          s2
-        ]) : e(() => import(c2).then(async (m2) => {
+        t2 ? i2(t2) : typeof FEDERATION_ALLOW_NEW_FUNCTION < `u` ? Function(`callbacks`, `import("${s2}")${un}`)([
+          i2,
+          o2
+        ]) : import(s2).then(async (m2) => {
           await m2.__tla;
           return m2;
-        }).then(a2), [], import.meta.url).catch(s2);
-      } catch (e2) {
-        b(`Failed to load ESM entry from "${c2}". ${e2 instanceof Error ? e2.message : String(e2)}`);
+        }).then(i2).catch(o2);
+      } catch (e3) {
+        y(`Failed to load ESM entry from "${s2}". ${e3 instanceof Error ? e3.message : String(e3)}`);
       }
     });
   }
-  async function bn({ entry: e2, remoteEntryExports: t2 }) {
+  async function gn({ entry: e2, remoteEntryExports: t2 }) {
     return new Promise((n2, r2) => {
       try {
-        t2 ? n2(t2) : typeof __system_context__ > `u` ? System.import(e2).then(n2).catch(r2) : Function(`callbacks`, `System.import("${e2}")${mn}`)([
+        t2 ? n2(t2) : typeof __system_context__ > `u` ? System.import(e2).then(n2).catch(r2) : Function(`callbacks`, `System.import("${e2}")${un}`)([
           n2,
           r2
         ]);
       } catch (t3) {
-        b(`Failed to load SystemJS entry from "${e2}". ${t3 instanceof Error ? t3.message : String(t3)}`);
+        y(`Failed to load SystemJS entry from "${e2}". ${t3 instanceof Error ? t3.message : String(t3)}`);
       }
     });
   }
-  function xn(e2, t2, n2) {
-    let { remoteEntryKey: r2, entryExports: i2 } = Le(e2, t2);
-    return i2 || b(qt, H, {
+  function _n(e2, t2, n2) {
+    let { remoteEntryKey: r2, entryExports: i2 } = Pe(e2, t2);
+    return i2 || y(Ut, W, {
       remoteName: e2,
       remoteEntryUrl: n2,
       remoteEntryKey: r2
     }), i2;
   }
-  async function Sn({ name: e2, globalName: t2, entry: n2, remoteInfo: r2, loaderHook: i2, getEntryUrl: a2, resourceContext: o2 }) {
-    let { entryExports: s2 } = Le(e2, t2);
+  async function vn({ name: e2, globalName: t2, entry: n2, remoteInfo: r2, loaderHook: i2, getEntryUrl: a2, resourceContext: o2 }) {
+    let { entryExports: s2 } = Pe(e2, t2);
     if (s2) return s2;
     let c2 = a2 ? a2(n2) : n2;
-    return de(c2, {
+    return ue(c2, {
       attrs: {},
       createScriptHook: (e3, t3) => {
         let n3 = i2.lifecycle.createScript.emit({
@@ -1024,25 +1023,25 @@ ${n2.slice(0, 5).join(`
         });
         if (n3 && (n3 instanceof HTMLScriptElement || `script` in n3 || `timeout` in n3)) return n3;
       }
-    }).then(() => xn(e2, t2, n2), (t3) => {
+    }).then(() => _n(e2, t2, n2), (t3) => {
       let n3 = t3 instanceof Error ? t3.message : String(t3);
-      b(en, H, {
+      y(Xt, W, {
         remoteName: e2,
         resourceUrl: c2
       }, n3);
     });
   }
-  async function Cn({ remoteInfo: e2, remoteEntryExports: t2, loaderHook: n2, getEntryUrl: r2, resourceContext: i2 }) {
+  async function yn({ remoteInfo: e2, remoteEntryExports: t2, loaderHook: n2, getEntryUrl: r2, resourceContext: i2 }) {
     let { entry: a2, entryGlobalName: o2, name: s2, type: c2 } = e2;
-    return vn(c2) ? yn({
+    return mn(c2) ? hn({
       entry: a2,
       remoteEntryExports: t2,
       name: s2,
       getEntryUrl: r2
-    }) : c2 === `system` ? bn({
+    }) : c2 === `system` ? gn({
       entry: a2,
       remoteEntryExports: t2
-    }) : Sn({
+    }) : vn({
       entry: a2,
       globalName: o2,
       name: s2,
@@ -1052,12 +1051,12 @@ ${n2.slice(0, 5).join(`
       resourceContext: i2
     });
   }
-  function wn(e2) {
+  function bn(e2) {
     let { entry: t2, name: n2 } = e2;
-    return u(n2, t2);
+    return c(n2, t2);
   }
-  async function Tn(e2) {
-    let { origin: t2, remoteEntryExports: n2, remoteInfo: r2, getEntryUrl: i2, resourceContext: a2, _inErrorHandling: o2 = false } = e2, s2 = wn(r2);
+  async function xn(e2) {
+    let { origin: t2, remoteEntryExports: n2, remoteInfo: r2, getEntryUrl: i2, resourceContext: a2, _inErrorHandling: o2 = false } = e2, s2 = bn(r2);
     if (n2) return await t2.loaderHook.lifecycle.afterLoadEntry.emit({
       origin: t2,
       remoteInfo: r2,
@@ -1065,14 +1064,14 @@ ${n2.slice(0, 5).join(`
       resourceContext: a2,
       cached: true
     }), n2;
-    if (!E[s2]) {
+    if (!D[s2]) {
       let e3 = t2.remoteHandler.hooks.lifecycle.loadEntry, c3 = t2.loaderHook, l2 = e3.emit({
         origin: t2,
         loaderHook: c3,
         remoteInfo: r2,
         remoteEntryExports: n2,
         resourceContext: a2
-      }).then((e4) => e4 || Cn({
+      }).then((e4) => e4 || yn({
         remoteInfo: r2,
         remoteEntryExports: n2,
         loaderHook: c3,
@@ -1087,14 +1086,14 @@ ${n2.slice(0, 5).join(`
         let i3 = e4 instanceof Error && e4.message.includes(`ScriptExecutionError`);
         if (e4 instanceof Error && e4.message.includes(`RUNTIME-008`) && !i3 && !o2) {
           let i4 = await t2.loaderHook.lifecycle.loadEntryError.emit({
-            getRemoteEntry: (e5) => Tn({
+            getRemoteEntry: (e5) => xn({
               ...e5,
               _inErrorHandling: true
             }),
             origin: t2,
             remoteInfo: r2,
             remoteEntryExports: n2,
-            globalLoading: E,
+            globalLoading: D,
             uniqueKey: s2
           });
           if (i4) return await t2.loaderHook.lifecycle.afterLoadEntry.emit({
@@ -1113,12 +1112,12 @@ ${n2.slice(0, 5).join(`
           error: e4
         }), e4;
       });
-      E[s2] = l2, l2.then(void 0, () => {
-        E[s2] === l2 && delete E[s2];
-      }), hn.set(l2, t2);
+      D[s2] = l2, l2.then(void 0, () => {
+        D[s2] === l2 && delete D[s2];
+      }), dn.set(l2, t2);
     }
-    let c2 = E[s2];
-    if (hn.get(c2) !== t2) try {
+    let c2 = D[s2];
+    if (dn.get(c2) !== t2) try {
       let e3 = await c2;
       return await t2.loaderHook.lifecycle.afterLoadEntry.emit({
         origin: t2,
@@ -1136,7 +1135,7 @@ ${n2.slice(0, 5).join(`
     }
     return c2;
   }
-  function U(e2) {
+  function G(e2) {
     return {
       ...e2,
       entry: `entry` in e2 ? e2.entry : ``,
@@ -1145,26 +1144,26 @@ ${n2.slice(0, 5).join(`
       shareScope: e2.shareScope || `default`
     };
   }
-  function En() {
+  function Sn() {
     return typeof FEDERATION_BUILD_IDENTIFIER < `u` ? FEDERATION_BUILD_IDENTIFIER : ``;
   }
-  function Dn(e2) {
+  function Cn(e2) {
     let t2 = /* @__PURE__ */ new Map();
     return [
       ...e2 || [],
-      ...ze()
+      ...Ie()
     ].forEach((e3) => {
-      e3 && (y(xe(e3), `Plugin configuration is invalid.`), y(e3.name, `A name must be provided by the plugin.`), t2.has(e3.name) || t2.set(e3.name, e3));
+      e3 && (v(be(e3), `Plugin configuration is invalid.`), v(e3.name, `A name must be provided by the plugin.`), t2.has(e3.name) || t2.set(e3.name, e3));
     }), Array.from(t2.values());
   }
-  function On(e2, t2) {
+  function wn(e2, t2) {
     return t2 === void 0 ? e2 : {
       ...t2,
       name: e2.name,
       version: e2.version
     };
   }
-  function kn(e2, t2) {
+  function Tn(e2, t2) {
     let n2 = /* @__PURE__ */ new Map();
     t2.options.plugins.forEach((e3) => {
       e3 && n2.set(e3.name, e3);
@@ -1177,16 +1176,16 @@ ${n2.slice(0, 5).join(`
       t2.loaderHook,
       t2.bridgeHook
     ];
-    return Dn(e2).forEach((e3) => {
+    return Cn(e2).forEach((e3) => {
       var _a;
       if (n2.set(e3.name, e3), t2.hooks.registerPlugins[e3.name]) return;
-      let i2 = On(e3, (_a = e3.apply) == null ? void 0 : _a.call(e3, t2));
+      let i2 = wn(e3, (_a = e3.apply) == null ? void 0 : _a.call(e3, t2));
       r2.forEach((e4) => {
         e4.applyPlugin(i2);
       });
     }), Array.from(n2.values());
   }
-  function An(e2) {
+  function En(e2) {
     return {
       name: e2.name,
       alias: e2.alias,
@@ -1197,7 +1196,7 @@ ${n2.slice(0, 5).join(`
       shareScope: e2.shareScope
     };
   }
-  function W(e2) {
+  function K(e2) {
     var _a, _b, _c, _d, _e2, _f;
     let t2 = {};
     for (let [n2, r2] of Object.entries(e2.shared)) {
@@ -1217,12 +1216,12 @@ ${n2.slice(0, 5).join(`
       },
       mfConfig: {
         name: e2.name,
-        remotes: ((_f = e2.remotes) == null ? void 0 : _f.map(An)) ?? [],
+        remotes: ((_f = e2.remotes) == null ? void 0 : _f.map(En)) ?? [],
         shared: t2
       }
     };
   }
-  function jn(e2) {
+  function Dn(e2) {
     return {
       resourceCategory: `sync`,
       share: true,
@@ -1231,25 +1230,25 @@ ${n2.slice(0, 5).join(`
       ...e2
     };
   }
-  function Mn(e2, t2) {
+  function On(e2, t2) {
     return t2.map((t3) => {
-      let n2 = Kt(e2, t3.nameOrAlias);
-      return y(n2, `Unable to preload ${t3.nameOrAlias} as it is not included in ${!n2 && p({
+      let n2 = Ht(e2, t3.nameOrAlias);
+      return v(n2, `Unable to preload ${t3.nameOrAlias} as it is not included in ${!n2 && d({
         remoteInfo: n2,
         remotes: e2
       })}`), {
         remote: n2,
-        preloadConfig: jn(t3)
+        preloadConfig: Dn(t3)
       };
     });
   }
-  function Nn(e2) {
+  function kn(e2) {
     return e2 ? e2.map((e3) => e3 === `.` ? e3 : e3.startsWith(`./`) ? e3.replace(`./`, ``) : e3) : [];
   }
-  function Pn(e2) {
+  function An(e2) {
     return e2 instanceof Error ? e2.message.includes(`timed out`) || e2.name.includes(`Timeout`) : false;
   }
-  function G(e2, t2, n2, r2) {
+  function q(e2, t2, n2, r2) {
     return {
       url: t2,
       status: n2,
@@ -1259,14 +1258,14 @@ ${n2.slice(0, 5).join(`
       error: r2
     };
   }
-  function Fn(e2, t2, n2, r2) {
-    return n2 ? He(t2) ? Promise.resolve(G(e2, t2, `cached`)) : (Ue(t2), r2()) : r2();
+  function jn(e2, t2, n2, r2) {
+    return n2 ? ze(t2) ? Promise.resolve(q(e2, t2, `cached`)) : (Be(t2), r2()) : r2();
   }
-  async function In(e2, t2, n2, r2) {
+  async function Mn(e2, t2, n2, r2) {
     let i2 = e2.moduleCache.get(n2.name), a2 = n2.entry;
-    if (i2 == null ? void 0 : i2.remoteEntryExports) return G(r2, a2, `cached`);
+    if (i2 == null ? void 0 : i2.remoteEntryExports) return q(r2, a2, `cached`);
     try {
-      if (!await Tn({
+      if (!await xn({
         origin: e2,
         remoteInfo: n2,
         remoteEntryExports: i2 == null ? void 0 : i2.remoteEntryExports,
@@ -1275,20 +1274,20 @@ ${n2.slice(0, 5).join(`
           url: a2
         }
       })) throw Error(`Failed to load remoteEntry "${a2}".`);
-      return G(r2, a2, `success`);
+      return q(r2, a2, `success`);
     } catch (e3) {
-      return G(r2, a2, Pn(e3) ? `timeout` : `error`, e3);
+      return q(r2, a2, An(e3) ? `timeout` : `error`, e3);
     }
   }
-  function K({ host: e2, remoteInfo: t2, url: n2, attrs: r2, context: i2, needDeleteLink: a2 }) {
+  function Nn({ host: e2, remoteInfo: t2, url: n2, attrs: r2, context: i2, needDeleteLink: a2 }) {
     return new Promise((o2) => {
-      let { link: s2, needAttach: c2 } = ue({
+      let { link: s2, needAttach: c2 } = le({
         url: n2,
         cb: () => {
-          o2(G(i2, n2, c2 ? `success` : `cached`));
+          o2(q(i2, n2, c2 ? `success` : `cached`));
         },
         onErrorCallback: (e3) => {
-          o2(G(i2, n2, Pn(e3) ? `timeout` : `error`, e3));
+          o2(q(i2, n2, An(e3) ? `timeout` : `error`, e3));
         },
         attrs: r2,
         createLinkHook: (n3, r3) => {
@@ -1308,15 +1307,15 @@ ${n2.slice(0, 5).join(`
       c2 && document.head.appendChild(s2);
     });
   }
-  function Ln({ host: e2, remoteInfo: t2, url: n2, attrs: r2, context: i2 }) {
+  function Pn({ host: e2, remoteInfo: t2, url: n2, attrs: r2, context: i2 }) {
     return new Promise((a2) => {
-      let { script: o2, needAttach: s2 } = le({
+      let { script: o2, needAttach: s2 } = ce({
         url: n2,
         cb: () => {
-          a2(G(i2, n2, s2 ? `success` : `cached`));
+          a2(q(i2, n2, s2 ? `success` : `cached`));
         },
         onErrorCallback: (e3) => {
-          a2(G(i2, n2, Pn(e3) ? `timeout` : `error`, e3));
+          a2(q(i2, n2, An(e3) ? `timeout` : `error`, e3));
         },
         attrs: r2,
         createScriptHook: (n3, r3) => {
@@ -1336,13 +1335,13 @@ ${n2.slice(0, 5).join(`
       s2 && document.head.appendChild(o2);
     });
   }
-  function q(e2, t2) {
+  function Fn(e2, t2) {
     return {
       ...e2,
       resourceType: t2
     };
   }
-  function Rn(e2, t2, n2, r2 = true, i2 = {
+  function In(e2, t2, n2, r2 = true, i2 = {
     initiator: `preloadRemote`,
     id: e2.name
   }, a2 = true) {
@@ -1350,15 +1349,15 @@ ${n2.slice(0, 5).join(`
     if (t2.options.inBrowser) {
       if (c2.forEach((n4) => {
         let { moduleInfo: r3 } = n4;
-        l2.push(In(t2, e2, r3, q(i2, `remoteEntry`)));
+        l2.push(Mn(t2, e2, r3, Fn(i2, `remoteEntry`)));
       }), r2) {
         let n4 = {
           rel: `preload`,
           as: `style`
         };
         o2.forEach((r3) => {
-          let o3 = q(i2, `css`);
-          l2.push(Fn(o3, r3, a2, () => K({
+          let o3 = Fn(i2, `css`);
+          l2.push(jn(o3, r3, a2, () => Nn({
             host: t2,
             remoteInfo: e2,
             url: r3,
@@ -1372,8 +1371,8 @@ ${n2.slice(0, 5).join(`
           type: `text/css`
         };
         o2.forEach((r3) => {
-          let o3 = q(i2, `css`);
-          l2.push(Fn(o3, r3, a2, () => K({
+          let o3 = Fn(i2, `css`);
+          l2.push(jn(o3, r3, a2, () => Nn({
             host: t2,
             remoteInfo: e2,
             url: r3,
@@ -1383,19 +1382,19 @@ ${n2.slice(0, 5).join(`
           })));
         });
       }
-      let n3 = Ln, u2 = {
+      let n3 = Pn, u2 = {
         fetchpriority: `high`,
         type: `text/javascript`
       };
-      r2 ? (n3 = K, u2 = {
+      r2 ? (n3 = Nn, u2 = {
         rel: `preload`,
         as: `script`
-      }) : vn(e2.type) && (n3 = K, u2 = {
+      }) : mn(e2.type) && (n3 = Nn, u2 = {
         rel: `modulepreload`,
         fetchpriority: `high`
       }), s2.forEach((r3) => {
-        let o3 = q(i2, `js`);
-        l2.push(Fn(o3, r3, a2, () => n3({
+        let o3 = Fn(i2, `js`);
+        l2.push(jn(o3, r3, a2, () => n3({
           host: t2,
           remoteInfo: e2,
           url: r3,
@@ -1406,42 +1405,42 @@ ${n2.slice(0, 5).join(`
     }
     return Promise.all(l2);
   }
-  var zn = {
+  var Ln = {
     global: {
-      Global: T,
-      nativeGlobal: w,
-      resetFederationGlobalInfo: ke,
-      setGlobalFederationInstance: Ae,
-      getGlobalFederationConstructor: je,
-      setGlobalFederationConstructor: Me,
-      getInfoWithoutType: D,
-      getGlobalSnapshot: Ne,
-      getTargetSnapshotInfoByModuleInfo: Pe,
-      getGlobalSnapshotInfoByModuleInfo: O,
-      setGlobalSnapshotInfoByModuleInfo: Fe,
-      addGlobalSnapshot: Ie,
-      getRemoteEntryExports: Le,
-      registerGlobalPlugins: Re,
-      getGlobalHostPlugins: ze,
-      getPreloaded: Be,
-      setPreloaded: Ve
+      Global: w,
+      nativeGlobal: C,
+      resetFederationGlobalInfo: Ee,
+      setGlobalFederationInstance: De,
+      getGlobalFederationConstructor: Oe,
+      setGlobalFederationConstructor: ke,
+      getInfoWithoutType: O,
+      getGlobalSnapshot: Ae,
+      getTargetSnapshotInfoByModuleInfo: je,
+      getGlobalSnapshotInfoByModuleInfo: k,
+      setGlobalSnapshotInfoByModuleInfo: Me,
+      addGlobalSnapshot: Ne,
+      getRemoteEntryExports: Pe,
+      registerGlobalPlugins: Fe,
+      getGlobalHostPlugins: Ie,
+      getPreloaded: Le,
+      setPreloaded: Re
     },
     share: {
-      getRegisteredShare: B,
-      getGlobalShareScope: Vt
+      getRegisteredShare: H,
+      getGlobalShareScope: Lt
     },
     utils: {
-      matchRemoteWithNameAndExpose: Gt,
-      preloadAssets: Rn,
-      getRemoteInfo: U
+      matchRemoteWithNameAndExpose: Vt,
+      preloadAssets: In,
+      getRemoteInfo: G
     }
   };
-  function Bn(e2) {
+  function Rn(e2) {
     if (!e2 || !(`modules` in e2) || !Array.isArray(e2.modules)) return;
     let t2 = e2.modules.map((e3) => e3.moduleName).filter(Boolean);
     return t2.length ? t2.join(`,`) : void 0;
   }
-  function Vn(e2, t2, n2) {
+  function zn(e2, t2, n2) {
     let r2 = t2, i2 = Array.isArray(e2.shareScope) ? e2.shareScope : [
       e2.shareScope
     ];
@@ -1461,25 +1460,25 @@ ${n2.slice(0, 5).join(`
       initScope: n2 ?? []
     };
   }
-  var Hn = class {
+  var Bn = class {
     constructor({ remoteInfo: e2, host: t2 }) {
       this.inited = false, this.initing = false, this.lib = void 0, this.remoteInfo = e2, this.host = t2;
     }
     async getEntry(e2, t2) {
       let n2 = t2 || {
         initiator: `loadRemote`,
-        id: Wt(this.remoteInfo.name, e2),
+        id: Bt(this.remoteInfo.name, e2),
         resourceType: `remoteEntry`,
         url: this.remoteInfo.entry,
         expose: e2
-      }, r2 = await Tn({
+      }, r2 = await xn({
         origin: this.host,
         remoteInfo: this.remoteInfo,
         remoteEntryExports: this.remoteEntryExports,
         resourceContext: n2
       });
-      return y(r2, `remoteEntryExports is undefined 
- ${p(this.remoteInfo)}`), this.remoteEntryExports = r2, this.remoteEntryExports;
+      return v(r2, `remoteEntryExports is undefined 
+ ${d(this.remoteInfo)}`), this.remoteEntryExports = r2, this.remoteEntryExports;
     }
     async init(e2, t2, n2, r2, i2) {
       let a2 = await this.getEntry(r2, i2);
@@ -1521,29 +1520,29 @@ ${n2.slice(0, 5).join(`
           remoteSnapshot: t2,
           origin: this.host
         });
-        let { remoteEntryInitOptions: r3, shareScope: i3, initScope: o2 } = Vn(this.remoteInfo, this.host.shareScopeMap, n2), s2 = await this.host.hooks.lifecycle.beforeInitContainer.emit({
+        let { remoteEntryInitOptions: r3, shareScope: i3, initScope: o2 } = zn(this.remoteInfo, this.host.shareScopeMap, n2), s2 = await this.host.hooks.lifecycle.beforeInitContainer.emit({
           shareScope: i3,
           remoteEntryInitOptions: r3,
           initScope: o2,
           remoteInfo: this.remoteInfo,
           origin: this.host
         });
-        (a2 == null ? void 0 : a2.init) === void 0 && b(Jt, H, {
+        (a2 == null ? void 0 : a2.init) === void 0 && y(Wt, W, {
           hostName: this.host.name,
           remoteName: this.remoteInfo.name,
           remoteEntryUrl: this.remoteInfo.entry,
           remoteEntryKey: this.remoteInfo.entryGlobalName
-        }, void 0, W(this.host.options));
+        }, void 0, K(this.host.options));
         try {
           await a2.init(s2.shareScope, s2.initScope, s2.remoteEntryInitOptions);
         } catch (e3) {
-          b(cn, H, {
+          y(rn, W, {
             hostName: this.host.name,
             remoteName: this.remoteInfo.name,
             remoteEntryUrl: this.remoteInfo.entry,
             remoteEntryKey: this.remoteInfo.entryGlobalName,
             shareScope: this.remoteInfo.shareScope
-          }, `${e3}`, W(this.host.options));
+          }, `${e3}`, K(this.host.options));
         }
         await this.host.hooks.lifecycle.initContainer.emit({
           ...s2,
@@ -1592,14 +1591,14 @@ ${n2.slice(0, 5).join(`
           expose: t2,
           moduleInfo: this.remoteInfo
         });
-        o2 = typeof n3 == `function` ? n3 : void 0, o2 || (o2 = await a2.get(t2)), o2 || b(sn, H, {
+        o2 = typeof n3 == `function` ? n3 : void 0, o2 || (o2 = await a2.get(t2)), o2 || y(nn, W, {
           hostName: this.host.name,
           remoteName: this.remoteInfo.name,
           remoteEntryUrl: this.remoteInfo.entry,
           expose: t2,
           requestId: e2,
-          availableExposes: Bn(r2)
-        }, void 0, W(this.host.options)), await this.host.loaderHook.lifecycle.afterGetExpose.emit({
+          availableExposes: Rn(r2)
+        }, void 0, K(this.host.options)), await this.host.loaderHook.lifecycle.afterGetExpose.emit({
           id: e2,
           expose: t2,
           moduleInfo: this.remoteInfo,
@@ -1617,7 +1616,7 @@ ${n2.slice(0, 5).join(`
           origin: this.host
         }), n3;
       }
-      let s2 = we(this.remoteInfo.name, t2), c2 = this.wraperFactory(o2, s2);
+      let s2 = Ce(this.remoteInfo.name, t2), c2 = this.wraperFactory(o2, s2);
       if (!i2) return c2;
       await this.host.loaderHook.lifecycle.beforeExecuteFactory.emit({
         id: e2,
@@ -1664,17 +1663,17 @@ ${n2.slice(0, 5).join(`
       this.registerPlugins = {}, this.lifecycle = e2, this.lifecycleKeys = Object.keys(e2);
     }
     applyPlugin(e2) {
-      y(xe(e2), `Plugin configuration is invalid.`);
+      v(be(e2), `Plugin configuration is invalid.`);
       let t2 = e2.name;
-      y(t2, `A name must be provided by the plugin.`), this.registerPlugins[t2] || (this.registerPlugins[t2] = e2, this.lifecycleKeys.forEach((t3) => {
+      v(t2, `A name must be provided by the plugin.`), this.registerPlugins[t2] || (this.registerPlugins[t2] = e2, this.lifecycleKeys.forEach((t3) => {
         let n2 = e2[t3];
         n2 && this.lifecycle[t3].on(n2);
       }));
     }
     removePlugin(e2) {
-      y(e2, `A name is required.`);
+      v(e2, `A name is required.`);
       let t2 = this.registerPlugins[e2];
-      y(t2, `The plugin "${e2}" is not registered.`), this.lifecycleKeys.forEach((e3) => {
+      v(t2, `The plugin "${e2}" is not registered.`), this.lifecycleKeys.forEach((e3) => {
         let n2 = t2[e3];
         n2 && this.lifecycle[e3].remove(n2);
       }), delete this.registerPlugins[e2];
@@ -1715,8 +1714,8 @@ ${n2.slice(0, 5).join(`
       return Promise.resolve(t2);
     }
   };
-  function Un(e2, t2) {
-    if (!ye(t2)) return false;
+  function Vn(e2, t2) {
+    if (!ve(t2)) return false;
     if (e2 !== t2) {
       for (let n2 in e2) if (!(n2 in t2)) return false;
     }
@@ -1724,33 +1723,33 @@ ${n2.slice(0, 5).join(`
   }
   var Z = class extends Y {
     constructor(e2) {
-      super(), this.onerror = b, this.type = e2;
+      super(), this.onerror = y, this.type = e2;
     }
     emit(e2) {
-      ye(e2) || b(`The data for the "${this.type}" hook should be an object.`);
+      ve(e2) || y(`The data for the "${this.type}" hook should be an object.`);
       for (let t2 of this.listeners) try {
         let n2 = t2(e2);
         if (n2 === void 0) continue;
-        if (Un(e2, n2)) e2 = n2;
+        if (Vn(e2, n2)) e2 = n2;
         else {
           this.onerror(`A plugin returned an unacceptable value for the "${this.type}" type.`);
           break;
         }
       } catch (e3) {
-        x(e3), this.onerror(e3);
+        b(e3), this.onerror(e3);
       }
       return e2;
     }
   }, Q = class extends Y {
     constructor(e2) {
-      super(), this.onerror = b, this.type = e2;
+      super(), this.onerror = y, this.type = e2;
     }
     emit(e2) {
-      ye(e2) || b(`The response data for the "${this.type}" hook must be an object.`);
+      ve(e2) || y(`The response data for the "${this.type}" hook must be an object.`);
       let t2 = Array.from(this.listeners);
       if (t2.length > 0) {
-        let n2 = 0, r2 = (t3) => (x(t3), this.onerror(t3), e2), i2 = (a2) => {
-          if (a2 !== void 0 && Un(e2, a2)) e2 = a2;
+        let n2 = 0, r2 = (t3) => (b(t3), this.onerror(t3), e2), i2 = (a2) => {
+          if (a2 !== void 0 && Vn(e2, a2)) e2 = a2;
           else if (a2 !== void 0) return this.onerror(`A plugin returned an incorrect value for the "${this.type}" type.`), e2;
           if (n2 < t2.length) try {
             return Promise.resolve(t2[n2++](e2)).then(i2, r2);
@@ -1763,7 +1762,7 @@ ${n2.slice(0, 5).join(`
       }
       return Promise.resolve(e2);
     }
-  }, $ = `Remote loading is disabled by experiments.optimization.disableRemote.`, Wn = class {
+  }, $ = `Remote loading is disabled by experiments.optimization.disableRemote.`, Hn = class {
     constructor() {
       this.hooks = new J({});
     }
@@ -1786,25 +1785,25 @@ ${n2.slice(0, 5).join(`
       throw Error($);
     }
   };
-  function Gn(e2, t2) {
-    let n2 = Ce(t2);
-    n2.url || b(rn, H, {
+  function Un(e2, t2) {
+    let n2 = Se(t2);
+    n2.url || y($t, W, {
       remoteName: e2.name
     });
-    let r2 = d(t2, n2.url);
+    let r2 = l(t2, n2.url);
     e2.type = n2.type, e2.entryGlobalName = n2.globalName, e2.entry = r2, e2.version = t2.version, e2.buildVersion = t2.buildVersion;
   }
-  function Kn() {
+  function Wn() {
     return {
       name: `snapshot-plugin`,
       async afterResolve(e2) {
         let { remote: t2, pkgNameOrAlias: n2, expose: r2, origin: i2, remoteInfo: a2, id: o2 } = e2;
-        if (!_e(t2) || !ve(t2)) {
+        if (!ge(t2) || !_e(t2)) {
           let { remoteSnapshot: s2, globalSnapshot: c2 } = await i2.snapshotHandler.loadRemoteSnapshotInfo({
             moduleInfo: t2,
-            id: Wt(t2.name, r2)
+            id: Bt(t2.name, r2)
           });
-          Gn(a2, s2);
+          Un(a2, s2);
           let l2 = [
             {
               nameOrAlias: n2,
@@ -1835,7 +1834,7 @@ ${n2.slice(0, 5).join(`
               remoteSnapshot: s2,
               globalSnapshot: c2
             });
-            n3 && Rn(a2, i2, n3, false, {
+            n3 && In(a2, i2, n3, false, {
               initiator: `loadRemote`,
               id: o2
             }, u2.recordPreloadedAssets).catch(() => void 0);
@@ -1849,7 +1848,7 @@ ${n2.slice(0, 5).join(`
       }
     };
   }
-  function qn(e2) {
+  function Gn(e2) {
     let t2 = e2.split(`:`);
     return t2.length === 1 ? {
       name: t2[0],
@@ -1862,35 +1861,35 @@ ${n2.slice(0, 5).join(`
       version: t2[2]
     };
   }
-  function Jn(e2, t2, n2, r2, i2 = {}, a2) {
-    let { value: o2 } = D(e2, S(t2)), s2 = a2 || o2;
-    if (s2 && !g(s2) && (n2(s2, t2, r2), s2.remotesInfo)) {
+  function Kn(e2, t2, n2, r2, i2 = {}, a2) {
+    let { value: o2 } = O(e2, x(t2)), s2 = a2 || o2;
+    if (s2 && !ee(s2) && (n2(s2, t2, r2), s2.remotesInfo)) {
       let t3 = Object.keys(s2.remotesInfo);
       for (let r3 of t3) {
         if (i2[r3]) continue;
         i2[r3] = true;
-        let t4 = qn(r3), a3 = s2.remotesInfo[r3];
-        Jn(e2, {
+        let t4 = Gn(r3), a3 = s2.remotesInfo[r3];
+        Kn(e2, {
           name: t4.name,
           version: a3.matchedVersion
         }, n2, false, i2, void 0);
       }
     }
   }
-  var Yn = (e2, t2) => document.querySelector(`${e2}[${e2 === `link` ? `href` : `src`}="${t2}"]`);
-  function Xn(e2, t2, n2, r2, i2) {
-    let a2 = [], o2 = [], s2 = [], c2 = /* @__PURE__ */ new Set(), l2 = /* @__PURE__ */ new Set(), { options: u2 } = e2, { preloadConfig: f2 } = t2, { depsRemote: p2 } = f2;
-    if (Jn(r2, n2, (t3, n3, r3) => {
+  var qn = (e2, t2) => document.querySelector(`${e2}[${e2 === `link` ? `href` : `src`}="${t2}"]`);
+  function Jn(e2, t2, n2, r2, i2) {
+    let a2 = [], o2 = [], s2 = [], c2 = /* @__PURE__ */ new Set(), u2 = /* @__PURE__ */ new Set(), { options: d2 } = e2, { preloadConfig: f2 } = t2, { depsRemote: p2 } = f2;
+    if (Kn(r2, n2, (t3, n3, r3) => {
       var _a;
       let i3;
       if (r3) i3 = f2;
       else if (Array.isArray(p2)) {
         let e3 = p2.find((e4) => e4.nameOrAlias === n3.name || e4.nameOrAlias === n3.alias);
         if (!e3) return;
-        i3 = jn(e3);
+        i3 = Dn(e3);
       } else if (p2 === true) i3 = f2;
       else return;
-      let c3 = d(t3, Ce(t3).url);
+      let c3 = l(t3, Se(t3).url);
       c3 && s2.push({
         name: n3.name,
         moduleInfo: {
@@ -1903,16 +1902,16 @@ ${n2.slice(0, 5).join(`
         },
         url: c3
       });
-      let l3 = `modules` in t3 ? t3.modules : [], u3 = Nn(i3.exposes);
-      u3.length && `modules` in t3 && (l3 = (_a = t3 == null ? void 0 : t3.modules) == null ? void 0 : _a.reduce((e3, t4) => ((u3 == null ? void 0 : u3.indexOf(t4.moduleName)) !== -1 && e3.push(t4), e3), []));
+      let u3 = `modules` in t3 ? t3.modules : [], d3 = kn(i3.exposes);
+      d3.length && `modules` in t3 && (u3 = (_a = t3 == null ? void 0 : t3.modules) == null ? void 0 : _a.reduce((e3, t4) => ((d3 == null ? void 0 : d3.indexOf(t4.moduleName)) !== -1 && e3.push(t4), e3), []));
       function m3(e3) {
-        let n4 = e3.map((e4) => d(t3, e4));
+        let n4 = e3.map((e4) => l(t3, e4));
         return i3.filter ? n4.filter(i3.filter) : n4;
       }
-      if (l3) {
-        let r4 = l3.length;
+      if (u3) {
+        let r4 = u3.length;
         for (let s3 = 0; s3 < r4; s3++) {
-          let r5 = l3[s3], c4 = `${n3.name}/${r5.moduleName}`;
+          let r5 = u3[s3], c4 = `${n3.name}/${r5.moduleName}`;
           e2.remoteHandler.hooks.lifecycle.handlePreloadModule.emit({
             id: r5.moduleName === `.` ? n3.name : c4,
             name: n3.name,
@@ -1920,41 +1919,41 @@ ${n2.slice(0, 5).join(`
             preloadConfig: i3,
             remote: n3,
             origin: e2
-          }), !Be(c4) && (i3.resourceCategory === `all` ? (a2.push(...m3(r5.assets.css.async)), a2.push(...m3(r5.assets.css.sync)), o2.push(...m3(r5.assets.js.async)), o2.push(...m3(r5.assets.js.sync))) : i3.resourceCategory === `sync` && (a2.push(...m3(r5.assets.css.sync)), o2.push(...m3(r5.assets.js.sync))), Ve(c4));
+          }), Le(c4) || (i3.resourceCategory === `all` ? (a2.push(...m3(r5.assets.css.async)), a2.push(...m3(r5.assets.css.sync)), o2.push(...m3(r5.assets.js.async)), o2.push(...m3(r5.assets.js.sync))) : i3.resourceCategory === `sync` && (a2.push(...m3(r5.assets.css.sync)), o2.push(...m3(r5.assets.js.sync))), Re(c4));
         }
       }
     }, true, {}, i2), i2.shared && i2.shared.length > 0) {
       let t3 = (t4, n3) => {
-        let { shared: r3 } = B(e2.shareScopeMap, n3.sharedName, t4, e2.sharedHandler.hooks.lifecycle.resolveShare) || {};
+        let { shared: r3 } = H(e2.shareScopeMap, n3.sharedName, t4, e2.sharedHandler.hooks.lifecycle.resolveShare) || {};
         r3 && typeof r3.lib == `function` && (n3.assets.js.sync.forEach((e3) => {
           c2.add(e3);
         }), n3.assets.css.sync.forEach((e3) => {
-          l2.add(e3);
+          u2.add(e3);
         }));
       };
       i2.shared.forEach((e3) => {
         var _a;
-        let n3 = (_a = u2.shared) == null ? void 0 : _a[e3.sharedName];
+        let n3 = (_a = d2.shared) == null ? void 0 : _a[e3.sharedName];
         if (!n3) return;
         let r3 = e3.version ? n3.find((t4) => t4.version === e3.version) : n3;
-        r3 && Se(r3).forEach((n4) => {
+        r3 && xe(r3).forEach((n4) => {
           t3(n4, e3);
         });
       });
     }
-    let m2 = o2.filter((e3) => !c2.has(e3) && !Yn(`script`, e3));
+    let m2 = o2.filter((e3) => !c2.has(e3) && !qn(`script`, e3));
     return {
-      cssAssets: a2.filter((e3) => !l2.has(e3) && !Yn(`link`, e3)),
+      cssAssets: a2.filter((e3) => !u2.has(e3) && !qn(`link`, e3)),
       jsAssetsWithoutEntry: m2,
-      entryAssets: s2.filter((e3) => !Yn(`script`, e3.url))
+      entryAssets: s2.filter((e3) => !qn(`script`, e3.url))
     };
   }
-  var Zn = function() {
+  var Yn = function() {
     return {
       name: `generate-preload-assets-plugin`,
       async generatePreloadAssets(e2) {
         let { origin: t2, preloadOptions: n2, remoteInfo: r2, remote: i2, globalSnapshot: a2, remoteSnapshot: o2 } = e2;
-        return _e(i2) && ve(i2) ? {
+        return ge(i2) && _e(i2) ? {
           cssAssets: [],
           jsAssetsWithoutEntry: [],
           entryAssets: [
@@ -1970,33 +1969,33 @@ ${n2.slice(0, 5).join(`
               }
             }
           ]
-        } : (Gn(r2, o2), Xn(t2, n2, r2, a2, o2));
+        } : (Un(r2, o2), Jn(t2, n2, r2, a2, o2));
       }
     };
   };
-  function Qn(e2, t2) {
-    let n2 = O({
+  function Xn(e2, t2) {
+    let n2 = k({
       name: t2.name,
       version: t2.options.version
-    }), r2 = n2 && `remotesInfo` in n2 && n2.remotesInfo && D(n2.remotesInfo, e2.name).value;
+    }), r2 = n2 && `remotesInfo` in n2 && n2.remotesInfo && O(n2.remotesInfo, e2.name).value;
     return r2 && r2.matchedVersion ? {
       hostGlobalSnapshot: n2,
-      globalSnapshot: Ne(),
-      remoteSnapshot: O({
+      globalSnapshot: Ae(),
+      remoteSnapshot: k({
         name: e2.name,
         version: r2.matchedVersion
       })
     } : {
       hostGlobalSnapshot: void 0,
-      globalSnapshot: Ne(),
-      remoteSnapshot: O({
+      globalSnapshot: Ae(),
+      remoteSnapshot: k({
         name: e2.name,
         version: `version` in e2 ? e2.version : void 0
       })
     };
   }
-  let $n, er, tr, nr, rr, ir, ar, or;
-  $n = class {
+  let Zn, Qn, $n, er, tr, nr, rr, ir;
+  Zn = class {
     constructor(e2) {
       this.loadingHostSnapshot = null, this.manifestCache = /* @__PURE__ */ new Map(), this.hooks = new J({
         beforeLoadRemoteSnapshot: new X(`beforeLoadRemoteSnapshot`),
@@ -2005,7 +2004,7 @@ ${n2.slice(0, 5).join(`
         afterLoadSnapshot: new Q(`afterLoadSnapshot`),
         beforeLoadManifest: new X(`beforeLoadManifest`),
         afterLoadManifest: new X(`afterLoadManifest`)
-      }), this.manifestLoading = T.__FEDERATION__.__MANIFEST_LOADING__, this.HostInstance = e2, this.loaderHook = e2.loaderHook;
+      }), this.manifestLoading = w.__FEDERATION__.__MANIFEST_LOADING__, this.HostInstance = e2, this.loaderHook = e2.loaderHook;
     }
     async loadRemoteSnapshotInfo({ moduleInfo: e2, id: t2, initiator: n2 = `loadRemote` }) {
       let { options: r2 } = this.HostInstance;
@@ -2014,7 +2013,7 @@ ${n2.slice(0, 5).join(`
         moduleInfo: e2,
         origin: this.HostInstance
       });
-      let i2 = O({
+      let i2 = k({
         name: this.HostInstance.options.name,
         version: this.HostInstance.options.version
       });
@@ -2022,9 +2021,9 @@ ${n2.slice(0, 5).join(`
         version: this.HostInstance.options.version || ``,
         remoteEntry: ``,
         remotesInfo: {}
-      }, Ie({
+      }, Ne({
         [this.HostInstance.options.name]: i2
-      })), i2 && `remotesInfo` in i2 && !D(i2.remotesInfo, e2.name).value && (`version` in e2 || `entry` in e2) && (i2.remotesInfo = {
+      })), i2 && `remotesInfo` in i2 && !O(i2.remotesInfo, e2.name).value && (`version` in e2 || `entry` in e2) && (i2.remotesInfo = {
         ...i2 == null ? void 0 : i2.remotesInfo,
         [e2.name]: {
           matchedVersion: `version` in e2 ? e2.version : e2.entry
@@ -2038,11 +2037,11 @@ ${n2.slice(0, 5).join(`
         globalSnapshot: s2
       }), u2, d2;
       if (c2) {
-        if (g(c2)) {
+        if (ee(c2)) {
           let r3 = c2.remoteEntry, i3 = await this.loadManifestSnapshot(r3, e2, {}, {
             initiator: n2,
             id: t2 || e2.name
-          }), a3 = Fe({
+          }), a3 = Me({
             ...e2,
             entry: r3
           }, i3);
@@ -2056,18 +2055,18 @@ ${n2.slice(0, 5).join(`
           });
           u2 = t3, d2 = l2;
         }
-      } else if (_e(e2)) {
+      } else if (ge(e2)) {
         let r3 = await this.loadManifestSnapshot(e2.entry, e2, {}, {
           initiator: n2,
           id: t2 || e2.name
-        }), i3 = Fe(e2, r3);
+        }), i3 = Me(e2, r3);
         u2 = r3, d2 = i3;
-      } else b($t, H, {
+      } else y(Yt, W, {
         remoteName: e2.name,
         remoteVersion: e2.version,
         hostName: this.HostInstance.options.name,
         globalSnapshot: JSON.stringify(l2)
-      }, void 0, W(this.HostInstance.options));
+      }, void 0, K(this.HostInstance.options));
       return await this.hooks.lifecycle.afterLoadSnapshot.emit({
         id: t2,
         host: this.HostInstance,
@@ -2080,11 +2079,11 @@ ${n2.slice(0, 5).join(`
       };
     }
     getGlobalRemoteInfo(e2) {
-      return Qn(e2, this.HostInstance);
+      return Xn(e2, this.HostInstance);
     }
     async getManifestJson(e2, t2, n2, r2) {
       return (async () => {
-        let n3 = U(t2), i2 = this.manifestCache.get(e2);
+        let n3 = G(t2), i2 = this.manifestCache.get(e2);
         if (i2) return await this.hooks.lifecycle.afterLoadManifest.emit({
           manifestUrl: e2,
           moduleInfo: t2,
@@ -2106,7 +2105,7 @@ ${n2.slice(0, 5).join(`
             url: e2,
             resourceType: `manifest`
           } : void 0);
-          (!t3 || !(t3 instanceof Response)) && (t3 = await fetch(e2, {})), a2 = t3, i2 = await t3.json();
+          t3 && t3 instanceof Response || (t3 = await fetch(e2, {})), a2 = t3, i2 = await t3.json();
         } catch (c3) {
           o2 = c3, i2 = await this.HostInstance.remoteHandler.hooks.lifecycle.errorLoadRemote.emit({
             id: e2,
@@ -2122,11 +2121,11 @@ ${n2.slice(0, 5).join(`
             response: a2,
             error: c3,
             origin: this.HostInstance
-          }), b(Yt, H, {
+          }), y(Gt, W, {
             manifestUrl: e2,
             moduleName: t2.name,
             hostName: this.HostInstance.options.name
-          }, `${c3}`, W(this.HostInstance.options))), s2 = true;
+          }, `${c3}`, K(this.HostInstance.options))), s2 = true;
         }
         let c2 = [
           !i2.metaData && `metaData`,
@@ -2149,17 +2148,17 @@ ${n2.slice(0, 5).join(`
           error: l2 || o2,
           recovered: l2 ? void 0 : s2 || void 0,
           origin: this.HostInstance
-        }), l2 && b(on, H, {
+        }), l2 && y(tn, W, {
           manifestUrl: e2,
           moduleName: t2.name,
           hostName: this.HostInstance.options.name,
           missingFields: c2.join(`,`)
-        }, void 0, W(this.HostInstance.options)), this.manifestCache.set(e2, i2), i2;
+        }, void 0, K(this.HostInstance.options)), this.manifestCache.set(e2, i2), i2;
       })();
     }
     async loadManifestSnapshot(e2, t2, n2, r2) {
       let i2 = async () => {
-        let i3 = await this.getManifestJson(e2, t2, n2, r2), a2 = h(i3, {
+        let i3 = await this.getManifestJson(e2, t2, n2, r2), a2 = m(i3, {
           version: e2
         }), { remoteSnapshot: o2 } = await this.hooks.lifecycle.loadRemoteSnapshot.emit({
           options: this.HostInstance.options,
@@ -2174,12 +2173,12 @@ ${n2.slice(0, 5).join(`
       return this.manifestLoading[e2] || (this.manifestLoading[e2] = i2().then((e3) => e3)), this.manifestLoading[e2];
     }
   };
-  er = class {
+  Qn = class {
     constructor() {
       this.hooks = new J({});
     }
   };
-  tr = class {
+  $n = class {
     constructor(e2) {
       this.hooks = new J({
         beforeRegisterShare: new Z(`beforeRegisterShare`),
@@ -2214,7 +2213,7 @@ ${n2.slice(0, 5).join(`
           origin: this.host
         });
       } catch (e3) {
-        x(e3);
+        b(e3);
       }
     }
     emitErrorLoadShare({ lifecycle: e2, pkgName: t2, shareInfo: n2, error: r2, recovered: i2, loadContext: a2 }) {
@@ -2231,11 +2230,11 @@ ${n2.slice(0, 5).join(`
           loadContext: a2
         });
       } catch (e3) {
-        x(e3);
+        b(e3);
       }
     }
     registerShared(e2, t2) {
-      let { newShareInfos: n2, allShareInfos: r2 } = Pt(e2, t2);
+      let { newShareInfos: n2, allShareInfos: r2 } = At(e2, t2);
       return Object.keys(n2).forEach((e3) => {
         n2[e3].forEach((n3) => {
           n3.scope.forEach((r3) => {
@@ -2268,7 +2267,7 @@ ${n2.slice(0, 5).join(`
       };
     }
     async loadShare(e2, t2) {
-      let { host: n2 } = this, r2 = t2 == null ? void 0 : t2.context, i2 = Ht({
+      let { host: n2 } = this, r2 = t2 == null ? void 0 : t2.context, i2 = Rt({
         pkgName: e2,
         extraOptions: t2,
         shareInfos: n2.options.shared
@@ -2287,11 +2286,11 @@ ${n2.slice(0, 5).join(`
           origin: n2,
           loadContext: r2
         });
-        a2 = o2.shareInfo, r2 = o2.loadContext || r2, y(a2, `Cannot find shared "${e2}" in host "${n2.options.name}". Ensure the shared config for "${e2}" is declared in the federation plugin options and the host has been initialized before loading shares.`);
-        let s2 = a2, { shared: c2, useTreesShaking: l2 } = B(this.shareScopeMap, e2, a2, this.hooks.lifecycle.resolveShare, r2) || {};
+        a2 = o2.shareInfo, r2 = o2.loadContext || r2, v(a2, `Cannot find shared "${e2}" in host "${n2.options.name}". Ensure the shared config for "${e2}" is declared in the federation plugin options and the host has been initialized before loading shares.`);
+        let s2 = a2, { shared: c2, useTreesShaking: l2 } = H(this.shareScopeMap, e2, a2, this.hooks.lifecycle.resolveShare, r2) || {};
         if (c2) {
-          let t3 = Ut(c2, l2);
-          if (t3.lib) return V(t3, n2.options.name), this.emitAfterLoadShare({
+          let t3 = zt(c2, l2);
+          if (t3.lib) return U(t3, n2.options.name), this.emitAfterLoadShare({
             lifecycle: `loadShare`,
             pkgName: e2,
             shareInfo: s2,
@@ -2300,7 +2299,7 @@ ${n2.slice(0, 5).join(`
           }), t3.lib;
           if (t3.loading && !t3.loaded) {
             let i3 = await t3.loading;
-            return t3.loaded = true, t3.lib || (t3.lib = i3), V(t3, n2.options.name), this.emitAfterLoadShare({
+            return t3.loaded = true, t3.lib || (t3.lib = i3), U(t3, n2.options.name), this.emitAfterLoadShare({
               lifecycle: `loadShare`,
               pkgName: e2,
               shareInfo: s2,
@@ -2311,7 +2310,7 @@ ${n2.slice(0, 5).join(`
           {
             let i3 = (async () => {
               let e3 = await t3.get();
-              return V(t3, n2.options.name), t3.loaded = true, t3.lib = e3, e3;
+              return U(t3, n2.options.name), t3.loaded = true, t3.lib = e3, e3;
             })();
             this.setShared({
               pkgName: e2,
@@ -2340,12 +2339,12 @@ ${n2.slice(0, 5).join(`
             recovered: true,
             loadContext: r2
           }), false;
-          let i3 = I(s2.treeShaking), a3 = Ut(s2, i3), o3 = (async () => {
+          let i3 = R(s2.treeShaking), a3 = zt(s2, i3), o3 = (async () => {
             let t3 = await a3.get();
-            a3.lib = t3, a3.loaded = true, V(a3, n2.options.name);
-            let { shared: i4, useTreesShaking: o4 } = B(this.shareScopeMap, e2, s2, this.hooks.lifecycle.resolveShare, r2) || {};
+            a3.lib = t3, a3.loaded = true, U(a3, n2.options.name);
+            let { shared: i4, useTreesShaking: o4 } = H(this.shareScopeMap, e2, s2, this.hooks.lifecycle.resolveShare, r2) || {};
             if (i4) {
-              let e3 = Ut(i4, o4);
+              let e3 = zt(i4, o4);
               e3.lib = t3, e3.loaded = true, i4.from = s2.from;
             }
             return t3;
@@ -2378,7 +2377,7 @@ ${n2.slice(0, 5).join(`
         }), t3;
       }
     }
-    initializeSharing(e2 = jt, t2) {
+    initializeSharing(e2 = Dt, t2) {
       var _a;
       let { host: n2 } = this, r2 = t2 == null ? void 0 : t2.from, i2 = t2 == null ? void 0 : t2.strategy, a2 = ((_a = t2 == null ? void 0 : t2.context) == null ? void 0 : _a.trigger) || r2 || `runtime`, o2 = t2 == null ? void 0 : t2.initScope, s2 = [];
       if (r2 !== `build`) {
@@ -2396,7 +2395,7 @@ ${n2.slice(0, 5).join(`
         var _a2;
         let { version: r3, eager: i3 } = n3;
         u2[t3] = u2[t3] || {};
-        let o3 = u2[t3], s3 = o3[r3], c3 = s3 && Ut(s3), d3 = !!(c3 && (`eager` in c3 && c3.eager || `shareConfig` in c3 && ((_a2 = c3.shareConfig) == null ? void 0 : _a2.eager)));
+        let o3 = u2[t3], s3 = o3[r3], c3 = s3 && zt(s3), d3 = !!(c3 && (`eager` in c3 && c3.eager || `shareConfig` in c3 && ((_a2 = c3.shareConfig) == null ? void 0 : _a2.eager)));
         (!c3 || c3.strategy !== `loaded-first` && !c3.loaded && (!i3 == !d3 ? l2 > o3[r3].from : i3)) && (o3[r3] = n3), this.emitAfterRegisterShare(t3, {
           scope: e2,
           shared: n3,
@@ -2437,7 +2436,7 @@ ${n2.slice(0, 5).join(`
       }), s2;
     }
     loadShareSync(e2, t2) {
-      let { host: n2 } = this, r2 = t2 == null ? void 0 : t2.context, i2 = Ht({
+      let { host: n2 } = this, r2 = t2 == null ? void 0 : t2.context, i2 = Rt({
         pkgName: e2,
         extraOptions: t2,
         shareInfos: n2.options.shared
@@ -2450,9 +2449,9 @@ ${n2.slice(0, 5).join(`
             context: r2
           });
         });
-        let { shared: a2 } = B(this.shareScopeMap, e2, i2, this.hooks.lifecycle.resolveShare, r2) || {};
+        let { shared: a2 } = H(this.shareScopeMap, e2, i2, this.hooks.lifecycle.resolveShare, r2) || {};
         if (a2) {
-          if (typeof a2.lib == `function`) return V(a2, n2.options.name), a2.loaded || (a2.loaded = true, a2.from === n2.options.name && (i2.loaded = true)), this.emitAfterLoadShare({
+          if (typeof a2.lib == `function`) return U(a2, n2.options.name), a2.loaded || (a2.loaded = true, a2.from === n2.options.name && (i2.loaded = true)), this.emitAfterLoadShare({
             lifecycle: `loadShareSync`,
             pkgName: e2,
             shareInfo: i2,
@@ -2461,7 +2460,7 @@ ${n2.slice(0, 5).join(`
           }), a2.lib;
           if (typeof a2.get == `function`) {
             let t3 = a2.get();
-            if (!(t3 instanceof Promise)) return V(a2, n2.options.name), this.setShared({
+            if (!(t3 instanceof Promise)) return U(a2, n2.options.name), this.setShared({
               pkgName: e2,
               loaded: true,
               from: n2.options.name,
@@ -2485,10 +2484,10 @@ ${n2.slice(0, 5).join(`
         }), i2.lib;
         if (i2.get) {
           let a3 = i2.get();
-          return a3 instanceof Promise && b((t2 == null ? void 0 : t2.from) === `build` ? Zt : Qt, H, {
+          return a3 instanceof Promise && y((t2 == null ? void 0 : t2.from) === `build` ? qt : Jt, W, {
             hostName: n2.options.name,
             sharedPkgName: e2
-          }, void 0, W(n2.options)), i2.lib = a3, this.setShared({
+          }, void 0, K(n2.options)), i2.lib = a3, this.setShared({
             pkgName: e2,
             loaded: true,
             from: n2.options.name,
@@ -2502,10 +2501,10 @@ ${n2.slice(0, 5).join(`
             loadContext: r2
           }), i2.lib;
         }
-        b(Qt, H, {
+        y(Jt, W, {
           hostName: n2.options.name,
           sharedPkgName: e2
-        }, void 0, W(n2.options));
+        }, void 0, K(n2.options));
       } catch (t3) {
         throw this.emitErrorLoadShare({
           lifecycle: `loadShareSync`,
@@ -2549,11 +2548,11 @@ ${n2.slice(0, 5).join(`
       });
     }
     _setGlobalShareScopeMap(e2) {
-      let t2 = Vt(), n2 = e2.id || e2.name;
+      let t2 = Lt(), n2 = e2.id || e2.name;
       n2 && !t2[n2] && (t2[n2] = this.shareScopeMap);
     }
   };
-  nr = class {
+  er = class {
     constructor() {
       this.shareScopeMap = {}, this.hooks = new J({
         afterResolve: new Q(`afterResolve`)
@@ -2578,7 +2577,7 @@ ${n2.slice(0, 5).join(`
       this.shareScopeMap[e2] = t2;
     }
   };
-  rr = class {
+  tr = class {
     constructor(e2) {
       this.hooks = new J({
         beforeRegisterRemote: new Z(`beforeRegisterRemote`),
@@ -2620,14 +2619,14 @@ ${n2.slice(0, 5).join(`
       }
     }
     async loadRemote(e2, t2) {
-      let { host: n2 } = this, r2 = Gt(n2.options.remotes, e2), i2 = e2, a2 = r2 == null ? void 0 : r2.expose, o2 = r2 ? U(r2.remote) : void 0, s2;
+      let { host: n2 } = this, r2 = Vt(n2.options.remotes, e2), i2 = e2, a2 = r2 == null ? void 0 : r2.expose, o2 = r2 ? G(r2.remote) : void 0, s2;
       try {
         let { loadFactory: r3 = true } = t2 || {
           loadFactory: true
         }, { module: c2, moduleOptions: l2, remoteMatchInfo: u2 } = await this.getRemoteModuleAndOptions({
           id: e2
         }), { pkgNameOrAlias: d2, remote: f2, expose: p2, id: m2, remoteSnapshot: ee2 } = u2;
-        i2 = m2, a2 = p2, o2 = U(f2);
+        i2 = m2, a2 = p2, o2 = G(f2);
         let h2 = await c2.get(m2, p2, t2, ee2), g2 = await this.hooks.lifecycle.onLoad.emit({
           id: m2,
           pkgNameOrAlias: d2,
@@ -2698,7 +2697,7 @@ ${n2.slice(0, 5).join(`
         options: t2.options,
         origin: t2
       });
-      let r2 = Mn(t2.options.remotes, e2), i2 = (e3) => {
+      let r2 = On(t2.options.remotes, e2), i2 = (e3) => {
         let { preloadConfig: t3, remote: n3 } = e3, r3 = t3.exposes || [];
         return r3.length ? r3.map((r4) => ({
           ops: {
@@ -2710,7 +2709,7 @@ ${n2.slice(0, 5).join(`
               ]
             }
           },
-          id: Wt(n3.name, r4)
+          id: Bt(n3.name, r4)
         })) : [
           {
             ops: e3,
@@ -2719,7 +2718,7 @@ ${n2.slice(0, 5).join(`
         ];
       }, a2;
       await Promise.all(r2.flatMap(i2).map(async (e3) => {
-        let { ops: r3, id: i3 } = e3, { remote: a3, preloadConfig: o3 } = r3, s2 = U(a3);
+        let { ops: r3, id: i3 } = e3, { remote: a3, preloadConfig: o3 } = r3, s2 = G(a3);
         try {
           let { globalSnapshot: e4, remoteSnapshot: c2 } = await t2.snapshotHandler.loadRemoteSnapshotInfo({
             moduleInfo: a3,
@@ -2734,7 +2733,7 @@ ${n2.slice(0, 5).join(`
             remoteSnapshot: c2
           });
           if (!l2) return;
-          let u2 = await Rn(s2, t2, l2, true, {
+          let u2 = await In(s2, t2, l2, true, {
             initiator: `preloadRemote`,
             id: i3
           }, o3.recordPreloadedAssets);
@@ -2785,9 +2784,9 @@ ${n2.slice(0, 5).join(`
       });
     }
     initRawContainer(e2, t2, n2) {
-      let { host: r2 } = this, i2 = new Hn({
+      let { host: r2 } = this, i2 = new Bn({
         host: r2,
-        remoteInfo: U({
+        remoteInfo: G({
           name: e2,
           entry: t2
         })
@@ -2812,12 +2811,12 @@ ${n2.slice(0, 5).join(`
           lifecycle: `beforeRequest`
         }), !r2) throw e3;
       }
-      let { id: i2 } = r2, a2 = Gt(t2.options.remotes, i2);
+      let { id: i2 } = r2, a2 = Vt(t2.options.remotes, i2);
       if (!a2) try {
-        b(Xt, H, {
+        y(Kt, W, {
           hostName: t2.options.name,
           requestId: i2
-        }, void 0, W(t2.options));
+        }, void 0, K(t2.options));
       } catch (e3) {
         throw await this.hooks.lifecycle.afterMatchRemote.emit({
           id: i2,
@@ -2826,7 +2825,7 @@ ${n2.slice(0, 5).join(`
           origin: t2
         }), e3;
       }
-      let { remote: o2 } = a2, s2 = U(o2);
+      let { remote: o2 } = a2, s2 = G(o2);
       await this.hooks.lifecycle.afterMatchRemote.emit({
         id: i2,
         ...a2,
@@ -2841,12 +2840,12 @@ ${n2.slice(0, 5).join(`
         origin: t2,
         remoteInfo: s2
       }), { remote: l2, expose: u2 } = c2;
-      y(l2 && u2, `The 'beforeRequest' hook was executed, but it failed to return the correct 'remote' and 'expose' values while loading ${i2}.`);
+      v(l2 && u2, `The 'beforeRequest' hook was executed, but it failed to return the correct 'remote' and 'expose' values while loading ${i2}.`);
       let d2 = t2.moduleCache.get(l2.name), f2 = {
         host: t2,
         remoteInfo: s2
       };
-      return d2 || (d2 = new Hn(f2), t2.moduleCache.set(l2.name, d2)), {
+      return d2 || (d2 = new Bn(f2), t2.moduleCache.set(l2.name, d2)), {
         module: d2,
         moduleOptions: f2,
         remoteMatchInfo: c2
@@ -2859,9 +2858,9 @@ ${n2.slice(0, 5).join(`
             var _a;
             return e2.alias && (t3.name.startsWith(e2.alias) || ((_a = t3.alias) == null ? void 0 : _a.startsWith(e2.alias)));
           });
-          y(!n3, `The alias ${e2.alias} of remote ${e2.name} is not allowed to be the prefix of ${n3 && n3.name} name or alias`);
+          v(!n3, `The alias ${e2.alias} of remote ${e2.name} is not allowed to be the prefix of ${n3 && n3.name} name or alias`);
         }
-        `entry` in e2 && typeof window < `u` && !e2.entry.startsWith(`http`) && (e2.entry = new URL(e2.entry, window.location.origin).href), e2.shareScope || (e2.shareScope = jt), e2.type || (e2.type = Mt);
+        `entry` in e2 && typeof window < `u` && !e2.entry.startsWith(`http`) && (e2.entry = new URL(e2.entry, window.location.origin).href), e2.shareScope || (e2.shareScope = Dt), e2.type || (e2.type = Ot);
       };
       this.hooks.lifecycle.beforeRegisterRemote.emit({
         remote: e2,
@@ -2880,7 +2879,7 @@ ${n2.slice(0, 5).join(`
         (n2 == null ? void 0 : n2.force) && (this.removeRemote(a2), i2(), t2.push(e2), this.hooks.lifecycle.registerRemote.emit({
           remote: e2,
           origin: r2
-        }), f(o2.join(` `)));
+        }), u(o2.join(` `)));
       }
     }
     removeRemote(e2) {
@@ -2888,24 +2887,24 @@ ${n2.slice(0, 5).join(`
       try {
         let { host: t2 } = this, { name: n2 } = e2, r2 = t2.options.remotes.findIndex((e3) => e3.name === n2);
         r2 !== -1 && t2.options.remotes.splice(r2, 1);
-        let i2 = D(C.__FEDERATION__.moduleInfo, S(e2)).key;
-        delete C.__FEDERATION__.moduleInfo[i2], `entry` in e2 && (t2.snapshotHandler.manifestCache.delete(e2.entry), delete T.__FEDERATION__.__MANIFEST_LOADING__[e2.entry]);
-        let { hostGlobalSnapshot: a2 } = Qn(e2, t2);
+        let i2 = O(S.__FEDERATION__.moduleInfo, x(e2)).key;
+        delete S.__FEDERATION__.moduleInfo[i2], `entry` in e2 && (t2.snapshotHandler.manifestCache.delete(e2.entry), delete w.__FEDERATION__.__MANIFEST_LOADING__[e2.entry]);
+        let { hostGlobalSnapshot: a2 } = Xn(e2, t2);
         if (a2) {
-          let t3 = a2 && `remotesInfo` in a2 && a2.remotesInfo && D(a2.remotesInfo, e2.name).key;
+          let t3 = a2 && `remotesInfo` in a2 && a2.remotesInfo && O(a2.remotesInfo, e2.name).key;
           t3 && delete a2.remotesInfo[t3];
         }
         let o2 = t2.moduleCache.get(e2.name);
         if (o2) {
           let n3 = o2.remoteInfo, r3 = n3.entryGlobalName;
-          C[r3] && (((_a = Object.getOwnPropertyDescriptor(C, r3)) == null ? void 0 : _a.configurable) ? delete C[r3] : C[r3] = void 0);
-          let i3 = wn(o2.remoteInfo);
-          E[i3] && delete E[i3];
-          let a3 = n3.buildVersion ? u(n3.name, n3.buildVersion) : n3.name, s2 = C.__FEDERATION__.__INSTANCES__.findIndex((e3) => n3.buildVersion ? e3.options.id === a3 : e3.name === a3);
+          S[r3] && (((_a = Object.getOwnPropertyDescriptor(S, r3)) == null ? void 0 : _a.configurable) ? delete S[r3] : S[r3] = void 0);
+          let i3 = bn(o2.remoteInfo);
+          D[i3] && delete D[i3];
+          let a3 = n3.buildVersion ? c(n3.name, n3.buildVersion) : n3.name, s2 = S.__FEDERATION__.__INSTANCES__.findIndex((e3) => n3.buildVersion ? e3.options.id === a3 : e3.name === a3);
           if (s2 !== -1) {
-            let e3 = C.__FEDERATION__.__INSTANCES__[s2];
+            let e3 = S.__FEDERATION__.__INSTANCES__[s2];
             a3 = e3.options.id || a3;
-            let t3 = Vt(), r4 = true, i4 = [];
+            let t3 = Lt(), r4 = true, i4 = [];
             Object.keys(t3).forEach((e4) => {
               let a4 = t3[e4];
               a4 && Object.keys(a4).forEach((t4) => {
@@ -2931,26 +2930,26 @@ ${n2.slice(0, 5).join(`
             }), r4 && (e3.shareScopeMap = {}, delete t3[a3]), i4.forEach(([e4, n4, r5, i5]) => {
               var _a2, _b, _c;
               (_c = (_b = (_a2 = t3[e4]) == null ? void 0 : _a2[n4]) == null ? void 0 : _b[r5]) == null ? true : delete _c[i5];
-            }), C.__FEDERATION__.__INSTANCES__.splice(s2, 1);
+            }), S.__FEDERATION__.__INSTANCES__.splice(s2, 1);
           }
           t2.moduleCache.delete(e2.name);
         }
       } catch (e3) {
-        he.error(`removeRemote failed: ${e3 instanceof Error ? e3.message : String(e3)}`);
+        me.error(`removeRemote failed: ${e3 instanceof Error ? e3.message : String(e3)}`);
       }
     }
   };
-  ir = typeof FEDERATION_OPTIMIZE_NO_SNAPSHOT_PLUGIN != `boolean` || !FEDERATION_OPTIMIZE_NO_SNAPSHOT_PLUGIN;
-  ar = typeof FEDERATION_OPTIMIZE_NO_REMOTE != `boolean` || !FEDERATION_OPTIMIZE_NO_REMOTE;
-  or = typeof FEDERATION_OPTIMIZE_NO_SHARED != `boolean` || !FEDERATION_OPTIMIZE_NO_SHARED;
-  sr = class {
+  nr = typeof FEDERATION_OPTIMIZE_NO_SNAPSHOT_PLUGIN != `boolean` || !FEDERATION_OPTIMIZE_NO_SNAPSHOT_PLUGIN;
+  rr = typeof FEDERATION_OPTIMIZE_NO_REMOTE != `boolean` || !FEDERATION_OPTIMIZE_NO_REMOTE;
+  ir = typeof FEDERATION_OPTIMIZE_NO_SHARED != `boolean` || !FEDERATION_OPTIMIZE_NO_SHARED;
+  ar = class {
     constructor(e2) {
       this.hooks = new J({
         beforeInit: new Z(`beforeInit`),
         init: new Y(),
         beforeInitContainer: new Q(`beforeInitContainer`),
         initContainer: new Q(`initContainer`)
-      }), this.version = `2.9.2`, this.moduleCache = /* @__PURE__ */ new Map(), this.loaderHook = new J({
+      }), this.version = `2.9.3`, this.moduleCache = /* @__PURE__ */ new Map(), this.loaderHook = new J({
         getModuleInfo: new Y(),
         createScript: new Y(),
         createLink: new Y(),
@@ -2971,24 +2970,24 @@ ${n2.slice(0, 5).join(`
         afterBridgeDestroy: new Y(),
         afterBridgeRouteSync: new Y()
       });
-      let t2 = ar && ir ? [
-        Kn(),
-        Zn()
+      let t2 = rr && nr ? [
+        Wn(),
+        Yn()
       ] : [], n2 = {
-        id: En(),
+        id: Sn(),
         name: e2.name,
         plugins: t2,
         remotes: [],
         shared: {},
         inBrowser: true
       };
-      this.name = e2.name, this.options = n2, this.snapshotHandler = ar ? new $n(this) : new er(), this.sharedHandler = or ? new tr(this) : new nr(), this.remoteHandler = ar ? new rr(this) : new Wn(), this.shareScopeMap = this.sharedHandler.shareScopeMap, this.registerPlugins([
+      this.name = e2.name, this.options = n2, this.snapshotHandler = rr ? new Zn(this) : new Qn(), this.sharedHandler = ir ? new $n(this) : new er(), this.remoteHandler = rr ? new tr(this) : new Hn(), this.shareScopeMap = this.sharedHandler.shareScopeMap, this.registerPlugins([
         ...n2.plugins,
         ...e2.plugins || []
       ]), this.options = this.formatOptions(n2, e2);
     }
     initOptions(e2) {
-      e2.name && e2.name !== this.options.name && b(pe(nn, H)), this.registerPlugins(e2.plugins);
+      e2.name && e2.name !== this.options.name && y(fe(Qt, W)), this.registerPlugins(e2.plugins);
       let t2 = this.formatOptions(this.options, e2);
       return this.options = t2, t2;
     }
@@ -2998,7 +2997,7 @@ ${n2.slice(0, 5).join(`
     loadShareSync(e2, t2) {
       return this.sharedHandler.loadShareSync(e2, t2);
     }
-    initializeSharing(e2 = jt, t2) {
+    initializeSharing(e2 = Dt, t2) {
       return this.sharedHandler.initializeSharing(e2, t2);
     }
     initRawContainer(e2, t2, n2) {
@@ -3014,7 +3013,7 @@ ${n2.slice(0, 5).join(`
       this.sharedHandler.initShareScopeMap(e2, t2, n2);
     }
     formatOptions(e2, t2) {
-      let n2 = or ? Pt(e2, t2).allShareInfos : {}, { userOptions: r2, options: i2 } = this.hooks.lifecycle.beforeInit.emit({
+      let n2 = ir ? At(e2, t2).allShareInfos : {}, { userOptions: r2, options: i2 } = this.hooks.lifecycle.beforeInit.emit({
         origin: this,
         userOptions: t2,
         options: e2,
@@ -3039,7 +3038,7 @@ ${n2.slice(0, 5).join(`
       }), c2;
     }
     registerPlugins(e2) {
-      this.options.plugins = kn(e2, this);
+      this.options.plugins = Tn(e2, this);
     }
     registerRemotes(e2, t2) {
       return this.remoteHandler.registerRemotes(e2, t2);
@@ -3051,21 +3050,21 @@ ${n2.slice(0, 5).join(`
       });
     }
   };
-  cr = zn;
-  function lr() {
+  or = Ln;
+  function sr() {
     return typeof FEDERATION_BUILD_IDENTIFIER < `u` ? FEDERATION_BUILD_IDENTIFIER : ``;
   }
-  ur = function(e2, t2) {
-    let n2 = lr();
-    return C.__FEDERATION__.__INSTANCES__.find((r2) => !!(n2 && r2.options.id === n2 || r2.options.name === e2 && !r2.options.version && !t2 || r2.options.name === e2 && t2 && r2.options.version === t2));
+  cr = function(e2, t2) {
+    let n2 = sr();
+    return S.__FEDERATION__.__INSTANCES__.find((r2) => !!(n2 && r2.options.id === n2 || r2.options.name === e2 && !r2.options.version && !t2 || r2.options.name === e2 && t2 && r2.options.version === t2));
   };
 })();
 export {
   __tla,
-  Me as a,
-  je as i,
-  cr as n,
-  Ae as o,
-  sr as r,
-  ur as t
+  ke as a,
+  Oe as i,
+  or as n,
+  De as o,
+  ar as r,
+  cr as t
 };

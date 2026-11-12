@@ -1,5 +1,5 @@
-import { t as e } from "./vite-preload-helper-CRzLMJPS.js";
-import { t } from "./helpers-CsBAxMau.js";
+import { t as e } from "./helpers-PTLizuYm.js";
+import { t } from "./vite-preload-helper-DclECHGd.js";
 let i, a;
 let __tla = (async () => {
   var _a, _b;
@@ -19,7 +19,7 @@ let __tla = (async () => {
   a = async function() {
     return i || (i = (async () => {
       var _a2, _b2, _c, _d;
-      let n2 = (e2, t2, n3, r2) => {
+      let n2 = function(e2, t2, n3, r2) {
         let i3 = (Array.isArray(r2) ? r2[0] : r2) || `default`, a3 = t2 || !n3 ? e2 : e2 + `@` + n3, o2 = {
           canonical: i3 + `:` + a3
         };
@@ -89,11 +89,11 @@ let __tla = (async () => {
         let f2 = (_a3 = e2[a2]) == null ? void 0 : _a3[t2.canonical];
         if (f2) for (let e3 of f2) e3(n3);
         return n3;
-      }, f = await (await e(() => import("../customWidgets.js").then(async (m2) => {
+      }, f = await (await t(() => import("../customWidgets.js").then(async (m2) => {
         await m2.__tla;
         return m2;
-      }), [], import.meta.url)).init(), { usedShared: p } = await e(async () => {
-        let { usedShared: e2 } = await import("./_virtual_mf-localSharedImportMap___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__1-BtApgZbP.js").then(async (m2) => {
+      }), [], import.meta.url)).init(), { usedShared: p } = await t(async () => {
+        let { usedShared: e2 } = await import("./_virtual_mf-localSharedImportMap___mfe_internal__vis_mf_2_2_mf_2_scheduler__mf_owner__1-CP1i8pmX.js").then(async (m2) => {
           await m2.__tla;
           return m2;
         });
@@ -149,19 +149,19 @@ let __tla = (async () => {
           [_]: r2
         });
         return n3;
-      }, x = (e2, n3, r2, i3) => {
+      }, x = (t2, n3, r2, i3) => {
         var _a3;
-        if (!e2 || !r2) return;
-        let a3 = Object.fromEntries(Object.entries(e2).filter(([, e3]) => {
+        if (!t2 || !r2) return;
+        let a3 = Object.fromEntries(Object.entries(t2).filter(([, e2]) => {
           var _a4;
-          return ((_a4 = e3 == null ? void 0 : e3.shareConfig) == null ? void 0 : _a4.import) !== false;
+          return ((_a4 = e2 == null ? void 0 : e2.shareConfig) == null ? void 0 : _a4.import) !== false;
         }));
         if (Object.keys(a3).length === 0) return;
         let o2 = y(r2), s2 = b(a3, i3), c2 = {};
-        for (let e3 of o2) c2[e3 || `default`] = {
+        for (let e2 of o2) c2[e2 || `default`] = {
           [n3]: s2
         };
-        let l2 = (_a3 = t.getRegisteredShare(c2, n3, {
+        let l2 = (_a3 = e.getRegisteredShare(c2, n3, {
           ...r2,
           scope: o2,
           strategy: i3
@@ -178,44 +178,56 @@ let __tla = (async () => {
             r2
           ]
         }, `version-first`);
-      };
-      for (let e2 of g) await Promise.all(e2.map(async (e3) => {
-        var _a3, _b3, _c2, _d2, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o;
-        let t2 = p[e3];
-        if (!t2 || t2.materialize === false && !t2.lazy || t2.treeShaking) return;
-        let a3 = n2(e3, (_a3 = t2.shareConfig) == null ? void 0 : _a3.singleton, t2.version, t2.scope);
-        if (i2(r.share, a3) === void 0 || h(e3, t2) || !((_b3 = t2.shareConfig) == null ? void 0 : _b3.singleton) && c(r.share, a3) !== `vis-2-scheduler`) {
-          if (((_c2 = t2.shareConfig) == null ? void 0 : _c2.import) === false) {
-            let n3 = y(t2), r2 = (n4) => {
-              var _a4, _b4;
-              return !S((_b4 = (_a4 = f.shareScopeMap) == null ? void 0 : _a4[n4]) == null ? void 0 : _b4[e3], e3, t2, n4);
-            };
-            if (n3.some(r2)) {
-              f.__mfKeepAdoptedProviders || (f.__mfKeepAdoptedProviders = true, (_h = (_g = (_f = (_e = (_d2 = f.sharedHandler) == null ? void 0 : _d2.hooks) == null ? void 0 : _e.lifecycle) == null ? void 0 : _f.afterRegisterShare) == null ? void 0 : _g.on) == null ? void 0 : _h.call(_g, (e4) => {
-                var _a4, _b4, _c3, _d3, _e2;
-                let { shared: t3, previousShared: n4, registeredShared: r3 } = e4 || {}, i3 = (_b4 = (_a4 = f.shareScopeMap) == null ? void 0 : _a4[e4.scope]) == null ? void 0 : _b4[e4.pkgName];
-                t3 && i3 && (((_c3 = t3.shareConfig) == null ? void 0 : _c3.import) === false ? r3 === t3 && n4 && ((_d3 = n4.shareConfig) == null ? void 0 : _d3.import) !== false && i3[t3.version] === t3 && (i3[t3.version] = n4) : r3 !== t3 && ((_e2 = r3 == null ? void 0 : r3.shareConfig) == null ? void 0 : _e2.import) === false && !r3.loaded && i3[t3.version] === r3 && (i3[t3.version] = t3));
-              }));
-              for (let i3 of ((_i = globalThis.__FEDERATION__) == null ? void 0 : _i.__INSTANCES__) || []) for (let a4 of n3) {
-                let n4 = (_k = (_j = i3 == null ? void 0 : i3.shareScopeMap) == null ? void 0 : _j[a4]) == null ? void 0 : _k[e3];
-                if (!S(n4, e3, t2, a4) || !r2(a4)) continue;
-                let o2 = (_m = (_l = f.shareScopeMap)[a4] || (_l[a4] = {}))[e3] || (_m[e3] = {});
-                for (let [e4, t3] of Object.entries(n4)) ((_n = t3 == null ? void 0 : t3.shareConfig) == null ? void 0 : _n.import) !== false && (o2[e4] && ((_o = o2[e4].shareConfig) == null ? void 0 : _o.import) !== false || (o2[e4] = t3));
+      }, C = r.pinnedShareOwners || (r.pinnedShareOwners = /* @__PURE__ */ new Set()), w = r.hostShareInit, T;
+      r.hostShareInit = new Promise((e2) => {
+        T = e2;
+      }), await w;
+      try {
+        for (let e2 of g) await Promise.all(e2.map(async (e3) => {
+          var _a3, _b3, _c2, _d2, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o;
+          let t2 = p[e3];
+          if (!t2 || t2.materialize === false && !t2.lazy || t2.treeShaking) return;
+          let a3 = n2(e3, (_a3 = t2.shareConfig) == null ? void 0 : _a3.singleton, t2.version, t2.scope), o2 = () => {
+            var _a4, _b4;
+            if (!((_a4 = t2.shareConfig) == null ? void 0 : _a4.singleton) || i2(r.share, a3) === void 0) return false;
+            let e4 = c(r.share, a3);
+            return e4 === void 0 ? false : e4 === `vis-2-scheduler` ? C.has(e4) : !(((_b4 = f.options) == null ? void 0 : _b4.remotes) || []).some((t3) => t3.name === e4) && (C.add(e4), true);
+          };
+          if (!o2() && (i2(r.share, a3) === void 0 || h(e3, t2) || !((_b3 = t2.shareConfig) == null ? void 0 : _b3.singleton) && c(r.share, a3) !== `vis-2-scheduler`)) {
+            if (((_c2 = t2.shareConfig) == null ? void 0 : _c2.import) === false) {
+              let n3 = y(t2), r2 = (n4) => {
+                var _a4, _b4;
+                return !S((_b4 = (_a4 = f.shareScopeMap) == null ? void 0 : _a4[n4]) == null ? void 0 : _b4[e3], e3, t2, n4);
+              };
+              if (n3.some(r2)) {
+                f.__mfKeepAdoptedProviders || (f.__mfKeepAdoptedProviders = true, (_h = (_g = (_f = (_e = (_d2 = f.sharedHandler) == null ? void 0 : _d2.hooks) == null ? void 0 : _e.lifecycle) == null ? void 0 : _f.afterRegisterShare) == null ? void 0 : _g.on) == null ? void 0 : _h.call(_g, (e4) => {
+                  var _a4, _b4, _c3, _d3, _e2;
+                  let { shared: t3, previousShared: n4, registeredShared: r3 } = e4 || {}, i3 = (_b4 = (_a4 = f.shareScopeMap) == null ? void 0 : _a4[e4.scope]) == null ? void 0 : _b4[e4.pkgName];
+                  t3 && i3 && (((_c3 = t3.shareConfig) == null ? void 0 : _c3.import) === false ? r3 === t3 && n4 && ((_d3 = n4.shareConfig) == null ? void 0 : _d3.import) !== false && i3[t3.version] === t3 && (i3[t3.version] = n4) : r3 !== t3 && ((_e2 = r3 == null ? void 0 : r3.shareConfig) == null ? void 0 : _e2.import) === false && !r3.loaded && i3[t3.version] === r3 && (i3[t3.version] = t3));
+                }));
+                for (let i3 of ((_i = globalThis.__FEDERATION__) == null ? void 0 : _i.__INSTANCES__) || []) for (let a4 of n3) {
+                  let n4 = (_k = (_j = i3 == null ? void 0 : i3.shareScopeMap) == null ? void 0 : _j[a4]) == null ? void 0 : _k[e3];
+                  if (!S(n4, e3, t2, a4) || !r2(a4)) continue;
+                  let o3 = (_m = (_l = f.shareScopeMap)[a4] || (_l[a4] = {}))[e3] || (_m[e3] = {});
+                  for (let [e4, t3] of Object.entries(n4)) ((_n = t3 == null ? void 0 : t3.shareConfig) == null ? void 0 : _n.import) !== false && (o3[e4] && ((_o = o3[e4].shareConfig) == null ? void 0 : _o.import) !== false || (o3[e4] = t3));
+                }
               }
+              if (n3.every(r2)) return;
             }
-            if (n3.every(r2)) return;
+            await f.loadShare(e3, {
+              customShareInfo: {
+                shareConfig: t2.shareConfig
+              }
+            }).then(async (e4) => {
+              if (e4 === false || o2()) return;
+              let t3 = typeof e4 == `function` ? e4() : e4, n3 = m(await Promise.resolve(t3));
+              d(r.share, a3, n3, `vis-2-scheduler`);
+            });
           }
-          await f.loadShare(e3, {
-            customShareInfo: {
-              shareConfig: t2.shareConfig
-            }
-          }).then(async (e4) => {
-            if (e4 === false) return;
-            let t3 = typeof e4 == `function` ? e4() : e4, n3 = m(await Promise.resolve(t3));
-            d(r.share, a3, n3, `vis-2-scheduler`);
-          });
-        }
-      }));
+        }));
+      } finally {
+        T();
+      }
       for (let [e2, t2] of Object.entries(p)) {
         if (!t2.lib || t2.treeShaking || ((_a2 = t2.shareConfig) == null ? void 0 : _a2.import) === false) continue;
         let i3 = n2(e2, (_b2 = t2.shareConfig) == null ? void 0 : _b2.singleton, t2.version, t2.scope);
