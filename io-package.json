@@ -173,7 +173,28 @@
       }
     },
     "webComponents": [
-      "webcomponents/scheduler-profile.json"
+      {
+        "manifest": "webcomponents/scheduler-profile.json",
+        "tag": "iob-scheduler-profile",
+        "name": {
+          "en": "Scheduler",
+          "de": "Planer",
+          "ru": "Планировщик",
+          "pt": "Agendador",
+          "nl": "Planner",
+          "fr": "Planificateur",
+          "it": "Pianificatore",
+          "es": "Planificador",
+          "pl": "Planista",
+          "uk": "Планувальник",
+          "zh-cn": "调度器"
+        },
+        "icon": "../scheduler.png",
+        "size": {
+          "width": 640,
+          "height": 355
+        }
+      }
     ],
     "ifInstalledDependencies": {
       "vis-2": ">=2.12.9"
