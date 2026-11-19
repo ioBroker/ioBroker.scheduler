@@ -1,6 +1,7 @@
 import { Adapter, type AdapterOptions } from '@iobroker/adapter-core'; // Get common adapter utils
 
 import type { ActiveDevice, ProfileValue, ProfileValueType, SchedulerProfile } from './types';
+import { COMMANDS, HELP } from './lib/help';
 
 const adapterName: string = (require('../package.json') as { name: string }).name.split('.').pop()!;
 
@@ -44,8 +45,15 @@ class SchedulerAdapter extends Adapter {
     /**
      * `setProfile`: changes the intervals, the days of the week and the holiday flag of one profile - what the web
      * component `<iob-scheduler-profile>` edits. A web component may not write objects, so it asks the adapter.
+     * `help`: the description of the messages for AI agents and scripts.
      */
     private onMessage(msg: ioBroker.Message): void {
+        if (msg?.command === 'help') {
+            if (msg.callback) {
+                this.sendTo(msg.from, msg.command, { help: HELP, commands: COMMANDS }, msg.callback);
+            }
+            return;
+        }
         if (msg?.command !== 'setProfile') {
             return;
         }

@@ -146,6 +146,10 @@
     "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.scheduler/master/admin/scheduler.png",
     "type": "logic",
     "messagebox": true,
+    "supportedMessages": {
+      "custom": true,
+      "help": true
+    },
     "dependencies": [
       {
         "js-controller": ">=6.0.11"

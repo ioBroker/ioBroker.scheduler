@@ -82,6 +82,11 @@ A web component may not write objects, so it sends its changes to the instance w
 (`{ id, intervals?, dow?, holiday? }`), which writes them into the instance object on behalf of the user of the
 connection. The instance must run for that, and it restarts after every change, like after saving the settings in admin.
 
+## Messages for scripts and AI agents
+The message `help` (`sendTo('scheduler.0', 'help', {}, result => ...)`) returns a description of the profiles, their
+states and the message `setProfile`, written for AI agents (e.g. pi-agent) and script authors. The answer
+`{ help, commands }` also lists all commands, each with `write: true` if it changes something.
+
 <!--
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
@@ -90,6 +95,7 @@ connection. The instance must run for that, and it restarts after every change, 
 ## Changelog
 
 ### **WORK IN PROGRESS**
+* (@GermanBluefox) Added the message "help": a description of the profiles and of all messages for AI agents (e.g. pi-agent), and `common.supportedMessages.help`
 * (@GermanBluefox) Added the short form of the web component manifests (tag, name, icon, size) to `common.webComponents`, so that hosts like Aura can list the components before the adapter is installed; the build writes it with `iob-web-components sync-io-package`
 
 ### 2.2.0 (2026-11-12)
