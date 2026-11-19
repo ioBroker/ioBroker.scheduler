@@ -1,4 +1,7 @@
 # Older changes
+## 2.0.2 (2026-10-18)
+* (@GermanBluefox) Fixed: profiles could not be selected if the first element in the list was a folder (e.g. after deleting profiles)
+
 ## 2.0.1 (2026-10-17)
 * (@GermanBluefox) Packages were updated
 

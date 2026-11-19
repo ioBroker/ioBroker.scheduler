@@ -93,8 +93,7 @@ states and the message `setProfile`, written for AI agents (e.g. pi-agent) and s
 -->
 
 ## Changelog
-
-### **WORK IN PROGRESS**
+### 2.3.0 (2026-11-19)
 * (@GermanBluefox) Added the message "help": a description of the profiles and of all messages for AI agents (e.g. pi-agent), and `common.supportedMessages.help`
 * (@GermanBluefox) Added the short form of the web component manifests (tag, name, icon, size) to `common.webComponents`, so that hosts like Aura can list the components before the adapter is installed; the build writes it with `iob-web-components sync-io-package`
 
@@ -116,9 +115,6 @@ states and the message `setProfile`, written for AI agents (e.g. pi-agent) and s
 
 ### 2.0.3 (2026-11-02)
 * (@GermanBluefox) Corrected the widget: changes in one widget were overwritten by other widgets of the same instance
-
-### 2.0.2 (2026-10-18)
-* (@GermanBluefox) Fixed: profiles could not be selected if the first element in the list was a folder (e.g. after deleting profiles)
 
 [Older changelogs can be found there](CHANGELOG_OLD.md)
 
